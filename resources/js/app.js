@@ -8,12 +8,17 @@
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
+require('jquery-mousewheel/jquery.mousewheel');
+
 require('popper.js');
 require('./bootstrap');
 
 require('bootstrap/dist/js/bootstrap.min');
 
 import {tns} from 'tiny-slider/src/tiny-slider';
+
+require('malihu-custom-scrollbar-plugin');
+
 
 if($('input.holdered').length){
     $(function () {
@@ -39,9 +44,45 @@ if($('input.holdered').length){
     });
 }
 
+//Поиск в шапке
+if($('.search__module').length){
+    $('.search__module').each(function () {
+        var box = $(this),
+            input = box.find('input');
+
+        input.on('focus', function () {
+            box.addClass('focus');
+            $('body').addClass('position-relative');
+
+            $(document).on('click', function (el) {
+                var el = el.target;
+
+                if(!$(el).parents('.search__module').length){
+                    box.removeClass('focus');
+                    $('body').removeClass('position-relative');
+                }
+                console.log(el);
+
+            });
+
+        });
+    });
+}
+
+//Скроллбары
+if($('.custom_scrollbar').length){
+    $('.custom_scrollbar').each(function () {
+        $(this).mCustomScrollbar({
+            scrollInertia: 300,
+            mouseWheel:{
+                enable: true
+            }
+        });
+    });
+}
+
 //Слайдер на главной
 if($('#greetin .slider').length){
-
     tns({
         container: '#greetin .slider',
         items: 1,
@@ -213,6 +254,11 @@ if($('.filter_mobile').length){
             }
         }
     });
+}
+
+//Корзина
+if($('.card__module').length){
+
 }
 
 //Каталог - поиск

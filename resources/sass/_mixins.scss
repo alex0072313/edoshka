@@ -68,6 +68,15 @@
     transform: rotate($deg);
 }
 
+@mixin svgimage($img : '', $color : $black, $w : 0, $h : 0){
+    width: $w;
+    height: $h;
+    display: inline-block;
+    background-color: $color;
+    -webkit-mask-image: url($img);
+    mask-image: url($img);
+}
+
 .inner_absolute{
     position: absolute;
     top: 0;
@@ -111,6 +120,7 @@
     }
     .inner{
         height: 100%;
+        width: 100%;
         position: absolute;
         z-index: 3;
         .h1{

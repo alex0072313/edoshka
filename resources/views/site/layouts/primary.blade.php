@@ -104,7 +104,7 @@
 
     @if(isset($banner))
         <section id="greetin_page_default" style="background-image: url({{ $banner }});">
-            <div class="container">
+            <div class="container position-relative h-100">
 
                 <div class="d-flex align-content-end flex-wrap inner">
 
@@ -149,11 +149,11 @@
         <section id="greetin">
             <div class="slider autoHeight">
                 <div>
-                    <div class="slide" style="background-image: url(/images/theme/slider1.jpg);">
+                    <div class="slide" style="background-image: url('/images/theme/slider1.jpg');">
                         <div class="container">
                             <div class="d-flex justify-content-center">
                                 <div class="d-flex align-content-sm-center align-content-end flex-wrap inner text-center">
-                                    <div class="h1 w-100 mb-3 font-weight-bolder text-white mt-5">Заказать роллы в Геленджике</div>
+                                    <div class="h1 w-100 mb-3 font-weight-bolder text-white mt-5">Доставка роллов из ресторанов Геленджика</div>
                                     <div class="w-100 mb-3">
                                         <div class="btn btn-lg btn-success">Меню</div>
                                     </div>
@@ -167,7 +167,7 @@
                         <div class="container">
                             <div class="d-flex justify-content-center">
                                 <div class="d-flex align-content-sm-center align-content-end flex-wrap inner text-center">
-                                    <div class="h1 w-100 mb-3 font-weight-bolder text-white mt-5">Заказать пиццу в Геленджике</div>
+                                    <div class="h1 w-100 mb-3 font-weight-bolder text-white mt-5">Доставка пиццы в Геленджике</div>
                                     <div class="w-100 mb-3">
                                         <div class="btn btn-lg btn-success">Меню</div>
                                     </div>

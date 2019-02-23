@@ -15,14 +15,14 @@ Route::get('/', function () {
     return view('site.home');
 });
 
-Route::get('/rest', function () {
-    return view('site.rest');
-});
+//Route::get('/rest', function () {
+//    return view('site.rest');
+//});
 
-Route::get('/cat', function () {
+Route::get('/cat/rolls', function () {
     return view('site.category');
 });
 
-Route::get('/shop', function () {
+Route::get('/rest/sushi-storm', function () {
     return view('site.shop');
 });
