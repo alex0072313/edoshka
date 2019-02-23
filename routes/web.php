@@ -11,18 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('site.home');
-});
 
-//Route::get('/rest', function () {
-//    return view('site.rest');
-//});
+Route::get('/', 'Site\HomeController@index')->name('site.home');
 
-Route::get('/cat/rolls', function () {
-    return view('site.category');
-});
+Auth::routes();
 
-Route::get('/rest/sushi-storm', function () {
-    return view('site.shop');
-});
+Route::get('/home', 'HomeController@index')->name('home');
