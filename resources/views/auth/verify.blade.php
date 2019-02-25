@@ -1,24 +1,16 @@
-@extends('layouts.app')
-
+@extends('site.layouts.auth', ['body_class'=>'auth_page d-flex align-content-sm-center align-content-start flex-wrap mt-2 mt-sm-0'])
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
+<div class="form_box mx-auto px-3 py-3">
+    <a href="{{ route('site.home') }}" class="btn btn-outline-secondary btn-block mb-3"><i class="fas fa-undo mr-2"></i> Назад к сайту</a>
+    <h4>Восстановление доступа</h4>
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }}, <a href="{{ route('verification.resend') }}">{{ __('click here to request another') }}</a>.
-                </div>
-            </div>
+    @if (session('resent'))
+        <div class="alert alert-success" role="alert">
+            Ссылка для восстановления пароля была отправлена на Ваш email.
         </div>
-    </div>
+    @endif
+    <p>Прежде чем продолжить, проверьте свою электронную почту на наличие ссылки для восстановления.</p>
+    <p>Если Вы не получали письма, <a href="{{ route('verification.resend') }}">нажмите для повторной отправки</a>.</p>
 </div>
 @endsection

@@ -10,4 +10,19 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected
+        $title = '',
+        $view = '',
+        $data = [];
+
+    protected function render()
+    {
+
+        return view($this->view, $this->data,
+            [
+                'title' => $this->title
+            ]
+        );
+    }
 }

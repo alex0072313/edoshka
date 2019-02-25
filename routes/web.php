@@ -13,7 +13,16 @@
 
 
 Route::get('/', 'Site\HomeController@index')->name('site.home');
+Route::get('/cat', 'Site\CategoryController@index')->name('site.category');
+Route::get('/rest', 'Site\RestaurantController@index')->name('site.restaurant');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function () {
+    //Кабинет
+
+});
+
+Route::middleware('guest')->group(function () {
+    //Вход, регистрация, восстановление пароля
+    Auth::routes();
+});

@@ -179,10 +179,35 @@ header {
             }
         }
 
-        .city_select {
-            padding-top: 34px;
-            margin-top: 0.5rem !important;;
+        //.city_select {
+        //    padding-top: 34px;
+        //    margin-top: 0.5rem !important;;
+        //}
+        .account{
+            .inner{
+                @include animate();
+                @include boxradius();
+                background: transparent;
+                cursor: pointer;
+                border: none;
+                color: $white;
+                outline: none;
+                .icon{
+                    @include animate();
+                    @include svgimage('/images/theme/profile.svg', $white, 30px, 30px);
+                    opacity: .5;
+                }
+                &:hover{
+                    background: rgba(218, 218, 218, 0.2);
+                    .icon{
+                        opacity: 1;
+                    }
+                }
+            }
+
+
         }
+
     }
     .globalmenu {
         .links {
@@ -722,6 +747,18 @@ body.card__module_show {
             }
 
         }
+    }
+}
+
+.auth_page{
+    height: 100vh;
+    .site_logo{
+        @include svgimage('/images/theme/logo.svg', $white, 30px, 30px);
+    }
+    .form_box{
+        width: 320px;
+        max-width: 100%;
+        @include boxradius();
     }
 }
 

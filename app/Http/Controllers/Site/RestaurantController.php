@@ -6,7 +6,7 @@ class RestaurantController extends SiteController
 {
     public function index()
     {
-        $this->view = 'site.home';
+        $this->view = 'site.restaurant';
 
         return $this->render();
     }

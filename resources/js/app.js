@@ -338,6 +338,37 @@ if($('#products_search').length && $('#products .products .shop_pos_item').lengt
     // });
 }
 
+// Отправка форм
+if($('.ajax_form').length){
+    $('.ajax_form').each(function () {
+
+        $(this).on('click', function(submit_standart){
+            submit_standart.preventDefault();
+            var form     = $(this).parents('.ajax_form'),
+                id       = form.attr('id'),
+                fields   = form.find('input[type=\"text\"], input[type=\"hidden\"], input[type=\"number\"], input[type=\"email\"], input[type=\"file\"], input[type=\"checkbox\"]:checked, input[type=\"radio\"]:checked, textarea, select'),
+                form_data = new FormData();
+
+            form_data.append('form', id);
+
+            form.find('[name]').each(function(){
+                if($(this).attr('name') != 'file'){
+                    form_data.append($(this).attr('name'), $(this).val());
+                }else{
+                    var files = $(this).prop('files');
+                    for(var i = 0; i < files.length; i++){
+                        form_data.append('file[]', files[i]);
+                    }
+                }
+            });
+
+            send(form,id,form_data,fields);
+        });
+
+    });
+}
+
+
 function TrimStr(s) {
     s = s.replace(/^\s+/g, '');
     return s.replace(/\s+$/g, '');

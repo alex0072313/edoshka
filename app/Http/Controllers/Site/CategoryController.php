@@ -6,7 +6,7 @@ class CategoryController extends SiteController
 {
     public function index()
     {
-        $this->view = 'site.home';
+        $this->view = 'site.category';
 
         return $this->render();
     }
