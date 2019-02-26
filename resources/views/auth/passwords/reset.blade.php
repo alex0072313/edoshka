@@ -1,4 +1,4 @@
-@extends('site.layouts.auth', ['body_class'=>'auth_page d-flex align-content-sm-center align-content-start flex-wrap mt-2 mt-sm-0'])
+@extends('layouts.auth', ['body_class'=>'auth_page d-flex align-content-sm-center align-content-start flex-wrap mt-2 mt-sm-0'])
 @section('content')
 
 <div class="form_box mx-auto px-3 py-3">
@@ -10,7 +10,7 @@
 
         <input type="hidden" name="token" value="{{ $token }}">
 
-        <div class="form-group row">
+        <div class="form-group">
             <label for="email">Ваш email</label>
 
             <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
@@ -22,7 +22,7 @@
             @endif
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <label for="password">Новый пароль</label>
 
             <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -34,7 +34,7 @@
             @endif
         </div>
 
-        <div class="form-group row">
+        <div class="form-group">
             <label for="password-confirm">Повторите пароль</label>
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
         </div>

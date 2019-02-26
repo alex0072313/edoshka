@@ -1,4 +1,4 @@
-@extends('site.layouts.primary', ['body_class'=>'card__module_show'])
+@extends('layouts.site', ['body_class'=>'card__module_show'])
 
 @section('content')
     <section id="greetin_page_default" class="shop" style="background-image: url(/images/theme/slider2.jpg);">

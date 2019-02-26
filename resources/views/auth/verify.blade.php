@@ -1,4 +1,4 @@
-@extends('site.layouts.auth', ['body_class'=>'auth_page d-flex align-content-sm-center align-content-start flex-wrap mt-2 mt-sm-0'])
+@extends('layouts.auth', ['body_class'=>'auth_page d-flex align-content-sm-center align-content-start flex-wrap mt-2 mt-sm-0'])
 @section('content')
 
 <div class="form_box mx-auto px-3 py-3">

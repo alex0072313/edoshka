@@ -1,4 +1,4 @@
-@extends('site.layouts.primary')
+@extends('layouts.site')
 
 @section('content')
     <section id="greetin">

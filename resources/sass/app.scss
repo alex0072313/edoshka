@@ -188,6 +188,7 @@ header {
                 @include animate();
                 @include boxradius();
                 background: transparent;
+                text-decoration: none;
                 cursor: pointer;
                 border: none;
                 color: $white;
@@ -195,12 +196,12 @@ header {
                 .icon{
                     @include animate();
                     @include svgimage('/images/theme/profile.svg', $white, 30px, 30px);
-                    opacity: .5;
+                    //opacity: .5;
                 }
                 &:hover{
                     background: rgba(218, 218, 218, 0.2);
                     .icon{
-                        opacity: 1;
+                        //opacity: 1;
                     }
                 }
             }

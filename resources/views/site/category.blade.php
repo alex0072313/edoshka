@@ -1,4 +1,4 @@
-@extends('site.layouts.primary')
+@extends('layouts.site')
 
 @section('content')
 <section id="greetin_page_default" style="background-image: url(/images/theme/slider1.jpg);">

@@ -1,4 +1,4 @@
-@extends('site.layouts.primary', [
+@extends('layouts.site', [
     'banner' => '/images/theme/town.jpg',
     'title' => 'Где заказать еду в Геленджике',
     'lead' => 'Заказать в Геленджике',
