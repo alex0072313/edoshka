@@ -13,16 +13,15 @@ class Controller extends BaseController
 
     protected
         $title = '',
+        $longtitle = '',
         $view = '',
         $data = [];
 
     protected function render()
     {
+        $merge['title'] = $this->title ? $this->title : '';
+        $merge['longtitle'] = $this->longtitle ? $this->longtitle : '';
 
-        return view($this->view, $this->data,
-            [
-                'title' => $this->title
-            ]
-        );
+        return view($this->view, $this->data, $merge);
     }
 }

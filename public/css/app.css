@@ -12005,6 +12005,7 @@ header .top .account .inner {
   transition: 0.1s ease-out;
   border-radius: 4px;
   background: transparent;
+  text-decoration: none;
   cursor: pointer;
   border: none;
   color: #fff;
@@ -12023,15 +12024,10 @@ header .top .account .inner .icon {
   background-color: #fff;
   -webkit-mask-image: url("/images/theme/profile.svg");
   mask-image: url("/images/theme/profile.svg");
-  opacity: 0.5;
 }
 
 header .top .account .inner:hover {
   background: rgba(218, 218, 218, 0.2);
-}
-
-header .top .account .inner:hover .icon {
-  opacity: 1;
 }
 
 header .globalmenu .links > a {
