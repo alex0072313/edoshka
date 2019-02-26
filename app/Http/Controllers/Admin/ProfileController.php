@@ -21,7 +21,7 @@ class ProfileController extends AdminController
         $validate = [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email,'.\Auth::user()->id,
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ];
 
         if(request()->get('password')){

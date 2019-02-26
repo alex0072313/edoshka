@@ -25,6 +25,14 @@ class AppServiceProvider extends ServiceProvider
             View::share('user', $user);
         });
 
+        View::composer('admin.*', function() {
+            $restaurant = (object)[];
+            if($restaurant = Auth::user()->restourants->first()){
+                $restaurant = $restaurant;
+            }
+            View::share('restaurant', $restaurant);
+        });
+
     }
 
     /**

@@ -109,7 +109,7 @@
             <ul class="nav">
                 <li class="nav-profile">
                     <a href="javascript:;" data-toggle="nav-profile">
-                        <div class="cover with-shadow"></div>
+                        <div class="cover with-shadow"{!! Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/thumb_m.jpg') ? ' style="background-image:url('.Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/thumb_m.jpg').');"' : ''!!}></div>
 
                         @if(Storage::disk('public')->exists('user_imgs/'.$user->id.'/thumb_s.jpg'))
                             <div class="image image-icon">
@@ -123,14 +123,15 @@
 
                         <div class="info">
                             <b class="caret pull-right"></b>
-                            {{ $user->name }}
-                            {{--<small>Front end developer</small>--}}
+                            {{ $restaurant->name }}
+                            <small>{!! ($user->lastname ? $user->lastname.'&nbsp' : '') . $user->name !!}</small>
                         </div>
                     </a>
                 </li>
                 <li>
                     <ul class="nav nav-profile">
-                        <li><a href="{{ route('admin.profile') }}"><i class="fa fa-cog"></i> Профиль</a></li>
+                        <li><a href="{{ route('admin.profile') }}"><i class="fa fa-cog"></i> Профиль пользователя</a></li>
+                        <li><a href="{{ route('admin.restaurant') }}"><i class="fas fa-map-marked-alt"></i> Данные ресторана</a></li>
                     </ul>
                 </li>
             </ul>
@@ -150,13 +151,6 @@
                     <a href="{{ route('admin.restaurant') }}">
                         <i class="fas fa-concierge-bell"></i>
                         <span>Блюда</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('admin.restaurant') }}">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <span>Данные ресторана</span>
                     </a>
                 </li>
 
