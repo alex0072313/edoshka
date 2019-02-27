@@ -16,19 +16,32 @@ Route::get('/cat', 'Site\CategoryController@index')->name('site.category');
 Route::get('/rest', 'Site\RestaurantController@index')->name('site.restaurant');
 
 
-Route::middleware('role:admin|owner')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('role:admin|boss')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', 'Admin\HomeController@index')->name('home');
 
-    //Route::get('/profile', 'Admin\ProfileController@index')->name('profile');
-    //Route::post('/profile', 'Admin\ProfileController@update')->name('profile_update');
+    Route::match(['get', 'post'], '/profile', 'Admin\ProfileController@index')->name('profile'); //Профиль
+    Route::match(['get', 'post'], '/restaurant', 'Admin\RestaurantController@index')->name('restaurant'); //Данные ресторана
 
-    Route::match(['get', 'post'], '/profile', 'Admin\ProfileController@index')->name('profile');
 
-    Route::match(['get', 'post'], '/restaurant', 'Admin\RestaurantController@index')->name('restaurant');
+    //Категории блюд
+    Route::get('/categories/{category}/destroy', 'Admin\CategoryController@destroy')->name('categories.destroy');
+    Route::resource('categories', 'Admin\CategoryController')
+        ->except(['destroy', 'show']);
+    //
 
-    //Route::any('/owner', 'Admin\OwnerController@index')->name('owner');
-    //Route::resource('dishes', 'Admin\DishesController');
+    //Блюда и категории
+    Route::get('dishes/create', 'Admin\DishesController@create')->name('dishes.create');
+    Route::get('dishes/{category_str_id?}', 'Admin\DishesController@index')->name('dishes.index');
+    Route::get('dishes/{category_str_id}/create', 'Admin\DishesController@create')->name('dishes.create_in_cat');
+    Route::get('dishes/{dish_str_id}/destroy', 'Admin\DishesController@destroy')->name('dishes.destroy');
+    Route::resource('dishes', 'Admin\DishesController')
+        ->except(['index', 'create', 'destroy'])
+        ->parameters([
+            'dishes' => 'dish_str_id'
+        ]);
+    //
+
 
     //Выход с кабинета
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');

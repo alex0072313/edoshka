@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Category;
+use App\Dish;
+use App\Policies\CategoryPolicy;
+use App\Policies\DishPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        Category::class => CategoryPolicy::class,
+        Dish::class    => DishPolicy::class,
     ];
 
     /**

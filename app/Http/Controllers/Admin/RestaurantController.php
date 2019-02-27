@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Repositories\RestaurantRepository;
-use App\Restaurant;
+
 
 class RestaurantController extends AdminController
 {
     public function index()
     {
-        $restaurant = \Auth::user()->restourants->first();
+        $restaurant = \Auth::user()->restaurant;
 
         if(request()->method() == 'POST') return $this->update($restaurant);
 
@@ -21,7 +21,7 @@ class RestaurantController extends AdminController
         return $this->render();
     }
 
-    protected function update(Restaurant $restaurant)
+    protected function update($restaurant)
     {
         $validator = \Validator::make(request()->all(), [
             'name' => 'required|max:255',

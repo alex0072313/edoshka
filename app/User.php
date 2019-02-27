@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lastname'
+        'name', 'email', 'password', 'lastname', 'restaurant_id'
     ];
 
     /**
@@ -30,10 +30,55 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-    public function restourants()
-    {
-        return $this->hasMany(Restaurant::class);
+    public function restaurant(){
+        return $this->hasOne(Restaurant::class, 'id', 'restaurant_id');
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function dishes()
+    {
+        return $this->hasMany(Dish::class);
+    }
+
+    // Уведомления
+//    public function notifications(){
+//        return $this->hasMany(Notification::class);
+//    }
+//
+//    public function addNotification($key='', $subject = '', $text = '', $type = 0){
+//        return $this->notifications()->create([
+//            'key' => $key,
+//            'subject' => $subject,
+//            'text' => $text,
+//            'type' => $type,
+//        ]);
+//    }
+
+    public function roleName(){
+        return config('role.names.'.$this->roles()->get()->first()->name.'.dolg');
+    }
+
+    public function delete()
+    {
+        Storage::disk('public')->deleteDirectory('user_imgs/'.$this->id);
+        return parent::delete();
+    }
+
+//    public function checkNotify($key = ''){
+//        return $this->notifications()->where('key', $key)->count();
+//    }
+
+    public static function getAdmin(){
+        $filtered = User::all()->filter(function ($user) {
+            return $user->hasRole(config('role.names.admin.name'));
+        });
+
+        return $filtered[0];
+    }
+
 
 }
