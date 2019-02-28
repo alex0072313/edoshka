@@ -30,6 +30,13 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Мин. сумма заказа</label>
+            <div class="col-md-9">
+                <input type="number" name="min_sum_order" min="0" value="{{  old('min_sum_order') ? old('min_sum_order') : $restaurant->min_sum_order }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Описание (кратко)</label>
             <div class="col-md-9">
                 <textarea name="description" class="form-control" rows="4">{{  old('description') ? old('description') : $restaurant->description }}</textarea>

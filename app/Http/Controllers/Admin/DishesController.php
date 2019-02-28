@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
+use App\Dish;
 use Illuminate\Http\Request;
+use Auth;
 
 class DishesController extends AdminController
 {
@@ -11,10 +14,61 @@ class DishesController extends AdminController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category)
     {
         $this->title = 'Блюда';
-        $this->view = 'admin.restaurant';
+        $this->view = 'admin.dishes.index';
+
+        $this->pagetitle = 'Блюда';
+
+        $dishes = Auth::user()->restaurant->dishes;
+        foreach (Category::allToAccess(true) as $cat){
+            $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
+        }
+
+        if($category->name){
+            $this->title = 'Блюда в категории';
+            $this->longtitle = $category->name;
+
+            $this->data['category'] = $category;
+            $dishes = Auth::user()
+                ->restaurant
+                ->dishes()
+                ->where('category_id', $category->id)
+                ->get();
+        }
+
+//        $this->data['fields_names'] = [];
+//        $fields_owners = [];
+//        foreach ($owners as $owner){
+//            foreach ($owner->fields as $field_content){
+//                $field = $field_content->field;
+//                $type = $field->type;
+//
+//                if(($type->type == 'htmltext') || ($type->type == 'files')) continue;
+//
+//                $this->data['fields_names'][$field->id] = $field->name;
+//                $fields_owners[$owner->id][$field->id] = $field_content->content;
+//            }
+//        }
+//
+//        $owners = $owners->map(function ($owner) use ($fields_owners){
+//            if($thumb = $owner
+//                ->images()
+//                ->orderBy('pos')
+//                ->first())
+//            {
+//                $owner->thumb = $thumb->th_url(3);
+//            }
+//            $owner->fields_cont = $fields_owners[$owner->id];
+//            return $owner;
+//        });
+
+        //dd($owners);
+
+        $this->data['dishes'] = $dishes;
+
+        return $this->render();
     }
 
     /**
@@ -22,9 +76,17 @@ class DishesController extends AdminController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
+        $this->view = 'admin.dishes.form';
+        $this->title = 'Добавление блюда';
+
+        if($category){
+            $this->pagetitle_desc = $category->name;
+            $this->data['category'] = $category;
+        }
+
+        return $this->render();
     }
 
     /**
@@ -35,7 +97,37 @@ class DishesController extends AdminController
      */
     public function store(Request $request)
     {
-        //
+        $validate = \Validator::make(request()->all(), [
+            'name' => 'required|max:255|min:3',
+            'category_id' => 'required',
+        ]);
+
+        if($validate->fails()){
+            return redirect()
+                ->back()
+                ->withErrors($validate)
+                ->withInput()
+                ->with('error', 'Ошибка при добавлении блюда, проверьте форму!');
+        }
+
+        if($restaurant = Auth::user()->restaurant){
+            request()->request->set('restaurant_id', $restaurant->id);
+        }
+
+        if($dish = Auth::user()->dishes()->create(request()->all())){
+
+            //Поля
+            //$this->fields($owner);
+
+            return redirect()
+                ->route('admin.dishes.index', 'category_'.$dish->category->id)
+                ->with(['success' =>
+                    'Обьект <a href=\"'.route('admin.dishes.edit', $dish->id).'\">'.$dish->name.'</a> добавлен в категорию ' .
+                        (Auth::user()->can('access', $dish->category) ? '<a class=\"text-green\" href=\"'.route('admin.categories.edit', $dish->category->id).'\">' : '').
+                        $dish->category->name.
+                        (Auth::user()->can('access', $dish->category) ? '</a>' : '')
+                ]);
+        }
     }
 
     /**
@@ -55,9 +147,23 @@ class DishesController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Dish $dish)
     {
-        //
+        $this->authorize('access', $dish);
+
+        $this->view = 'admin.dishes.form';
+        $this->title = 'Блюд: '.$dish->name;
+
+        $this->pagetitle = $dish->name;
+
+        if($category = $dish->category){
+            $this->longtitle = $category->name;
+        }
+
+        $this->data['dish'] = $dish;
+
+        //$this->data['fields'] = app('App\Http\Controllers\Dashboard\FieldController')->getFieldsForOwner($dish, $dish->category);
+        return $this->render();
     }
 
     /**
@@ -67,9 +173,36 @@ class DishesController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Dish $dish)
     {
-        //
+        $this->authorize('access', $dish);
+
+        $validate = \Validator::make(request()->all(), [
+            'name' => 'required|max:255|min:3',
+            //'category_id' => 'required',
+        ]);
+
+        if($validate->fails()){
+            return redirect()
+                ->back()
+                ->withErrors($validate)
+                ->withInput()
+                ->with('error', 'Ошибка при обновлении блюда, проверьте форму!');
+        }
+
+        if($restaurant = Auth::user()->restaurant){
+            request()->request->set('restaurant_id', $restaurant->id);
+        }
+
+        if($dish->update(request()->all()) ){
+
+            //Поля
+            //$this->fields($owner);
+
+            return redirect()
+                ->route('admin.dishes.index')
+                ->with(['success' => 'Блюдо было успешно обновлено!']);
+        }
     }
 
     /**
@@ -78,8 +211,14 @@ class DishesController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Dish $dish)
     {
-        //
+        $this->authorize('access', $dish);
+
+        if($dish->delete()){
+            return redirect()
+                ->route('admin.dishes.index', 'category_'.$dish->category->id)
+                ->with(['success'=> 'Блюдо '.$dish->name.' было удалено!']);
+        }
     }
 }

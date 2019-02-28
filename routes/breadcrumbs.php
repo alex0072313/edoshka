@@ -28,3 +28,22 @@ Breadcrumbs::for('admin.categories.create', function ($trail) {
     $trail->push('Создание категории', route('admin.categories.create'));
 });
 //
+
+//Блюда
+Breadcrumbs::for('admin.dishes.index', function ($trail, $category = false) {
+    $trail->parent('admin.home');
+    $trail->push('Блюда'.($category ? (': '.$category->name) : ''), ($category ? route('admin.dishes.index', 'category_'.$category->id) : route('admin.dishes.index')) );
+});
+Breadcrumbs::for('admin.dishes.edit', function ($trail, $dish) {
+    $trail->parent('admin.dishes.index');
+    $trail->push('Редактирование блюда', route('admin.dishes.edit', 'dish_'.$dish->id));
+});
+Breadcrumbs::for('admin.dishes.create', function ($trail) {
+    $trail->parent('admin.dishes.index');
+    $trail->push('Добавление блюда', route('admin.dishes.create'));
+});
+Breadcrumbs::for('admin.dishes.create_in_cat', function ($trail, $category) {
+    $trail->parent('admin.dishes.index', $category);
+    $trail->push('Добавление блюда', route('admin.dishes.create_in_cat', 'category_'.$category->id));
+});
+//

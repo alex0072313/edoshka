@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     protected $fillable = [
-        'name', 'address', 'description'
+        'name', 'address', 'description', 'min_sum_order'
     ];
 
     public function town()

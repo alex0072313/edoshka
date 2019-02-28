@@ -85,9 +85,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        $this->authorize('access', $category);
+
+        $this->view = 'admin.categories.form';
+        $this->title = 'Редактирование категории '.$category->name;
+
+        $this->data['category'] = $category;
+
+        return $this->render();
     }
 
     /**
@@ -97,9 +104,27 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $this->authorize('access', $category);
+
+        $validate = Validator::make(request()->all(), [
+            'name' => 'required|max:255|min:3',
+        ]);
+
+        if($validate->fails()){
+            return redirect()
+                ->back()
+                ->withErrors($validate)
+                ->withInput()
+                ->with('error', 'Ошибка при обновлении категории!');
+        }
+
+        if($category->update(request()->all())){
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('success', 'Категория "'.request()->get('name').'" была успешно обновлена!');
+        }
     }
 
     /**
@@ -108,8 +133,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $this->authorize('access', $category);
+
+        if($category->delete()){
+            return redirect()
+                ->back()
+                ->with('success', 'Категория "'.$category->name.'" была удалена!');
+        }
     }
 }

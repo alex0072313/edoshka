@@ -24,6 +24,11 @@
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="/assets/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->
+
+    <link href="/assets/plugins/parsley/src/parsley.css" rel="stylesheet" />
+    <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -147,10 +152,17 @@
                     </a>
                 </li>
 
-                <li{!! Route::currentRouteName() == 'admin.restaurant' ? ' class="active"': '' !!}>
-                    <a href="{{ route('admin.restaurant') }}">
+                <li{!! stristr(Route::currentRouteName(), 'admin.dishes') ? ' class="active"': '' !!}>
+                    <a href="{{ route('admin.dishes.index') }}">
                         <i class="fas fa-concierge-bell"></i>
                         <span>Блюда</span>
+                    </a>
+                </li>
+
+                <li{!! stristr(Route::currentRouteName(), 'admin.categories') ? ' class="active"': '' !!}>
+                    <a href="{{ route('admin.categories.index') }}">
+                        <i class="fas fa-folder-open"></i>
+                        <span>Категории блюд</span>
                     </a>
                 </li>
 
@@ -212,14 +224,14 @@
         @if(session('success'))
             <div class="alert alert-green fade show m-b-10">
                 <span class="close" data-dismiss="alert">×</span>
-                {{ session('success') }}
+                {!! session('success') !!}
             </div>
         @endif
 
         @if(session('error'))
             <div class="alert alert-danger fade show m-b-10">
                 <span class="close" data-dismiss="alert">×</span>
-                {{ session('error') }}
+                {!! session('error') !!}
             </div>
         @endif
 
@@ -248,9 +260,74 @@
 <script src="/assets/js/apps.min.js"></script>
 <!-- ================== END BASE JS ================== -->
 
+<script src="/assets/plugins/gritter/js/jquery.gritter.js"></script>
+<script src="/assets/plugins/highlight/highlight.common.js"></script>
+<script src="/assets/js/demo/render.highlight.js"></script>
+<script src="/assets/plugins/bootstrap-sweetalert/sweetalert.min.js"></script>
+<script src="/assets/plugins/bootstrap-show-password/bootstrap-show-password.js"></script>
+<script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/assets/plugins/select2/dist/js/select2.min.js"></script>
+
 <script>
     $(document).ready(function() {
         App.init();
+
+        $('[data-click="swal-warning"]').click(function (e) {
+            var title = $(this).data('title') ? $(this).data('title') : 'Подтвердите действие',
+                type = $(this).data('type') ? $(this).data('type') : 'warning',
+                confirm_btn = $(this).data('actionbtn') ? $(this).data('actionbtn') : 'Ok',
+                class_btn = $(this).data('classbtn') ? $(this).data('classbtn') : 'green',
+                url = $(this).attr('href'),
+                options = {};
+            e.preventDefault();
+            options = {
+                title: title,
+                icon: type,
+                buttons: {
+                    cancel: {
+                        text: 'Отмена',
+                        value: !0,
+                        visible: !0,
+                        className: "btn btn-default", closeModal: !0,
+                        value: "cancel"
+                    },
+                    confirm: {
+                        text: confirm_btn,
+                        value: !0,
+                        visible: !0,
+                        className: "btn btn-" + class_btn, closeModal: !0,
+                        value: "confirm"
+                    }
+                }
+            };
+
+            if($(this).data('text')){
+                options.text = $(this).data('text');
+            }
+
+            swal(options).then((value) => {
+                switch (value) {
+                    case "confirm":
+                        window.location = url;
+                        break;
+                }
+            });
+        });
+
+        if($('.default-select2').length){
+            $(".default-select2").each(function(){
+                var select = $(this),
+                    search = select.data('search') ? true : - 1;
+
+                select.select2({
+                    minimumResultsForSearch: search,
+                    placeholder: function(){
+                        $(this).data('placeholder');
+                    }
+                });
+            });
+        }
+
     });
 </script>
 </body>

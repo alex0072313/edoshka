@@ -5,11 +5,11 @@ return [
             'name' => 'admin',
             'dolg' => 'Админ'
         ],
-        'owner' => [
+        'boss' => [
             'name' => 'boss',
             'dolg' => 'Директор'
         ],
-        'owner_helper'  => [
+        'manager'  => [
             'name' => 'manager',
             'dolg' => 'Менеджер'
         ],
