@@ -31,7 +31,7 @@ class User extends Authenticatable
     ];
 
     public function restaurant(){
-        return $this->hasOne(Restaurant::class, 'id', 'restaurant_id');
+        return $this->hasOne('App\Restaurant', 'id', 'restaurant_id');
     }
 
     public function categories()
@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     public static function getAdmin(){
         $filtered = User::all()->filter(function ($user) {
-            return $user->hasRole(config('role.names.admin.name'));
+            return $user->hasRole(config('role.names.megaroot.name'));
         });
 
         return $filtered[0];

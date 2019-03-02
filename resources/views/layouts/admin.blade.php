@@ -29,6 +29,8 @@
     <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
     <link href="/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
 
+    @stack('css')
+
 </head>
 <body>
 <!-- begin #page-loader -->
@@ -42,7 +44,7 @@
 
         <!-- begin navbar-header -->
         <div class="navbar-header">
-            <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
+            <a href="{{ route('site.home') }}" class="navbar-brand"><img src="{{ asset('/images/theme/logo_b.svg') }}" alt=""></a>
             <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -114,29 +116,41 @@
             <ul class="nav">
                 <li class="nav-profile">
                     <a href="javascript:;" data-toggle="nav-profile">
-                        <div class="cover with-shadow"{!! Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/thumb_m.jpg') ? ' style="background-image:url('.Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/thumb_m.jpg').');"' : ''!!}></div>
 
-                        @if(Storage::disk('public')->exists('user_imgs/'.$user->id.'/thumb_s.jpg'))
+                        @if(!$_user->hasRole('megaroot'))
+                            <div class="cover with-shadow"{!! Storage::disk('public')->exists('restaurant_imgs/'.$_restaurant->id.'/thumb_m.jpg') ? ' style="background-image:url('.Storage::disk('public')->url('restaurant_imgs/'.$_restaurant->id.'/thumb_m.jpg').');"' : ''!!}></div>
+                        @endif
+
+                        @if(Storage::disk('public')->exists('user_imgs/'.$_user->id.'/thumb_s.jpg'))
                             <div class="image image-icon">
-                                <img src="{{ Storage::disk('public')->url('user_imgs/'.$user->id.'/thumb_s.jpg') }}" alt="">
+                                <img src="{{ Storage::disk('public')->url('user_imgs/'.$_user->id.'/thumb_s.jpg') }}" alt="">
                             </div>
                         @else
                             <div class="image image-icon bg-black text-grey-darker">
-                                <i class="material-icons">person</i>
+                                <i class="fas fa-user-alt"></i>
                             </div>
                         @endif
 
                         <div class="info">
                             <b class="caret pull-right"></b>
-                            {{ $restaurant->name }}
-                            <small>{!! ($user->lastname ? $user->lastname.'&nbsp' : '') . $user->name !!} ({{ config('role.names.'.$user->roles()->get()->first()->name.'.dolg') }})</small>
+                            @if(!$_user->hasRole('megaroot'))
+                                {{ $_restaurant->name }}
+                                <small>{!! ($_user->lastname ? $_user->lastname.'&nbsp' : '') . $_user->name !!} ({{ config('role.names.'.$_user->roles()->get()->first()->name.'.dolg') }})</small>
+                            @else
+                                {!! ($_user->lastname ? $_user->lastname.'&nbsp' : '') . $_user->name !!}
+                                <small>({{ config('role.names.'.$_user->roles()->get()->first()->name.'.dolg') }})</small>
+                            @endif
                         </div>
                     </a>
                 </li>
                 <li>
                     <ul class="nav nav-profile">
-                        <li><a href="{{ route('admin.profile') }}"><i class="fa fa-cog"></i> Профиль пользователя</a></li>
-                        <li><a href="{{ route('admin.restaurant') }}"><i class="fas fa-map-marked-alt"></i> Данные ресторана</a></li>
+
+                        <li><a href="{{ route('admin.users.edit', $_user->id) }}"><i class="fa fa-cog"></i> Профиль пользователя</a></li>
+
+                        @if($_user->hasRole('megaroot|boss') && isset($_restaurant->name))
+                            <li><a href="{{ route('admin.restaurants.edit', $_restaurant->id) }}"><i class="fas fa-map-marked-alt"></i> Данные ресторана</a></li>
+                        @endif
                     </ul>
                 </li>
             </ul>
@@ -145,6 +159,34 @@
             <!-- begin sidebar nav -->
             <ul class="nav">
                 <li class="nav-header">Управление</li>
+
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.towns') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.towns.index') }}">
+                            <i class="fas fa-map-signs"></i>
+                            <span>Города</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.restaurants') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.restaurants.index') }}">
+                            <i class="fas fa-university"></i>
+                            <span>Рестораны</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if($_user->hasRole('megaroot|boss'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.users') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.users.index') }}">
+                            <i class="fas fa-users"></i>
+                            <span>{{ $_user->hasRole('megaroot') ? 'Пользователи' : 'Менеджеры' }}</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li{!! Route::currentRouteName() == 'admin.home' ? ' class="active"': '' !!}>
                     <a href="{{ route('admin.home') }}">
                         <i class="fas fa-file-invoice"></i>
@@ -165,6 +207,16 @@
                         <span>Категории блюд</span>
                     </a>
                 </li>
+
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.markers') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.markers.index') }}">
+                            <i class="fas fa-bookmark"></i>
+                            <span>Маркеры блюд</span>
+                        </a>
+                    </li>
+                @endif
+
 
                 {{--<li class="has-sub">--}}
                     {{--<a href="javascript:;">--}}
@@ -267,6 +319,8 @@
 <script src="/assets/plugins/bootstrap-show-password/bootstrap-show-password.js"></script>
 <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/assets/plugins/select2/dist/js/select2.min.js"></script>
+
+@stack('js')
 
 <script>
     $(document).ready(function() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -48,6 +49,7 @@ class CategoryController extends Controller
     {
         $validate = Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ],
         [
             'name.required' => 'Укажите навзание категории!'
@@ -61,7 +63,13 @@ class CategoryController extends Controller
                 ->with('error', 'Ошибка при создании категории!');
         }
 
-        if(auth()->user()->categories()->create(request()->all())){
+        if($category = auth()->user()->categories()->create(request()->all())){
+
+            //Фото
+            if($img = request()->file('image')){
+                CategoryRepository::createImage($img, $category);
+            }
+
             return redirect()
                 ->route('admin.categories.index')
                 ->with('success', 'Категория "'.request()->get('name').'" была успешно добавлена!');
@@ -110,6 +118,7 @@ class CategoryController extends Controller
 
         $validate = Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ]);
 
         if($validate->fails()){
@@ -121,6 +130,12 @@ class CategoryController extends Controller
         }
 
         if($category->update(request()->all())){
+
+            //Фото
+            if($img = request()->file('image')){
+                CategoryRepository::createImage($img, $category);
+            }
+
             return redirect()
                 ->route('admin.categories.index')
                 ->with('success', 'Категория "'.request()->get('name').'" была успешно обновлена!');

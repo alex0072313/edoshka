@@ -1635,48 +1635,4 @@ var App = function () {
 			}, 0);
 		}
   };
-
-
-    $('[data-click="swal-warning"]').click(function (e) {
-        var title = $(this).data('title') ? $(this).data('title') : 'Подтвердите действие',
-            type = $(this).data('type') ? $(this).data('type') : 'warning',
-            confirm_btn = $(this).data('actionbtn') ? $(this).data('actionbtn') : 'Ok',
-            class_btn = $(this).data('classbtn') ? $(this).data('classbtn') : 'green',
-            url = $(this).attr('href'),
-            options = {};
-        e.preventDefault();
-        options = {
-            title: title,
-            icon: type,
-            buttons: {
-                cancel: {
-                    text: 'Отмена',
-                    value: !0,
-                    visible: !0,
-                    className: "btn btn-default", closeModal: !0,
-                    value: "cancel"
-                },
-                confirm: {
-                    text: confirm_btn,
-                    value: !0,
-                    visible: !0,
-                    className: "btn btn-" + class_btn, closeModal: !0,
-                    value: "confirm"
-                }
-            }
-        };
-
-        if($(this).data('text')){
-            options.text = $(this).data('text');
-        }
-
-        swal(options).then((value) => {
-            switch (value) {
-                case "confirm":
-                    window.location = url;
-                    break;
-            }
-        });
-    });
-
 }();

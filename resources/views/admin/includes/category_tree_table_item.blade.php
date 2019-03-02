@@ -5,7 +5,7 @@
                 &nbsp;&nbsp;
             @endfor
             - {{ $category->name }}</td>
-        {{--@role('admin')--}}
+        {{--@role('megaroot')--}}
         {{--<td><a class="text-green" href="{{ route('admin.user.edit', $category->user->id) }}">{{ $category->user->name }}</a></td>--}}
         {{--@endrole--}}
 

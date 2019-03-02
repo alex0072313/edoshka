@@ -8,7 +8,7 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Имя</label>
             <div class="col-md-9">
-                <input type="text" name="name" value="{{  old('name') ? old('name') : $user->name }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Ваше Имя">
+                <input type="text" name="name" value="{{  old('name') ? old('name') : $_user->name }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Ваше Имя">
                 @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('name') }}
@@ -20,14 +20,14 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Фамилия</label>
             <div class="col-md-9">
-                <input type="text" name="lastname" value="{{  old('lastname') ? old('lastname') : $user->lastname }}" class="form-control" placeholder="Ваша Фамилия">
+                <input type="text" name="lastname" value="{{  old('lastname') ? old('lastname') : $_user->lastname }}" class="form-control" placeholder="Ваша Фамилия">
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Email</label>
             <div class="col-md-9">
-                <input type="email" name="email" value="{{  old('email') ? old('email') : $user->email }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Ваш Email">
+                <input type="email" name="email" value="{{  old('email') ? old('email') : $_user->email }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Ваш Email">
                 @if ($errors->has('email'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('email') }}
@@ -40,9 +40,9 @@
             <label class="col-form-label col-md-3">Аватар</label>
             <div class="col-md-9">
 
-                @if(isset($user->id) && Storage::disk('public')->exists('user_imgs/'.$user->id.'/thumb_m.jpg'))
+                @if(isset($_user->id) && Storage::disk('public')->exists('user_imgs/'.$_user->id.'/thumb_m.jpg'))
                     <div class="mb-3">
-                        <img src="{{ Storage::disk('public')->url('user_imgs/'.$user->id.'/thumb_m.jpg') }}" alt="">
+                        <img src="{{ Storage::disk('public')->url('user_imgs/'.$_user->id.'/thumb_m.jpg') }}" alt="">
                     </div>
                 @endif
 

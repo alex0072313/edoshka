@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
             if($user = Auth::user()){
                 $user = $user;
             }
-            View::share('user', $user);
+            View::share('_user', $user);
         });
 
         View::composer('admin.*', function() {
@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             if($restaurant = Auth::user()->restaurant){
                 $restaurant = $restaurant;
             }
-            View::share('restaurant', $restaurant);
+            View::share('_restaurant', $restaurant);
         });
 
     }

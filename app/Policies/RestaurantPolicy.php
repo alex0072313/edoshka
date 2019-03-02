@@ -2,19 +2,19 @@
 
 namespace App\Policies;
 
+use App\Restaurant;
 use App\User;
-use App\category;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoryPolicy
+class RestaurantPolicy
 {
     use HandlesAuthorization;
 
-    public function access(User $user, category $category){
-        if($user->hasRole('megaroot')){
+    public function access(User $user, Restaurant $restaurant){
+        if(\Auth::user()->hasRole('megaroot')){
             return true;
-        }elseif($category->user->hasRole('boss')){
-            if($user->restaurant()->find($category->user->restaurant->id)->count()){
+        }elseif(\Auth::user()->hasRole('boss')){
+            if(\Auth::user()->restaurant->id == $restaurant->id){
                 return true;
             }
         }/*elseif($category->user->hasRole('manager')){
@@ -25,4 +25,5 @@ class CategoryPolicy
 
         return false;
     }
+
 }

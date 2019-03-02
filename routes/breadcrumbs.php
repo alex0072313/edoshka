@@ -4,9 +4,9 @@ Breadcrumbs::for('admin.home', function ($trail) {
     $trail->push('Панель управления', route('admin.home'));
 });
 
-Breadcrumbs::for('admin.restaurant', function ($trail) {
+Breadcrumbs::for('admin.restaurant.edit', function ($trail, $restaurant) {
     $trail->parent('admin.home');
-    $trail->push('Данные ресторана', route('admin.restaurant'));
+    $trail->push('Данные ресторана', route('admin.restaurant.edit', $restaurant->id));
 });
 
 Breadcrumbs::for('admin.profile', function ($trail) {
@@ -29,6 +29,45 @@ Breadcrumbs::for('admin.categories.create', function ($trail) {
 });
 //
 
+//Рестораны
+Breadcrumbs::for('admin.restaurants.index', function ($trail) {
+    if(Auth::user()->hasRole('megaroot')){
+        $trail->parent('admin.home');
+        $trail->push('Рестораны', route('admin.restaurants.index'));
+    }
+});
+Breadcrumbs::for('admin.restaurants.edit', function ($trail, $category) {
+    if(Auth::user()->hasRole('megaroot')){
+        $trail->parent('admin.restaurants.index');
+    }else{
+        $trail->parent('admin.home');
+    }
+    $trail->push('Редактирование ресторана', route('admin.restaurants.edit', $category->id));
+});
+Breadcrumbs::for('admin.restaurants.create', function ($trail) {
+    if(Auth::user()->hasRole('megaroot')){
+        $trail->parent('admin.restaurants.index');
+    }else{
+        $trail->parent('admin.home');
+    }
+    $trail->push('Создание ресторана', route('admin.restaurants.create'));
+});
+//
+
+//Города
+Breadcrumbs::for('admin.towns.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список городов', route('admin.towns.index'));
+});
+Breadcrumbs::for('admin.towns.edit', function ($trail, $user) {
+    $trail->parent('admin.towns.index');
+    $trail->push('Редактирование города', route('admin.towns.edit', $user));
+});
+Breadcrumbs::for('admin.towns.create', function ($trail) {
+    $trail->parent('admin.towns.index');
+    $trail->push('Добавление города', route('admin.towns.create'));
+});
+
 //Блюда
 Breadcrumbs::for('admin.dishes.index', function ($trail, $category = false) {
     $trail->parent('admin.home');
@@ -45,5 +84,43 @@ Breadcrumbs::for('admin.dishes.create', function ($trail) {
 Breadcrumbs::for('admin.dishes.create_in_cat', function ($trail, $category) {
     $trail->parent('admin.dishes.index', $category);
     $trail->push('Добавление блюда', route('admin.dishes.create_in_cat', 'category_'.$category->id));
+});
+//
+
+//Маркеры
+Breadcrumbs::for('admin.markers.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список маркеров', route('admin.markers.index'));
+});
+Breadcrumbs::for('admin.markers.edit', function ($trail, $user) {
+    $trail->parent('admin.markers.index');
+    $trail->push('Редактирование маркера', route('admin.markers.edit', $user));
+});
+Breadcrumbs::for('admin.markers.create', function ($trail) {
+    $trail->parent('admin.markers.index');
+    $trail->push('Добавление маркера', route('admin.markers.create'));
+});
+
+//megaroot
+//Breadcrumbs::for('_company_list', function ($trail) {
+//    $trail->parent('home');
+//    $trail->push('Список компаний', route('_company_list'));
+//});
+//Breadcrumbs::for('_company_edit', function ($trail, $company) {
+//    $trail->parent('_company_list');
+//    $trail->push('Компания', route('_company_edit', $company));
+//});
+
+Breadcrumbs::for('admin.users.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список пользователей', route('admin.users.index'));
+});
+Breadcrumbs::for('admin.users.edit', function ($trail, $user) {
+    $trail->parent('admin.users.index');
+    $trail->push('Редактирование пользователя', route('admin.users.edit', $user));
+});
+Breadcrumbs::for('admin.users.create', function ($trail) {
+    $trail->parent('admin.users.index');
+    $trail->push('Добавление пользователя', route('admin.users.create'));
 });
 //

@@ -48,12 +48,6 @@ class Restaurant extends Model
         return $filtered[0];
     }
 
-    public function delete()
-    {
-        $this->boss()->delete();
-        return parent::delete();
-    }
-
     public function categoryGroup(){
         $dishes = [];
         foreach (Dish::all() as $dish){
@@ -71,6 +65,13 @@ class Restaurant extends Model
         }
 
         return $dishes;
+    }
+
+    public function delete()
+    {
+        $this->boss()->delete();
+        Storage::disk('public')->deleteDirectory('restaurant_imgs/'.$this->id);
+        return parent::delete();
     }
 
 }

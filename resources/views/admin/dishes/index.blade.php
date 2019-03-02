@@ -29,22 +29,22 @@
             },
             dom: 'Bfrtip',
             buttons: [
-                { extend: 'copyHtml5', text: '<i class="fas fa-fw fa-copy"></i> Скопировать в буфер' },
-                { extend: 'excel', text: '<i class="fas fa-fw fa-table"></i> Сохранить в Excel' },
-                { extend: 'pdf', text: '<i class="fas fa-fw fa-file-pdf"></i> Сохранить в Pdf' },
+                // { extend: 'copyHtml5', text: '<i class="fas fa-fw fa-copy"></i> Скопировать в буфер' },
+                // { extend: 'excel', text: '<i class="fas fa-fw fa-table"></i> Сохранить в Excel' },
+                // { extend: 'pdf', text: '<i class="fas fa-fw fa-file-pdf"></i> Сохранить в Pdf' },
             ],
             language: {
-                searchPlaceholder: "Поиск по обьектам...",
+                searchPlaceholder: "Поиск по блюдам...",
                 search: '',
-                zeroRecords: "Обьектов не найдено",
+                zeroRecords: "Блюд не найдено",
 
-                buttons: {
-                    copyTitle: 'Сохранено в буфер',
-                    copySuccess: {
-                        _: '%d обьектов скопированно',
-                        1: '1 обьект скопирован'
-                    }
-                }
+                // buttons: {
+                //     copyTitle: 'Сохранено в буфер',
+                //     copySuccess: {
+                //         _: '%d обьектов скопированно',
+                //         1: '1 обьект скопирован'
+                //     }
+                // }
             },
             //dom: '<"toolbar">frtip'
         });
@@ -103,7 +103,7 @@
                     <a class="dropdown-item d-block clearfix{{ (isset($category) && $category->id == $cat->id) ? ' bg-grey-lighter' :'' }}" href="{{ route('admin.dishes.index', 'category_'.$cat->id) }}">
                         <div class="pull-left mr-3">{{ $cat->name }}</div>
                         @if($category_by_dishes[$cat->id])
-                            <div class="font-weight-bold text-green pull-right">{{ $category_by_dishes[$cat->id] }}</div>
+                            <div class="font-weight-bold text-primary pull-right">{{ $category_by_dishes[$cat->id] }}</div>
                         @endif
                     </a>
                 @endforeach
@@ -113,25 +113,16 @@
 
     {{--<a href="{{ isset($category) ? route('fields.index', 'category_'.$category->id) : route('fields.index') }}" class="btn btn-default mb-4 ml-2"><i class="fas fa-fw fa-server"></i> Управение доп. полями</a>--}}
 
-    {{--<div class="d-block mb-4 d-flex">--}}
-    {{--<div class="px-2 py-2 ">--}}
-    {{--<i class="fas fa-fw fa-folder-open"></i> Категория обьектов:--}}
-    {{--</div>--}}
-    {{--<div class="btn-group" role="group" aria-label="Категории обьектов">--}}
-    {{--@foreach($category_by_owners as $cat_name => $owners_cnt)--}}
-    {{--<a href="#" class="btn btn-default"> @if($owners_cnt)<span class="label label-theme">{{ $owners_cnt }}</span> @endif{{ $cat_name }}</a>--}}
-    {{--@endforeach--}}
-    {{--</div>--}}
-    {{--</div>--}}
-
     @if(count($dishes))
         <table id="data-table-default" class="table row-border table-striped">
             <thead>
             <tr>
-                <th width="1%">ID</th>
+                <th width="1%" class="pr-0">ID</th>
                 <th width="1%" data-orderable="false"></th>
                 <th class="text-nowrap">Название</th>
                 <th class="text-nowrap">Категория</th>
+                <th width="1%" class="text-nowrap">Цена</th>
+                <th width="1%" class="text-nowrap">Новая цена</th>
                 {{--@foreach($fields_names as $field_id => $field_name)--}}
                     {{--<th class="text-nowrap">{{ $field_name }}</th>--}}
                 {{--@endforeach--}}
@@ -141,12 +132,17 @@
             <tbody>
             @foreach($dishes as $dish)
                 <tr class="odd gradeX">
-                    <td width="1%" class="f-s-600 text-inverse">{{ $dish->id}}</td>
+                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $dish->id}}</td>
                     <td width="1%" class="with-img">
-                        <img src="{{ $dish->thumb }}" class="img-rounded rounded-circle" />
+                        @if(isset($dish->id) && Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_xxs.jpg'))
+                            <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_xxs.jpg') }}" class="img-rounded rounded-circle" />
+                        @endif
                     </td>
-                    <td><a href="{{ route('admin.dishes.edit', 'owner_'.$dish->id) }}" class="text-green">{{ $dish->name }}</a></td>
-                    <td><a href="{{ route('admin.dishes.index', 'category_'.$dish->category->id) }}" class="text-green">{{ $dish->category->name }}</a></td>
+                    <td class="text-nowrap"><a href="{{ route('admin.dishes.edit', 'owner_'.$dish->id) }}">{{ $dish->name }}</a></td>
+                    <td class="text-nowrap"><a href="{{ route('admin.dishes.index', 'category_'.$dish->category->id) }}">{{ $dish->category->name }}</a></td>
+
+                    <td class="text-nowrap">{{ $dish->price }}</td>
+                    <td class="text-nowrap">{{ $dish->new_price }}</td>
 
                     {{--@foreach($fields_names as $field_id => $field_name)--}}
                         {{--<td width="1%">--}}
@@ -160,7 +156,7 @@
 
                     <td width="1%">
                         <div class="width-60">
-                            <a href="{{ route('admin.dishes.edit', $dish->id) }}" title="Изменить" class="btn btn-xs m-r-2 btn-green"><i class="far fa-xs fa-fw fa-edit"></i></a>
+                            <a href="{{ route('admin.dishes.edit', $dish->id) }}" title="Изменить" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
                             <a href="{{ route('admin.dishes.destroy', 'owner_'.$dish->id) }}" title="Удалить" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить обьект {{ $dish->name }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
                         </div>
                     </td>

@@ -27,7 +27,7 @@
                 <div class="d-md-none search col-10">
                     <div class="text-right mb-2">
 
-                        @if($user)
+                        @if($_user)
                             <a href="{{ route('admin.home') }}" >
                                 <i class="far fa-user"></i> Кабинет
                             </a>
@@ -79,7 +79,7 @@
 
                     <div class="account text-right">
 
-                        @if($user)
+                        @if($_user)
                             <a href="{{ route('admin.home') }}" class="inner text-center d-inline-block p-2">
                                 <span class="icon"></span><br>
                                 Кабинет

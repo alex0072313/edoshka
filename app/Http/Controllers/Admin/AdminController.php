@@ -8,5 +8,18 @@ class AdminController extends Controller
 {
     protected $longtitle = '';
 
+    public function __construct(){
+        $this->checkUser();
+    }
+
+    protected function checkUser()
+    {
+        $this->middleware(function ($request, $next) {
+            if(!\Auth::user() || (!\Auth::user()->hasRole('megaroot') && !\Auth::user()->hasRole('boss') && !\Auth::user()->hasRole('manager'))){
+                return redirect()->route('login');
+            }
+            return $next($request);
+        });
+    }
 
 }

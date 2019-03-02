@@ -20,7 +20,7 @@ class DishPolicy
     public function access(User $user, Dish $dish)
     {
         // TODO: проверка прав доступа к блюду
-        if($user->hasRole('admin')){
+        if($user->hasRole('megaroot')){
             return true;
         }
         return ($dish->restaurant->id == $user->restaurant->id);

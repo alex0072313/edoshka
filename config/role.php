@@ -1,8 +1,8 @@
 <?php
 return [
     'names'=>[
-        'admin' => [
-            'name' => 'admin',
+        'megaroot' => [
+            'name' => 'megaroot',
             'dolg' => 'Админ'
         ],
         'boss' => [

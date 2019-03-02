@@ -149,6 +149,59 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Цена</label>
+                    <div class="col-md-9">
+                        <input type="number" name="price" min="0" value="{{ old('price') ? old('price') : isset($dish) ? $dish->price : '' }}" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}">
+                        @if ($errors->has('price'))
+                            <span class="invalid-feedback" role="alert">
+                                Укажите цену!
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Новая цена</label>
+                    <div class="col-md-9">
+                        <input type="number" name="new_price" min="0" value="{{ old('new_price') ? old('new_price') : isset($dish) ? $dish->new_price : '' }}" class="form-control">
+                        <small class="text-secondary">Используется как цена по акции</small>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Краткое описание (кол-во, вес и т.д)</label>
+                    <div class="col-md-9">
+                        <textarea name="short_description" class="form-control" rows="4">{{ old('short_description') ? old('short_description') : isset($dish) ? $dish->short_description : '' }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Подробное описание (состав, и т.д)</label>
+                    <div class="col-md-9">
+                        <textarea name="description" class="form-control" rows="4">{{ old('description') ? old('description') : isset($dish) ? $dish->description : '' }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Основное изображение</label>
+                    <div class="col-md-9">
+
+                        @if(isset($dish->id) && Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_s.jpg'))
+                            <div class="mb-3">
+                                <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_s.jpg') }}" alt="">
+                            </div>
+                        @endif
+
+                        <input type="file" name="image" class="form-control-file">
+                        @if ($errors->has('image'))
+                            <span class="invalid-feedback d-block" role="alert">
+                                Загрузите фото!
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 {{--<div class="form-group row">--}}
                     {{--<label class="col-form-label col-md-3">Родительский обьект</label>--}}
 
@@ -188,7 +241,7 @@
         {{--@endif--}}
 
 
-        <input type="submit" class="btn btn-sm btn-green float-left" value="Сохранить">
+        <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
         @if(isset($dish))
             <a href="{{ route('admin.dishes.destroy', 'dish_'.$dish->id) }}" data-click="swal-warning"
                data-title="Подтвердите действие"

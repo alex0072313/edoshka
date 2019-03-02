@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Category;
 use App\Dish;
+use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -90,19 +91,19 @@ class RouteServiceProvider extends ServiceProvider
             $user = User::whereId($value)->first();
 
             if($user) {
-                if (!Auth::user()->hasRole('admin')) {
+                if (!\Auth::user()->hasRole('megaroot')) {
 
-                    if($user->hasRole('admin')){
+                    if($user->hasRole('megaroot')){
                         return abort(403);
                     }
 
-                    if (($user->id != Auth::id()) && Auth::user()->hasRole('boss')) {
-                        if ($user->restaurant->id == Auth::user()->restaurant->id) {
+                    if (($user->id != \Auth::id()) && \Auth::user()->hasRole('boss')) {
+                        if ($user->restaurant->id == \Auth::user()->restaurant->id) {
                             return $user;
                         }else{
                             return abort(404);
                         }
-                    }elseif ($user->id == Auth::id()){
+                    }elseif ($user->id == \Auth::id()){
                         return $user;
                     }else{
                         return abort(403);

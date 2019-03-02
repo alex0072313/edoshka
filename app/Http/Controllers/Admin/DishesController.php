@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Dish;
+use App\Repositories\DishRepository;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -18,10 +19,10 @@ class DishesController extends AdminController
     {
         $this->title = 'Блюда';
         $this->view = 'admin.dishes.index';
-
         $this->pagetitle = 'Блюда';
 
-        $dishes = Auth::user()->restaurant->dishes;
+        $dishes = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
+
         foreach (Category::allToAccess(true) as $cat){
             $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
         }
@@ -36,6 +37,12 @@ class DishesController extends AdminController
                 ->dishes()
                 ->where('category_id', $category->id)
                 ->get();
+        }
+
+        if(!$category->name && !Category::all()->count()){
+            \request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="'.route('admin.categories.create').'">Добавить категорию</a>');
+            //session(['error' => 'Для добавления блюда необходимо добавить хотябы 1 категорию!']);
+            //$this->data['error'] = 'Для добавления блюда необходимо добавить хотябы 1 категорию!';
         }
 
 //        $this->data['fields_names'] = [];
@@ -82,7 +89,7 @@ class DishesController extends AdminController
         $this->title = 'Добавление блюда';
 
         if($category){
-            $this->pagetitle_desc = $category->name;
+            $this->longtitle = $category->name;
             $this->data['category'] = $category;
         }
 
@@ -99,6 +106,8 @@ class DishesController extends AdminController
     {
         $validate = \Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'price' => 'required',
             'category_id' => 'required',
         ]);
 
@@ -119,11 +128,16 @@ class DishesController extends AdminController
             //Поля
             //$this->fields($owner);
 
+            //Фото
+            if($img = request()->file('image')){
+                DishRepository::createImage($img, $dish);
+            }
+
             return redirect()
                 ->route('admin.dishes.index', 'category_'.$dish->category->id)
                 ->with(['success' =>
-                    'Обьект <a href=\"'.route('admin.dishes.edit', $dish->id).'\">'.$dish->name.'</a> добавлен в категорию ' .
-                        (Auth::user()->can('access', $dish->category) ? '<a class=\"text-green\" href=\"'.route('admin.categories.edit', $dish->category->id).'\">' : '').
+                    'Блюдо <a href="'.route('admin.dishes.edit', $dish->id).'">'.$dish->name.'</a> добавлено в категорию ' .
+                        (Auth::user()->can('access', $dish->category) ? '<a class="text-green" href="'.route('admin.categories.edit', $dish->category->id).'">' : '').
                         $dish->category->name.
                         (Auth::user()->can('access', $dish->category) ? '</a>' : '')
                 ]);
@@ -152,7 +166,7 @@ class DishesController extends AdminController
         $this->authorize('access', $dish);
 
         $this->view = 'admin.dishes.form';
-        $this->title = 'Блюд: '.$dish->name;
+        $this->title = $dish->name;
 
         $this->pagetitle = $dish->name;
 
@@ -179,7 +193,9 @@ class DishesController extends AdminController
 
         $validate = \Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
-            //'category_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'price' => 'required',
+            'category_id' => 'required',
         ]);
 
         if($validate->fails()){
@@ -198,6 +214,11 @@ class DishesController extends AdminController
 
             //Поля
             //$this->fields($owner);
+
+            //Фото
+            if($img = request()->file('image')){
+                DishRepository::createImage($img, $dish);
+            }
 
             return redirect()
                 ->route('admin.dishes.index')
