@@ -106,7 +106,7 @@ class DishesController extends AdminController
     {
         $validate = \Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'price' => 'required',
             'category_id' => 'required',
         ]);
@@ -124,7 +124,6 @@ class DishesController extends AdminController
         }
 
         if($dish = Auth::user()->dishes()->create(request()->all())){
-
             $dish->markers()->sync(request()->get('markers'));
 
             //Поля
@@ -195,7 +194,7 @@ class DishesController extends AdminController
 
         $validate = \Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'price' => 'required',
             'category_id' => 'required',
         ]);
@@ -213,7 +212,7 @@ class DishesController extends AdminController
         }
 
         if($dish->update(request()->all()) ){
-
+            $dish->markers()->sync(request()->get('markers'));
             //Поля
             //$this->fields($owner);
 
