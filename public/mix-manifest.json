@@ -6,6 +6,7 @@
     "/assets/plugins/switchery/switchery.min.js": "/assets/plugins/switchery/switchery.min.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/assets/css/style.css": "/assets/css/style.css",
     "/assets/css/bundle.css": "/assets/css/bundle.css",
     "/assets/plugins/nvd3/nvd3.min.css": "/assets/plugins/nvd3/nvd3.min.css",
     "/assets/plugins/jquery-jvectormap/jquery-jvectormap.min.css": "/assets/plugins/jquery-jvectormap/jquery-jvectormap.min.css",

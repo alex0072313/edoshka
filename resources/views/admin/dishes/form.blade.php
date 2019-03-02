@@ -110,7 +110,6 @@
         @if(isset($dish))
             @method('PUT')
         @endif
-
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Название</label>
                     <div class="col-md-9">
@@ -199,6 +198,18 @@
                                 Загрузите фото!
                             </span>
                         @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Маркеры</label>
+                    <div class="col-md-9">
+                        @foreach(\App\Marker::all() as $marker)
+                            <div class="checkbox checkbox-css on_g">
+                                <input type="checkbox" name="markers[]" id="marker_{{ $marker->id }}" />
+                                <label for="marker_{{ $marker->id }}">{{ $marker->name }}</label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 

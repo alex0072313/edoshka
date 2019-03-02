@@ -17,11 +17,14 @@ mix
 
 //Панель управления
 mix.js('resources/assets/js/app.js', 'public/assets/js/bundle.js');
+
 mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.css',
     'node_modules/jqueryui/jquery-ui.min.css',
-    'resources/assets/css/style.css',
 ], 'public/assets/css/bundle.css');
+
+mix
+    .sass('resources/assets/css/_style.scss', 'public/assets/css/style.css');
 
 // img
 mix.copy('resources/assets/img/', 'public/assets/img/');

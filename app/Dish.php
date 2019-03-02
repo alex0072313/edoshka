@@ -13,6 +13,11 @@ class Dish extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function markers()
+    {
+        return $this->belongsToMany(Marker::class, 'dishes_markers');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

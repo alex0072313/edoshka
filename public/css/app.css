@@ -5140,11 +5140,11 @@ input[type=button].btn-block {
 }
 
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
-  background-color: rgba(255, 95, 0, 0.5);
+  background-color: #fff;
 }
 
 .custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
-  background-color: rgba(255, 95, 0, 0.5);
+  background-color: #fff;
 }
 
 .custom-radio .custom-control-label::before {
@@ -5156,7 +5156,7 @@ input[type=button].btn-block {
 }
 
 .custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before {
-  background-color: rgba(255, 95, 0, 0.5);
+  background-color: #fff;
 }
 
 .custom-switch {
@@ -5195,7 +5195,7 @@ input[type=button].btn-block {
 }
 
 .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
-  background-color: rgba(255, 95, 0, 0.5);
+  background-color: #fff;
 }
 
 .custom-select {
