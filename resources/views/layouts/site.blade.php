@@ -26,7 +26,6 @@
 
                 <div class="d-md-none search col-10">
                     <div class="text-right mb-2">
-
                         @if($_user)
                             <a href="{{ route('admin.home') }}" >
                                 <i class="far fa-user"></i> Кабинет
@@ -36,7 +35,6 @@
                                 <span class="icon"></span> Войти
                             </a>
                         @endif
-
                     </div>
                     @include('site.includes.search_module', ['igp_clases'=>'ml-5'])
                 </div>
@@ -44,41 +42,17 @@
                 <div class="mx-auto col-md-8 col-lg-6 mt-2 mt-md-0">
                     <div class="globalmenu">
                         <div class="d-sm-flex justify-content-center justify-content-sm-between links">
-                            <a href="#">
-                                <span><img src="/images/theme/pizza.svg" alt=""></span>
-                                Пицца
-                            </a>
-                            <a href="#">
-                                <span><img src="/images/theme/sushi-roll.svg" alt=""></span>
-                                Роллы
-                            </a>
-                            <a href="#">
-                                <span><img src="/images/theme/japanese-food.svg" alt=""></span>
-                                Суши
-                            </a>
-                            <a href="#">
-                                <span><img src="/images/theme/sushi.svg" alt=""></span>
-                                Сеты
-                            </a>
-                            <a href="#">
-                                <span><img src="/images/theme/wok.svg" alt=""></span>
-                                WOK`и
-                            </a>
-                            <a href="#">
-                                <span><img src="/images/theme/salad.svg" alt=""></span>
-                                Салаты
-                            </a>
-                            <a href="#">
-                                <span><img src="/images/theme/fast-food.svg" alt=""></span>
-                                Фастфуд
-                            </a>
+                            @foreach($top_categories as $category)
+                                <a href="#">
+                                    <span><img src="{{ $category->icon }}" alt=""></span>
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-2 d-none d-md-block">
-
                     <div class="account text-right">
-
                         @if($_user)
                             <a href="{{ route('admin.home') }}" class="inner text-center d-inline-block p-2">
                                 <span class="icon"></span><br>
@@ -90,13 +64,10 @@
                                 Войти
                             </a>
                         @endif
-
                     </div>
-
                 </div>
             </div>
             <div class="row mt-2 d-none d-md-block">
-
                 <div class="mx-auto col-md-8 col-lg-6 search">
                     @include('site.includes.search_module')
                 </div>

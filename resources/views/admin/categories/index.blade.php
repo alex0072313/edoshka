@@ -10,7 +10,7 @@
                 <thead>
                 <tr>
                     <th width="1%" class="pr-0">ID</th>
-                    <th width="1%"></th>
+                    <th width="1%" class="pr-0"></th>
                     <th>Название</th>
                     <th>Создана в ресторане</th>
                     {{--@role('admin')--}}

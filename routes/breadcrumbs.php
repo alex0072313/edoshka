@@ -101,6 +101,20 @@ Breadcrumbs::for('admin.markers.create', function ($trail) {
     $trail->push('Добавление маркера', route('admin.markers.create'));
 });
 
+//Слайды
+Breadcrumbs::for('admin.slides.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список слайдов', route('admin.slides.index'));
+});
+Breadcrumbs::for('admin.slides.edit', function ($trail, $user) {
+    $trail->parent('admin.slides.index');
+    $trail->push('Редактирование слайда', route('admin.slides.edit', $user));
+});
+Breadcrumbs::for('admin.slides.create', function ($trail) {
+    $trail->parent('admin.slides.index');
+    $trail->push('Добавление слайда', route('admin.slides.create'));
+});
+
 //megaroot
 //Breadcrumbs::for('_company_list', function ($trail) {
 //    $trail->parent('home');

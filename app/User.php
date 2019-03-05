@@ -73,11 +73,11 @@ class User extends Authenticatable
 //    }
 
     public static function getAdmin(){
-        $filtered = User::all()->filter(function ($user) {
-            return $user->hasRole(config('role.names.megaroot.name'));
-        });
+        $r =  User::whereHas("roles", function($q){
+            $q->where("name", config('role.names.megaroot.name'));
+        })->get();
 
-        return $filtered[0];
+        return $r[0];
     }
 
 

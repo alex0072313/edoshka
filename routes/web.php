@@ -49,6 +49,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //Маркеры для блюд
         Route::get('/markers/{marker}/destroy', 'Admin\MarkersController@destroy')->name('markers.destroy');
         Route::resource('markers', 'Admin\MarkersController')->except('destroy');
+
+        //Слайды
+        Route::get('/slides/{slide}/destroy', 'Admin\SlidesController@destroy')->name('slides.destroy');
+        Route::resource('slides', 'Admin\SlidesController')->except('destroy');
     });
 });
 

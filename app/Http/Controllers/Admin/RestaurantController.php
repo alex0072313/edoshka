@@ -42,11 +42,17 @@ class RestaurantController extends AdminController
     {
         $this->authorize('access', $restaurant);
 
-        $validator = \Validator::make(request()->all(), [
+        $validator =  [
             'name' => 'required|max:255',
             'address' => 'required',
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-        ]);
+        ];
+
+        if(\Auth::user()->hasRole('megaroot')){
+            $validator['town_id'] = 'required';
+        }
+
+        $validator = \Validator::make(request()->all(), $validator);
 
         if($validator->fails()) {
             return redirect()
@@ -64,8 +70,8 @@ class RestaurantController extends AdminController
             }
 
             return redirect()
-                ->back()
-                ->with('success', 'Данные успешно обновлены!');
+                ->route('admin.restaurants.index')
+                ->with('success', 'Данные ресторана успешно обновлены!');
         }
     }
 
@@ -79,12 +85,17 @@ class RestaurantController extends AdminController
 
     protected function store()
     {
-        $validator = \Validator::make(request()->all(), [
+        $validator =  [
             'name' => 'required|max:255',
             'address' => 'required',
-            'min_sum_order' => 'required',
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-        ]);
+        ];
+
+        if(\Auth::user()->hasRole('megaroot')){
+            $validator['town_id'] = 'required';
+        }
+
+        $validator = \Validator::make(request()->all(), $validator);
 
         if($validator->fails()) {
             return redirect()

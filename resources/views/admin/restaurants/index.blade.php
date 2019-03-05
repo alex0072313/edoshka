@@ -12,6 +12,7 @@
                     <th width="1%" class="pr-0">ID</th>
                     <th width="1%"></th>
                     <th>Название</th>
+                    <th>Город</th>
                     {{--@role('admin')--}}
                     {{--<th>Владелец</th>--}}
                     {{--@endrole--}}
@@ -31,6 +32,9 @@
                         </td>
                         <td>
                             <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}">{{ $restaurant->name }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.towns.edit', $restaurant->town->id) }}">{{ $restaurant->town->name }}</a>
                         </td>
                         {{--@role('admin')--}}
                         {{--<td><a class="text-green" href="{{ route('user.edit', $category->user->id) }}">{{ $category->user->name }}</a></td>--}}

@@ -23,11 +23,11 @@ class DishesController extends AdminController
 
         $dishes = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
 
-        foreach (Category::allToAccess(true) as $cat){
+        foreach (Category::allToAccess(true) as $cat) {
             $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
         }
 
-        if($category->name){
+        if ($category->name) {
             $this->title = 'Блюда в категории';
             $this->longtitle = $category->name;
 
@@ -39,8 +39,8 @@ class DishesController extends AdminController
                 ->get();
         }
 
-        if(!$category->name && !Category::all()->count()){
-            \request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="'.route('admin.categories.create').'">Добавить категорию</a>');
+        if (!$category->name && !Category::all()->count()) {
+            \request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
             //session(['error' => 'Для добавления блюда необходимо добавить хотябы 1 категорию!']);
             //$this->data['error'] = 'Для добавления блюда необходимо добавить хотябы 1 категорию!';
         }
@@ -88,7 +88,7 @@ class DishesController extends AdminController
         $this->view = 'admin.dishes.form';
         $this->title = 'Добавление блюда';
 
-        if($category){
+        if ($category) {
             $this->longtitle = $category->name;
             $this->data['category'] = $category;
         }
@@ -99,19 +99,25 @@ class DishesController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $validate = \Validator::make(request()->all(), [
+        $validate = [
             'name' => 'required|max:255|min:3',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'price' => 'required',
             'category_id' => 'required',
-        ]);
+        ];
 
-        if($validate->fails()){
+        if (Auth::user()->hasRole('megaroot')) {
+            $validate['restaurant_id'] = 'required';
+        }
+
+        $validate = \Validator::make(request()->all(), $validate);
+
+        if ($validate->fails()) {
             return redirect()
                 ->back()
                 ->withErrors($validate)
@@ -119,28 +125,30 @@ class DishesController extends AdminController
                 ->with('error', 'Ошибка при добавлении блюда, проверьте форму!');
         }
 
-        if($restaurant = Auth::user()->restaurant){
-            request()->request->set('restaurant_id', $restaurant->id);
+        if (!Auth::user()->hasRole('megaroot')) {
+            if ($restaurant = Auth::user()->restaurant) {
+                request()->request->set('restaurant_id', $restaurant->id);
+            }
         }
 
-        if($dish = Auth::user()->dishes()->create(request()->all())){
+        if ($dish = Auth::user()->dishes()->create(request()->all())) {
             $dish->markers()->sync(request()->get('markers'));
 
             //Поля
             //$this->fields($owner);
 
             //Фото
-            if($img = request()->file('image')){
+            if ($img = request()->file('image')) {
                 DishRepository::createImage($img, $dish);
             }
 
             return redirect()
-                ->route('admin.dishes.index', 'category_'.$dish->category->id)
+                ->route('admin.dishes.index', 'category_' . $dish->category->id)
                 ->with(['success' =>
-                    'Блюдо <a href="'.route('admin.dishes.edit', $dish->id).'">'.$dish->name.'</a> добавлено в категорию ' .
-                        (Auth::user()->can('access', $dish->category) ? '<a class="text-green" href="'.route('admin.categories.edit', $dish->category->id).'">' : '').
-                        $dish->category->name.
-                        (Auth::user()->can('access', $dish->category) ? '</a>' : '')
+                    'Блюдо <a href="' . route('admin.dishes.edit', $dish->id) . '">' . $dish->name . '</a> добавлено в категорию ' .
+                    (Auth::user()->can('access', $dish->category) ? '<a class="text-green" href="' . route('admin.categories.edit', $dish->category->id) . '">' : '') .
+                    $dish->category->name .
+                    (Auth::user()->can('access', $dish->category) ? '</a>' : '')
                 ]);
         }
     }
@@ -148,7 +156,7 @@ class DishesController extends AdminController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -159,7 +167,7 @@ class DishesController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Dish $dish)
@@ -171,7 +179,7 @@ class DishesController extends AdminController
 
         $this->pagetitle = $dish->name;
 
-        if($category = $dish->category){
+        if ($category = $dish->category) {
             $this->longtitle = $category->name;
         }
 
@@ -184,22 +192,28 @@ class DishesController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Dish $dish)
     {
         $this->authorize('access', $dish);
 
-        $validate = \Validator::make(request()->all(), [
+        $validate = [
             'name' => 'required|max:255|min:3',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'price' => 'required',
             'category_id' => 'required',
-        ]);
+        ];
 
-        if($validate->fails()){
+        if (Auth::user()->hasRole('megaroot')) {
+            $validate['restaurant_id'] = 'required';
+        }
+
+        $validate = \Validator::make(request()->all(), $validate);
+
+        if ($validate->fails()) {
             return redirect()
                 ->back()
                 ->withErrors($validate)
@@ -207,17 +221,19 @@ class DishesController extends AdminController
                 ->with('error', 'Ошибка при обновлении блюда, проверьте форму!');
         }
 
-        if($restaurant = Auth::user()->restaurant){
-            request()->request->set('restaurant_id', $restaurant->id);
+        if (!Auth::user()->hasRole('megaroot')) {
+            if ($restaurant = Auth::user()->restaurant) {
+                request()->request->set('restaurant_id', $restaurant->id);
+            }
         }
 
-        if($dish->update(request()->all()) ){
+        if ($dish->update(request()->all())) {
             $dish->markers()->sync(request()->get('markers'));
             //Поля
             //$this->fields($owner);
 
             //Фото
-            if($img = request()->file('image')){
+            if ($img = request()->file('image')) {
                 DishRepository::createImage($img, $dish);
             }
 
@@ -230,17 +246,17 @@ class DishesController extends AdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Dish $dish)
     {
         $this->authorize('access', $dish);
 
-        if($dish->delete()){
+        if ($dish->delete()) {
             return redirect()
-                ->route('admin.dishes.index', 'category_'.$dish->category->id)
-                ->with(['success'=> 'Блюдо '.$dish->name.' было удалено!']);
+                ->route('admin.dishes.index', 'category_' . $dish->category->id)
+                ->with(['success' => 'Блюдо ' . $dish->name . ' было удалено!']);
         }
     }
 }

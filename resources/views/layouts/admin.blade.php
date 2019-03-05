@@ -219,6 +219,15 @@
                     </li>
                 @endif
 
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.slides') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.slides.index') }}">
+                            <i class="fas fa-images"></i>
+                            <span>Слайды для главной</span>
+                        </a>
+                    </li>
+                @endif
+
 
                 {{--<li class="has-sub">--}}
                     {{--<a href="javascript:;">--}}

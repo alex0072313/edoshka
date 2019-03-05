@@ -36,6 +36,13 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Путь до иконки</label>
+            <div class="col-md-9">
+                <input type="text" name="icon" value="{{ old('icon') ? old('icon') : (isset($category) ? $category->icon : '') }}" class="form-control">
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="clearfix">
                 <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
