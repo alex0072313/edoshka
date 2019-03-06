@@ -1,9 +1,10 @@
 <?php
 
 Route::get('/', 'Site\HomeController@index')->name('site.home');
-Route::get('/cat', 'Site\CategoryController@index')->name('site.category');
+Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
 Route::get('/rest', 'Site\RestaurantController@index')->name('site.restaurant');
 
+//Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', 'Admin\HomeController@index')->name('home');
@@ -53,8 +54,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //Слайды
         Route::get('/slides/{slide}/destroy', 'Admin\SlidesController@destroy')->name('slides.destroy');
         Route::resource('slides', 'Admin\SlidesController')->except('destroy');
+
+        //Поля
+        //Route::get('/helpmsgs/{page?}/{name?}', 'Admin\HelpmsgsController@destroy')->name('helpmsgs.destroy');
+
+//        Route::get('/helpmsgs/{helpmsg_name}/edit', 'Admin\HelpmsgsController@edit')->name('helpmsgs.edit');
+//        Route::resource('helpmsgs', 'Admin\HelpmsgsController')->except(['destroy', 'edit']);
+
+        Route::get('/helpmsgs', 'Admin\HelpmsgsController@index')->name('helpmsgs.index');
+        Route::get('/helpmsgs/{page?}/{name?}',  'Admin\HelpmsgsController@helpmsgEditForm')->name('helpmsgs.edit')->where('name','[\w-]+');
+        Route::post('/helpmsgs', 'Admin\HelpmsgsController@helpmsgSave')->name('helpmsgs.save');
+
     });
 });
+////////////////////////////////////////////////////////
 
 Route::middleware('guest')->group(function () {
     //Вход, регистрация, восстановление пароля

@@ -1,7 +1,7 @@
 @extends('layouts.site')
 
 @section('content')
-<section id="greetin_page_default" style="background-image: url(/images/theme/slider1.jpg);">
+<section id="greetin_page_default"{!! Storage::disk('public')->exists('category_imgs/'.$category->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('category_imgs/'.$category->id.'/src.jpg').'\');"' : '' !!}>
     <div class="container">
 
         <div class="d-flex align-content-end flex-wrap inner w-auto">
@@ -14,7 +14,7 @@
             </nav>
 
             <div class="h1 w-100 font-weight-bolder text-white mb-3">
-                Заказать роллы в Геленджике
+                @helpmsg(town_category_title)
             </div>
 
         </div>

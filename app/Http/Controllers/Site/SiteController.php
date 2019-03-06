@@ -17,6 +17,7 @@ class SiteController extends Controller
         $this->data['top_categories'] = $this->admin_categories;
 
         //Геленджик
-        $this->town = Town::find(1);
+        $this->town = $this->data['_town'] = Town::find(1);
+
     }
 }

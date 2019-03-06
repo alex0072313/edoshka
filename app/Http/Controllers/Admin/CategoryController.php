@@ -49,10 +49,13 @@ class CategoryController extends Controller
     {
         $validate = Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
+            'alias' => 'required|unique:categories,alias',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ],
         [
-            'name.required' => 'Укажите навзание категории!'
+            'name.required' => 'Укажите навзание категории!',
+            'alias.required' => 'Укажите алиас!',
+            'alias.unique' => 'Алиас должен быть уникальным!',
         ]);
 
         if($validate->fails()){
@@ -118,6 +121,7 @@ class CategoryController extends Controller
 
         $validate = Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
+            'alias' => 'required|unique:categories,alias,'.$category->id,
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ]);
 

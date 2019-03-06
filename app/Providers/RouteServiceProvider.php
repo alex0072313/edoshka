@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Category;
 use App\Dish;
+use App\Helpmsg;
 use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -27,8 +28,18 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        //Route::pattern('alias', '[0-9A-Za-z\-]');
+        //Route::model('category', Category::class);
+//        Route::model('category', function ($alias) {
+//            return Category::where('alias', $alias)->firstorFail();
+//        });
+        //
 
         parent::boot();
+
+        Route::bind('category_alias', function ($value) {
+            return Category::where('alias', $value)->firstorFail();
+        });
 
         Route::bind('category_str_id', function ($value) {
             return Category::findOrFail(str_replace('category_', '', $value));

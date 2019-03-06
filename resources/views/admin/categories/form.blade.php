@@ -23,6 +23,18 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Алиас</label>
+            <div class="col-md-9">
+                <input type="text" name="alias" value="{{ old('alias') ? old('alias') : (isset($category) ? $category->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                @if ($errors->has('alias'))
+                    <span class="invalid-feedback" role="alert">
+                        {{ $errors->first('alias') }}
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Основное изображение</label>
             <div class="col-md-9">
 

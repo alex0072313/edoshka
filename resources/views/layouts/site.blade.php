@@ -43,7 +43,7 @@
                     <div class="globalmenu">
                         <div class="d-sm-flex justify-content-center justify-content-sm-between links">
                             @foreach($top_categories as $category)
-                                <a href="#">
+                                <a href="{{ route('site.category', ['category_alias'=>$category->alias]) }}">
                                     <span><img src="{{ $category->icon }}" alt=""></span>
                                     {{ $category->name }}
                                 </a>

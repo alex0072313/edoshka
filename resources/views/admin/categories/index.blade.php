@@ -13,6 +13,7 @@
                     <th width="1%" class="pr-0"></th>
                     <th>Название</th>
                     <th>Создана в ресторане</th>
+                    <th>Алиас</th>
                     {{--@role('admin')--}}
                     {{--<th>Владелец</th>--}}
                     {{--@endrole--}}
@@ -50,6 +51,9 @@
                             @if(Auth::user()->can('access', $restaurant))
                                 </a>
                             @endif
+                        </td>
+                        <td>
+                            {{ $category->alias }}
                         </td>
                         {{--@role('admin')--}}
                             {{--<td><a class="text-green" href="{{ route('user.edit', $category->user->id) }}">{{ $category->user->name }}</a></td>--}}

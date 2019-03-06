@@ -115,6 +115,20 @@ Breadcrumbs::for('admin.slides.create', function ($trail) {
     $trail->push('Добавление слайда', route('admin.slides.create'));
 });
 
+//Области
+Breadcrumbs::for('admin.helpmsgs.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список полей', route('admin.helpmsgs.index'));
+});
+Breadcrumbs::for('admin.helpmsgs.edit', function ($trail, $helpmsg) {
+    $trail->parent('admin.helpmsgs.index');
+    $trail->push('Редактирование поля', route('admin.helpmsgs.edit', ['helpmsg_name' => $helpmsg->name]));
+});
+Breadcrumbs::for('admin.helpmsgs.create', function ($trail) {
+    $trail->parent('admin.helpmsgs.index');
+    $trail->push('Добавление поля', route('admin.helpmsgs.create'));
+});
+
 //megaroot
 //Breadcrumbs::for('_company_list', function ($trail) {
 //    $trail->parent('home');

@@ -228,6 +228,15 @@
                     </li>
                 @endif
 
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.helpmsgs') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.helpmsgs.index') }}">
+                            <i class="far fa-edit"></i>
+                            <span>Области</span>
+                        </a>
+                    </li>
+                @endif
+
 
                 {{--<li class="has-sub">--}}
                     {{--<a href="javascript:;">--}}
