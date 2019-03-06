@@ -11838,6 +11838,12 @@ a.text-dark:focus {
   padding-right: 2rem;
 }
 
+.helpmsg_edit_link {
+  font-size: 10px !important;
+  color: #FF5F00 !important;
+  font-weight: normal !important;
+}
+
 .form-control {
   border-radius: 4px;
 }
@@ -12234,6 +12240,11 @@ header .globalmenu .links > a:hover {
 .shop_pos_item .image img {
   max-width: 100%;
   display: inline-block;
+  border-radius: 4px;
+}
+
+.shop_pos_item .image img img {
+  display: inherit;
 }
 
 .shop_pos_item:hover {

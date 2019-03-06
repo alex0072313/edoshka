@@ -1,27 +1,32 @@
 {
-  "_from": "ion-rangeslider@^2.2.0",
+  "_args": [
+    [
+      "ion-rangeslider@2.3.0",
+      "D:\\code\\edoshka.ru"
+    ]
+  ],
+  "_from": "ion-rangeslider@2.3.0",
   "_id": "ion-rangeslider@2.3.0",
   "_inBundle": false,
   "_integrity": "sha512-7TtH9/X4Aq/xCzboWxjwlv20gVqR90Ysc3aehMlTuH2/ULaSxpB80hq+yvD1N0FwWbPDtxQpjQrz/iX+LWXKmg==",
   "_location": "/ion-rangeslider",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "ion-rangeslider@^2.2.0",
+    "raw": "ion-rangeslider@2.3.0",
     "name": "ion-rangeslider",
     "escapedName": "ion-rangeslider",
-    "rawSpec": "^2.2.0",
+    "rawSpec": "2.3.0",
     "saveSpec": null,
-    "fetchSpec": "^2.2.0"
+    "fetchSpec": "2.3.0"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ion-rangeslider/-/ion-rangeslider-2.3.0.tgz",
-  "_shasum": "7957ce2e78acfc956b8c43009373da91f743347e",
-  "_spec": "ion-rangeslider@^2.2.0",
-  "_where": "D:\\Code\\food",
+  "_spec": "2.3.0",
+  "_where": "D:\\code\\edoshka.ru",
   "author": {
     "name": "Denis Ineshin",
     "email": "ionden.tech@gmail.com",
@@ -30,11 +35,9 @@
   "bugs": {
     "url": "https://github.com/IonDen/ion.rangeSlider/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "jquery": ">=1.8"
   },
-  "deprecated": false,
   "description": "Cool, comfortable and easily customizable range slider with many options and skin support",
   "directories": {
     "lib": "js"

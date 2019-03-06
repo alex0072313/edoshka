@@ -39,19 +39,22 @@ class AppServiceProvider extends ServiceProvider
             $view_name = str_replace('.', '-', str_replace('.', '-', $view->getName()));
             view()->share('view_name', $view_name);
         });
+
         view()->composer(['site.*', 'layouts.site'], function ($view) {
             $helpmsgs_on_page = Helpmsg::getByPage(str_replace('.', '-', $view->getName()));
             View::share( 'helpmsgs_on_page', $helpmsgs_on_page);
         });
-        \Blade::directive('helpmsg', function ($name) {
+
+        \Blade::directive('helpmsg', function ($val) {
             return "<?php 
-            if(isset(\$helpmsgs_on_page['{$name}'])){
-                \$config = \$helpmsgs_on_page['{$name}'];
+            \$name = $val;
+            if(isset(\$helpmsgs_on_page[\$name])){
+                \$config = \$helpmsgs_on_page[\$name];
             }else{
                 \$config = [
                     'id'=> 0,
                     'value'=> '',
-                    'name'=> '{$name}',
+                    'name'=> \$name,
                 ];
             }
             echo \$__env->make('site.includes.helpmsg', ['config' => \$config, 'page' => \$view_name])->render(); 

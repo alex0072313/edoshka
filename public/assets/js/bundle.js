@@ -34424,7 +34424,7 @@ __webpack_require__(/*! jquery-slimscroll */ "./node_modules/jquery-slimscroll/j
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Code\food\resources\assets\js\app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! D:\code\edoshka.ru\resources\assets\js\app.js */"./resources/assets/js/app.js");
 
 
 /***/ })

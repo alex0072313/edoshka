@@ -1,9 +1,16 @@
 {
+  "_args": [
+    [
+      "blueimp-load-image@2.12.2",
+      "D:\\code\\edoshka.ru"
+    ]
+  ],
   "_from": "blueimp-load-image@2.12.2",
   "_id": "blueimp-load-image@2.12.2",
   "_inBundle": false,
   "_integrity": "sha1-ahdZiquFjU+/AVQ+BjEUG1EFfIc=",
   "_location": "/blueimp-load-image",
+  "_optional": true,
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
@@ -19,9 +26,8 @@
     "/blueimp-file-upload"
   ],
   "_resolved": "https://registry.npmjs.org/blueimp-load-image/-/blueimp-load-image-2.12.2.tgz",
-  "_shasum": "6a17598aab858d4fbf01543e0631141b51057c87",
-  "_spec": "blueimp-load-image@2.12.2",
-  "_where": "D:\\Code\\food\\node_modules\\blueimp-file-upload",
+  "_spec": "2.12.2",
+  "_where": "D:\\code\\edoshka.ru",
   "author": {
     "name": "Sebastian Tschan",
     "url": "https://blueimp.net"
@@ -29,8 +35,6 @@
   "bugs": {
     "url": "https://github.com/blueimp/JavaScript-Load-Image/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "JavaScript Load Image is a library to load images provided as File or Blob objects or via URL. It returns an optionally scaled and/or cropped HTML img or canvas element. It also provides a method to parse image meta data to extract Exif tags and thumbnails and to restore the complete image header after resizing.",
   "devDependencies": {
     "mocha-phantomjs-core": "1.3.1",
