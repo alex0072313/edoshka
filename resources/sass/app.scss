@@ -35,6 +35,12 @@ $border-radius-sm: 0;
     }
 }
 
+.helpmsg_edit_link{
+    font-size: 10px !important;
+    color: $orange !important;
+    font-weight: normal !important;
+}
+
 .form-control {
     border-radius: $radius;
 }
@@ -426,6 +432,7 @@ header {
         img {
             max-width: 100%;
             display: inline-block;
+            @include boxradius();
         }
     }
     &:hover {
@@ -451,6 +458,7 @@ header {
         position: relative;
         height: 31px;
         line-height: 31px;
+
 
         &:before {
             content: '';

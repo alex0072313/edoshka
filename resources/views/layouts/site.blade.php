@@ -19,7 +19,7 @@
             <div class="row">
 
                 <div class="logo col-2 col-lg-3">
-                    <a href="#" class="d-inline-block pb-2 pt-md-2 pt-3">
+                    <a href="{{ route('site.home') }}" class="d-inline-block pb-2 pt-md-2 pt-3">
                         <img src="/images/theme/logo.png" alt="">
                     </a>
                 </div>

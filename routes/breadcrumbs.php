@@ -1,4 +1,14 @@
 <?php
+// Site
+Breadcrumbs::for('site.home', function ($trail) {
+    $trail->push('Рестораны Геленджика', route('site.home'));
+});
+Breadcrumbs::for('site.category', function ($trail, \App\Category $category) {
+    $trail->parent('site.home');
+    $trail->push($category->name, route('site.category', ['alias'=>$category->alias]));
+});
+///
+
 // Home
 Breadcrumbs::for('admin.home', function ($trail) {
     $trail->push('Панель управления', route('admin.home'));

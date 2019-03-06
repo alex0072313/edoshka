@@ -2,7 +2,7 @@
 
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
-Route::get('/rest', 'Site\RestaurantController@index')->name('site.restaurant');
+Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
 
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {

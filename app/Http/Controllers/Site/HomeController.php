@@ -18,7 +18,6 @@ class HomeController extends SiteController
                 ->merge(
                     $restaurant->categories
                 );
-
             $dishes = $restaurant->dishes;
             $cats = $cats->filter(function ($cat) use ($dishes){
                 $dishes_cats = [];

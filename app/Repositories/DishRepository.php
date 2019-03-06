@@ -26,7 +26,7 @@ abstract class DishRepository extends Repository
         });
         Storage::disk('public')->put('dish_imgs/'.$dish->id.'/img_l.jpg', (string) $img->encode());
 
-        $img->fit(228, 228, function ($constraint) {
+        $img->fit(236, 228, function ($constraint) {
             $constraint->upsize();
         });
         Storage::disk('public')->put('dish_imgs/'.$dish->id.'/img_m.jpg', (string) $img->encode());
