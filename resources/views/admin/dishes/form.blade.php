@@ -232,6 +232,27 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Рекомендуемые</label>
+                    <div class="col-md-9">
+
+                        <select class="default-select2 form-control" name="states[]" data-search="true" data-placeholder="Выберете блюда">
+                            <option></option>
+                        </select>
+
+                    </div>
+                </div>
+
+                {{--<div class="form-group row">--}}
+                    {{--<label class="col-form-label col-md-3">Рекомендуемые</label>--}}
+                    {{--<div class="col-md-9">--}}
+                        {{--<ul id="jquery-tagIt-success" class="primary">--}}
+                            {{--<li>Tag1</li>--}}
+                            {{--<li>Tag2</li>--}}
+                        {{--</ul>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
                 {{--<div class="form-group row">--}}
                     {{--<label class="col-form-label col-md-3">Родительский обьект</label>--}}
 

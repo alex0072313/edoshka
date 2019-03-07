@@ -1,10 +1,13 @@
 <div class="shop_pos_item p-2" data-product-id="{{ $dish->id }}">
 
     <div class="image mb-1">
-        <div class="badges">
-            <div class="new">NEW</div>
-            <div class="top">TOP</div>
-        </div>
+        @if($dish->markers)
+            <div class="badges d-flex align-items-start flex-column">
+                @foreach($dish->markers as $marker)
+                    <div class="{!! $marker->css_class !!}">{!! $marker->content !!}</div>
+                @endforeach
+            </div>
+        @endif
         @if(Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_m.jpg'))
             <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_m.jpg') }}" alt="">
         @endif
@@ -44,10 +47,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="image mb-3">
-                                <div class="badges">
-                                    <div class="new">NEW</div>
-                                    <div class="top">TOP</div>
-                                </div>
+                                @if($dish->markers)
+                                    <div class="badges d-flex align-items-start flex-column">
+                                        @foreach($dish->markers as $marker)
+                                            <div class="{{ $marker->css_class }}">{!! $marker->content !!}</div>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 @if(Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_l.jpg'))
                                     <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_l.jpg') }}" alt="">
                                 @endif

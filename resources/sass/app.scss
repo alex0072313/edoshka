@@ -344,14 +344,16 @@ header {
                 }
 
                 .badges{
-                    left: -19px;
+                    left: -20px;
                     right: inherit;
 
                     & > div{
                         height: 41px;
                         line-height: 41px;
+                        margin-top: 15px;
                         @extend .h4;
                         @extend .text-white;
+                        margin-bottom:0;
                         &:before{
                             border: 7px solid transparent;
                             content: "";
@@ -360,19 +362,30 @@ header {
                             right: 100%;
                             margin-right: 0;
                             top: 100%;
-                            left: 8px;
+                            left: 1px;
+                        }
+                        &.new{
+                            &:before {
+                                border-right: 7px solid darken($green, 10%);
+                                border-top: 7px solid darken($green, 10%);
+                            }
+                        }
+                        &.top{
+                            &:before {
+                                border-right: 7px solid darken($red, 10%);
+                                border-top: 7px solid darken($red, 10%);
+                            }
+                        }
+                        &.chele {
+                            background: $red;
+                            &:before {
+                                border-right: 7px solid darken($red, 10%);
+                                border-top: 7px solid darken($red, 10%);
+                            }
                         }
                     }
 
-                    .new{
-                        border-right: 7px solid darken($green, 10%);
-                        border-top: 7px solid darken($green, 10%);
-                    }
 
-                    .top{
-                        border-right: 7px solid darken($red, 10%);
-                        border-top: 7px solid darken($red, 10%);
-                    }
                 }
 
             }
@@ -491,12 +504,12 @@ header {
 
 .badges {
     position: absolute;
-    right: -17px;
-    top: 0;
+    left: -20px;
+    top: 0px;
     & > div {
         @extend .px-2;
         @extend .ml-1;
-        @extend .mb-3;
+        margin-top: 10px;
         color: $white;
 
         position: relative;
@@ -508,28 +521,34 @@ header {
             content: '';
             display: block;
             position: absolute;
-            left: 100%;
-            margin-left: -8px;
-            top: 100%;
             border: 4px solid transparent;
+            left: 0;
+            bottom: -8px;
         }
 
         &.new {
             background: $green;
             &:before {
-                border-left: 4px solid darken($green, 10%);
+                border-right: 4px solid darken($green, 10%);
                 border-top: 4px solid darken($green, 10%);
             }
         }
 
         &.top {
-            background: $red;
+            background: $orange;
             &:before {
-                border-left: 4px solid darken($red, 10%);
-                border-top: 4px solid darken($red, 10%);
+                border-right: 4px solid darken($orange, 10%);
+                border-top: 4px solid darken($orange, 10%);
             }
         }
 
+        &.chele {
+            background: $red;
+            &:before {
+                border-right: 4px solid darken($red, 10%);
+                border-top: 4px solid darken($red, 10%);
+            }
+        }
     }
 }
 
@@ -548,6 +567,7 @@ header {
         }
     }
 }
+
 
 .card__module {
     @include animate(.2s);
@@ -734,8 +754,8 @@ body.card__module_show {
                 text-decoration: none;
             }
             .badges {
-                right: -8px;
-                top: 23px;
+                left: -19px;
+                top: 0;
                 z-index: 100;
             }
             .inner {

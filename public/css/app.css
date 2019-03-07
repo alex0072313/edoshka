@@ -9310,7 +9310,6 @@ header .globalmenu .links > a span,
 }
 
 .mb-3,
-.badges > div,
 .my-3 {
   margin-bottom: 1rem !important;
 }
@@ -12165,13 +12164,15 @@ header .globalmenu .links > a:hover {
 }
 
 .modal.product .modal-content .image .badges {
-  left: -19px;
+  left: -20px;
   right: inherit;
 }
 
 .modal.product .modal-content .image .badges > div {
   height: 41px;
   line-height: 41px;
+  margin-top: 15px;
+  margin-bottom: 0;
 }
 
 .modal.product .modal-content .image .badges > div:before {
@@ -12182,15 +12183,24 @@ header .globalmenu .links > a:hover {
   right: 100%;
   margin-right: 0;
   top: 100%;
-  left: 8px;
+  left: 1px;
 }
 
-.modal.product .modal-content .image .badges .new {
+.modal.product .modal-content .image .badges > div.new:before {
   border-right: 7px solid #37a216;
   border-top: 7px solid #37a216;
 }
 
-.modal.product .modal-content .image .badges .top {
+.modal.product .modal-content .image .badges > div.top:before {
+  border-right: 7px solid #bd2130;
+  border-top: 7px solid #bd2130;
+}
+
+.modal.product .modal-content .image .badges > div.chele {
+  background: #dc3545;
+}
+
+.modal.product .modal-content .image .badges > div.chele:before {
   border-right: 7px solid #bd2130;
   border-top: 7px solid #bd2130;
 }
@@ -12305,11 +12315,12 @@ header .globalmenu .links > a:hover {
 
 .badges {
   position: absolute;
-  right: -17px;
-  top: 0;
+  left: -20px;
+  top: 0px;
 }
 
 .badges > div {
+  margin-top: 10px;
   color: #fff;
   position: relative;
   height: 31px;
@@ -12320,10 +12331,9 @@ header .globalmenu .links > a:hover {
   content: "";
   display: block;
   position: absolute;
-  left: 100%;
-  margin-left: -8px;
-  top: 100%;
   border: 4px solid transparent;
+  left: 0;
+  bottom: -8px;
 }
 
 .badges > div.new {
@@ -12331,16 +12341,25 @@ header .globalmenu .links > a:hover {
 }
 
 .badges > div.new:before {
-  border-left: 4px solid #37a216;
+  border-right: 4px solid #37a216;
   border-top: 4px solid #37a216;
 }
 
 .badges > div.top {
-  background: #dc3545;
+  background: #FF5F00;
 }
 
 .badges > div.top:before {
-  border-left: 4px solid #bd2130;
+  border-right: 4px solid #cc4c00;
+  border-top: 4px solid #cc4c00;
+}
+
+.badges > div.chele {
+  background: #dc3545;
+}
+
+.badges > div.chele:before {
+  border-right: 4px solid #bd2130;
   border-top: 4px solid #bd2130;
 }
 
@@ -12552,8 +12571,8 @@ body.card__module_show .card__module {
 }
 
 #shops_catalog .catalog .card .badges {
-  right: -8px;
-  top: 23px;
+  left: -19px;
+  top: 0;
   z-index: 100;
 }
 

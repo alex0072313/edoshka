@@ -1,27 +1,32 @@
 {
-  "_from": "summernote@^0.8.10",
+  "_args": [
+    [
+      "summernote@0.8.11",
+      "D:\\code\\edoshka.ru"
+    ]
+  ],
+  "_from": "summernote@0.8.11",
   "_id": "summernote@0.8.11",
   "_inBundle": false,
   "_integrity": "sha512-j+YbSK2ox1RZGeD5E/+6k57bvqhQLxiaazSj9zHBXOJnCuc0LZPSIGwyTlMaAGWpo6FlkXfjGS93hEDkV3zVJw==",
   "_location": "/summernote",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "summernote@^0.8.10",
+    "raw": "summernote@0.8.11",
     "name": "summernote",
     "escapedName": "summernote",
-    "rawSpec": "^0.8.10",
+    "rawSpec": "0.8.11",
     "saveSpec": null,
-    "fetchSpec": "^0.8.10"
+    "fetchSpec": "0.8.11"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/summernote/-/summernote-0.8.11.tgz",
-  "_shasum": "89bb3472e75758359dbf1d7125cf1889c429f197",
-  "_spec": "summernote@^0.8.10",
-  "_where": "D:\\Code\\food",
+  "_spec": "0.8.11",
+  "_where": "D:\\code\\edoshka.ru",
   "author": {
     "name": "hackerwins",
     "email": "<susukang98@gmail.com"
@@ -29,8 +34,6 @@
   "bugs": {
     "url": "https://github.com/summernote/summernote/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "Super simple WYSIWYG editor",
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
