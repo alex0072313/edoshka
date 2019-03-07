@@ -25,7 +25,7 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Алиас</label>
             <div class="col-md-9">
-                <input type="text" name="alias" value="{{ old('alias') ? old('alias') : (isset($category) ? $category->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($category) ? $category->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
                 @if ($errors->has('alias'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('alias') }}
@@ -65,3 +65,14 @@
         </div>
     </form>
 @endsection
+
+@push('js')
+    <script>
+        $('input[name=\"name\"]').on('change', function () {
+            var input_name = $(this),
+                input_alias = $('input[name=\"alias\"]');
+
+            input_alias.val(rus_to_latin(input_name.val()));
+        }).trigger('change');
+    </script>
+@endpush

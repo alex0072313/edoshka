@@ -38714,6 +38714,12 @@ __webpack_require__(/*! bootstrap/dist/js/bootstrap.min */ "./node_modules/boots
 
 __webpack_require__(/*! malihu-custom-scrollbar-plugin */ "./node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js");
 
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': jquery__WEBPACK_IMPORTED_MODULE_0___default()('meta[name="csrf-token"]').attr('content')
+  }
+});
+
 if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('input.holdered').length) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('input.holdered').each(function () {
@@ -38827,6 +38833,9 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
         id = box.data('product-id'),
         add_to_cart = box.find('.add_to_cart'),
         view_link = box.find('.view_link'),
+        modal_box = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#shop_pos_item_modal_' + id),
+        dishes_viewed = modal_box.find('.past'),
+        dishes_viewed_list = dishes_viewed.children('.items'),
         drag = 0;
     this.addEventListener("mousedown", function () {
       drag = 0;
@@ -38836,7 +38845,41 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
     }, false);
     box.on('click', function (ev) {
       if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(ev.target).hasClass('add_to_cart') && drag === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#shop_pos_item_modal_' + id).modal('show');
+        modal_box.modal('show');
+        ajax_request({}, '/dishes_viewed_save/' + parseInt(id), 'json', 'post', null, function ($json) {
+          console.log($json.dishes_viewed);
+
+          if ($json.dishes_viewed.length) {
+            dishes_viewed.removeClass('d-none');
+            var html = '';
+
+            for (var i in $json.dishes_viewed) {
+              if ($json.dishes_viewed[i].id) {
+                var cls = ' mt-2';
+
+                if (i > 0) {
+                  cls = ' border-top mt-2 pt-2';
+                }
+
+                html += '<div class="item d-flex align-items-center' + cls + '">' + '<div class="image">' + '<img src="' + $json.dishes_viewed[i].img + '" alt="">' + '</div>' + '<div class="flex-grow-1 ml-2 font-weight-bold">' + $json.dishes_viewed[i].name + '<span class="ml-2 text-secondary font-weight-normal">' + $json.dishes_viewed[i].short_description + '</span>' + '</div>' + '<div class="h4 mb-0 mr-2 text-nowrap price">';
+
+                if ($json.dishes_viewed[i].new_price) {
+                  html += '<span class="new">' + $json.dishes_viewed[i].new_price + ' &#8381;</span>';
+                } else {
+                  html += $json.dishes_viewed[i].price + ' &#8381;';
+                }
+
+                html += '</div>';
+                html += '<div>' + '<button class="btn btn-success btn-sm word text-nowrap" onclick="addToCart(' + $json.dishes_viewed[i].id + ');">В корзину</button>' + '</div>' + '</div>';
+              }
+            }
+
+            dishes_viewed_list.html(html);
+          } else {
+            dishes_viewed.addClass('d-none');
+            dishes_viewed_list.html('');
+          }
+        });
       }
     });
     add_to_cart.on('click', function () {
@@ -39019,6 +39062,41 @@ function TrimStr(s) {
   return s.replace(/\s+$/g, '');
 }
 
+function ajax_request(data, action, datatype, type, on_submit, _success, _error) {
+  //до ответа сервера
+  if (typeof on_submit === 'function') on_submit(data); //...
+
+  var datatype = datatype ? datatype : 'json',
+      type = type ? type : 'post',
+      fields = fields !== undefined ? fields : {};
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    url: action,
+    dataType: datatype,
+    cache: false,
+    contentType: false,
+    processData: false,
+    data: data,
+    type: type,
+    success: function success(response) {
+      //сервер ответил
+      if (typeof _success === 'function') _success(response, fields); //...
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      //какая то ошибка
+      if (typeof _error === 'function') {
+        _error();
+      } else {
+        console.log('// Ошибка при отправке:');
+        console.log(jqXHR.status);
+        console.log(textStatus);
+        console.log(errorThrown);
+        console.log('//');
+      } //...
+
+    }
+  });
+}
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -39084,9 +39162,9 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\code\edoshka.ru\resources\assets\css\_style.scss */"./resources/assets/css/_style.scss");
+__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\Code\food\resources\assets\css\_style.scss */"./resources/assets/css/_style.scss");
 
 
 /***/ })

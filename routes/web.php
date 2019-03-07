@@ -4,6 +4,9 @@ Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
 Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
 
+//Сохранение подукта в cookie
+Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save')->name('site.dishes_viewed_save');
+
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 

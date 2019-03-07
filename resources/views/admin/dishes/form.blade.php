@@ -225,7 +225,7 @@
                     <div class="col-md-9">
                         @foreach(\App\Marker::all() as $marker)
                             <div class="checkbox checkbox-css on_g">
-                                <input type="checkbox" name="markers[]" id="marker_{{ $marker->id }}" value="{{ $marker->id }}"{{ $dish->markers()->find($marker->id) ? ' checked':'' }} />
+                                <input type="checkbox" name="markers[]" id="marker_{{ $marker->id }}" value="{{ $marker->id }}"{{ isset($dish->id) ? $dish->markers()->find($marker->id) ? ' checked':'':'' }} />
                                 <label for="marker_{{ $marker->id }}">{{ $marker->name }}</label>
                             </div>
                         @endforeach

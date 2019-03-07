@@ -18,8 +18,11 @@ require('bootstrap/dist/js/bootstrap.min');
 import {tns} from 'tiny-slider/src/tiny-slider';
 
 require('malihu-custom-scrollbar-plugin');
-
-
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 if($('input.holdered').length){
     $(function () {
 
@@ -145,6 +148,9 @@ if($('.shop_pos_item').length) {
             id = box.data('product-id'),
             add_to_cart = box.find('.add_to_cart'),
             view_link = box.find('.view_link'),
+            modal_box = $('#shop_pos_item_modal_'+id),
+            dishes_viewed = modal_box.find('.past'),
+            dishes_viewed_list = dishes_viewed.children('.items'),
             drag = 0;
 
         this.addEventListener("mousedown", function(){
@@ -157,7 +163,53 @@ if($('.shop_pos_item').length) {
 
         box.on('click', function (ev) {
             if(!$(ev.target).hasClass('add_to_cart') && (drag === 0)){
-                $('#shop_pos_item_modal_'+id).modal('show');
+                modal_box.modal('show');
+                ajax_request({}, '/dishes_viewed_save/'+parseInt(id), 'json', 'post', null, function ($json) {
+                    console.log($json.dishes_viewed);
+                    if($json.dishes_viewed.length){
+                        dishes_viewed.removeClass('d-none');
+
+                        var html = '';
+
+                        for (var i in $json.dishes_viewed) {
+                            if($json.dishes_viewed[i].id){
+
+                                var cls = ' mt-2';
+
+                                if(i > 0){
+                                    cls = ' border-top mt-2 pt-2';
+                                }
+
+                                html += '<div class="item d-flex align-items-center'+cls+'">' +
+                                            '<div class="image">' +
+                                                '<img src="'+$json.dishes_viewed[i].img +'" alt="">' +
+                                            '</div>' +
+                                            '<div class="flex-grow-1 ml-2 font-weight-bold">' +
+                                                $json.dishes_viewed[i].name +
+                                                '<span class="ml-2 text-secondary font-weight-normal">' +
+                                                    $json.dishes_viewed[i].short_description +
+                                                '</span>' +
+                                            '</div>' +
+                                            '<div class="h4 mb-0 mr-2 text-nowrap price">';
+                                                if($json.dishes_viewed[i].new_price){
+                                                    html += '<span class="new">'+$json.dishes_viewed[i].new_price + ' &#8381;</span>';
+                                                }else{
+                                                    html += $json.dishes_viewed[i].price + ' &#8381;';
+                                                }
+                                            html +='</div>';
+                                        html +='<div>' +
+                                                '<button class="btn btn-success btn-sm word text-nowrap" onclick="addToCart('+$json.dishes_viewed[i].id +');">В корзину</button>' +
+                                            '</div>' +
+                                        '</div>';
+                            }
+                        }
+
+                        dishes_viewed_list.html(html);
+                    }else{
+                        dishes_viewed.addClass('d-none');
+                        dishes_viewed_list.html('');
+                    }
+                });
             }
         });
 
@@ -372,6 +424,45 @@ if($('.ajax_form').length){
 function TrimStr(s) {
     s = s.replace(/^\s+/g, '');
     return s.replace(/\s+$/g, '');
+}
+
+function ajax_request(data, action, datatype, type, on_submit, success, error) {
+
+    //до ответа сервера
+    if(typeof on_submit === 'function') on_submit(data);
+    //...
+
+    var datatype = datatype ? datatype : 'json',
+        type = type ? type : 'post',
+        fields = (fields !== undefined) ? fields : {};
+
+    $.ajax({
+        url: action,
+        dataType: datatype,
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        type: type,
+        success:function(response){
+            //сервер ответил
+            if(typeof success === 'function') success(response, fields);
+            //...
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            //какая то ошибка
+            if(typeof error === 'function'){
+                error();
+            }else{
+                console.log('// Ошибка при отправке:');
+                console.log(jqXHR.status);
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log('//');
+            }
+            //...
+        }
+    });
 }
 
 

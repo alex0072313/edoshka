@@ -32,11 +32,17 @@ class DishesController extends AdminController
             $this->longtitle = $category->name;
 
             $this->data['category'] = $category;
-            $dishes = Auth::user()
-                ->restaurant
-                ->dishes()
-                ->where('category_id', $category->id)
-                ->get();
+
+            if(Auth::user()->hasRole('megaroot')){
+                $dishes = Dish::where('category_id', $category->id)->get();
+            }else{
+                $dishes = Auth::user()
+                    ->restaurant
+                    ->dishes()
+                    ->where('category_id', $category->id)
+                    ->get();
+            }
+
         }
 
         if (!$category->name && !Category::all()->count()) {

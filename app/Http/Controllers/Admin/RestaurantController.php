@@ -45,6 +45,7 @@ class RestaurantController extends AdminController
         $validator =  [
             'name' => 'required|max:255',
             'address' => 'required',
+            'alias' => 'required|unique:restaurants,alias,'.$restaurant->id,
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ];
 
@@ -88,6 +89,7 @@ class RestaurantController extends AdminController
         $validator =  [
             'name' => 'required|max:255',
             'address' => 'required',
+            'alias' => 'required|unique:restaurants,alias',
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ];
 

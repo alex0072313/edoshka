@@ -1607,6 +1607,7 @@ h6,
 .h2,
 .h3,
 .h4,
+.modal.product .modal-content .image .badges > div,
 .h5,
 .h6 {
   margin-bottom: 0.5rem;
@@ -1632,7 +1633,8 @@ h3,
 }
 
 h4,
-.h4 {
+.h4,
+.modal.product .modal-content .image .badges > div {
   font-size: 1.5rem;
 }
 
@@ -11530,7 +11532,8 @@ header .globalmenu .links > a {
   font-style: italic !important;
 }
 
-.text-white {
+.text-white,
+.modal.product .modal-content .image .badges > div {
   color: #fff !important;
 }
 
@@ -12154,6 +12157,42 @@ header .globalmenu .links > a:hover {
 
 .modal.product .modal-content .image img {
   max-width: 100%;
+  border-radius: 4px;
+}
+
+.modal.product .modal-content .image img img {
+  display: inherit;
+}
+
+.modal.product .modal-content .image .badges {
+  left: -19px;
+  right: inherit;
+}
+
+.modal.product .modal-content .image .badges > div {
+  height: 41px;
+  line-height: 41px;
+}
+
+.modal.product .modal-content .image .badges > div:before {
+  border: 7px solid transparent;
+  content: "";
+  display: block;
+  position: absolute;
+  right: 100%;
+  margin-right: 0;
+  top: 100%;
+  left: 8px;
+}
+
+.modal.product .modal-content .image .badges .new {
+  border-right: 7px solid #37a216;
+  border-top: 7px solid #37a216;
+}
+
+.modal.product .modal-content .image .badges .top {
+  border-right: 7px solid #bd2130;
+  border-top: 7px solid #bd2130;
 }
 
 .modal.product .modal-content .items .item .image img {
@@ -12254,6 +12293,14 @@ header .globalmenu .links > a:hover {
 
 .shop_pos_item ._searched {
   background: #ffc107;
+}
+
+.price .old {
+  text-decoration: line-through;
+}
+
+.price .new {
+  color: #dc3545;
 }
 
 .badges {

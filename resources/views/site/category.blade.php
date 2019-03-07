@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="text-center mt-5">
-                <a href="#" class="btn btn-lg btn-success">Меню</a>
+                <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="btn btn-lg btn-success">Меню</a>
             </div>
         </div>
         @endforeach

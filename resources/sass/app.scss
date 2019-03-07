@@ -340,7 +340,41 @@ header {
             .image {
                 img {
                     max-width: 100%;
+                    @include boxradius();
                 }
+
+                .badges{
+                    left: -19px;
+                    right: inherit;
+
+                    & > div{
+                        height: 41px;
+                        line-height: 41px;
+                        @extend .h4;
+                        @extend .text-white;
+                        &:before{
+                            border: 7px solid transparent;
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            right: 100%;
+                            margin-right: 0;
+                            top: 100%;
+                            left: 8px;
+                        }
+                    }
+
+                    .new{
+                        border-right: 7px solid darken($green, 10%);
+                        border-top: 7px solid darken($green, 10%);
+                    }
+
+                    .top{
+                        border-right: 7px solid darken($red, 10%);
+                        border-top: 7px solid darken($red, 10%);
+                    }
+                }
+
             }
             .items {
                 .item {
@@ -442,6 +476,16 @@ header {
 
     ._searched {
         background: $yellow;
+    }
+
+}
+
+.price{
+    .old{
+        text-decoration: line-through;
+    }
+    .new{
+        color: $red;
     }
 }
 

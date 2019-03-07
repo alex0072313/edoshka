@@ -40,6 +40,18 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Алиас</label>
+            <div class="col-md-9">
+                <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                @if ($errors->has('alias'))
+                    <span class="invalid-feedback" role="alert">
+                        {{ $errors->first('alias') }}
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Адрес</label>
             <div class="col-md-9">
                 <input type="text" name="address" value="{{  old('address') ? old('address') : isset($restaurant->id) ? $restaurant->address : '' }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
@@ -86,3 +98,14 @@
     </form>
 
 @endsection
+
+@push('js')
+    <script>
+        $('input[name=\"name\"]').on('change', function () {
+            var input_name = $(this),
+                input_alias = $('input[name=\"alias\"]');
+
+            input_alias.val(rus_to_latin(input_name.val()));
+        }).trigger('change');
+    </script>
+@endpush

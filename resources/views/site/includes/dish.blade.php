@@ -1,4 +1,5 @@
 <div class="shop_pos_item p-2" data-product-id="{{ $dish->id }}">
+
     <div class="image mb-1">
         <div class="badges">
             <div class="new">NEW</div>
@@ -8,6 +9,7 @@
             <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_m.jpg') }}" alt="">
         @endif
     </div>
+
     <div class="title font-weight-bold">
         {{ $dish->name }}
     </div>
@@ -15,7 +17,14 @@
         {{ $dish->short_description }}
     </div>
     <div class="price d-flex justify-content-between">
-        <div class="h4 mb-0">{{ $dish->price }} &#8381;</div>
+        <div class="h4 mb-0">
+            @if($dish->new_price)
+                {{--<span class="old">{{ $dish->price }} &#8381;</span>--}}
+                <span class="new">{{ $dish->new_price }} &#8381;</span>
+            @else
+                {{ $dish->price }} &#8381;
+            @endif
+        </div>
         <div>
             <button class="btn btn-success btn-sm add_to_cart" data-product-id="{{ $dish->id }}">В корзину</button>
         </div>
@@ -35,6 +44,10 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="image mb-3">
+                                <div class="badges">
+                                    <div class="new">NEW</div>
+                                    <div class="top">TOP</div>
+                                </div>
                                 @if(Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_l.jpg'))
                                     <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_l.jpg') }}" alt="">
                                 @endif
@@ -51,49 +64,21 @@
                                 </div>
                             @endif
                             <div class="price d-flex justify-content-between">
-                                <div class="h1 mb-0">{{ $dish->price }} ₽</div>
+                                <div class="h1 mb-0">
+                                    @if($dish->new_price)
+                                        {{--<span class="old">{{ $dish->price }} &#8381;</span>--}}
+                                        <span class="new">{{ $dish->new_price }} &#8381;</span>
+                                    @else
+                                        {{ $dish->price }} &#8381;
+                                    @endif
+                                </div>
                                 <div>
                                     <button class="btn btn-success btn-lg">В корзину</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 border-left dops mt-3 mt-lg-0">
-                            <div class="past">
-                                <div class="h4 text-uppercase font-weight-light">Просмотренные</div>
-                                <div class="items">
-                                    <div class="item d-flex align-items-center">
-                                        <div class="image">
-                                            <img src="/images/theme/roll1.jpg" alt="">
-                                        </div>
-                                        <div class="flex-grow-1 ml-2 font-weight-bold">
-                                            Роллы "Вулкан" Роллы "Вулкан"
-                                            <span class="ml-2 text-secondary font-weight-normal">
-                                            270/8 шт
-                                        </span>
-                                        </div>
-                                        <div class="h4 mb-0 mr-2 text-nowrap">99 ₽</div>
-                                        <div>
-                                            <button class="btn btn-success btn-sm word text-nowrap">В корзину</button>
-                                        </div>
-                                    </div>
-                                    <div class="item d-flex align-items-center border-top">
-                                        <div class="image">
-                                            <img src="/images/theme/roll1.jpg" alt="">
-                                        </div>
-                                        <div class="flex-grow-1 ml-2 font-weight-bold">
-                                            Роллы "Вулкан"
-                                            <span class="ml-2 text-secondary font-weight-normal">
-                                            270/8 шт
-                                        </span>
-                                        </div>
-                                        <div class="h4 mb-0 mr-2 text-nowrap">99 ₽</div>
-                                        <div>
-                                            <button class="btn btn-success btn-sm word text-nowrap">В корзину</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recomend mt-2 pt-1">
+                            <div class="recomend">
                                 <div class="h4 text-uppercase font-weight-light">Рекомендуем</div>
                                 <div class="items">
                                     <div class="item d-flex align-items-center">
@@ -121,11 +106,19 @@
                                             270/8 шт
                                         </span>
                                         </div>
-                                        <div class="h4 mb-0 mr-2 text-nowrap">99 ₽</div>
+                                        <div class="h4 mb-0 mr-2 text-nowrap">
+                                            99 ₽
+                                        </div>
                                         <div>
                                             <button class="btn btn-success btn-sm word text-nowrap">В корзину</button>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="past d-none mt-2 pt-1">
+                                <div class="h4 text-uppercase font-weight-light mb-0">Просмотренные</div>
+                                <div class="items">
+
                                 </div>
                             </div>
                         </div>
