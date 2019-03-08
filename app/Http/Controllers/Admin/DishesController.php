@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Dish;
 use App\Repositories\DishRepository;
+use App\Restaurant;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -99,6 +100,19 @@ class DishesController extends AdminController
             $this->data['category'] = $category;
         }
 
+        $recomendeds = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
+
+        $this->data['restaurants'] = $restaurants = Restaurant::all();
+
+        if(Auth::user()->hasRole('megaroot')){
+            $recomendeds->map(function ($recomended) use ($restaurants){
+                $recomended->restaurant = $restaurants->where('id', '=', $recomended->restaurant_id)->first();
+                return $recomended;
+            });
+        }
+
+        $this->data['recomendeds'] = $recomendeds;
+
         return $this->render();
     }
 
@@ -191,6 +205,20 @@ class DishesController extends AdminController
 
         $this->data['dish'] = $dish;
 
+        $recomendeds = Auth::user()->hasRole('megaroot') ? Dish::where('id', '!=', $dish->id)->get() : Auth::user()->restaurant->dishes()->where('id', '!=', $dish->id)->get();
+
+        $this->data['restaurants'] = $restaurants = Restaurant::all();
+
+        if(Auth::user()->hasRole('megaroot')){
+            $recomendeds->map(function ($recomended) use ($restaurants){
+                $recomended->restaurant = $restaurants->where('id', '=', $recomended->restaurant_id)->first();
+                return $recomended;
+            });
+        }
+
+        $this->data['recomendeds'] = $recomendeds;
+        $this->data['dish_recomendeds'] = $dish->recomendeds;
+
         //$this->data['fields'] = app('App\Http\Controllers\Dashboard\FieldController')->getFieldsForOwner($dish, $dish->category);
         return $this->render();
     }
@@ -234,7 +262,10 @@ class DishesController extends AdminController
         }
 
         if ($dish->update(request()->all())) {
+
             $dish->markers()->sync(request()->get('markers'));
+            $dish->recomendeds()->sync(request()->get('recomendeds'));
+
             //Поля
             //$this->fields($owner);
 

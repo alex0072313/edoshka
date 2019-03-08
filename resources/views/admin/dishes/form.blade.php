@@ -132,7 +132,7 @@
                         <div class="col-md-9">
                             <select name="restaurant_id" class="default-select2 form-control{{ $errors->has('restaurant_id') ? ' is-invalid' : '' }}" {{ isset($dish) ? ' data-dish="'.$dish->id.'"' : '' }} data-search="true" data-placeholder="Выберете ресторан">
                                 <option></option>
-                                @foreach(\App\Restaurant::all() as $restaurant)
+                                @foreach($restaurants as $restaurant)
                                     <option value="{{ $restaurant->id }}"{{ isset($dish) ? $restaurant->id == $dish->restaurant_id ? ' selected':'' : '' }} >{{ $restaurant->name . ' - ' . $restaurant->town->name }}</option>
                                 @endforeach
                             </select>
@@ -236,8 +236,11 @@
                     <label class="col-form-label col-md-3">Рекомендуемые</label>
                     <div class="col-md-9">
 
-                        <select class="default-select2 form-control" name="states[]" data-search="true" data-placeholder="Выберете блюда">
+                        <select class="default-select2 form-control" name="recomendeds[]" multiple data-search="true" data-placeholder="Выберете блюда">
                             <option></option>
+                            @foreach($recomendeds as $recomended)
+                                <option value="{{ $recomended->id }}" {{ isset($dish_recomendeds) ? $dish_recomendeds->find($recomended->id) ? ' selected' : '' : '' }}> {{ Auth::user()->hasRole('megaroot') ? $recomended->restaurant->name . ' / ' : '' }}{{ $recomended->name }}</option>
+                            @endforeach
                         </select>
 
                     </div>

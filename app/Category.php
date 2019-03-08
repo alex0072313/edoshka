@@ -66,4 +66,9 @@ class Category extends Model
         return parent::delete();
     }
 
+    public function scopeHasDishes($query, Restaurant $restaurant)
+    {
+        return $query->rightJoin('dishes', 'categories.id', '=', 'dishes.category_id')->select('categories.*')->where('dishes.restaurant_id', '=', $restaurant->id)->groupBy('id');
+    }
+
 }

@@ -59,9 +59,9 @@
                                 @endif
                             </div>
                             <div class="h2" id="shop_pos_item_title_{{ $dish->id }}">
-                                {{ $dish->name }}
+                                <span class="pr-2">{{ $dish->name }}</span>
                                 @if($dish->short_description)
-                                    <span class="badge text-success bg-transparent">{{ $dish->short_description }}</span>
+                                    <span class="badge text-success bg-transparent pl-0">{{ $dish->short_description }}</span>
                                 @endif
                             </div>
                             @if($dish->description)
@@ -79,48 +79,47 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <button class="btn btn-success btn-lg">В корзину</button>
+                                    <button class="btn btn-success btn-lg" onclick="addToCart({{ $dish->id }});">В корзину</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 border-left dops mt-3 mt-lg-0">
-                            <div class="recomend">
-                                <div class="h4 text-uppercase font-weight-light">Рекомендуем</div>
-                                <div class="items">
-                                    <div class="item d-flex align-items-center">
-                                        <div class="image">
-                                            <img src="/images/theme/roll1.jpg" alt="">
-                                        </div>
-                                        <div class="flex-grow-1 ml-2 font-weight-bold">
-                                            Роллы "Вулкан"
-                                            <span class="ml-2 text-secondary font-weight-normal">
-                                            270/8 шт
-                                        </span>
-                                        </div>
-                                        <div class="h4 mb-0 mr-2 text-nowrap">99 ₽</div>
-                                        <div>
-                                            <button class="btn btn-success btn-sm word text-nowrap">В корзину</button>
-                                        </div>
-                                    </div>
-                                    <div class="item d-flex align-items-center border-top">
-                                        <div class="image">
-                                            <img src="/images/theme/roll1.jpg" alt="">
-                                        </div>
-                                        <div class="flex-grow-1 ml-2 font-weight-bold">
-                                            Роллы "Вулкан"
-                                            <span class="ml-2 text-secondary font-weight-normal">
-                                            270/8 шт
-                                        </span>
-                                        </div>
-                                        <div class="h4 mb-0 mr-2 text-nowrap">
-                                            99 ₽
-                                        </div>
-                                        <div>
-                                            <button class="btn btn-success btn-sm word text-nowrap">В корзину</button>
-                                        </div>
+
+                            @if($dish->recomendeds->count())
+                                <div class="recomend">
+                                    <div class="h4 text-uppercase font-weight-light">Рекомендуем</div>
+                                    <div class="items">
+                                        @foreach($dish->recomendeds as $recomended)
+                                            <div class="item d-flex align-items-center{{ $loop->index ? ' border-top mt-2 pt-2' : ' mt-2' }}">
+
+                                                @if(Storage::disk('public')->exists('dish_imgs/'.$recomended->id.'/img_s.jpg'))
+                                                    <div class="image">
+                                                        <img src="{{ Storage::disk('public')->url('dish_imgs/'.$recomended->id.'/img_s.jpg') }}" alt="">
+                                                    </div>
+                                                @endif
+
+                                                <div class="flex-grow-1 ml-2 font-weight-bold">
+                                                    {{ $recomended->name }}
+                                                    <span class="ml-2 text-secondary font-weight-normal">
+                                                {{ $recomended->short_description }}
+                                            </span>
+                                                </div>
+                                                <div class="h4 mb-0 mr-2 text-nowrap price">
+                                                    @if($recomended->new_price)
+                                                        <span class="new">{{ $recomended->new_price }} &#8381;</span>
+                                                    @else
+                                                        {{ $recomended->price }} &#8381;
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-success btn-sm word text-nowrap" onclick="addToCart({{ $recomended->id }});">В корзину</button>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                            </div>
+                            @endif
+
                             <div class="past d-none mt-2 pt-1">
                                 <div class="h4 text-uppercase font-weight-light mb-0">Просмотренные</div>
                                 <div class="items">

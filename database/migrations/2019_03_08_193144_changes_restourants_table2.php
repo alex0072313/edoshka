@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDishesMarkersTable extends Migration
+class ChangesRestourantsTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateDishesMarkersTable extends Migration
      */
     public function up()
     {
-        Schema::create('dishes_markers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('dish_id');
-            $table->integer('marker_id');
+        Schema::table('restaurants', function (Blueprint $table) {
+            $table->text('description')->nullable();
         });
     }
 
@@ -27,8 +25,8 @@ class CreateDishesMarkersTable extends Migration
      */
     public function down()
     {
-        Schema::table('dishes_markers', function (Blueprint $table) {
-            Schema::dropIfExists('dishes_markers');
+        Schema::table('restaurants', function (Blueprint $table) {
+            //
         });
     }
 }

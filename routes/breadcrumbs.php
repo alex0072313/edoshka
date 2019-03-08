@@ -7,6 +7,10 @@ Breadcrumbs::for('site.category', function ($trail, \App\Category $category) {
     $trail->parent('site.home');
     $trail->push($category->name, route('site.category', ['alias'=>$category->alias]));
 });
+Breadcrumbs::for('site.restaurant', function ($trail, \App\Restaurant $restaurant) {
+    $trail->parent('site.home');
+    $trail->push($restaurant->name, route('site.restaurant', ['alias'=>$restaurant->alias]));
+});
 ///
 
 // Home
