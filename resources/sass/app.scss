@@ -568,6 +568,31 @@ header {
     }
 }
 
+.add_to_cart{
+    &.adding{
+        &:before{
+            content: '\f110';
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            animation: fa-spin 2s infinite linear;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
+            margin-right: 5px;
+            font-size: .875em;
+        }
+        &.btn-lg{
+            padding-left: 1rem;
+            &:before{
+                margin-right: 10px;
+            }
+        }
+    }
+}
 
 .card__module {
     @include animate(.2s);
@@ -575,7 +600,7 @@ header {
     left: 0;
     right: 0;
     bottom: -56px;
-    z-index: 100;
+    z-index: 10000;
     background: $orange;
     @include boxshadow(0px 5px 20px 0px $black);
 
@@ -588,6 +613,40 @@ header {
 }
 #card__module_modal{
     .card_products {
+        &.adding{
+            position: relative;
+            &:before{
+                position: absolute;
+                content: '';
+                background: $white;
+                opacity: 0.7;
+                width: 100%;
+                height: 100%;
+                z-index: 10;
+            }
+            &:after{
+                content: '\f110';
+                position: absolute;
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                animation: fa-spin 2s infinite linear;
+                -moz-osx-font-smoothing: grayscale;
+                -webkit-font-smoothing: antialiased;
+                display: inline-block;
+                font-style: normal;
+                font-variant: normal;
+                text-rendering: auto;
+                line-height: 1;
+                margin-right: 5px;
+                color: $orange;
+                top: 50%;
+                left: 50%;
+                z-index: 100;
+                font-size: 30px;
+                margin-left: -16px;
+                margin-top: -16px;
+            }
+        }
         .items{
                 tr:first-child td{
                     border-top: none;
@@ -643,6 +702,9 @@ body.card__module_show {
     padding-bottom: 56px;
     .card__module {
         bottom: 0;
+        .order_modal_show{
+            text-decoration: none;
+        }
     }
 }
 

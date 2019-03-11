@@ -38836,7 +38836,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
       if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(ev.target).hasClass('add_to_cart') && drag === 0) {
         modal_box.modal('show');
         ajax_request({}, '/dishes_viewed_save/' + parseInt(id), 'json', 'post', null, function ($json) {
-          console.log($json.dishes_viewed);
+          console.log($json);
 
           if ($json.dishes_viewed.length) {
             dishes_viewed.removeClass('d-none');
@@ -38874,11 +38874,17 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
   }); //Корзина
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_cart', function () {
-    var dish_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('dish-id');
+    var dish_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('dish-id'),
+        btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
     ajax_request({
       'action': 'add',
       'dish_id': dish_id
-    }, '/dishes_cart', 'json', 'post', null, function ($json) {
+    }, '/dishes_cart', 'json', 'post', function () {
+      btn.addClass('adding').addClass('disabled');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('adding');
+    }, function ($json) {
+      btn.removeClass('adding').removeClass('disabled');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('adding');
       return cart_update($json);
       console.log($json);
     });
@@ -38888,7 +38894,10 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
     ajax_request({
       'action': 'remove',
       'dish_id': dish_id
-    }, '/dishes_cart', 'json', 'post', null, function ($json) {
+    }, '/dishes_cart', 'json', 'post', function () {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('adding');
+    }, function ($json) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('adding');
       return cart_update($json);
     });
   });
@@ -38905,9 +38914,24 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
       'dish_id': dish_id,
       'remove': !quantity ? 1 : 0,
       'quantity': parseInt(q)
-    }, '/dishes_cart', 'json', 'post', null, function ($json) {
+    }, '/dishes_cart', 'json', 'post', function () {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('adding');
+    }, function ($json) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('adding');
       return cart_update($json);
     });
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.order_modal_show', function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('[id^="shop_pos_item_modal"]').modal('hide'); //setTimeout(function () {
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal').modal('show'); //}, 500);
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal').on('show.bs.modal', function (e) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('card__module_show').addClass('show_order');
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal').on('hide.bs.modal', function (e) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('show_order');
+    if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').hasClass('cleared')) jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('card__module_show');
   });
 } //Каталог - навигация
 
@@ -39119,13 +39143,13 @@ function cart_update(data) {
   var html = '',
       content = data.content;
   console.log(data);
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module .quantity').text(data.total);
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module .sum').text(data.sum);
 
   if (data.total > 0) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('card__module_show');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module .quantity').text(data.total);
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module .sum').text(data.sum);
+    if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').hasClass('show_order')) jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('card__module_show');
   } else {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('card__module_show');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('cleared').removeClass('card__module_show');
   }
 
   var size = 0,
@@ -39226,8 +39250,8 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

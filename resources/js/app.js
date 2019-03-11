@@ -165,7 +165,7 @@ if($('.shop_pos_item').length) {
             if(!$(ev.target).hasClass('add_to_cart') && (drag === 0)){
                 modal_box.modal('show');
                 ajax_request({}, '/dishes_viewed_save/'+parseInt(id), 'json', 'post', null, function ($json) {
-                    console.log($json.dishes_viewed);
+                    console.log($json);
                     if($json.dishes_viewed.length){
                         dishes_viewed.removeClass('d-none');
 
@@ -217,26 +217,38 @@ if($('.shop_pos_item').length) {
 
     //Корзина
     $(document).on("click", '.add_to_cart', function(){
-        var dish_id = $(this).data('dish-id');
+        var dish_id = $(this).data('dish-id'),
+            btn = $(this);
 
         ajax_request({
             'action': 'add',
             'dish_id': dish_id,
-        }, '/dishes_cart', 'json', 'post', null, function ($json) {
-
-            return cart_update($json);
+        }, '/dishes_cart', 'json', 'post',
+            function () {
+                btn.addClass('adding').addClass('disabled');
+                $('#card__module_modal .card_products').addClass('adding');
+            },
+            function ($json) {
+                btn.removeClass('adding').removeClass('disabled');
+                $('#card__module_modal .card_products').removeClass('adding');
+                return cart_update($json);
             console.log($json);
         });
     });
+
     $(document).on("click", '.remove_from_cart', function(){
         var dish_id = $(this).data('dish-id');
 
         ajax_request({
             'action': 'remove',
             'dish_id': dish_id,
-        }, '/dishes_cart', 'json', 'post', null, function ($json) {
-
-            return cart_update($json);
+        }, '/dishes_cart', 'json', 'post',
+            function () {
+                $('#card__module_modal .card_products').addClass('adding');
+            },
+            function ($json) {
+                $('#card__module_modal .card_products').removeClass('adding');
+                return cart_update($json);
         });
     });
 
@@ -255,10 +267,31 @@ if($('.shop_pos_item').length) {
             'dish_id': dish_id,
             'remove': !quantity ? 1 : 0,
             'quantity': parseInt(q),
-        }, '/dishes_cart', 'json', 'post', null, function ($json) {
+        }, '/dishes_cart', 'json', 'post',
+            function () {
+                $('#card__module_modal .card_products').addClass('adding');
+            },
+            function ($json) {
+                $('#card__module_modal .card_products').removeClass('adding');
+                return cart_update($json);
+            });
+    });
 
-            return cart_update($json);
-        });
+    $(document).on("click", '.order_modal_show', function(){
+        $('[id^="shop_pos_item_modal"]').modal('hide');
+
+        //setTimeout(function () {
+            $('#card__module_modal').modal('show');
+        //}, 500);
+    });
+
+    $('#card__module_modal').on('show.bs.modal', function (e) {
+        $('body').removeClass('card__module_show').addClass('show_order');
+    });
+
+    $('#card__module_modal').on('hide.bs.modal', function (e) {
+        $('body').removeClass('show_order');
+        if(!$('body').hasClass('cleared')) $('body').addClass('card__module_show');
     });
 
 }
@@ -506,12 +539,12 @@ function cart_update(data) {
 
     console.log(data);
 
+    $('.card__module .quantity').text(data.total);
+    $('.card__module .sum').text(data.sum);
     if(data.total > 0){
-        $('body').addClass('card__module_show');
-        $('.card__module .quantity').text(data.total);
-        $('.card__module .sum').text(data.sum);
+        if(!$('body').hasClass('show_order')) $('body').addClass('card__module_show');
     }else {
-        $('body').removeClass('card__module_show');
+        $('body').addClass('cleared').removeClass('card__module_show');
     }
 
     var size = 0, key;

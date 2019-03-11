@@ -3,9 +3,11 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <div class="svg_image"></div>
-                <div class="h4 text-white ml-2 font-weight-light text-uppercase mb-0 d-md-block d-none">
-                    Корзина
-                </div>
+                <a href="javascript:;" class="order_modal_show">
+                    <div class="h4 text-white ml-2 font-weight-light text-uppercase mb-0 d-md-block d-none">
+                        Корзина
+                    </div>
+                </a>
                 <div class="h4 text-white ml-3 font-weight-light  mb-0 d-md-none d-block">
                     {{ $_cart_total_p }} ₽
                 </div>
@@ -17,14 +19,14 @@
                 Сумма: <span class="sum">{{ $_cart_total_p }}</span> ₽
             </div>
             <div class="">
-                <button class="btn btn-light" data-toggle="modal" data-target="#card__module_modal">Оформить заказ</button>
+                <button class="btn btn-light order_modal_show">Оформить заказ</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade product" id="card__module_modal" tabindex="-1" role="dialog" aria-labelledby="card__module_modal_title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal product" id="card__module_modal" tabindex="-1" role="dialog" aria-labelledby="card__module_modal_title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal_order" role="document">
         <div class="modal-content">
 
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

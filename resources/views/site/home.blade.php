@@ -53,33 +53,30 @@
 
                         <div class="{{ $class }}">
                             <div class="card text-white">
-                                <a href="#">
+                                {{--<div class="badges">--}}
+                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 104</div>--}}
+                                {{--</div>--}}
 
-                                    {{--<div class="badges">--}}
-                                        {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 104</div>--}}
-                                    {{--</div>--}}
-
-                                    <div class="inner" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')">
-                                        <div class="card-img-overlay">
-                                            <div class="h2 mb-0 products_title text-truncate mr-3">
-                                                {{ $restaurant->name }}
+                                <div class="inner" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')">
+                                    <div class="card-img-overlay">
+                                        <div class="h2 mb-0 products_title text-truncate mr-3">
+                                            {{ $restaurant->name }}
+                                        </div>
+                                        @if($restaurant->min_sum_order)
+                                            <div class="text-white-50 font-weight-light mb-2">
+                                                Заказ от {{ $restaurant->min_sum_order }} &#8381;
                                             </div>
-                                            @if($restaurant->min_sum_order)
-                                                <div class="text-white-50 font-weight-light mb-2">
-                                                    Заказ от {{ $restaurant->min_sum_order }} &#8381;
-                                                </div>
-                                            @endif
-                                            <ul class="row list-unstyled mb-2">
-                                                @foreach($restaurant->cats as $category)
-                                                    <li class="col-md-6"><i class="fas fa-check fa-xs"></i> {{ $category->name }}</li>
-                                                @endforeach
-                                            </ul>
-                                            <div class="hover">
-                                                <button class="btn btn-primary">Меню</button>
-                                            </div>
+                                        @endif
+                                        <ul class="row list-unstyled mb-2">
+                                            @foreach($restaurant->cats as $category)
+                                                <li class="col-md-6"><i class="fas fa-check fa-xs"></i> {{ $category->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                        <div class="hover">
+                                            <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="btn btn-primary">Меню</a>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         </div>
                         @php

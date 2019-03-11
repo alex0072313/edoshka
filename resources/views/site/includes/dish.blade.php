@@ -34,7 +34,7 @@
     </div>
 </div>
 @push('modals')
-    <div class="modal fade product" id="shop_pos_item_modal_{{ $dish->id }}" tabindex="-1" role="dialog" aria-labelledby="shop_pos_item_title_{{ $dish->id }}" aria-hidden="true">
+    <div class="modal product" id="shop_pos_item_modal_{{ $dish->id }}" tabindex="-1" role="dialog" aria-labelledby="shop_pos_item_title_{{ $dish->id }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
 

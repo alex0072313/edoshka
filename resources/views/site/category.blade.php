@@ -37,15 +37,14 @@
                         {{ $category->name }} {{ $restaurant->name }} <span class="badge badge-primary"><i class="fas fa-thumbs-up fa-sm"></i> 104</span>
                     </div>
 
-                    <div class="preview-review text-center">
-
-                        <div class="d-inline-block lead px-3">
-                            <a href="#" class="d-block text-secondary">
-                                <i class="fas fa-comments fa-sm mr-2"></i>
-                                Лучшее что я когда либо пробовал...
-                            </a>
-                        </div>
-                    </div>
+                    {{--<div class="preview-review text-center">--}}
+                        {{--<div class="d-inline-block lead px-3">--}}
+                            {{--<a href="#" class="d-block text-secondary">--}}
+                                {{--<i class="fas fa-comments fa-sm mr-2"></i>--}}
+                                {{--Лучшее что я когда либо пробовал...--}}
+                            {{--</a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                 </div>
                 <div class="shop_slider_inner" id="slider{{$restaurant->id}}">

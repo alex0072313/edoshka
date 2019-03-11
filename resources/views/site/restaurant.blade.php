@@ -1,4 +1,4 @@
-@extends('layouts.site', ['body_class'=>'card__module_show'])
+@extends('layouts.site')
 
 @section('content')
     <section id="greetin_page_default" class="shop" {!! Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg').'\');"' : '' !!}>
@@ -80,7 +80,7 @@
                             @endif
                             @foreach($categories as $category)
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
+                                    <a class="nav-link{{ $loop->first && !$popular_dishes->count() ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -115,7 +115,7 @@
                             @endif
                             @foreach($categories as $category)
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
+                                    <a class="nav-link{{ $loop->first && !$popular_dishes->count() ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
