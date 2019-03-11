@@ -198,7 +198,7 @@ if($('.shop_pos_item').length) {
                                                 }
                                             html +='</div>';
                                         html +='<div>' +
-                                                '<button class="btn btn-success btn-sm word text-nowrap" onclick="addToCart('+$json.dishes_viewed[i].id +');">В корзину</button>' +
+                                                '<button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="'+$json.dishes_viewed[i].id+'">В корзину</button>' +
                                             '</div>' +
                                         '</div>';
                             }
@@ -213,14 +213,53 @@ if($('.shop_pos_item').length) {
             }
         });
 
-        add_to_cart.on('click', function () {
-            if(drag === 0){
-                console.log('В корзине!');
-            }
-        });
-
     });
 
+    //Корзина
+    $(document).on("click", '.add_to_cart', function(){
+        var dish_id = $(this).data('dish-id');
+
+        ajax_request({
+            'action': 'add',
+            'dish_id': dish_id,
+        }, '/dishes_cart', 'json', 'post', null, function ($json) {
+
+            return cart_update($json);
+            console.log($json);
+        });
+    });
+    $(document).on("click", '.remove_from_cart', function(){
+        var dish_id = $(this).data('dish-id');
+
+        ajax_request({
+            'action': 'remove',
+            'dish_id': dish_id,
+        }, '/dishes_cart', 'json', 'post', null, function ($json) {
+
+            return cart_update($json);
+        });
+    });
+
+    $(document).on("click", '.quintity_cart_m, .quintity_cart_p', function(){
+        var btn = $(this),
+            q = btn.hasClass('quintity_cart_p') ? +1 : -1,
+            input = btn.hasClass('quintity_cart_m') ? btn.parent('.input-group-prepend').next('input') : btn.parent('.input-group-append').prev('input'),
+            val = input.val(),
+            dish_id = input.data('dish-id'),
+            quantity = parseInt(input.val())+q;
+
+        input.val(quantity);
+
+        ajax_request({
+            'action': 'quantity',
+            'dish_id': dish_id,
+            'remove': !quantity ? 1 : 0,
+            'quantity': parseInt(q),
+        }, '/dishes_cart', 'json', 'post', null, function ($json) {
+
+            return cart_update($json);
+        });
+    });
 
 }
 
@@ -420,7 +459,6 @@ if($('.ajax_form').length){
     });
 }
 
-
 function TrimStr(s) {
     s = s.replace(/^\s+/g, '');
     return s.replace(/\s+$/g, '');
@@ -432,16 +470,13 @@ function ajax_request(data, action, datatype, type, on_submit, success, error) {
     if(typeof on_submit === 'function') on_submit(data);
     //...
 
-    var datatype = datatype ? datatype : 'json',
+    var datatype = datatype ? datatype : 'JSON',
         type = type ? type : 'post',
         fields = (fields !== undefined) ? fields : {};
 
     $.ajax({
         url: action,
         dataType: datatype,
-        cache: false,
-        contentType: false,
-        processData: false,
         data: data,
         type: type,
         success:function(response){
@@ -463,6 +498,81 @@ function ajax_request(data, action, datatype, type, on_submit, success, error) {
             //...
         }
     });
+}
+
+function cart_update(data) {
+    var html = '',
+        content = data.content;
+
+    console.log(data);
+
+    if(data.total > 0){
+        $('body').addClass('card__module_show');
+        $('.card__module .quantity').text(data.total);
+        $('.card__module .sum').text(data.sum);
+    }else {
+        $('body').removeClass('card__module_show');
+    }
+
+    var size = 0, key;
+    for (key in data.content) {
+        if (data.content.hasOwnProperty(key)) size++;
+    }
+
+    if(size){
+        for(var i in data.content){
+            html +=  '<tr class="item">' +
+                        '<td>';
+                            if(data.content[i].attributes.image){
+                                html += '<div class="image">' +
+                                            '<img src="'+data.content[i].attributes.image+'" alt="">' +
+                                        '</div>';
+                            }
+                        html += '</td>' +
+                        '<td class="font-weight-bold">' +
+                            data.content[i].name;
+                        if(data.content[i].attributes.short_description){
+                            html += '<span class="ml-2 text-secondary font-weight-normal">'+data.content[i].attributes.short_description+'</span>';
+                        }
+                        html += '</td>' +
+                        '<td class="count">' +
+                            '<div class="input-group">' +
+                                '<div class="input-group-prepend">' +
+                                    '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' +
+                                '</div>' +
+                                '<input type="number" min="0" readonly value="'+data.content[i].quantity+'" data-dish-id="'+data.content[i].id+'" class="bg-white form-control form-control-sm">' +
+                                '<div class="input-group-append">' +
+                                    '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</td>' +
+                        '<td class="text-nowrap text-center">' +
+                            '<div class="h4 mb-0">' +
+                            data.content[i].price + ' ₽' +
+                            '</div>' +
+                        '</td>' +
+                        '<td class="remove">' +
+                            '<a href="javascript:;" class="remove_from_cart" data-dish-id="'+data.content[i].id+'"><i class="fas fa-times"></i></a>' +
+                        '</td>' +
+                    '</tr>';
+        }
+        html +=  '<tr>' +
+                    '<td colspan="3" class="text-right">' +
+                        '<div class="h4 text-secondary font-weight-light mb-0">Сумма заказа</div>' +
+                    '</td>' +
+                    '<td class="text-nowrap text-center">' +
+                        '<div class="h4 mb-0">' +
+                            data.sum + ' ₽' +
+                        '</div>' +
+                    '</td>' +
+                    '<td></td>' +
+                '</tr>';
+    }else{
+        html +=  '<tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>';
+        $('#card__module_modal').modal('hide');
+    }
+
+    $('#card__module_modal .card_products .items').html(html);
 }
 
 

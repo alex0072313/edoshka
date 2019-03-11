@@ -597,7 +597,7 @@ header {
                 }
                 td{
                     @extend .align-middle;
-
+                    padding: 0.5rem;
                     &.count {
                         width: 120px;
                         .input-group{
@@ -622,7 +622,7 @@ header {
                     }
                      &:last-child{
                         width: 1%;
-                         padding-right: 0;
+                        padding-right: 0;
                     }
                 }
 

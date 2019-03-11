@@ -29,7 +29,7 @@
             @endif
         </div>
         <div>
-            <button class="btn btn-success btn-sm add_to_cart" data-product-id="{{ $dish->id }}">В корзину</button>
+            <button class="btn btn-success btn-sm add_to_cart" data-dish-id="{{ $dish->id }}">В корзину</button>
         </div>
     </div>
 </div>
@@ -79,7 +79,7 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <button class="btn btn-success btn-lg" onclick="addToCart({{ $dish->id }});">В корзину</button>
+                                    <button class="btn btn-success btn-lg add_to_cart" data-dish-id="{{ $dish->id }}">В корзину</button>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                                     @endif
                                                 </div>
                                                 <div>
-                                                    <button class="btn btn-success btn-sm word text-nowrap" onclick="addToCart({{ $recomended->id }});">В корзину</button>
+                                                    <button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="{{ $dish->id }}">В корзину</button>
                                                 </div>
                                             </div>
                                         @endforeach

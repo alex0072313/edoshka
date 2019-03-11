@@ -1,32 +1,27 @@
 {
-  "_args": [
-    [
-      "jquery-mockjax@2.5.0",
-      "D:\\code\\edoshka.ru"
-    ]
-  ],
-  "_from": "jquery-mockjax@2.5.0",
+  "_from": "jquery-mockjax@^2.4.0",
   "_id": "jquery-mockjax@2.5.0",
   "_inBundle": false,
   "_integrity": "sha512-mmQ/A0ktyJnrJVAoJEYzJk1selYOKrRTmvfrx7p1V/l8eF56Pw1CnIero4sKrKEXADg1/wWvA53DU5H5P0bnYg==",
   "_location": "/jquery-mockjax",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "jquery-mockjax@2.5.0",
+    "raw": "jquery-mockjax@^2.4.0",
     "name": "jquery-mockjax",
     "escapedName": "jquery-mockjax",
-    "rawSpec": "2.5.0",
+    "rawSpec": "^2.4.0",
     "saveSpec": null,
-    "fetchSpec": "2.5.0"
+    "fetchSpec": "^2.4.0"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/jquery-mockjax/-/jquery-mockjax-2.5.0.tgz",
-  "_spec": "2.5.0",
-  "_where": "D:\\code\\edoshka.ru",
+  "_shasum": "d9c553d26e8ee849884b8d290be0776e21cd9801",
+  "_spec": "jquery-mockjax@^2.4.0",
+  "_where": "D:\\Code\\food",
   "author": {
     "name": "Jonathan Sharp",
     "url": "http://jdsharp.com"
@@ -34,6 +29,7 @@
   "bugs": {
     "url": "http://github.com/jakerella/jquery-mockjax/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Doug Neiner"
@@ -48,6 +44,7 @@
   "dependencies": {
     "jquery": ">=1.5.2"
   },
+  "deprecated": false,
   "description": "The jQuery Mockjax Plugin provides a simple and extremely flexible interface for mocking or simulating ajax requests and responses.",
   "devDependencies": {
     "browserify": "^13.1.0",

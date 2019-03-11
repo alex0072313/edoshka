@@ -38671,17 +38671,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/assets/css/_style.scss":
-/*!******************************************!*\
-  !*** ./resources/assets/css/_style.scss ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -38870,7 +38859,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
                 }
 
                 html += '</div>';
-                html += '<div>' + '<button class="btn btn-success btn-sm word text-nowrap" onclick="addToCart(' + $json.dishes_viewed[i].id + ');">В корзину</button>' + '</div>' + '</div>';
+                html += '<div>' + '<button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="' + $json.dishes_viewed[i].id + '">В корзину</button>' + '</div>' + '</div>';
               }
             }
 
@@ -38882,10 +38871,42 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
         });
       }
     });
-    add_to_cart.on('click', function () {
-      if (drag === 0) {
-        console.log('В корзине!');
-      }
+  }); //Корзина
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_cart', function () {
+    var dish_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('dish-id');
+    ajax_request({
+      'action': 'add',
+      'dish_id': dish_id
+    }, '/dishes_cart', 'json', 'post', null, function ($json) {
+      return cart_update($json);
+      console.log($json);
+    });
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.remove_from_cart', function () {
+    var dish_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('dish-id');
+    ajax_request({
+      'action': 'remove',
+      'dish_id': dish_id
+    }, '/dishes_cart', 'json', 'post', null, function ($json) {
+      return cart_update($json);
+    });
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.quintity_cart_m, .quintity_cart_p', function () {
+    var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this),
+        q = btn.hasClass('quintity_cart_p') ? +1 : -1,
+        input = btn.hasClass('quintity_cart_m') ? btn.parent('.input-group-prepend').next('input') : btn.parent('.input-group-append').prev('input'),
+        val = input.val(),
+        dish_id = input.data('dish-id'),
+        quantity = parseInt(input.val()) + q;
+    input.val(quantity);
+    ajax_request({
+      'action': 'quantity',
+      'dish_id': dish_id,
+      'remove': !quantity ? 1 : 0,
+      'quantity': parseInt(q)
+    }, '/dishes_cart', 'json', 'post', null, function ($json) {
+      return cart_update($json);
     });
   });
 } //Каталог - навигация
@@ -39066,15 +39087,12 @@ function ajax_request(data, action, datatype, type, on_submit, _success, _error)
   //до ответа сервера
   if (typeof on_submit === 'function') on_submit(data); //...
 
-  var datatype = datatype ? datatype : 'json',
+  var datatype = datatype ? datatype : 'JSON',
       type = type ? type : 'post',
       fields = fields !== undefined ? fields : {};
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
     url: action,
     dataType: datatype,
-    cache: false,
-    contentType: false,
-    processData: false,
     data: data,
     type: type,
     success: function success(response) {
@@ -39095,6 +39113,52 @@ function ajax_request(data, action, datatype, type, on_submit, _success, _error)
 
     }
   });
+}
+
+function cart_update(data) {
+  var html = '',
+      content = data.content;
+  console.log(data);
+
+  if (data.total > 0) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('card__module_show');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module .quantity').text(data.total);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module .sum').text(data.sum);
+  } else {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('card__module_show');
+  }
+
+  var size = 0,
+      key;
+
+  for (key in data.content) {
+    if (data.content.hasOwnProperty(key)) size++;
+  }
+
+  if (size) {
+    for (var i in data.content) {
+      html += '<tr class="item">' + '<td>';
+
+      if (data.content[i].attributes.image) {
+        html += '<div class="image">' + '<img src="' + data.content[i].attributes.image + '" alt="">' + '</div>';
+      }
+
+      html += '</td>' + '<td class="font-weight-bold">' + data.content[i].name;
+
+      if (data.content[i].attributes.short_description) {
+        html += '<span class="ml-2 text-secondary font-weight-normal">' + data.content[i].attributes.short_description + '</span>';
+      }
+
+      html += '</td>' + '<td class="count">' + '<div class="input-group">' + '<div class="input-group-prepend">' + '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' + '</div>' + '<input type="number" min="0" readonly value="' + data.content[i].quantity + '" data-dish-id="' + data.content[i].id + '" class="bg-white form-control form-control-sm">' + '<div class="input-group-append">' + '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' + '</div>' + '</div>' + '</td>' + '<td class="text-nowrap text-center">' + '<div class="h4 mb-0">' + data.content[i].price + ' ₽' + '</div>' + '</td>' + '<td class="remove">' + '<a href="javascript:;" class="remove_from_cart" data-dish-id="' + data.content[i].id + '"><i class="fas fa-times"></i></a>' + '</td>' + '</tr>';
+    }
+
+    html += '<tr>' + '<td colspan="3" class="text-right">' + '<div class="h4 text-secondary font-weight-light mb-0">Сумма заказа</div>' + '</td>' + '<td class="text-nowrap text-center">' + '<div class="h4 mb-0">' + data.sum + ' ₽' + '</div>' + '</td>' + '<td></td>' + '</tr>';
+  } else {
+    html += '<tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>';
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal').modal('hide');
+  }
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products .items').html(html);
 }
 
 /***/ }),
@@ -39156,15 +39220,14 @@ if (token) {
 /***/ }),
 
 /***/ 0:
-/*!************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/assets/css/_style.scss ***!
-  \************************************************************************************************/
+/*!*************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\code\edoshka.ru\resources\assets\css\_style.scss */"./resources/assets/css/_style.scss");
+__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

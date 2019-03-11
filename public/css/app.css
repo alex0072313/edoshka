@@ -12412,6 +12412,10 @@ header .globalmenu .links > a:hover {
   padding-top: 15px;
 }
 
+#card__module_modal .card_products .items td {
+  padding: 0.5rem;
+}
+
 #card__module_modal .card_products .items td.count {
   width: 120px;
 }

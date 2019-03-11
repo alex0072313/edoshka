@@ -1,33 +1,24 @@
 <div class="card__module">
     <div class="container">
-
         <div class="d-flex align-items-center justify-content-between">
-
             <div class="d-flex align-items-center">
                 <div class="svg_image"></div>
-
                 <div class="h4 text-white ml-2 font-weight-light text-uppercase mb-0 d-md-block d-none">
                     Корзина
                 </div>
-
                 <div class="h4 text-white ml-3 font-weight-light  mb-0 d-md-none d-block">
-                    500₽
+                    {{ $_cart_total_p }} ₽
                 </div>
-
             </div>
-
             <div class="h4 text-white ml-2 font-weight-light mb-0 d-md-block d-none">
-                Выбрано: 3
+                Выбрано: <span class="quantity">{{ $_cart_total_q }}</span>
             </div>
-
             <div class="h4 text-white ml-2  mb-0 d-md-block d-none">
-                Сумма: 500₽
+                Сумма: <span class="sum">{{ $_cart_total_p }}</span> ₽
             </div>
-
             <div class="">
                 <button class="btn btn-light" data-toggle="modal" data-target="#card__module_modal">Оформить заказ</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -47,77 +38,57 @@
                     <div class="h4 text-uppercase font-weight-light mb-3 text-black">Ваш заказ</div>
 
                     <table class="table items table-sm">
-                        <tr class="item">
-                            <td>
-                                <div class="image">
-                                    <img src="/images/theme/roll1.jpg" alt="">
-                                </div>
-                            </td>
-                            <td class="font-weight-bold">
-                                Роллы "Вулкан"
-                                <span class="ml-2 text-secondary font-weight-normal">270/8 шт</span>
-                            </td>
-                            <td class="count">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-sm" type="button"><i class="fas fa-minus fa-sm"></i></button>
+                        @if(count($_cart_content))
+                            @foreach($_cart_content as $item)
+                                <tr class="item">
+                                    <td>
+                                        @if(Storage::disk('public')->exists('dish_imgs/'.$item->id.'/img_xs.jpg'))
+                                            <div class="image">
+                                                <img src="{{ Storage::disk('public')->url('dish_imgs/'.$item->id.'/img_xs.jpg') }}" alt="">
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td class="font-weight-bold">
+                                        {{ $item->name }}
+                                        @if($item->attributes->has('short_description'))
+                                            <span class="ml-2 text-secondary font-weight-normal">{{ $item->attributes['short_description'] }}</span>
+                                        @endif
+                                    </td>
+                                    <td class="count">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>
+                                            </div>
+                                            <input type="number" min="0" readonly value="{{ $item->quantity }}" data-dish-id="{{ $item->id }}" class="bg-white form-control form-control-sm quintity_cart">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-nowrap text-center">
+                                        <div class="h4 mb-0">
+                                            {{ $item->price }} ₽
+                                        </div>
+                                    </td>
+                                    <td class="remove">
+                                        <a href="javascript:;" class="remove_from_cart" data-dish-id="{{ $item->id }}"><i class="fas fa-times"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="3" class="text-right">
+                                    <div class="h4 text-secondary font-weight-light mb-0">Сумма заказа</div>
+                                </td>
+                                <td class="text-nowrap text-center">
+                                    <div class="h4 mb-0">
+                                        {{ $_cart_total_p }} ₽
                                     </div>
-                                    <input type="number" min="0" value="1" class="form-control form-control-sm">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-sm" type="button"><i class="fas fa-plus fa-sm"></i></button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-nowrap text-center">
-                                <div class="h4 mb-0">
-                                    99 ₽
-                                </div>
-                            </td>
-                            <td class="remove">
-                                <a href="javascript:;"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr class="item">
-                            <td>
-                                <div class="image">
-                                    <img src="/images/theme/roll1.jpg" alt="">
-                                </div>
-                            </td>
-                            <td class="font-weight-bold">
-                                Роллы "Вулкан"
-                                <span class="ml-2 text-secondary font-weight-normal">270/8 шт</span>
-                            </td>
-                            <td class="count">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-sm" type="button"><i class="fas fa-minus fa-sm"></i></button>
-                                    </div>
-                                    <input type="number" min="0" value="1" class="form-control form-control-sm">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-sm" type="button"><i class="fas fa-plus fa-sm"></i></button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-nowrap text-center">
-                                <div class="h4 mb-0">
-                                    99 ₽
-                                </div>
-                            </td>
-                            <td class="remove">
-                                <a href="javascript:;"><i class="fas fa-times"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">
-                                <div class="h4 text-secondary font-weight-light mb-0">Сумма заказа</div>
-                            </td>
-                            <td class="text-nowrap text-center">
-                                <div class="h4 mb-0">
-                                    180₽
-                                </div>
-                            </td>
-                            <td></td>
-                        </tr>
+                                </td>
+                                <td></td>
+                            </tr>
+                        @else
+                            <tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>
+                        @endif
 
                     </table>
                 </div>

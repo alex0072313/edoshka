@@ -7,18 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Town;
 use App\User;
 use Illuminate\Http\Response;
+use Darryldecode\Cart\Cart;
 
 class SiteController extends Controller
 {
     protected $admin_categories;
     protected $town;
+    protected $cart;
 
     public function __construct()
     {
         $this->admin_categories = User::getAdmin()->categories;
         $this->data['top_categories'] = $this->admin_categories;
 
-        //Геленджик
+        //Текущий горо Геленджик
         $this->town = $this->data['_town'] = Town::find(1);
     }
 

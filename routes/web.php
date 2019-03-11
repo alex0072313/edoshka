@@ -7,6 +7,9 @@ Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')-
 //Сохранение подукта в cookie
 Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save')->name('site.dishes_viewed_save');
 
+//Корзина
+Route::post('/dishes_cart', 'Site\CartController@init')->name('site.dishes_cart');
+
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 

@@ -45,6 +45,14 @@ class AppServiceProvider extends ServiceProvider
             View::share( 'helpmsgs_on_page', $helpmsgs_on_page);
         });
 
+        //Корзина
+        view()->composer(['site.*', 'layouts.site'], function () {
+            //\Cart::clear();
+            View::share( '_cart_content', \Cart::getContent());
+            View::share( '_cart_total_q', \Cart::getTotalQuantity());
+            View::share( '_cart_total_p', \Cart::getTotal());
+        });
+
         \Blade::directive('helpmsg', function ($val) {
             return "<?php 
             \$name = $val;
