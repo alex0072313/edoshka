@@ -3,7 +3,7 @@
 @section('content')
     <section id="greetin_page_default" class="shop" {!! Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg').'\');"' : '' !!}>
         <div class="container position-relative h-100">
-            <div class="d-flex align-content-end flex-wrap inner w-auto">
+            <div class="d-flex align-content-end flex-wrap inner w-100">
                 <nav aria-label="breadcrumb" class="d-inline-block">
                     {{ @Breadcrumbs::render() }}
                 </nav>
@@ -20,7 +20,7 @@
                             {{--<i class="fas fa-thumbs-up fa-sm"></i> 163--}}
                         {{--</div>--}}
                     </div>
-                    <div>
+                    <div class="mr-4">
                         <div class="dropdown">
                             <button class="btn btn-outline-light btn-sm d-inline-block d-sm-none my-2" id="dropdown_shop_info" data-boundary="window" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-info-circle mr-1"></i> О ресторане</button>
 
