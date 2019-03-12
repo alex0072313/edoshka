@@ -98,7 +98,6 @@
                 <div class="card_order_info mb-4">
                     <div class="h4 text-uppercase font-weight-light mb-3 text-black">Данные для оформления</div>
 
-                    <form action="#">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -147,28 +146,20 @@
                             <textarea name="dop" class="form-control" id="dop" aria-describedby="dop" rows="4"></textarea>
                         </div>
 
-                    </form>
+                    </div>
                 </div>
 
                 <div class="card_order_info mb-5">
                     <div class="h4 text-uppercase font-weight-light mb-3 text-black">Оплата</div>
-
                     <div class="form-inline">
                         <div class="custom-control custom-radio">
                             <input type="radio" id="pay_1" name="customRadio" class="custom-control-input" checked>
                             <label class="custom-control-label" for="pay">При получении</label>
                         </div>
-
-                        {{--<div class="custom-control custom-radio ml-2">--}}
-                            {{--<input type="radio" id="pay_2" name="pay" class="custom-control-input" disabled>--}}
-                            {{--<label class="custom-control-label" for="pay_2">Онлайн</label>--}}
-                        {{--</div>--}}
                     </div>
                 </div>
 
-                <button class="btn btn-success btn-lg">Отправить заказ</button>
-
-
+                <button class="btn btn-success btn-lg submit">Отправить заказ</button>
             </div>
 
         </div>

@@ -39074,31 +39074,22 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products_search').length && 
   //         //window.location = '#' + textToFind;//перемещаем скрол к последнему найденному совпадению
   //     }
   // });
-} // Отправка форм
+} // Оформление заказа
 
 
-if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ajax_form').length) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.ajax_form').each(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).on('click', function (submit_standart) {
-      submit_standart.preventDefault();
-      var form = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parents('.ajax_form'),
-          id = form.attr('id'),
-          fields = form.find('input[type=\"text\"], input[type=\"hidden\"], input[type=\"number\"], input[type=\"email\"], input[type=\"file\"], input[type=\"checkbox\"]:checked, input[type=\"radio\"]:checked, textarea, select'),
-          form_data = new FormData();
-      form_data.append('form', id);
-      form.find('[name]').each(function () {
-        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('name') != 'file') {
-          form_data.append(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('name'), jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val());
-        } else {
-          var files = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).prop('files');
-
-          for (var i = 0; i < files.length; i++) {
-            form_data.append('file[]', files[i]);
-          }
-        }
-      });
-      send(form, id, form_data, fields);
+if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').length) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form .submit').on('click', function (submit_standart) {
+    submit_standart.preventDefault();
+    var form = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form'),
+        form_data = new FormData();
+    form.find('[name]').each(function () {
+      form_data.append(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('name'), jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val());
     });
+    ajax_request(form_data, form.data('action'), 'json', 'post', function ($json) {
+      console.log($json);
+    }, function ($json) {
+      console.log($json);
+    }, null);
   });
 }
 

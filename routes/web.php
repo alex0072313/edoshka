@@ -10,6 +10,9 @@ Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save'
 //Корзина
 Route::post('/dishes_cart', 'Site\CartController@init')->name('site.dishes_cart');
 
+//Оформление
+Route::post('/send_order', 'Site\OrderController@send')->name('site.send_order');
+
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 
