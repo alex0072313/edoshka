@@ -18,6 +18,9 @@ require('bootstrap/dist/js/bootstrap.min');
 import {tns} from 'tiny-slider/src/tiny-slider';
 
 require('malihu-custom-scrollbar-plugin');
+
+require('jquery-mask-plugin');
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -140,6 +143,10 @@ if($('.shop_slider_inner').length){
 
 }
 
+//Маска
+if($('.phone_input').length) {
+    $('.phone_input').mask('+7 (000) 000-00-00');
+}
 //Добавление в козину + просмотр
 if($('.shop_pos_item').length) {
 
@@ -226,11 +233,11 @@ if($('.shop_pos_item').length) {
         }, '/dishes_cart', 'json', 'post',
             function () {
                 btn.addClass('adding').addClass('disabled');
-                $('#card__module_modal .card_products').addClass('adding');
+                $('#card__module_modal .card_products').addClass('added');
             },
             function ($json) {
                 btn.removeClass('adding').removeClass('disabled');
-                $('#card__module_modal .card_products').removeClass('adding');
+                $('#card__module_modal .card_products').removeClass('load');
                 return cart_update($json);
             console.log($json);
         });
@@ -244,10 +251,10 @@ if($('.shop_pos_item').length) {
             'dish_id': dish_id,
         }, '/dishes_cart', 'json', 'post',
             function () {
-                $('#card__module_modal .card_products').addClass('adding');
+                $('#card__module_modal .card_products').addClass('load');
             },
             function ($json) {
-                $('#card__module_modal .card_products').removeClass('adding');
+                $('#card__module_modal .card_products').removeClass('load');
                 return cart_update($json);
         });
     });
@@ -260,21 +267,31 @@ if($('.shop_pos_item').length) {
             dish_id = input.data('dish-id'),
             quantity = parseInt(input.val())+q;
 
-        input.val(quantity);
+        if(btn.parents('.items ').length){
+            input.val(quantity);
+        }else{
 
-        ajax_request({
-            'action': 'quantity',
-            'dish_id': dish_id,
-            'remove': !quantity ? 1 : 0,
-            'quantity': parseInt(q),
-        }, '/dishes_cart', 'json', 'post',
-            function () {
-                $('#card__module_modal .card_products').addClass('adding');
-            },
-            function ($json) {
-                $('#card__module_modal .card_products').removeClass('adding');
-                return cart_update($json);
-            });
+            if(btn.hasClass('quintity_cart_m') && (quantity < input.attr('min'))){
+                return false;
+            }
+            input.val(quantity);
+        }
+        if(btn.parents('.items ').length){
+            ajax_request({
+                    'action': 'quantity',
+                    'dish_id': dish_id,
+                    'remove': !quantity ? 1 : 0,
+                    'quantity': parseInt(q),
+                }, '/dishes_cart', 'json', 'post',
+                function () {
+                    $('#card__module_modal .card_products').addClass('load');
+                },
+                function ($json) {
+                    $('#card__module_modal .card_products').removeClass('load');
+                    return cart_update($json);
+                });
+        }
+
     });
 
     $(document).on("click", '.order_modal_show', function(){
@@ -467,11 +484,11 @@ if($('.order_form').length){
 
     $('.order_form .submit').on('click', function(submit_standart){
         submit_standart.preventDefault();
-        var form     = $('.order_form'),
-            form_data = new FormData();
+        var form      = $('.order_form'),
+            form_data = {};
 
         form.find('[name]').each(function(){
-            form_data.append($(this).attr('name'), $(this).val());
+            form_data[$(this).attr('name')] = $(this).val()
         });
 
         ajax_request(
@@ -480,14 +497,35 @@ if($('.order_form').length){
             'json',
             'post',
             function ($json) {
-                console.log($json);
+                $('.order_form').addClass('load');
+                form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
             },
             function ($json) {
                 console.log($json);
+                $('.order_form').removeClass('load');
+                if($json.errors){
+                    for(var i in $json.errors){
+                        form.find('[name="'+i+'"]').addClass('is-invalid').after('<div class="invalid-feedback">'+$json.errors[i][0]+'</span>');
+                    }
+                }else if($json.success){
+                    cart_update();
+                    return mod_massage($json.success.title, $json.success.text);
+                }
             },
             null
         );
     });
+}
+
+function mod_massage(title, text) {
+    $('#mod_massage__module .title').text(title);
+    $('#mod_massage__module .text').text(text);
+
+    $('#mod_massage__module').modal('show');
+
+    setTimeout(function () {
+        $('#mod_massage__module').modal('hide');
+    }, 4000);
 }
 
 function TrimStr(s) {
@@ -532,8 +570,14 @@ function ajax_request(data, action, datatype, type, on_submit, success, error) {
 }
 
 function cart_update(data) {
-    var html = '',
-        content = data.content;
+    var html = '';
+
+    if(data === undefined){
+        var data = {};
+        data.total = 0;
+        data.sum = 0;
+        data.content = {};
+    }
 
     console.log(data);
 
@@ -567,11 +611,11 @@ function cart_update(data) {
                         }
                         html += '</td>' +
                         '<td class="count">' +
-                            '<div class="input-group">' +
+                            '<div class="input-group count_input float-right">' +
                                 '<div class="input-group-prepend">' +
                                     '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' +
                                 '</div>' +
-                                '<input type="number" min="0" readonly value="'+data.content[i].quantity+'" data-dish-id="'+data.content[i].id+'" class="bg-white form-control form-control-sm">' +
+                                '<input type="number" min="0"  name="dishes['+data.content[i].id+']" readonly value="'+data.content[i].quantity+'" data-dish-id="'+data.content[i].id+'" class="bg-white form-control form-control-sm">' +
                                 '<div class="input-group-append">' +
                                     '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' +
                                 '</div>' +

@@ -32,6 +32,10 @@ class Restaurant extends Model
         return $filtered->all();
     }
 
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
     public function categories()
     {
         return $this->hasManyThrough(

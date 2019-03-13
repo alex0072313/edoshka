@@ -18,6 +18,11 @@ class Dish extends Model
         return $this->belongsToMany(Marker::class, 'dishes_markers');
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class)->withPivot('quantity');
+    }
+
     public function recomendeds()
     {
         return $this->belongsToMany(Dish::class, 'dishes_recomendeds', 'dish_id', 'recomended_id');

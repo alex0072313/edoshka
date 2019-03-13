@@ -9654,7 +9654,7 @@ header .globalmenu .links > a {
 
 .mr-auto,
 .mx-auto,
-#card__module_modal .card_products .items td.count .input-group {
+.count_input .input-group {
   margin-right: auto !important;
 }
 
@@ -9665,7 +9665,7 @@ header .globalmenu .links > a {
 
 .ml-auto,
 .mx-auto,
-#card__module_modal .card_products .items td.count .input-group {
+.count_input .input-group {
   margin-left: auto !important;
 }
 
@@ -12431,11 +12431,37 @@ header .globalmenu .links > a:hover {
   mask-image: url("/images/theme/cart.svg");
 }
 
-#card__module_modal .card_products.adding {
+#card__module_modal .card_products .items tr:first-child td {
+  border-top: none;
+}
+
+#card__module_modal .card_products .items tr:last-child td {
+  padding-top: 15px;
+}
+
+#card__module_modal .card_products .items td {
+  padding: 0.5rem;
+}
+
+#card__module_modal .card_products .items td.count .count_input {
+  width: 120px;
+}
+
+#card__module_modal .card_products .items td:first-child {
+  width: 1%;
+  padding-left: 0;
+}
+
+#card__module_modal .card_products .items td:last-child {
+  width: 1%;
+  padding-right: 0;
+}
+
+.load {
   position: relative;
 }
 
-#card__module_modal .card_products.adding:before {
+.load:before {
   position: absolute;
   content: "";
   background: #fff;
@@ -12445,7 +12471,7 @@ header .globalmenu .links > a:hover {
   z-index: 10;
 }
 
-#card__module_modal .card_products.adding:after {
+.load:after {
   content: "\F110";
   position: absolute;
   font-family: "Font Awesome 5 Free";
@@ -12469,27 +12495,11 @@ header .globalmenu .links > a:hover {
   margin-top: -16px;
 }
 
-#card__module_modal .card_products .items tr:first-child td {
-  border-top: none;
-}
-
-#card__module_modal .card_products .items tr:last-child td {
-  padding-top: 15px;
-}
-
-#card__module_modal .card_products .items td {
-  padding: 0.5rem;
-}
-
-#card__module_modal .card_products .items td.count {
-  width: 120px;
-}
-
-#card__module_modal .card_products .items td.count .input-group {
+.count_input .input-group {
   width: 90px;
 }
 
-#card__module_modal .card_products .items td.count input {
+.count_input input {
   width: 20px !important;
   text-align: center;
   border-radius: 0;
@@ -12497,19 +12507,9 @@ header .globalmenu .links > a:hover {
   border-right: 0;
 }
 
-#card__module_modal .card_products .items td.count .btn {
+.count_input .btn {
   background: #e9ecef;
   border-color: #ced4da;
-}
-
-#card__module_modal .card_products .items td:first-child {
-  width: 1%;
-  padding-left: 0;
-}
-
-#card__module_modal .card_products .items td:last-child {
-  width: 1%;
-  padding-right: 0;
 }
 
 body {

@@ -129,6 +129,7 @@
 @stack('modals')
 
 @include('site.includes.card_module')
+@include('site.includes.massage_module')
 
 <script src="{{ asset('js/app.js') }}"></script>
 </body>
