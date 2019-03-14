@@ -13,4 +13,10 @@ class Order extends Model
         return $this->belongsToMany(Dish::class, 'dishes_orders', 'order_id', 'dish_id')->withPivot('quantity');
     }
 
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
+
 }

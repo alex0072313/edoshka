@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Category;
 use Validator;
 
-class CategoryController extends Controller
+class CategoryController extends AdminController
 {
     /**
      * Display a listing of the resource.

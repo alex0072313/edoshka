@@ -429,6 +429,6 @@
 </script>
 
 @stack('js')
-
+@stack('modals')
 </body>
 </html>

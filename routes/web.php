@@ -18,6 +18,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', 'Admin\HomeController@index')->name('home');
 
+    //Заказы
+    Route::get('/orders/{order}/destroy', 'Admin\OrdersController@destroy')->name('orders.destroy');
+    Route::resource('orders', 'Admin\OrdersController')->except(['destroy']);
+
     //Профиль
     Route::match(['get', 'post'], '/profile', 'Admin\ProfileController@index')->name('profile');
 
