@@ -20,8 +20,8 @@ class HomeController extends AdminController
         $orders = $orders->map(function ($order){
 
             foreach ($order->dishes as $dish){
-                $order->quantity += $dish->pivot->quantity;
-                $order->price += $dish->price;
+                $order->total_quantity += $dish->pivot->quantity;
+                $order->total_price += $dish->pivot->total_price;
             }
 
             return $order;

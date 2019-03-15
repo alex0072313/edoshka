@@ -20,7 +20,7 @@ class Dish extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withPivot('quantity');
+        return $this->belongsToMany(Order::class)->withPivot(['quantity', 'price', 'total_price']);
     }
 
     public function recomendeds()

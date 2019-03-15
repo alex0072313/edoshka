@@ -124,18 +124,20 @@
                 <th class="text-nowrap">Адрес</th>
                 <th width="1%" class="text-nowrap">Email</th>
                 <th width="1%" class="text-nowrap">Создан</th>
+                <th width="1%" class="text-nowrap">Просмотрен</th>
+                <th width="1%" class="text-nowrap">Подтвержден</th>
                 <th width="1%" data-orderable="false"></th>
             </tr>
             </thead>
             <tbody>
             @foreach($orders as $order)
-                <tr class="odd gradeX">
+                <tr class="odd gradeX" id="order_pos_{{ $order->id}}">
                     <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->id}}</td>
                     @role('megaroot')
                         <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->restaurant->name}}</td>
                     @endrole
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->price}}</td>
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->quantity}}</td>
+                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->total_price}} ₽</td>
+                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->total_quantity}}</td>
                     <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->phone}}</td>
 
                     @php
@@ -155,6 +157,12 @@
                     <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->email}}</td>
                     <td width="1%" class="f-s-600 text-inverse pr-0">
                         {{ \Carbon\Carbon::createFromTimeString($order->created_at)->diffForHumans() }}
+                    </td>
+                    <td width="1%" class="f-s-600 text-inverse pr-0 viewed_col">
+                        {{ $order->viewed ? 'Да':'Нет' }}
+                    </td>
+                    <td width="1%" class="f-s-600 text-inverse pr-0 accept_col">
+                        {{ $order->accept ? 'Да':'Нет' }}
                     </td>
                     <td width="1%">
                         <div class="width-150">
@@ -194,7 +202,7 @@
                 },
                 success: function(html) {
                     console.log(html);
-
+                    $('#order_pos_'+link.data('order-id')+' .viewed_col').text('Да');
                     link.html(first_text).removeClass('disabled');
 
                     modal.find('.modal-title').text('Просмотр заказа #'+link.data('order-id'));
@@ -202,6 +210,37 @@
                         modal.modal('show');
                     });
 
+                    modal.find('[data-accept]').data('accept', link.data('order-id'));
+
+                }
+            });
+            return false;
+        });
+
+
+        $(document).on('click', '[data-accept]', function () {
+            var link = $(this),
+                first_text = link.text(),
+                order_id = link.data('accept'),
+                modal= $('#show_order');
+
+            link.html('<i class="fas fa-spinner fa-spin"></i> Подтверждаем').addClass('disabled');
+
+            $.ajax({
+                type: "POST",
+                data: {'order_id':order_id},
+                url: '{{ route('admin.orders.accept') }}',
+                dataType:"json",
+                error: function(xhr) {
+                    console.log('Ошибка!'+xhr.status+' '+xhr.statusText);
+                },
+                success: function(json) {
+                    console.log(json);
+                    if(json.success){
+                        $('#order_pos_'+order_id+' .accept_col').text('Да');
+                        link.html(first_text).removeClass('disabled');
+                        modal.modal('hide');
+                    }
                 }
             });
             return false;
@@ -224,7 +263,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Подтвердить</button>
+                    <button type="button" data-accept="" class="btn btn-primary">Подтвердить</button>
                 </div>
             </div>
         </div>

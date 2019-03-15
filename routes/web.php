@@ -20,6 +20,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     //Заказы
     Route::get('/orders/{order}/destroy', 'Admin\OrdersController@destroy')->name('orders.destroy');
+    Route::post('/orders/accept', 'Admin\OrdersController@accept')->name('orders.accept');
     Route::resource('orders', 'Admin\OrdersController')->except(['destroy']);
 
     //Профиль

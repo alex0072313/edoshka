@@ -48,10 +48,29 @@ class OrdersController  extends AdminController
      */
     public function show(Order $order)
     {
+
+        if(!$order->viewed){
+            $order->viewed = now();
+            $order->save();
+        }
+
         $this->view = 'admin.orders.show';
         $this->data['order'] = $order;
 
         return $this->render();
+    }
+
+    public function accept()
+    {
+        if($order_id = request('order_id')){
+            $order = Order::find($order_id);
+            $order->accept = now();
+            if($order->save()){
+                return response()->json(['success' => true]);
+            }
+        }
+
+        return response()->json(['error'=>true]);
     }
 
     /**

@@ -7,6 +7,7 @@
     <meta charset="utf-8" />
     <title>{{ $title }}</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="" name="description" />
     <meta content="" name="author" />
 
@@ -343,6 +344,12 @@
 <script>
     $(document).ready(function() {
         App.init();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         $('[data-click="swal-warning"]').click(function (e) {
             var title = $(this).data('title') ? $(this).data('title') : 'Подтвердите действие',

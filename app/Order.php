@@ -10,7 +10,7 @@ class Order extends Model
 
     public function dishes()
     {
-        return $this->belongsToMany(Dish::class, 'dishes_orders', 'order_id', 'dish_id')->withPivot('quantity');
+        return $this->belongsToMany(Dish::class, 'dishes_orders', 'order_id', 'dish_id')->withPivot(['quantity', 'price', 'total_price']);
     }
 
     public function restaurant()

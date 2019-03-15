@@ -25,8 +25,10 @@ class OrderController extends Controller
         }
 
         $restaurants = [];
+        $prices = [];
         foreach ($dishes = request('dishes') as $dish_id => $quantity){
             $dish = Dish::find($dish_id);
+            $prices[$dish_id] = $dish->new_price ? $dish->new_price : $dish->price;
             $restaurants[$dish->restaurant_id][$dish_id] = $quantity;
         }
 
@@ -36,7 +38,7 @@ class OrderController extends Controller
 
             $sync_data = [];
             foreach ($dishes as $dish_id => $quantity){
-                $sync_data[$dish_id] = ['quantity'=>$quantity];
+                $sync_data[$dish_id] = ['quantity'=>$quantity, 'price'=>$prices[$dish_id], 'total_price'=>$prices[$dish_id] * $quantity];
             }
             $order->dishes()->sync($sync_data);
         }

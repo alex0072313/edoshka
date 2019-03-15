@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateOrdersTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('restaurant_id')->unsigned()->index()->nullable();
             $table->string('phone')->nullable();
             $table->string('name')->nullable();
@@ -22,6 +23,19 @@ class CreateOrdersTable extends Migration
             $table->string('street')->nullable();
             $table->string('home')->nullable();
             $table->text('dop')->nullable();
+
+            $table->timestamps();
+            $table->timestamp('viewed')->nullable();
+            $table->timestamp('accept')->nullable();
+        });
+
+        Schema::create('dishes_orders', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('dish_id');
+            $table->integer('order_id');
+            $table->integer('quantity');
+            $table->integer('price');
+            $table->integer('total_price');
         });
     }
 
@@ -32,9 +46,7 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign('orders_restaurant_id_foreign');
-            $table->dropColumn(['restaurant_id','phone','name','email','persons','street','home','dop']);
-        });
+        Schema::dropIfExists('orders');
+        Schema::dropIfExists('dishes_orders');
     }
 }
