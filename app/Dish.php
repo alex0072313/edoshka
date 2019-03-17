@@ -42,4 +42,10 @@ class Dish extends Model
     {
         return $query->rightJoin('dishes_markers', 'dishes.id', '=', 'dishes_markers.dish_id')->rightJoin('markers', 'dishes_markers.marker_id', '=', 'markers.id')->select('dishes.*')->where('markers.css_class', '=', $marker_css_class)->groupBy('dishes.id');
     }
+
+    public function delete()
+    {
+        \Storage::disk('public')->deleteDirectory('dish_imgs/'.$this->id);
+        return parent::delete();
+    }
 }

@@ -2,3 +2,7 @@
   background: #fff;
 }
 
+.orders_table tr.not_viewed td {
+  background-color: rgba(50, 169, 50, 0.1) !important;
+}
+

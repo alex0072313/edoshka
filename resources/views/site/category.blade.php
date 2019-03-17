@@ -34,7 +34,8 @@
             <div class="shop_slider mb-5">
                 <div class="shop_title mb-5">
                     <div class="h2 text-center mb-3">
-                        {{ $category->name }} {{ $restaurant->name }} <span class="badge badge-primary"><i class="fas fa-thumbs-up fa-sm"></i> 104</span>
+                        {{ $category->name }} {{ $restaurant->name }}
+                        {{--<span class="badge badge-primary"><i class="fas fa-thumbs-up fa-sm"></i> 104</span>--}}
                     </div>
 
                     {{--<div class="preview-review text-center">--}}

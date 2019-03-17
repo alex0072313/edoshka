@@ -387,7 +387,27 @@
             swal(options).then((value) => {
                 switch (value) {
                     case "confirm":
-                        window.location = url;
+
+                        if(!$(this).data('rm-order')){
+                            window.location = url;
+                        }else{
+
+                            var link = $(this);
+                            $.ajax({
+                                type: "GET",
+                                url: link.attr('href'),
+                                dataType:"json",
+                                error: function(xhr) {
+                                    console.log('Ошибка!'+xhr.status+' '+xhr.statusText);
+                                },
+                                success: function(json) {
+                                    if(json.success){
+                                        $('#order_pos_'+link.data('rm-order')).remove();
+                                    }
+                                }
+                            });
+                        }
+
                         break;
                 }
             });

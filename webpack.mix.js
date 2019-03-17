@@ -15,6 +15,10 @@ mix
     .js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
+mix
+    .sass('public/assets/css/_style.scss', 'public/assets/css/style.css');
+
+
 //
 // //Панель управления
 // mix.js('resources/assets/js/app.js', 'public/assets/js/bundle.js');

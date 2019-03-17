@@ -32,7 +32,14 @@ class CreateOrdersTables extends Migration
         Schema::create('dishes_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('dish_id');
+
             $table->integer('order_id');
+
+//            $table->foreign('order_id')
+//                ->references('id')
+//                ->on('orders')
+//                ->onDelete('cascade');
+
             $table->integer('quantity');
             $table->integer('price');
             $table->integer('total_price');

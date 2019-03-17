@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Dish;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewOrder;
 use App\Order;
 use App\Restaurant;
 
@@ -41,6 +42,10 @@ class OrderController extends Controller
                 $sync_data[$dish_id] = ['quantity'=>$quantity, 'price'=>$prices[$dish_id], 'total_price'=>$prices[$dish_id] * $quantity];
             }
             $order->dishes()->sync($sync_data);
+
+            foreach ($restaurant->users as $user){
+                $user->notify(new NewOrder($user, $order));
+            }
         }
 
         \Cart::clear();

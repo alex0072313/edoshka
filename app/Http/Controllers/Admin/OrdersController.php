@@ -9,6 +9,12 @@ use App\Http\Controllers\Controller;
 
 class OrdersController  extends AdminController
 {
+    public function __construct()
+    {
+        $this->middleware(['role:megaroot'])->only(['destroy']);
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -104,6 +110,10 @@ class OrdersController  extends AdminController
      */
     public function destroy(Order $order)
     {
-        //
+        if($order->delete()){
+            return response()->json(['success'=>true]);
+        }
+
+        return response()->json(['error'=>true]);
     }
 }

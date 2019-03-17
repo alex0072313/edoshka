@@ -24,7 +24,7 @@
             responsive: true,
             paging: false,
             bInfo : false,
-            "order": [[ 1, "desc" ]],
+            order: [[ 0, "desc" ]],
             fixedHeader: {
                 headerOffset: $('#header').outerHeight()
             },
@@ -111,7 +111,7 @@
     {{--<a href="{{ isset($category) ? route('fields.index', 'category_'.$category->id) : route('fields.index') }}" class="btn btn-default mb-4 ml-2"><i class="fas fa-fw fa-server"></i> Управение доп. полями</a>--}}
 
     @if(count($orders))
-        <table id="data-table-default" class="table row-border table-striped">
+        <table id="data-table-default" class="table row-border table-striped orders_table">
             <thead>
             <tr>
                 <th width="1%" class="pr-0">ID</th>
@@ -131,7 +131,7 @@
             </thead>
             <tbody>
             @foreach($orders as $order)
-                <tr class="odd gradeX" id="order_pos_{{ $order->id}}">
+                <tr class="odd gradeX {{ !$order->viewed ? 'not_viewed' : '' }}" id="order_pos_{{ $order->id}}">
                     <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->id}}</td>
                     @role('megaroot')
                         <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->restaurant->name}}</td>
@@ -168,7 +168,7 @@
                         <div class="width-150">
                             <a href="{{ route('admin.orders.show', $order->id) }}" title="Детали заказа" data-order-id="{{ $order->id }}" class="btn btn-xs m-r-2 btn-primary show_order">Детали заказа</a>
                             @role('megaroot')
-                                <a href="{{ route('admin.orders.destroy', $order->id) }}" title="Удалить" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить заказ #{{ $order->id }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                                <a href="{{ route('admin.orders.destroy', $order->id) }}" title="Удалить" data-rm-order="{{ $order->id }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить заказ #{{ $order->id }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
                             @endrole
                         </div>
                     </td>
@@ -203,6 +203,7 @@
                 success: function(html) {
                     console.log(html);
                     $('#order_pos_'+link.data('order-id')+' .viewed_col').text('Да');
+                    $('#order_pos_'+link.data('order-id')+' .viewed_col').parent('tr').removeClass('not_viewed');
                     link.html(first_text).removeClass('disabled');
 
                     modal.find('.modal-title').text('Просмотр заказа #'+link.data('order-id'));
@@ -245,6 +246,10 @@
             });
             return false;
         });
+
+        function rm_order() {
+            console.log('123123');
+        }
     </script>
 @endpush
 
