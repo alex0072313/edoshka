@@ -133,6 +133,10 @@ class CategoryController extends AdminController
                 ->with('error', 'Ошибка при обновлении категории!');
         }
 
+        if(!request('topmenu')){
+            request()->request->add(['topmenu' => false]);
+        }
+
         if($category->update(request()->all())){
 
             //Фото
