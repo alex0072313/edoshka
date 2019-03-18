@@ -113,7 +113,7 @@
                                                     @endif
                                                 </div>
                                                 <div>
-                                                    <button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="{{ $dish->id }}">В корзину</button>
+                                                    <button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="{{ $recomended->id }}">В корзину</button>
                                                 </div>
                                             </div>
                                         @endforeach
