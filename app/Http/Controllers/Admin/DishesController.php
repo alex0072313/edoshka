@@ -153,6 +153,7 @@ class DishesController extends AdminController
 
         if ($dish = Auth::user()->dishes()->create(request()->all())) {
             $dish->markers()->sync(request()->get('markers'));
+            $dish->recomendeds()->sync(request()->get('recomendeds'));
 
             //Поля
             //$this->fields($owner);
