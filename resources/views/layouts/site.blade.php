@@ -81,19 +81,25 @@
 <footer>
     <div class="container py-5">
         <div class="row">
-            <div class="col-md-6 col-lg-3 mb-lg-0 mb-3">
-                <div class="h4 font-weight-light text-uppercase">Партнерам</div>
+            <div class="col-md-6 col-lg-4 mb-lg-0 mb-3">
+                @php
+                    $var = 'foot_block_1';
+                @endphp
+                <div class="h4 font-weight-light text-uppercase">@helpmsg($var)</div>
                 <ul class="list-unstyled font-weight-light mb-0">
                     <li>
                         <a href="#">Заявка на сотрудничество</a>
                     </li>
                     <li>
-                        <a href="#">Войти в личный кабинет</a>
+                        <a href="{{ route('admin.home') }}">Войти в личный кабинет</a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6 col-lg-3 mb-lg-0 mb-3">
-                <div class="h4 font-weight-light text-uppercase">Правовая информация</div>
+            <div class="col-md-6 col-lg-4 mb-lg-0 mb-3">
+                @php
+                    $var = 'foot_block_2';
+                @endphp
+                <div class="h4 font-weight-light text-uppercase">@helpmsg($var)</div>
                 <ul class="list-unstyled font-weight-light mb-0">
                     <li>
                         <a href="#">Публичная оферта</a>
@@ -106,24 +112,29 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6 col-lg-3 mb-lg-0 mb-3">
-                <div class="h4 font-weight-light text-uppercase">Мы в соц сетях</div>
+            {{--<div class="col-md-6 col-lg-3 mb-lg-0 mb-3">--}}
+                {{--<div class="h4 font-weight-light text-uppercase">Мы в соц сетях</div>--}}
 
-                <div class="socials">
-                    <a href="#"><i class="fab fa-vk"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                </div>
-            </div>
+                {{--<div class="socials">--}}
+                    {{--<a href="#"><i class="fab fa-vk"></i></a>--}}
+                    {{--<a href="#"><i class="fab fa-instagram"></i></a>--}}
+                    {{--<a href="#"><i class="fab fa-facebook-f"></i></a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
-            <div class="col-md-3 font-weight-light">
-                Информация на сайте edoshka.ru является публичной офертой.
-                Указанные цены действуют только при оформлении заказа через интернет-магазин edoshka.ru.
+            <div class="col-md-12 col-lg-4 font-weight-light">
+                @php
+                    $var = 'foot_info';
+                @endphp
+                @helpmsg($var)
             </div>
         </div>
     </div>
     <div class="powered text-center">
-        <small>2019  Все права защищены. <a href="#">Разрабготка site-forest.ru</a></small>
+        @php
+            $var = 'copirate';
+        @endphp
+        @helpmsg($var)
     </div>
 </footer>
 @stack('modals')
