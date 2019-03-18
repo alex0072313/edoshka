@@ -120,5 +120,20 @@ class RestaurantController extends AdminController
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Restaurant $restaurant)
+    {
+        if($restaurant->delete()){
+            return redirect()
+                ->back()
+                ->with('success', 'Ресторан "'.$restaurant->name.'" был удален!');
+        }
+    }
+
 
 }
