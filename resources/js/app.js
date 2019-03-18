@@ -212,6 +212,7 @@ if($('.shop_pos_item').length) {
                                                 '<button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="'+$json.dishes_viewed[i].id+'">В корзину</button>' +
                                             '</div>' +
                                         '</div>';
+
                             }
                         }
 
