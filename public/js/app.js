@@ -39488,6 +39488,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
                 html += '<div class="item d-flex align-items-center' + cls + '">' + '<div class="image">' + '<img src="' + $json.dishes_viewed[i].img + '" alt="">' + '</div>' + '<div class="flex-grow-1 ml-2 font-weight-bold">' + $json.dishes_viewed[i].name + '<span class="ml-2 text-secondary font-weight-normal">' + $json.dishes_viewed[i].short_description + '</span>' + '</div>' + '<div class="h4 mb-0 mr-2 text-nowrap price">';
 
                 if ($json.dishes_viewed[i].new_price) {
+                  html += '<small class="old">' + $json.dishes_viewed[i].new_price + '</small>';
                   html += '<span class="new">' + $json.dishes_viewed[i].new_price + ' &#8381;</span>';
                 } else {
                   html += $json.dishes_viewed[i].price + ' &#8381;';

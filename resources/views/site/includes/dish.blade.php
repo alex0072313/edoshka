@@ -106,6 +106,7 @@
                                                 </div>
                                                 <div class="h4 mb-0 mr-2 text-nowrap price">
                                                     @if($recomended->new_price)
+                                                        <small class="old">{{ $recomended->price }}</small>
                                                         <span class="new">{{ $recomended->new_price }} &#8381;</span>
                                                     @else
                                                         {{ $recomended->price }} &#8381;
