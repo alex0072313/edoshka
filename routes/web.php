@@ -13,6 +13,9 @@ Route::post('/dishes_cart', 'Site\CartController@init')->name('site.dishes_cart'
 //Оформление
 Route::post('/send_order', 'Site\OrderController@send')->name('site.send_order');
 
+//Поиск
+Route::post('/search', 'Site\SearchController@query')->name('site.search');
+
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 

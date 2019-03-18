@@ -7,148 +7,109 @@
     </div>
 
     <div class="results_box custom_scrollbar">
-        <div class="shop">
-            <a href="#" class="info d-flex">
-                <div>
-                    <img src="/images/theme/search_shop.jpg" alt="">
-                </div>
-                <div class="flex-grow-1">
-                    <div class="h5 mb-0">Суши шторм</div>
-                    <span class="text-secondary font-weight-light">
-                        Японская кухня • Супы • Салаты • Суши • Напитки
-                    </span>
-                </div>
-            </a>
-            <div class="items">
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Горячий рол с угрем</div>
-                        <span class="text-secondary font-weight-light">99 ₽</span>
-                    </a>
-                </div>
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Вулкан"</div>
-                        <span class="text-secondary font-weight-light">199 ₽</span>
-                    </a>
-                </div>
-
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Канада"</div>
-                        <span class="text-secondary font-weight-light">459 ₽</span>
-                    </a>
-                </div>
-
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Филадельфия"</div>
-                        <span class="text-secondary font-weight-light">600 ₽</span>
-                    </a>
-                </div>
-
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Горячий рол с угрем</div>
-                        <span class="text-secondary font-weight-light">99 ₽</span>
-                    </a>
-                </div>
-
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Вулкан"</div>
-                        <span class="text-secondary font-weight-light">199 ₽</span>
-                    </a>
-                </div>
-
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Канада"</div>
-                        <span class="text-secondary font-weight-light">459 ₽</span>
-                    </a>
-                </div>
-
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Филадельфия"</div>
-                        <span class="text-secondary font-weight-light">600 ₽</span>
-                    </a>
-                </div>
-
-            </div>
+        <div class="wait">
+            <div class="h6 mb-0"><i class="fas fa-circle-notch fa-spin text-primary mr-1"></i> Ищем..</div>
         </div>
-        <div class="shop">
-            <a href="#" class="info d-flex">
-                <div>
-                    <img src="/images/theme/search_shop.jpg" alt="">
-                </div>
-                <div class="flex-grow-1">
-                    <div class="h5 mb-0">Суши шторм</div>
-                    <span class="text-secondary font-weight-light">
-                        Японская кухня • Супы • Салаты • Суши • Напитки
-                    </span>
-                </div>
-            </a>
-            <div class="items">
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Горячий рол с угрем</div>
-                        <span class="text-secondary font-weight-light">99 ₽</span>
-                    </a>
-                </div>
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Вулкан"</div>
-                        <span class="text-secondary font-weight-light">199 ₽</span>
-                    </a>
-                </div>
+        <div class="_notfound">Не найдено, попробуйте другое название</div>
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Канада"</div>
-                        <span class="text-secondary font-weight-light">459 ₽</span>
-                    </a>
-                </div>
+        <div class="items">
+            {{--<div class="shop">--}}
+                {{--<a href="#" class="info d-flex">--}}
+                    {{--<div>--}}
+                        {{--<img src="/images/theme/search_shop.jpg" alt="">--}}
+                    {{--</div>--}}
+                    {{--<div class="flex-grow-1">--}}
+                        {{--<div class="h5 mb-0">Суши шторм</div>--}}
+                        {{--<span class="text-secondary font-weight-light">--}}
+                            {{--Японская кухня • Супы • Салаты • Суши • Напитки--}}
+                        {{--</span>--}}
+                    {{--</div>--}}
+                {{--</a>--}}
+                {{--<div class="items">--}}
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Горячий рол с угрем</div>--}}
+                            {{--<span class="text-secondary font-weight-light">99 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Филадельфия"</div>
-                        <span class="text-secondary font-weight-light">600 ₽</span>
-                    </a>
-                </div>
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Роллы "Вулкан"</div>--}}
+                            {{--<span class="text-secondary font-weight-light">199 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Горячий рол с угрем</div>
-                        <span class="text-secondary font-weight-light">99 ₽</span>
-                    </a>
-                </div>
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Роллы "Канада"</div>--}}
+                            {{--<span class="text-secondary font-weight-light">459 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Вулкан"</div>
-                        <span class="text-secondary font-weight-light">199 ₽</span>
-                    </a>
-                </div>
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Роллы "Филадельфия"</div>--}}
+                            {{--<span class="text-secondary font-weight-light">600 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Канада"</div>
-                        <span class="text-secondary font-weight-light">459 ₽</span>
-                    </a>
-                </div>
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Горячий рол с угрем</div>--}}
+                            {{--<span class="text-secondary font-weight-light">99 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
 
-                <div class="item">
-                    <a href="#" class="d-block">
-                        <div class="text-black">Роллы "Филадельфия"</div>
-                        <span class="text-secondary font-weight-light">600 ₽</span>
-                    </a>
-                </div>
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Роллы "Вулкан"</div>--}}
+                            {{--<span class="text-secondary font-weight-light">199 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
 
-            </div>
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Роллы "Канада"</div>--}}
+                            {{--<span class="text-secondary font-weight-light">459 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
+
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Роллы "Филадельфия"</div>--}}
+                            {{--<span class="text-secondary font-weight-light">600 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
+
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="shop">--}}
+                {{--<a href="#" class="info d-flex">--}}
+                    {{--<div>--}}
+                        {{--<img src="/images/theme/search_shop.jpg" alt="">--}}
+                    {{--</div>--}}
+                    {{--<div class="flex-grow-1">--}}
+                        {{--<div class="h5 mb-0">Суши шторм</div>--}}
+                        {{--<span class="text-secondary font-weight-light">--}}
+                            {{--Японская кухня • Супы • Салаты • Суши • Напитки--}}
+                        {{--</span>--}}
+                    {{--</div>--}}
+                {{--</a>--}}
+                {{--<div class="items">--}}
+                    {{--<div class="item">--}}
+                        {{--<a href="#" class="d-block">--}}
+                            {{--<div class="text-black">Горячий рол с угрем</div>--}}
+                            {{--<span class="text-secondary font-weight-light">99 ₽</span>--}}
+                        {{--</a>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{----}}
+            {{--</div>--}}
         </div>
+
     </div>
 
 </div>

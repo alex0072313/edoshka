@@ -55,6 +55,16 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Показывать в верхнем меню</label>
+            <div class="col-md-9">
+                <div class="checkbox checkbox-css on_g">
+                    <input type="checkbox" name="topmenu" id="topmenu" value="1"{{ isset($category->id) ? $category->topmenu || old('topmenu') ? ' checked':'':'' }} />
+                    <label for="topmenu">&nbsp;</label>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="clearfix">
                 <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">

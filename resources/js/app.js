@@ -8,6 +8,12 @@
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 require('jquery-mousewheel/jquery.mousewheel');
 
 require('popper.js');
@@ -21,11 +27,8 @@ require('malihu-custom-scrollbar-plugin');
 
 require('jquery-mask-plugin');
 
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+require('../js/search');
+
 if($('input.holdered').length){
     $(function () {
 
@@ -50,30 +53,30 @@ if($('input.holdered').length){
     });
 }
 
-//Поиск в шапке
-if($('.search__module').length){
-    $('.search__module').each(function () {
-        var box = $(this),
-            input = box.find('input');
-
-        input.on('focus', function () {
-            box.addClass('focus');
-            $('body').addClass('position-relative');
-
-            $(document).on('click', function (el) {
-                var el = el.target;
-
-                if(!$(el).parents('.search__module').length){
-                    box.removeClass('focus');
-                    $('body').removeClass('position-relative');
-                }
-                console.log(el);
-
-            });
-
-        });
-    });
-}
+// //Поиск в шапке
+// if($('.search__module').length){
+//     $('.search__module').each(function () {
+//         var box = $(this),
+//             input = box.find('input');
+//
+//         input.on('focus', function () {
+//             box.addClass('focus');
+//             $('body').addClass('position-relative');
+//
+//             $(document).on('click', function (el) {
+//                 var el = el.target;
+//
+//                 if(!$(el).parents('.search__module').length){
+//                     box.removeClass('focus');
+//                     $('body').removeClass('position-relative');
+//                 }
+//                 console.log(el);
+//
+//             });
+//
+//         });
+//     });
+// }
 
 //Скроллбары
 if($('.custom_scrollbar').length){
@@ -222,96 +225,96 @@ if($('.shop_pos_item').length) {
 
     });
 
-    //Корзина
-    $(document).on("click", '.add_to_cart', function(){
-        var dish_id = $(this).data('dish-id'),
-            btn = $(this);
+}
 
-        ajax_request({
+//Корзина
+$(document).on("click", '.add_to_cart', function(){
+    var dish_id = $(this).data('dish-id'),
+        btn = $(this);
+
+    ajax_request({
             'action': 'add',
             'dish_id': dish_id,
         }, '/dishes_cart', 'json', 'post',
-            function () {
-                btn.addClass('adding').addClass('disabled');
-                $('#card__module_modal .card_products').addClass('added');
-            },
-            function ($json) {
-                btn.removeClass('adding').removeClass('disabled');
-                $('#card__module_modal .card_products').removeClass('load');
-                return cart_update($json);
+        function () {
+            btn.addClass('adding').addClass('disabled');
+            $('#card__module_modal .card_products').addClass('added');
+        },
+        function ($json) {
+            btn.removeClass('adding').removeClass('disabled');
+            $('#card__module_modal .card_products').removeClass('load');
+            return cart_update($json);
             console.log($json);
         });
-    });
+});
 
-    $(document).on("click", '.remove_from_cart', function(){
-        var dish_id = $(this).data('dish-id');
+$(document).on("click", '.remove_from_cart', function(){
+    var dish_id = $(this).data('dish-id');
 
-        ajax_request({
+    ajax_request({
             'action': 'remove',
             'dish_id': dish_id,
         }, '/dishes_cart', 'json', 'post',
+        function () {
+            $('#card__module_modal .card_products').addClass('load');
+        },
+        function ($json) {
+            $('#card__module_modal .card_products').removeClass('load');
+            return cart_update($json);
+        });
+});
+
+$(document).on("click", '.quintity_cart_m, .quintity_cart_p', function(){
+    var btn = $(this),
+        q = btn.hasClass('quintity_cart_p') ? +1 : -1,
+        input = btn.hasClass('quintity_cart_m') ? btn.parent('.input-group-prepend').next('input') : btn.parent('.input-group-append').prev('input'),
+        val = input.val(),
+        dish_id = input.data('dish-id'),
+        quantity = parseInt(input.val())+q;
+
+    if(btn.parents('.items ').length){
+        input.val(quantity);
+    }else{
+
+        if(btn.hasClass('quintity_cart_m') && (quantity < input.attr('min'))){
+            return false;
+        }
+        input.val(quantity);
+    }
+    if(btn.parents('.items ').length){
+        ajax_request({
+                'action': 'quantity',
+                'dish_id': dish_id,
+                'remove': !quantity ? 1 : 0,
+                'quantity': parseInt(q),
+            }, '/dishes_cart', 'json', 'post',
             function () {
                 $('#card__module_modal .card_products').addClass('load');
             },
             function ($json) {
                 $('#card__module_modal .card_products').removeClass('load');
                 return cart_update($json);
-        });
-    });
+            });
+    }
 
-    $(document).on("click", '.quintity_cart_m, .quintity_cart_p', function(){
-        var btn = $(this),
-            q = btn.hasClass('quintity_cart_p') ? +1 : -1,
-            input = btn.hasClass('quintity_cart_m') ? btn.parent('.input-group-prepend').next('input') : btn.parent('.input-group-append').prev('input'),
-            val = input.val(),
-            dish_id = input.data('dish-id'),
-            quantity = parseInt(input.val())+q;
+});
 
-        if(btn.parents('.items ').length){
-            input.val(quantity);
-        }else{
+$(document).on("click", '.order_modal_show', function(){
+    $('[id^="shop_pos_item_modal"]').modal('hide');
 
-            if(btn.hasClass('quintity_cart_m') && (quantity < input.attr('min'))){
-                return false;
-            }
-            input.val(quantity);
-        }
-        if(btn.parents('.items ').length){
-            ajax_request({
-                    'action': 'quantity',
-                    'dish_id': dish_id,
-                    'remove': !quantity ? 1 : 0,
-                    'quantity': parseInt(q),
-                }, '/dishes_cart', 'json', 'post',
-                function () {
-                    $('#card__module_modal .card_products').addClass('load');
-                },
-                function ($json) {
-                    $('#card__module_modal .card_products').removeClass('load');
-                    return cart_update($json);
-                });
-        }
+    //setTimeout(function () {
+    $('#card__module_modal').modal('show');
+    //}, 500);
+});
 
-    });
+$('#card__module_modal').on('show.bs.modal', function (e) {
+    $('body').removeClass('card__module_show').addClass('show_order');
+});
 
-    $(document).on("click", '.order_modal_show', function(){
-        $('[id^="shop_pos_item_modal"]').modal('hide');
-
-        //setTimeout(function () {
-            $('#card__module_modal').modal('show');
-        //}, 500);
-    });
-
-    $('#card__module_modal').on('show.bs.modal', function (e) {
-        $('body').removeClass('card__module_show').addClass('show_order');
-    });
-
-    $('#card__module_modal').on('hide.bs.modal', function (e) {
-        $('body').removeClass('show_order');
-        if(!$('body').hasClass('cleared')) $('body').addClass('card__module_show');
-    });
-
-}
+$('#card__module_modal').on('hide.bs.modal', function (e) {
+    $('body').removeClass('show_order');
+    if(!$('body').hasClass('cleared')) $('body').addClass('card__module_show');
+});
 
 //Каталог - навигация
 if($('.products_nav').length){
@@ -533,7 +536,7 @@ function TrimStr(s) {
     return s.replace(/\s+$/g, '');
 }
 
-function ajax_request(data, action, datatype, type, on_submit, success, error) {
+global.ajax_request = function (data, action, datatype, type, on_submit, success, error) {
 
     //до ответа сервера
     if(typeof on_submit === 'function') on_submit(data);

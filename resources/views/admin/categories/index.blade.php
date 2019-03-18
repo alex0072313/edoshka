@@ -14,6 +14,7 @@
                     <th>Название</th>
                     <th>Создана в ресторане</th>
                     <th>Алиас</th>
+                    <th>В верхнем меню</th>
                     {{--@role('admin')--}}
                     {{--<th>Владелец</th>--}}
                     {{--@endrole--}}
@@ -55,6 +56,7 @@
                         <td>
                             {{ $category->alias }}
                         </td>
+                        <td>{{ $category->topmenu ? 'Да' : 'Нет' }}</td>
                         {{--@role('admin')--}}
                             {{--<td><a class="text-green" href="{{ route('user.edit', $category->user->id) }}">{{ $category->user->name }}</a></td>--}}
                         {{--@endrole--}}

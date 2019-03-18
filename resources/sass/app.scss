@@ -114,6 +114,31 @@ header {
                     color: $black;
                     z-index: 100;
                     @include boxshadow(0px 25px 70px -30px $black);
+
+                    .wait, ._notfound{
+                        display: none;
+                    }
+
+                    &.waiting{
+                        .wait{
+                            display: block;
+                            padding: 10px 13px;
+                        }
+                        .items{
+                            display: none;
+                        }
+                    }
+
+                    &.notfound{
+                        .items{
+                            display: none;
+                        }
+                        ._notfound{
+                            display: block;
+                            padding: 10px 13px;
+                        }
+                    }
+
                     .shop {
                         .info {
                             @include animate(.2s);

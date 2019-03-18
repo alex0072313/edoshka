@@ -11924,6 +11924,29 @@ header .top .search .search__module .results_box {
   box-shadow: 0px 25px 70px -30px #000;
 }
 
+header .top .search .search__module .results_box .wait,
+header .top .search .search__module .results_box ._notfound {
+  display: none;
+}
+
+header .top .search .search__module .results_box.waiting .wait {
+  display: block;
+  padding: 10px 13px;
+}
+
+header .top .search .search__module .results_box.waiting .items {
+  display: none;
+}
+
+header .top .search .search__module .results_box.notfound .items {
+  display: none;
+}
+
+header .top .search .search__module .results_box.notfound ._notfound {
+  display: block;
+  padding: 10px 13px;
+}
+
 header .top .search .search__module .results_box .shop .info {
   transition: 0.2s ease-out;
   background: #fff;

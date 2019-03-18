@@ -17,7 +17,7 @@ class SiteController extends Controller
 
     public function __construct()
     {
-        $this->admin_categories = User::getAdmin()->categories;
+        $this->admin_categories = User::getAdmin()->categories()->where('topmenu', '=', true)->get();
         $this->data['top_categories'] = $this->admin_categories;
 
         //Текущий горо Геленджик

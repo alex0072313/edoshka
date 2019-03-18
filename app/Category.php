@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'description', 'icon', 'alias'];
+    protected $fillable = ['name', 'description', 'icon', 'alias', 'topmenu'];
 
 //    public function getRouteKeyName()
 //    {
@@ -66,9 +66,9 @@ class Category extends Model
         return parent::delete();
     }
 
-    public function scopeHasDishes($query, Restaurant $restaurant)
+    public function scopeHasDishes($query, $restaurant)
     {
-        return $query->rightJoin('dishes', 'categories.id', '=', 'dishes.category_id')->select('categories.*')->where('dishes.restaurant_id', '=', $restaurant->id)->groupBy('id');
+        return $query->rightJoin('dishes', 'categories.id', '=', 'dishes.category_id')->select('categories.*')->where('dishes.restaurant_id', '=', isset($restaurant->id) ? $restaurant->id : $restaurant)->groupBy('id');
     }
 
 }
