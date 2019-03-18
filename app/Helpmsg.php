@@ -14,7 +14,14 @@ class Helpmsg extends Model
 
     public static function getByPage($page){
         $data = [];
-        foreach (self::all()->where('page', $page)->toArray() as $config){
+
+        $r = self::all()->where('page', $page);
+
+        if($page != 'site-home'){
+            $r = $r->merge(self::all()->where('page', '=', 'site-home'));
+        }
+
+        foreach ($r->toArray() as $config){
             $data[$config['name']] = $config;
         }
         return $data;
