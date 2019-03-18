@@ -1,4 +1,4 @@
-<div class="shop_pos_item p-2" data-product-id="{{ $dish->id }}">
+<div class="shop_pos_item p-2" data-product-id="{{ $dish->id }}" id="dish{{ $dish->id }}">
 
     <div class="image mb-1">
         @if($dish->markers)
