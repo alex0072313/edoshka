@@ -12467,7 +12467,7 @@ header .globalmenu .links > a:hover {
 }
 
 #card__module_modal .card_products .items td.count .count_input {
-  width: 120px;
+  width: 90px !important;
 }
 
 #card__module_modal .card_products .items td:first-child {
