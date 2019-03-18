@@ -22,7 +22,7 @@
     <div class="price d-flex justify-content-between">
         <div class="h4 mb-0">
             @if($dish->new_price)
-                <span class="old">{{ $dish->price }} &#8381;</span>
+                <small class="old">{{ $dish->price }}</small>
                 <span class="new">{{ $dish->new_price }} &#8381;</span>
             @else
                 {{ $dish->price }} &#8381;
@@ -72,7 +72,7 @@
                             <div class="price d-flex justify-content-between">
                                 <div class="h1 mb-0">
                                     @if($dish->new_price)
-                                        <span class="old">{{ $dish->price }} &#8381;</span>
+                                        <small class="old">{{ $dish->price }}</small>
                                         <span class="new">{{ $dish->new_price }} &#8381;</span>
                                     @else
                                         {{ $dish->price }} &#8381;
