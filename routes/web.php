@@ -37,7 +37,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('dishes/create', 'Admin\DishesController@create')->name('dishes.create');
     Route::get('dishes/{category_str_id?}', 'Admin\DishesController@index')->name('dishes.index');
     Route::get('dishes/{category_str_id}/create', 'Admin\DishesController@create')->name('dishes.create_in_cat');
-    Route::get('dishes/{dish_str_id}/destroy', 'Admin\DishesController@destroy')->name('dishes.destroy');
+    Route::get('dishes/{dish}/destroy', 'Admin\DishesController@destroy')->name('dishes.destroy');
     Route::resource('dishes', 'Admin\DishesController')
         ->except(['index', 'create', 'destroy'])
         ->parameters([
