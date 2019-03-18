@@ -74,7 +74,7 @@ class Restaurant extends Model
     public function delete()
     {
         $this->users()->delete();
-        Storage::disk('public')->deleteDirectory('restaurant_imgs/'.$this->id);
+        \Storage::disk('public')->deleteDirectory('restaurant_imgs/'.$this->id);
         return parent::delete();
     }
 
