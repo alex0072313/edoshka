@@ -202,7 +202,7 @@ if($('.shop_pos_item').length) {
                                             '</div>' +
                                             '<div class="h4 mb-0 mr-2 text-nowrap price">';
                                                 if($json.dishes_viewed[i].new_price){
-                                                    html += '<small class="old">'+$json.dishes_viewed[i].new_price + '</small> ';
+                                                    html += '<small class="old mr-1">'+$json.dishes_viewed[i].new_price + '</small>';
                                                     html += '<span class="new">'+$json.dishes_viewed[i].new_price + ' &#8381;</span>';
                                                 }else{
                                                     html += $json.dishes_viewed[i].price + ' &#8381;';
