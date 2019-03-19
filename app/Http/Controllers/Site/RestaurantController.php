@@ -26,7 +26,7 @@ class RestaurantController extends SiteController
         $this->data['categories'] = $categories;
 
         //$this->data['popular_dishes'] = $restaurant->dishes()->Popular()->get();
-        $this->data['popular_dishes'] = [];
+        $this->data['popular_dishes'] = collect([]);
 
         return $this->render();
     }
