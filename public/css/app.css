@@ -12492,6 +12492,7 @@ header .globalmenu .links > a:hover {
     width: 100% !important;
     text-align: center;
     border: none;
+    padding-left: 0;
   }
 
   #card__module_modal .card_products .items tr + tr {
