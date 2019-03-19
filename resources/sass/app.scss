@@ -664,8 +664,10 @@ header {
                 }
             @include media-breakpoint-down(sm) {
                 display: block;
-                tr, td{
+                tbody, tr, td{
                     display: block;
+                    width: 100% !important;
+                    text-align: center;
                 }
             }
 
