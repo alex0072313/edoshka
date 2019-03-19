@@ -12492,6 +12492,15 @@ header .globalmenu .links > a:hover {
     width: 100% !important;
     text-align: center;
   }
+
+  #card__module_modal .card_products .items .count_input {
+    margin: 0 auto;
+  }
+
+  #card__module_modal .card_products .items .image {
+    margin: 0 auto;
+    width: 60px;
+  }
 }
 
 .load {
