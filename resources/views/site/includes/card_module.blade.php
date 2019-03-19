@@ -10,7 +10,7 @@
 
                 </a>
                 <div class="h4 text-white ml-3 font-weight-light  mb-0 d-md-none d-block">
-                    <span class="quantity">{{ $_cart_total_q }}</span> ₽
+                    <span class="sum">{{ $_cart_total_p }}</span> ₽
                 </div>
             </div>
             <div class="h4 text-white ml-2 font-weight-light mb-0 d-md-block d-none">
