@@ -7,9 +7,10 @@
                     <div class="h4 text-white ml-2 font-weight-light text-uppercase mb-0 d-md-block d-none">
                         Корзина
                     </div>
+
                 </a>
                 <div class="h4 text-white ml-3 font-weight-light  mb-0 d-md-none d-block">
-                    {{ $_cart_total_p }} ₽
+                    <span class="quantity">{{ $_cart_total_q }}</span> ₽
                 </div>
             </div>
             <div class="h4 text-white ml-2 font-weight-light mb-0 d-md-block d-none">
