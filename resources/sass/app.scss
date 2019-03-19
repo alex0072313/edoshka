@@ -662,7 +662,12 @@ header {
                         padding-right: 0;
                     }
                 }
-
+            @include media-breakpoint-down(sm) {
+                display: block;
+                tr, td{
+                    display: block;
+                }
+            }
 
         }
     }
