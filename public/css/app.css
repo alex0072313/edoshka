@@ -12480,6 +12480,17 @@ header .globalmenu .links > a:hover {
   padding-right: 0;
 }
 
+@media (max-width: 767.98px) {
+  #card__module_modal .card_products .items {
+    display: block;
+  }
+
+  #card__module_modal .card_products .items tr,
+  #card__module_modal .card_products .items td {
+    display: block;
+  }
+}
+
 .load {
   position: relative;
 }
