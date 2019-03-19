@@ -227,16 +227,15 @@
 
 @push('js')
     <script>
-        $('#shops_catalog .card .inner').each(function () {
-            var box = $(this),
-                overlay = box.find('.card-img-overlay');
-
-            function shops_catalog_resize(box){
+        function shops_catalog_resize(){
+            $('#shops_catalog .card .inner').each(function () {
+                var box = $(this),
+                    overlay = box.find('.card-img-overlay');
                 box.css('height', overlay.innerHeight());
-            }
+            });
+        }
 
-            $(window).on('resize ready', shops_catalog_resize);
-        });
+        $(window).on('resize ready', shops_catalog_resize);
 
     </script>
 @endpush
