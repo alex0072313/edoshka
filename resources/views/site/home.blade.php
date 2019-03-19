@@ -235,7 +235,7 @@
             });
         }
 
-        $(window).on('resize ready', shops_catalog_resize);
+        $(window).on('resize', shops_catalog_resize).resize();
 
     </script>
 @endpush
