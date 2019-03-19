@@ -668,6 +668,10 @@ header {
                     display: block;
                     width: 100% !important;
                     text-align: center;
+                    border: none;
+                }
+                tr + tr{
+                    border-top: 1px solid #ced4da;
                 }
                 .count_input{
                     margin: 0 auto;
