@@ -12737,6 +12737,20 @@ body.card__module_show .card__module .order_modal_show {
   opacity: 1;
 }
 
+@media (max-width: 767.98px) {
+  #shops_catalog .catalog .card .inner:before {
+    opacity: 0.7;
+  }
+
+  #shops_catalog .catalog .card .inner:after {
+    opacity: 0;
+  }
+
+  #shops_catalog .catalog .card .inner .hover {
+    opacity: 1;
+  }
+}
+
 .auth_page {
   height: 100vh;
 }
