@@ -860,7 +860,7 @@ body.card__module_show {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
-                height: 220px;
+                min-height: 220px;
 
                 &:before {
                     @include animate();
@@ -892,6 +892,7 @@ body.card__module_show {
 
                 .card-img-overlay {
                     z-index: 100;
+                    bottom: inherit;
                 }
                 .hover {
                     opacity: 0;

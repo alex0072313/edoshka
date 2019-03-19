@@ -12680,7 +12680,7 @@ body.card__module_show .card__module .order_modal_show {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 220px;
+  min-height: 220px;
 }
 
 #shops_catalog .catalog .card .inner img {
@@ -12717,6 +12717,7 @@ body.card__module_show .card__module .order_modal_show {
 
 #shops_catalog .catalog .card .inner .card-img-overlay {
   z-index: 100;
+  bottom: inherit;
 }
 
 #shops_catalog .catalog .card .inner .hover {
