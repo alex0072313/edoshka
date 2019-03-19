@@ -912,7 +912,19 @@ body.card__module_show {
                         opacity: 1;
                     }
                 }
-
+            }
+            @include media-breakpoint-down(sm) {
+                .inner {
+                    &:before {
+                        opacity: 0.7;
+                    }
+                    &:after {
+                        opacity: 0;
+                    }
+                    .hover {
+                        opacity: 1;
+                    }
+                }
             }
 
         }
