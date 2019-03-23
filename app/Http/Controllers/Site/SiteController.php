@@ -30,8 +30,8 @@ class SiteController extends Controller
             : [];
 
         if (!in_array($id, $dishes_cookie)) {
-            if(count($dishes_cookie) == 3){
-                $dishes_cookie = array_slice($dishes_cookie, 1, 2);
+            if(count($dishes_cookie) == 6){
+                $dishes_cookie = array_slice($dishes_cookie, 1, 5);
             }
             $dishes_cookie[] = $id;
         }
@@ -53,9 +53,9 @@ class SiteController extends Controller
                     'img' => \Storage::disk('public')->exists('dish_imgs/' . $dish->id . '/img_xs.jpg') ? \Storage::disk('public')->url('dish_imgs/' . $dish->id . '/img_xs.jpg') : null,
                 ];
             }
-            return response()->json(['dishes_viewed' => $dishes_viewed])->withCookie(cookie('dishes_viewed', implode(',', $dishes_cookie), 3600));
+            return response()->json(['dishes_viewed' => array_reverse($dishes_viewed)])->withCookie(cookie('dishes_viewed', implode(',', $dishes_cookie), 3600));
         } else {
-            return response()->json(['dishes_viewed' => $dishes_viewed]);
+            return response()->json(['dishes_viewed' => array_reverse($dishes_viewed)]);
         }
 
     }
