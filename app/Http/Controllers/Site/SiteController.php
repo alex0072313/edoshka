@@ -31,7 +31,7 @@ class SiteController extends Controller
 
         if (!in_array($id, $dishes_cookie)) {
             if(count($dishes_cookie) == 3){
-                $dishes_cookie = array_slice($dishes_cookie, 0, 2);
+                $dishes_cookie = array_slice($dishes_cookie, 1, 2);
             }
             $dishes_cookie[] = $id;
         }
