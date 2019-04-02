@@ -326,16 +326,15 @@
                 data: {name:val},
                 dataType: 'json',
                 success: function (json) {
-                    //if(typeof json.repeat !== "undefined"){
-                        if(typeof json.repeat.name !== 'undefined'){
+                    if(typeof json.repeat !== "undefined"){
+                        if(json.repeat.name){
                             if(!input.next('.has_repeat').length){
                                 input.after('<span class="invalid-feedback text-orange has_repeat d-block" role="alert">'+json.repeat.name+'</span>');
                             }
-                        }else {
-                            input.next('.invalid-feedback').remove();
                         }
-
-                    //}
+                    }else {
+                        input.next('.invalid-feedback').remove();
+                    }
                     console.log(json);
                 }
             });
