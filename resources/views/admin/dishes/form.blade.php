@@ -212,6 +212,12 @@
                         @endif
 
                         <input type="file" name="image" class="form-control-file">
+
+                        <div class="checkbox checkbox-css on_g">
+                            <input type="checkbox" name="whitespace" id="whitespace" value="1" />
+                            <label for="whitespace">Загрузить с белыми полями</label>
+                        </div>
+
                         @if ($errors->has('image'))
                             <span class="invalid-feedback d-block" role="alert">
                                 Загрузите фото!

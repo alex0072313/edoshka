@@ -160,7 +160,7 @@ class DishesController extends AdminController
 
             //Фото
             if ($img = request()->file('image')) {
-                DishRepository::createImage($img, $dish);
+                DishRepository::createImage($img, $dish, request()->get('whitespace'));
             }
 
             return redirect()
@@ -272,7 +272,7 @@ class DishesController extends AdminController
 
             //Фото
             if ($img = request()->file('image')) {
-                DishRepository::createImage($img, $dish);
+                DishRepository::createImage($img, $dish, request()->get('whitespace'));
             }
 
             return redirect()
