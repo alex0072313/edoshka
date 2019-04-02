@@ -326,6 +326,16 @@
                 data: {name:val},
                 dataType: 'json',
                 success: function (json) {
+                    //if(typeof json.repeat !== "undefined"){
+                        if(json.repeat.name){
+                            input.addClass('is-invalid');
+                            input.after('<span class="invalid-feedback" role="alert">'+json.repeat.name+'</span>');
+                        }else {
+                            input.removeClass('is-invalid');
+                            input.next('.invalid-feedback').remove();
+                        }
+
+                    //}
                     console.log(json);
                 }
             });
