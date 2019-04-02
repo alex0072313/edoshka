@@ -306,7 +306,7 @@ class DishesController extends AdminController
 
             $dishes = Dish::whereRaw('lower(name) like "%' . strtolower($name) . '%"')->get();
 
-            if($dishes){
+            if($dishes->count()){
                 $links = [];
                 foreach ($dishes as $dish){
                     $links[] = '<a href="'.route('admin.dishes.edit', $dish->id).'">'.$dish->name.'</a>';
