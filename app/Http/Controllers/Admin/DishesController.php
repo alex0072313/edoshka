@@ -304,10 +304,15 @@ class DishesController extends AdminController
 
         if($name = request('name')){
 
-            $cnt = Dish::whereRaw('lower(name) like "%' . strtolower($name) . '%"')->count();
+            $dishes = Dish::whereRaw('lower(name) like "%' . strtolower($name) . '%"')->get();
 
-            if($cnt){
-                $json['repeat']['name'] = 'Есть блюдо с похожи именем';
+            if($dishes){
+                $links = [];
+                foreach ($dishes as $dish){
+                    $links[] = '<a href="'.route('admin.dishes.edit', $dish->id).'">'.$dish->name.'</a>';
+                }
+
+                $json['repeat']['name'] = 'Есть блюда с похожим именем: '.implode(', ', $links);
             }
         }
 
