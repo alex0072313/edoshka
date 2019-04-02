@@ -328,7 +328,7 @@
                 success: function (json) {
                     //if(typeof json.repeat !== "undefined"){
                         if(json.repeat.name){
-                            if(!input.next('.has_repeat').length()){
+                            if(!input.next('.has_repeat').length){
                                 input.after('<span class="invalid-feedback text-orange has_repeat" role="alert">'+json.repeat.name+'</span>');
                             }
                         }else {
