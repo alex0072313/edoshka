@@ -34,6 +34,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('categories', 'Admin\CategoryController')->except(['destroy', 'show']);
 
     //Блюда
+    Route::post('dishes/find_repeat', 'Admin\DishesController@findRepeat')->name('dishes.find_repeat');
+
     Route::get('dishes/create', 'Admin\DishesController@create')->name('dishes.create');
     Route::get('dishes/{category_str_id?}', 'Admin\DishesController@index')->name('dishes.index');
     Route::get('dishes/{category_str_id}/create', 'Admin\DishesController@create')->name('dishes.create_in_cat');

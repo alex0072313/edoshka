@@ -113,7 +113,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Название</label>
                     <div class="col-md-9">
-                        <input type="text" name="name"
+                        <input type="text" name="name" id="name_input"
                                value="{{ old('name') ? old('name') : (isset($dish) ? $dish->name : '') }}"
                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                placeholder="Название блюда"
@@ -313,3 +313,15 @@
 
     </form>
 @endsection
+
+@push('js')
+    <script>
+        $('#name_input').on('change', function () {
+            var input = $(this),
+                val = input.val();
+
+
+            console.log(val);
+        });
+    </script>
+@endpush

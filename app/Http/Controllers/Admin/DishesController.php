@@ -297,4 +297,20 @@ class DishesController extends AdminController
                 ->with(['success' => 'Блюдо ' . $dish->name . ' было удалено!']);
         }
     }
+
+    public function findRepeat()
+    {
+        $json = [];
+
+        if($name = request('name')){
+
+            $cnt = Dish::whereRaw('lower(name) like "%' . strtolower($name) . '%"')->count();
+
+            if($cnt){
+                $json['repeat']['name'] = 'Есть блюдо с похожи именем';
+            }
+        }
+
+        return response()->json($json);
+    }
 }
