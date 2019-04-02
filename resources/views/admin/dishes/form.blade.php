@@ -320,8 +320,17 @@
             var input = $(this),
                 val = input.val();
 
+            $.ajax({
+                type: "POST",
+                url: '{{ route('dishes.find_repeat') }}',
+                data: {name:val},
+                dataType: 'json',
+                success: function (json) {
+                    console.log(json);
+                }
+            });
 
-            console.log(val);
+
         });
     </script>
 @endpush
