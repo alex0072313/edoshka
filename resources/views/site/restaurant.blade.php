@@ -3,7 +3,7 @@
 @section('content')
     <section id="greetin_page_default" class="shop" {!! Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg').'\');"' : '' !!}>
         <div class="container position-relative h-100">
-            <div class="d-flex align-content-end flex-wrap inner w-100">
+            <div class="d-flex align-content-end flex-wrap inner">
                 <nav aria-label="breadcrumb" class="d-inline-block">
                     {{ @Breadcrumbs::render() }}
                 </nav>
@@ -130,7 +130,7 @@
                             <div class="products_items">
                                 <div class="row">
                                     @foreach($popular_dishes as $dish)
-                                        <div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+                                        <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
                                             @include('site.includes.dish')
                                         </div>
                                     @endforeach
@@ -145,7 +145,7 @@
                                 <div class="products_items">
                                     <div class="row">
                                         @foreach($category->dishes as $dish)
-                                            <div class="col-md-4 mb-4">
+                                            <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
                                                 @include('site.includes.dish')
                                             </div>
                                         @endforeach
