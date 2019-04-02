@@ -322,7 +322,7 @@
 
             $.ajax({
                 type: "POST",
-                url: '{{ route('dishes.find_repeat') }}',
+                url: '{{ route('admin.dishes.find_repeat') }}',
                 data: {name:val},
                 dataType: 'json',
                 success: function (json) {
