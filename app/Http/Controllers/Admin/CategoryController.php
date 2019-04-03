@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Category;
+use App\Restaurant;
 use Validator;
 
 class CategoryController extends AdminController
@@ -36,6 +37,8 @@ class CategoryController extends AdminController
         $this->view = 'admin.categories.form';
         $this->title = 'Добавление новой категории';
 
+        $this->data['restaurants'] = $restaurants = Restaurant::all();
+
         return $this->render();
     }
 
@@ -47,11 +50,17 @@ class CategoryController extends AdminController
      */
     public function store(Request $request)
     {
-        $validate = Validator::make(request()->all(), [
+        $validate = [
             'name' => 'required|max:255|min:3',
             'alias' => 'required|unique:categories,alias',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-        ],
+        ];
+
+        if (\Auth::user()->hasRole('megaroot')) {
+            $validate['restaurant_id'] = 'required';
+        }
+
+        $validate = Validator::make(request()->all(), $validate,
         [
             'name.required' => 'Укажите навзание категории!',
             'alias.required' => 'Укажите алиас!',
@@ -64,6 +73,12 @@ class CategoryController extends AdminController
                 ->withErrors($validate)
                 ->withInput()
                 ->with('error', 'Ошибка при создании категории!');
+        }
+
+        if (!Auth::user()->hasRole('megaroot')) {
+            if ($restaurant = Auth::user()->restaurant) {
+                request()->request->set('restaurant_id', $restaurant->id);
+            }
         }
 
         if($category = auth()->user()->categories()->create(request()->all())){
@@ -103,6 +118,8 @@ class CategoryController extends AdminController
         $this->view = 'admin.categories.form';
         $this->title = 'Редактирование категории '.$category->name;
 
+        $this->data['restaurants'] = $restaurants = Restaurant::all();
+
         $this->data['category'] = $category;
 
         return $this->render();
@@ -119,11 +136,17 @@ class CategoryController extends AdminController
     {
         $this->authorize('access', $category);
 
-        $validate = Validator::make(request()->all(), [
+        $validate = [
             'name' => 'required|max:255|min:3',
             'alias' => 'required|unique:categories,alias,'.$category->id,
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-        ]);
+        ];
+
+        if (\Auth::user()->hasRole('megaroot')) {
+            $validate['restaurant_id'] = 'required';
+        }
+
+        $validate = Validator::make(request()->all(), $validate);
 
         if($validate->fails()){
             return redirect()
@@ -131,6 +154,12 @@ class CategoryController extends AdminController
                 ->withErrors($validate)
                 ->withInput()
                 ->with('error', 'Ошибка при обновлении категории!');
+        }
+
+        if (!\Auth::user()->hasRole('megaroot')) {
+            if ($restaurant = \Auth::user()->restaurant) {
+                request()->request->set('restaurant_id', $restaurant->id);
+            }
         }
 
         if(!request('topmenu')){

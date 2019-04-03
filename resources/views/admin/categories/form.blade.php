@@ -22,6 +22,25 @@
             </div>
         </div>
 
+        @if(Auth::user()->hasRole('megaroot'))
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Ресторан</label>
+                <div class="col-md-9">
+                    <select name="restaurant_id" class="default-select2 form-control{{ $errors->has('restaurant_id') ? ' is-invalid' : '' }}" {{ isset($dish) ? ' data-dish="'.$dish->id.'"' : '' }} data-search="true" data-placeholder="Выберете ресторан">
+                        <option></option>
+                        @foreach($restaurants as $restaurant)
+                            <option value="{{ $restaurant->id }}"{{ isset($category) ? $restaurant->id == $category->restaurant_id ? ' selected':'' : '' }} >{{ $restaurant->name . ' - ' . $restaurant->town->name }}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('restaurant_id'))
+                        <span class="invalid-feedback" role="alert">
+                                    Выберете ресторан!
+                                </span>
+                    @endif
+                </div>
+            </div>
+        @endif
+
         <div class="form-group row">
             <label class="col-form-label col-md-3">Алиас</label>
             <div class="col-md-9">
