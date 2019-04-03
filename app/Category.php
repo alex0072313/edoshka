@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'description', 'icon', 'alias', 'topmenu', 'restaurant_id'];
+    protected $fillable = ['name', 'description', 'icon', 'alias', 'topmenu'];
 
 //    public function getRouteKeyName()
 //    {
