@@ -45,12 +45,16 @@
                             @php
                                 $restaurant = $category->restaurant();
                             @endphp
-                            @if(Auth::user()->can('access', $restaurant))
-                                <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}">
-                            @endif
-                                {{ isset($restaurant->name) ? $restaurant->name : ' - ' }}
-                            @if(Auth::user()->can('access', $restaurant))
-                                </a>
+                            @if(!is_null($restaurant))
+                                @if(Auth::user()->can('access', $restaurant))
+                                    <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}">
+                                @endif
+                                    {{ isset($restaurant->name) ? $restaurant->name : ' - ' }}
+                                @if(Auth::user()->can('access', $restaurant))
+                                    </a>
+                                @endif
+                            @else
+                                '--'
                             @endif
                         </td>
                         <td>

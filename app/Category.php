@@ -57,7 +57,7 @@ class Category extends Model
 
     public function restaurant()
     {
-        return $this->user->restaurant;
+        return !\Auth::user()->hasRole('megaroot') ? $this->user->restaurant : null;
     }
 
     public function delete()
