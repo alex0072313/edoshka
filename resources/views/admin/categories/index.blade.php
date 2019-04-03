@@ -54,7 +54,7 @@
                                     </a>
                                 @endif
                             @else
-                                '--'
+                                Для всех
                             @endif
                         </td>
                         <td>
