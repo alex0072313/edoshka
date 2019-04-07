@@ -36,13 +36,21 @@ class AppServiceProvider extends ServiceProvider
 
         //Поля
         view()->composer('*', function($view){
-            $view_name = str_replace('.', '-', str_replace('.', '-', $view->getName()));
-            view()->share('view_name', $view_name);
+            if (!strstr($view->getName(), 'site.includes')) {
+                $view_name = str_replace('.', '-', str_replace('.', '-', $view->getName()));
+                view()->share('view_name', $view_name);
+            }
         });
 
         view()->composer(['site.*', 'layouts.site'], function ($view) {
-            $helpmsgs_on_page = Helpmsg::getByPage(str_replace('.', '-', $view->getName()));
-            View::share( 'helpmsgs_on_page', $helpmsgs_on_page);
+            if (!strstr($view->getName(), 'site.includes')) {
+
+                $helpmsgs_on_page = cache()->remember('helpmsgs_on_page', 30, function () use ($view){
+                    return Helpmsg::getByPage(str_replace('.', '-', $view->getName()));
+                });
+
+                View::share('helpmsgs_on_page', $helpmsgs_on_page);
+            }
         });
 
         //Корзина

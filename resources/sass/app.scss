@@ -290,6 +290,9 @@ header {
     @extend .page_top_banner;
     overflow: visible !important;
     &.shop {
+        @include media-breakpoint-down(sm) {
+            margin-bottom: 0 !important;
+        }
         .shop_likes {
             position: relative;
             margin-top: -5px;
@@ -338,6 +341,17 @@ header {
 
             @include boxradius();
             //@include boxshadow();
+        }
+    }
+}
+
+.restaurant_page{
+    @include media-breakpoint-down(md) {
+        .products{
+            margin-top: 0 !important;
+            & > .products_group:first-child{
+                margin-top: 0 !important;
+            }
         }
     }
 }
@@ -501,11 +515,18 @@ header {
     .image {
         text-align: center;
         position: relative;
-        img {
+
+        .lazy {
             max-width: 100%;
-            display: inline-block;
+            display: block;
+            background-repeat: no-repeat;
+            background-position: center;
             @include boxradius();
+            height: 160px;
+            background-size: cover;
         }
+
+
     }
     &:hover {
         border-color: $gray-400;
@@ -767,6 +788,18 @@ body.card__module_show {
         @include media-breakpoint-up(md) {
             position: sticky;
             top: 0px;
+            height: 100vh;
+
+            .nav_outer{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                top:48px;
+                .card__module_show & {
+                    bottom: 56px;
+                }
+            }
+
         }
 
         .search {
@@ -828,25 +861,112 @@ body.card__module_show {
         z-index: 100;
         font-weight: bold;
         background: #e9ecef;
+        visibility: hidden;
         .inner {
             height: 40px;
             color: $orange;
             overflow: hidden;
             position: relative;
             background: $gray-200;
+            .products_nav{
+                padding: 0;
+            }
+
+
+            .open{
+                display: block;
+                position: absolute;
+                right: 0;
+                line-height: 40px;
+                top:0;
+                font-size: $font-size-lg;
+                left: 0;
+                text-align: right;
+                z-index: 100;
+                padding: 0 !important;
+            }
+            .close{
+                display: none;
+                position: absolute;
+                right: 20px;
+                line-height: 40px;
+                top:0;
+                font-size: $font-size-lg;
+                text-align: right;
+                z-index: 100;
+            }
+        }
+
+        li{
+            display: block;
         }
 
         a {
             display: none;
-            padding-left: 0;
+            padding-left: 21px;
             padding-right: 0;
             &.active {
                 display: block;
+                position: relative;
+                height: 40px;
+                &:before{
+                    @extend .pt-2;
+                    @extend .pr-2;
+                    position: absolute;
+                    top: 4px;
+                    content: "\F2E7";
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    -moz-osx-font-smoothing: grayscale;
+                    -webkit-font-smoothing: antialiased;
+                    display: inline-block;
+                    font-style: normal;
+                    font-variant: normal;
+                    text-rendering: auto;
+                    line-height: 1;
+                    left: 0;
+                }
             }
         }
         &.sticky {
+            visibility: visible;
             position: fixed;
             top: 0;
+        }
+
+        &.opened{
+            bottom: 0;
+            .inner {
+                height: auto;
+
+                .flex-grow-1{
+                    height: 100vh;
+                }
+
+                .nav_outer{
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    bottom: 0px;
+                    right: 0px;
+                }
+                .products_nav{
+                    a{
+                        font-weight: normal;
+                        display: block;
+                        color: $black;
+                        &.active{
+                            color:$orange;
+                        }
+                    }
+                }
+                .open{
+                    display: none;
+                }
+                .close{
+                    display: block;
+                }
+            }
         }
     }
 

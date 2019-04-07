@@ -7,6 +7,9 @@ Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')-
 //Сохранение подукта в cookie
 Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save')->name('site.dishes_viewed_save');
 
+//Получение продукта для окна
+Route::post('/get_dish_for_modal', 'Site\SiteController@get_dish_for_modal')->name('site.get_dish_for_modal');
+
 //Корзина
 Route::post('/dishes_cart', 'Site\CartController@init')->name('site.dishes_cart');
 

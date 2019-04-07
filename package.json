@@ -99,6 +99,7 @@
         "sweetalert": "^2.1.0",
         "switchery": "0.0.2",
         "tag-it": "^2.0.0",
-        "tiny-slider": "^2.9.1"
+        "tiny-slider": "^2.9.1",
+        "vanilla-lazyload": "^11.0.6"
     }
 }

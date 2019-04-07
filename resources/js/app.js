@@ -27,6 +27,8 @@ require('malihu-custom-scrollbar-plugin');
 
 require('jquery-mask-plugin');
 
+import LazyLoad from "vanilla-lazyload";
+
 require('../js/search');
 
 if($('input.holdered').length){
@@ -152,15 +154,13 @@ if($('.phone_input').length) {
 }
 //Добавление в козину + просмотр
 if($('.shop_pos_item').length) {
+    var modal_box = $('#shop_item_dish_modal');
 
     $('.shop_pos_item').each(function () {
         var box = $(this),
             id = box.data('product-id'),
             add_to_cart = box.find('.add_to_cart'),
             view_link = box.find('.view_link'),
-            modal_box = $('#shop_pos_item_modal_'+id),
-            dishes_viewed = modal_box.find('.past'),
-            dishes_viewed_list = dishes_viewed.children('.items'),
             drag = 0;
 
         this.addEventListener("mousedown", function(){
@@ -173,57 +173,26 @@ if($('.shop_pos_item').length) {
 
         box.on('click', function (ev) {
             if(!$(ev.target).hasClass('add_to_cart') && (drag === 0)){
-                modal_box.modal('show');
-                ajax_request({}, '/dishes_viewed_save/'+parseInt(id), 'json', 'post', null, function ($json) {
-                    console.log($json);
-                    if($json.dishes_viewed.length){
-                        dishes_viewed.removeClass('d-none');
-
-                        var html = '';
-
-                        for (var i in $json.dishes_viewed) {
-                            if($json.dishes_viewed[i].id){
-
-                                var cls = ' mt-2';
-
-                                if(i > 0){
-                                    cls = ' border-top mt-2 pt-2';
-                                }
-
-                                html += '<div class="item d-flex align-items-center'+cls+'">' +
-                                            '<div class="image">' +
-                                                '<img src="'+$json.dishes_viewed[i].img +'" alt="">' +
-                                            '</div>' +
-                                            '<div class="flex-grow-1 ml-2 font-weight-bold">' +
-                                                $json.dishes_viewed[i].name +
-                                                '<span class="ml-2 text-secondary font-weight-normal">' +
-                                                    $json.dishes_viewed[i].short_description +
-                                                '</span>' +
-                                            '</div>' +
-                                            '<div class="h4 mb-0 mr-2 text-nowrap price">';
-                                                if($json.dishes_viewed[i].new_price){
-                                                    html += '<small class="old mr-1">'+$json.dishes_viewed[i].price + '</small>';
-                                                    html += '<span class="new">'+$json.dishes_viewed[i].new_price + ' &#8381;</span>';
-                                                }else{
-                                                    html += $json.dishes_viewed[i].price + ' &#8381;';
-                                                }
-                                            html +='</div>';
-                                        html +='<div>' +
-                                                '<button class="btn btn-success btn-sm word text-nowrap add_to_cart" data-dish-id="'+$json.dishes_viewed[i].id+'">В корзину</button>' +
-                                            '</div>' +
-                                        '</div>';
-
-                            }
-                        }
-
-                        dishes_viewed_list.html(html);
-                    }else{
-                        dishes_viewed.addClass('d-none');
-                        dishes_viewed_list.html('');
-                    }
-                });
+                load_dish_modal();
             }
         });
+
+        function load_dish_modal() {
+            modal_box
+                .find('.modal-body')
+                .html('<div class="text-center"><h5 class="text-orange mb-0 font-weight-bolder"><i class="fas fa-spinner fa-spin fa-1x mr-1"></i> Подождите..</h5></div>')
+                .promise()
+                .done(function () {
+                    modal_box.modal('show');
+                });
+
+            ajax_request({dish:id}, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
+                modal_box
+                    .find('.modal-body')
+                    .html($json.html);
+
+            });
+        }
 
     });
 
@@ -302,7 +271,7 @@ $(document).on("click", '.quintity_cart_m, .quintity_cart_p', function(){
 });
 
 $(document).on("click", '.order_modal_show', function(){
-    $('[id^="shop_pos_item_modal"]').modal('hide');
+    $('#shop_item_dish_modal').modal('hide');
 
     //setTimeout(function () {
     $('#card__module_modal').modal('show');
@@ -319,7 +288,7 @@ $('#card__module_modal').on('hide.bs.modal', function (e) {
 });
 
 //Каталог - навигация
-if($('.products_nav').length){
+if($('.products_nav_desctop').length){
     $(function () {
 
         $('body').scrollspy({
@@ -343,12 +312,11 @@ if($('.products_nav').length){
             }
         });
 
-        $('.products_nav .nav-link').click(function(event){
+        $('.products_nav_desctop .nav-link').click(function(event){
             event.preventDefault();
             if (this.hash !== "") {
 
                 var hash = this.hash;
-                console.log(hash);
                 $('.products_group').removeClass("focus");
                 $(hash).addClass("focus");
 
@@ -368,7 +336,7 @@ if($('.products_nav').length){
         });
 
         $(window).scroll(function(){
-            $('.products_nav').each(function(){
+            $('.products_nav_desctop').each(function(){
                 if(!$(this).find('a.active').length){
                     $(this).find('li').first().children('a').addClass('active');
                 }
@@ -382,12 +350,15 @@ if($('.products_nav').length){
 //Каталог - моб меню
 if($('.filter_mobile').length){
     $(function () {
-        window.onscroll = function () {
-            filter_mobile_init()
-        };
 
-        var navbar = $('.filter_mobile');
-        var sticky = navbar.offset().top;
+        var navbar = $('.filter_mobile'),
+            sticky = navbar.offset().top,
+            open_btn = navbar.find('.open'),
+            close_btn = navbar.find('.close');
+
+        $(window).on('scroll', function () {
+            filter_mobile_init();
+        }).trigger('scroll');
 
         function filter_mobile_init() {
             if(navbar.css('display') == 'none') return false;
@@ -399,6 +370,37 @@ if($('.filter_mobile').length){
                 $('#products').css('paddingTop', 0);
             }
         }
+
+        open_btn.on('click', function () {
+            //$('body').addClass("overflow-hidden");
+            navbar.addClass('opened');
+        });
+
+        close_btn.on('click', function () {
+            //$('body').removeClass("overflow-hidden");
+            navbar.removeClass('opened');
+        });
+
+        navbar.find('.nav-link').click(function(event){
+            event.preventDefault();
+            if (this.hash !== "") {
+
+                var hash = this.hash;
+                $('.products_group').removeClass("focus");
+                $(hash).addClass("focus");
+
+                setTimeout(function(){
+                    $(hash).removeClass("focus");
+                }, 2000);
+
+                //$('body').removeClass("overflow-hidden");
+                navbar.removeClass('opened');
+
+                $('html, body').scrollTop($(hash).offset().top);
+            }
+
+        });
+
     });
 }
 
@@ -483,6 +485,11 @@ if($('#products_search').length && $('#products .products .shop_pos_item').lengt
     //     }
     // });
 }
+
+var myLazyLoad = new LazyLoad({
+    elements_selector: ".lazy",
+    //load_delay: 300 //adjust according to use case
+});
 
 // Оформление заказа
 if($('.order_form').length){
