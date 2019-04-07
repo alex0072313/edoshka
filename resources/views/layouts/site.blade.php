@@ -146,9 +146,11 @@
 	</div>
 </footer>
 
-@if($_user)
-    <a href="{{ route('admin.seopages.edit', ['town'=>$_town->id, 'url'=> str_replace('/', '-', request()->path())]) }}">Seo теги страницы</a>
-@endif
+@role('megaroot')
+    @if($_user->hasRole)
+        <a href="{{ route('admin.seopages.edit', ['town'=>$_town->id, 'url'=> str_replace('/', '-', request()->path())]) }}">Seo теги страницы</a>
+    @endif
+@endrole
 
 <div class="modal product" id="shop_item_dish_modal" tabindex="-1" role="dialog" aria-labelledby="shop_item_dish_title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
