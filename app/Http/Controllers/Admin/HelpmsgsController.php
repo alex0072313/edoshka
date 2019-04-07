@@ -51,6 +51,8 @@ class HelpmsgsController extends Controller
         }
 
         if($helpmsg->save()){
+            cache()->forget('helpmsgs_on_page');
+
             return redirect()
                 ->route('admin.helpmsgs.index')
                 ->with('success', 'Поле "'.request()->get('name').'" было успешно '.($update ? 'обновлено':'создано').'!');

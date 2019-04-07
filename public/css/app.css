@@ -12165,11 +12165,13 @@ header .globalmenu .links > a:hover {
 }
 
 @media (max-width: 991.98px) {
-  .restaurant_page .products {
+  .restaurant_page .products,
+  .category_page .products {
     margin-top: 0 !important;
   }
 
-  .restaurant_page .products > .products_group:first-child {
+  .restaurant_page .products > .products_group:first-child,
+  .category_page .products > .products_group:first-child {
     margin-top: 0 !important;
   }
 }

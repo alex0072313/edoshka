@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Dish;
 use App\Http\Controllers\Controller;
+use App\Seopage;
 use App\Town;
 use App\User;
 
@@ -23,6 +24,16 @@ class SiteController extends Controller
 
         //Текущий город Геленджик
         $this->town = $this->data['_town'] = Town::find(1);
+
+        //Seo теги
+        $this->data['seopage'] = [];
+
+        if($seopage = Seopage::where(['url'=>str_replace('/', '-', request()->path()), 'town_id'=>$this->town->id])->first()){
+            if($seopage->title) $this->data['seopage']['title'] = $seopage->title;
+            if($seopage->description) $this->data['seopage']['description'] = $seopage->description;
+            if($seopage->keywords) $this->data['seopage']['keywords'] = $seopage->keywords;
+        }
+
     }
 
     public function dishes_viewed_save($id)

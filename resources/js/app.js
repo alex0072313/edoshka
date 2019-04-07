@@ -382,10 +382,15 @@ if($('.filter_mobile').length){
         });
 
         navbar.find('.nav-link').click(function(event){
-            event.preventDefault();
+
+            if(!$('.products_nav_mobile').hasClass('links')){
+                event.preventDefault();
+            }
+
             if (this.hash !== "") {
                 var hash = this.hash;
                 navbar.removeClass('opened');
+
 
                 var top = $(hash).offset().top;
                 if($('.filter_mobile').hasClass('sticky')){

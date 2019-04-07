@@ -143,6 +143,21 @@ Breadcrumbs::for('admin.helpmsgs.create', function ($trail) {
     $trail->push('Добавление поля', route('admin.helpmsgs.create'));
 });
 
+//Seo
+Breadcrumbs::for('admin.seopages.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список Seo тегов', route('admin.seopages.index'));
+});
+Breadcrumbs::for('admin.seopages.edit', function ($trail, $seopage) {
+    $trail->parent('admin.seopages.index');
+    $trail->push('Редактирование Seo тегов', route('admin.seopages.edit', ['town'=>$seopage->town_id, 'url'=>$seopage->url]));
+});
+Breadcrumbs::for('admin.seopages.create', function ($trail) {
+    $trail->parent('admin.seopages.index');
+    $trail->push('Добавление Seo тегов', route('admin.seopages.create'));
+});
+
+
 //megaroot
 //Breadcrumbs::for('_company_list', function ($trail) {
 //    $trail->parent('home');

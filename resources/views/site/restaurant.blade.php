@@ -14,41 +14,55 @@
 							@endphp
 							@helpmsg($var)
 						</div>
-						{{--<div class="float-left text-white bg-primary px-1 shop_likes">--}}
-							{{--<i class="fas fa-thumbs-up fa-sm"></i> 163--}}
-						{{--</div>--}}
 					</div>
 					<div class="mr-4">
-						<div class="dropdown">
-							<button class="btn btn-outline-light btn-sm d-inline-block d-sm-none my-2" id="dropdown_shop_info" data-boundary="window" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-info-circle mr-1"></i> О ресторане</button>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light btn-sm d-inline-block d-sm-none my-2" data-toggle="modal" data-target="#shop_about_modal">
+                                <i class="fas fa-info-circle mr-1"></i> О ресторане
+                            </button>
 
-							<button class="btn btn-outline-light btn-sm text-left shop_info_btn d-none d-sm-inline-block" id="dropdown_shop_info" data-boundary="window" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<div class="d-flex">
-									<div class="mr-2"><i class="fas fa-info-circle"></i></div>
-									<div class="font-weight-light">
-										@php
-											$var = 'restaurant_info_btn';
-										@endphp
-										@helpmsg($var)
-									</div>
-								</div>
-							</button>
+                            <button class="btn btn-outline-light btn-sm text-left shop_info_btn d-none d-sm-inline-block" data-toggle="modal" data-target="#shop_about_modal">
+                                <div class="d-flex">
+                                    <div class="mr-2"><i class="fas fa-info-circle"></i></div>
+                                    <div class="font-weight-light">
+                                        @php
+                                        $var = 'restaurant_info_btn';
+                                        @endphp
+                                        @helpmsg($var)
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
 
-							<div class="dropdown-menu p-2 shop_info_dropdown">
-								<div class="inner_dropdown">
-									{!! $restaurant->description !!}
-									@if($restaurant->address)
-										Адрес: {{ $restaurant->address }}
-									@endif
-								</div>
-							</div>
-						</div>
+                        @push('modals')
+                            <div class="modal product" id="shop_about_modal" tabindex="-1" role="dialog" aria-labelledby="shop_about_title" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                        </button>
+                                        <div class="modal-body">
+                                            <div class="h2 mb-4" id="card__module_modal_title">Информция о ресторане</div>
+
+                                            {!! $restaurant->description !!}
+
+                                            @if($restaurant->address)
+                                                <div>
+                                                    Адрес: {{ $restaurant->address }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endpush
+
 					</div>
 				</div>
 
 				@if($restaurant->min_sum_order)
 					<div class="mb-5 w-100 text-white-50 font-weight-light shop_min_price">
-						заказ от {{ $restaurant->min_sum_order }} ₽
+						Бесплатная доставка от {{ $restaurant->min_sum_order }} &#8381;
 					</div>
 				@endif
 				{{--<div class="w-100 shop_last_review py-4">--}}
@@ -64,11 +78,8 @@
 		<div class="filter_mobile d-md-none d-block">
 			<div class="container">
 				<div class="inner d-flex">
-
                     <a href="jajascript:;" class="open"><i class="fas fa-angle-down"></i></a>
-
                     <a href="jajascript:;" class="close"><i class="fas fa-times"></i></a>
-
 					<div class="flex-grow-1">
                         <div class="flex-column">
                             <div class="nav_outer custom_scrollbar">

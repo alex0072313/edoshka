@@ -39658,7 +39658,9 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.filter_mobile').length) {
       navbar.removeClass('opened');
     });
     navbar.find('.nav-link').click(function (event) {
-      event.preventDefault();
+      if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav_mobile').hasClass('links')) {
+        event.preventDefault();
+      }
 
       if (this.hash !== "") {
         var hash = this.hash;

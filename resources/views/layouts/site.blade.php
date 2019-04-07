@@ -7,12 +7,18 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 	<link href="/images/theme/fav.png" rel="icon" />
-
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-
 	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-	<title>{{ $title }}</title>
+    @if(isset($seopage['description']))
+        <meta name="description" content="{{ $seopage['description'] }}">
+    @endif
+
+    @if(isset($seopage['keywords']))
+        <meta name="keywords" content="{{ $seopage['keywords'] }}">
+    @endif
+
+	<title>{{ isset($seopage['title']) ? $seopage['title'] : $title }}</title>
 </head>
 <body class="{!! count($_cart_content) ? 'card__module_show ' : '' !!}{!! isset($body_class) ? $body_class : '' !!}">
 <header>
@@ -139,6 +145,10 @@
 		@helpmsg($var)
 	</div>
 </footer>
+
+@if($_user)
+    <a href="{{ route('admin.seopages.edit', ['town'=>$_town->id, 'url'=> str_replace('/', '-', request()->path())]) }}">Seo теги страницы</a>
+@endif
 
 <div class="modal product" id="shop_item_dish_modal" tabindex="-1" role="dialog" aria-labelledby="shop_item_dish_title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">

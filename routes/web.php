@@ -87,6 +87,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/helpmsgs/{page?}/{name?}',  'Admin\HelpmsgsController@helpmsgEditForm')->name('helpmsgs.edit')->where('name','[\w-]+');
         Route::post('/helpmsgs', 'Admin\HelpmsgsController@helpmsgSave')->name('helpmsgs.save');
 
+        //Seo теги
+        Route::get('/seopages', 'Admin\SeopagesController@index')->name('seopages.index');
+        Route::get('/seopages/{url?}/{town?}',  'Admin\SeopagesController@form')->name('seopages.edit');
+        Route::post('/seopages', 'Admin\SeopagesController@save')->name('seopages.save');
+
     });
 });
 ////////////////////////////////////////////////////////
