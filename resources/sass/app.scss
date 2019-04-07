@@ -286,6 +286,12 @@ header {
     }
 }
 
+.card__module_show{
+    #shop_item_dish_modal{
+        padding-bottom: 56px;
+    }
+}
+
 #greetin_page_default {
     @extend .page_top_banner;
     overflow: visible !important;

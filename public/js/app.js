@@ -39583,7 +39583,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav_desctop').lengt
   jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').scrollspy({
       target: '.products_nav',
-      offset: 10
+      offset: 50
     });
     var height = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#howto').innerHeight();
     var windowHeight = jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).height();
@@ -39617,7 +39617,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav_desctop').lengt
       }
     });
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).scroll(function () {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav_desctop').each(function () {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav').each(function () {
         if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('a.active').length) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('li').first().children('a').addClass('active');
         }
@@ -39662,14 +39662,14 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.filter_mobile').length) {
 
       if (this.hash !== "") {
         var hash = this.hash;
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_group').removeClass("focus");
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(hash).addClass("focus");
-        setTimeout(function () {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()(hash).removeClass("focus");
-        }, 2000); //$('body').removeClass("overflow-hidden");
-
         navbar.removeClass('opened');
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('html, body').scrollTop(jquery__WEBPACK_IMPORTED_MODULE_0___default()(hash).offset().top);
+        var top = jquery__WEBPACK_IMPORTED_MODULE_0___default()(hash).offset().top;
+
+        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.filter_mobile').hasClass('sticky')) {
+          top -= 50;
+        }
+
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('html, body').scrollTop(top);
       }
     });
   });

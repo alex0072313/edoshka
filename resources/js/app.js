@@ -293,7 +293,7 @@ if($('.products_nav_desctop').length){
 
         $('body').scrollspy({
             target: '.products_nav',
-            offset: 10
+            offset: 50
         });
 
         var height = $('#howto').innerHeight();
@@ -336,7 +336,7 @@ if($('.products_nav_desctop').length){
         });
 
         $(window).scroll(function(){
-            $('.products_nav_desctop').each(function(){
+            $('.products_nav').each(function(){
                 if(!$(this).find('a.active').length){
                     $(this).find('li').first().children('a').addClass('active');
                 }
@@ -384,19 +384,15 @@ if($('.filter_mobile').length){
         navbar.find('.nav-link').click(function(event){
             event.preventDefault();
             if (this.hash !== "") {
-
                 var hash = this.hash;
-                $('.products_group').removeClass("focus");
-                $(hash).addClass("focus");
-
-                setTimeout(function(){
-                    $(hash).removeClass("focus");
-                }, 2000);
-
-                //$('body').removeClass("overflow-hidden");
                 navbar.removeClass('opened');
 
-                $('html, body').scrollTop($(hash).offset().top);
+                var top = $(hash).offset().top;
+                if($('.filter_mobile').hasClass('sticky')){
+                    top -= 50;
+                }
+
+                $('html, body').scrollTop(top);
             }
 
         });

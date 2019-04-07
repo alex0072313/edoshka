@@ -12094,6 +12094,10 @@ header .globalmenu .links > a:hover {
   text-decoration: none;
 }
 
+.card__module_show #shop_item_dish_modal {
+  padding-bottom: 56px;
+}
+
 #greetin_page_default {
   overflow: visible !important;
 }
