@@ -52,7 +52,7 @@ class Order extends Notification
         $mail = new MailMessage();
 
         $mail->from(env('MAIL_USERNAME'));
-        $mail->subject(config('app.url').': Новый заказ (ID: '.$this->order->id.') на сумму '.$this->total_price.' руб.');
+        $mail->subject(env('APP_NAME').': Новый заказ (ID: '.$this->order->id.') на сумму '.$this->total_price.' руб.');
 
         $data['order_id'] = $this->order->id;
         $data['orders_url'] = route('admin.home');
