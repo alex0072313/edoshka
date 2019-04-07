@@ -123,7 +123,7 @@ class UserController extends AdminController
         }
 
         return redirect()
-            ->route('admin.users._index')
+            ->route('admin.users.index')
             ->with(['success' => 'Менеджер был успешно добавлен! Email для входа: '.request()->get('email').' | Пароль: '.$new_password]);
 
     }

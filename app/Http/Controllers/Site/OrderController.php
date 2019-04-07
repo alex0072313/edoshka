@@ -44,7 +44,8 @@ class OrderController extends Controller
             $order->dishes()->sync($sync_data);
 
             foreach ($restaurant->users as $user){
-                $user->notify(new NewOrder($user, $order));
+                //$user->notify(new NewOrder($user, $order));
+                $user->notify(new \App\Notifications\Order($user, $order));
             }
         }
 

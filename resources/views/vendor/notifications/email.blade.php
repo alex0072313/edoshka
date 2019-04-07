@@ -29,7 +29,7 @@
     }
 ?>
 @component('mail::button', ['url' => $actionUrl, 'color' => $color])
-{{ $actionText }}
+{!! $actionText !!}
 @endcomponent
 @endisset
 
@@ -41,7 +41,7 @@
 
 {{-- Salutation --}}
 @if (! empty($salutation))
-{{ $salutation }}
+{!! $salutation !!}
 @else
 @lang('С Уважением'),<br>{{ config('app.name') }}
 @endif
