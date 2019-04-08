@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\NewOrder;
 use App\Order;
 use App\Restaurant;
+use App\User;
 
 class OrderController extends Controller
 {
@@ -47,6 +48,10 @@ class OrderController extends Controller
                 //$user->notify(new NewOrder($user, $order));
                 $user->notify(new \App\Notifications\Order($user, $order));
             }
+
+            //Дублируем мне
+            $admin = User::getAdmin();
+            $admin->notify(new \App\Notifications\Order($admin, $order));
         }
 
         \Cart::clear();
