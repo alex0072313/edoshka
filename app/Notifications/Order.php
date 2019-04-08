@@ -109,6 +109,7 @@ class Order extends Notification
         $client->messages->create(
             $this->user->phone,
             array(
+                'from' => getenv('TWILIO_FROM_PHONE'),
                 'body' => $text
             )
         );
