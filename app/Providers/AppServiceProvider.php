@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['site.*', 'layouts.site'], function ($view) {
             if (!strstr($view->getName(), 'site.includes')) {
 
-                $helpmsgs_on_page = cache()->remember('helpmsgs_on_page', 30, function () use ($view){
+                $helpmsgs_on_page = cache()->remember('helpmsgs_on_page_'.$view->getName(), 30, function () use ($view){
                     return Helpmsg::getByPage(str_replace('.', '-', $view->getName()));
                 });
 
