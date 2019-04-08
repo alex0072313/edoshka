@@ -168,7 +168,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-success btn-lg submit">Отправить заказ</button>
+                    <button class="btn btn-success btn-lg submit" onclick="ym(53176072, 'reachGoal', 'order');">Отправить заказ</button>
                 </div>
 
             </div>
