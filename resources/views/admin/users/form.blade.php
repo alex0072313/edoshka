@@ -4,6 +4,10 @@
 
     <form action="{{ isset($user) ? route('admin.users.update', ['user' => $user->id]) : route('admin.users.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
         @csrf
+        @if(isset($user))
+            @method('PUT')
+        @endif
+
 
         @if(Auth::user()->hasRole('megaroot'))
             <div class="form-group row">

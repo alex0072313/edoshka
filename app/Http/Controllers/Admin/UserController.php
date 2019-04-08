@@ -176,7 +176,7 @@ class UserController extends AdminController
         }
     }
 
-    public function _update(Request $request, User $user)
+    public function update(Request $request, User $user)
     {
         $validate = [
             'name' => 'required|max:255',
