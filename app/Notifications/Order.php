@@ -52,7 +52,8 @@ class Order extends Notification
         $mail = new MailMessage();
 
         $mail->from(env('MAIL_USERNAME'));
-        $mail->subject(env('APP_NAME').': Новый заказ (ID: '.$this->order->id.') на сумму '.$this->total_price.' руб.');
+        $subject = env('APP_NAME').': Новый заказ (ID: '.$this->order->id.') на сумму '.$this->total_price.' руб.';
+        $mail->subject($subject);
 
         $data['order_id'] = $this->order->id;
         $data['orders_url'] = route('admin.home');
@@ -82,6 +83,10 @@ class Order extends Notification
             $data['dop'] = $this->order->dop;
         }
 
+        if(!$this->user->hasRole('megaroot') && $this->user->phone){
+            $this->sms($subject);
+        }
+
         return $mail->markdown('mail.order', $data);
     }
 
@@ -96,5 +101,16 @@ class Order extends Notification
         return [
             //
         ];
+    }
+
+    protected function sms($text = '')
+    {
+        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+        $client->messages->create(
+            $this->user->phone,
+            array(
+                'body' => $text
+            )
+        );
     }
 }

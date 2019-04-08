@@ -77,6 +77,14 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Телефон</label>
+            <div class="col-md-9">
+                <input type="text" name="phone" value="{{  old('phone') ? old('phone') : isset($user) ? $user->phone : '' }}" class="form-control">
+                <small class="text-secondary">Используется для SMS уведомлений</small>
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Аватар</label>
             <div class="col-md-9">
 

@@ -13,6 +13,7 @@
                     <th></th>
                     <th>Имя</th>
                     <th>Email</th>
+                    <th>Телефон</th>
                     <th>Ресторан</th>
                     <th>Роль</th>
                     <th width="1%"></th>
@@ -33,6 +34,7 @@
                         <td><a href="{{ route('admin.users.edit', $user->id) }}" class="text-green">{!! ($user->lastname ? $user->lastname.'&nbsp' : '') . $user->name !!}</a>
                         </td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone }}</td>
                         <td><a href="{{ route('admin.restaurants.edit', $user->restaurant->id) }}" class="text-green">{{ $user->restaurant->name }}</a></td>
                         <td>{{ $user->roleName() }}</td>
 

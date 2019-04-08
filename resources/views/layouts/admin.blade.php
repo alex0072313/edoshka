@@ -165,6 +165,13 @@
             <ul class="nav">
                 <li class="nav-header">Управление</li>
 
+                <li{!! Route::currentRouteName() == 'admin.home' ? ' class="active"': '' !!}>
+                    <a href="{{ route('admin.home') }}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Заказы</span>
+                    </a>
+                </li>
+
                 @if($_user->hasRole('megaroot'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.towns') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.towns.index') }}">
@@ -191,13 +198,6 @@
                         </a>
                     </li>
                 @endif
-
-                <li{!! Route::currentRouteName() == 'admin.home' ? ' class="active"': '' !!}>
-                    <a href="{{ route('admin.home') }}">
-                        <i class="fas fa-file-invoice"></i>
-                        <span>Заказы</span>
-                    </a>
-                </li>
 
                 <li{!! stristr(Route::currentRouteName(), 'admin.dishes') ? ' class="active"': '' !!}>
                     <a href="{{ route('admin.dishes.index') }}">

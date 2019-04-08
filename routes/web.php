@@ -1,5 +1,21 @@
 <?php
 
+Route::get('/sms1', function(){
+
+    $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+
+    $client->messages->create(
+    // Where to send a text message (your cell phone?)
+        '+79385008950',
+        array(
+            'from' => '+12063398218',
+            'body' => 'Тест сообщение'
+        )
+    );
+
+
+});
+
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
 Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
