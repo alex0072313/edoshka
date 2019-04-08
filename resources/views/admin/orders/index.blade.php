@@ -209,6 +209,7 @@
                     modal.find('.modal-title').text('Просмотр заказа #'+link.data('order-id'));
                     modal.find('.modal-body').html(html).promise().done(function(){
                         modal.modal('show');
+                        modal.find('.modal-body').attr('data-title', 'Заказ #'+link.data('order-id'));
                     });
 
                     modal.find('[data-accept]').data('accept', link.data('order-id'));
@@ -217,7 +218,6 @@
             });
             return false;
         });
-
 
         $(document).on('click', '[data-accept]', function () {
             var link = $(this),
@@ -250,6 +250,21 @@
         function rm_order() {
             console.log('123123');
         }
+
+        function print_order(obj, title) {
+            var content = $(obj).parents('.modal-content').find('.modal-body');
+            var pageTitle = content.data('title'),
+                stylesheet = 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+                win = window.open('', 'Print', 'width=500,height=300');
+            win.document.write('<html><head><title>' + pageTitle + '</title>' +
+                '<link rel="stylesheet" href="' + stylesheet + '">' +
+                '</head><body>' + content[0].outerHTML + '</body></html>');
+            win.document.close();
+            win.print();
+            win.close();
+            return false;
+        }
+
     </script>
 @endpush
 
@@ -267,6 +282,7 @@
 
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="print_order(this);">Распечатать</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                     <button type="button" data-accept="" class="btn btn-primary">Подтвердить</button>
                 </div>
