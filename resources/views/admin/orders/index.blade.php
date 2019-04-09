@@ -119,10 +119,6 @@
                 <th width="1%" class="text-nowrap">Ресторан</th>
                 @endrole
                 <th width="1%" class="text-nowrap">Сумма</th>
-                <th width="1%" class="text-nowrap">Кол-во блюд</th>
-                <th width="1%" class="text-nowrap">Телефон</th>
-                <th class="text-nowrap">Адрес</th>
-                <th width="1%" class="text-nowrap">Email</th>
                 <th width="1%" class="text-nowrap">Создан</th>
                 <th width="1%" class="text-nowrap">Просмотрен</th>
                 <th width="1%" class="text-nowrap">Подтвержден</th>
@@ -137,24 +133,6 @@
                         <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->restaurant->name}}</td>
                     @endrole
                     <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->total_price}} ₽</td>
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->total_quantity}}</td>
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->phone}}</td>
-
-                    @php
-                        $address = [];
-
-                        if($order->home){
-                            $address[] = $order->home;
-                        }
-                        if($order->street){
-                            $address[] = $order->street;
-                        }
-
-                        $address = implode(', ', $address);
-                    @endphp
-
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $address }}</td>
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->email}}</td>
                     <td width="1%" class="f-s-600 text-inverse pr-0">
                         {{ \Carbon\Carbon::createFromTimeString($order->created_at)->diffForHumans() }}
                     </td>
@@ -255,13 +233,17 @@
             var content = $(obj).parents('.modal-content').find('.modal-body');
             var pageTitle = content.data('title'),
                 stylesheet = 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
-                win = window.open('', 'Print', 'width=500,height=300');
-            win.document.write('<html><head><title>' + pageTitle + '</title>' +
+                win = window.open('', 'Print', 'width=700,height=500');
+            win.document.write('<html><head><title>Edoshka: ' + pageTitle + '</title>' +
                 '<link rel="stylesheet" href="' + stylesheet + '">' +
                 '</head><body>' + content[0].outerHTML + '</body></html>');
             win.document.close();
-            win.print();
-            win.close();
+
+            win.onload = function (){
+                win.print();
+                win.close();
+            };
+
             return false;
         }
 
