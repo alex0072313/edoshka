@@ -121,7 +121,7 @@
                 <th width="1%" class="text-nowrap">Сумма</th>
                 <th width="1%" class="text-nowrap">Создан</th>
                 <th width="1%" class="text-nowrap">Просмотрен</th>
-                <th width="1%" class="text-nowrap">Подтвержден</th>
+{{--                <th width="1%" class="text-nowrap">Подтвержден</th>--}}
                 <th width="1%" data-orderable="false"></th>
             </tr>
             </thead>
@@ -139,9 +139,9 @@
                     <td width="1%" class="f-s-600 text-inverse pr-0 viewed_col">
                         {{ $order->viewed ? 'Да':'Нет' }}
                     </td>
-                    <td width="1%" class="f-s-600 text-inverse pr-0 accept_col">
-                        {{ $order->accept ? 'Да':'Нет' }}
-                    </td>
+{{--                    <td width="1%" class="f-s-600 text-inverse pr-0 accept_col">--}}
+{{--                        {{ $order->accept ? 'Да':'Нет' }}--}}
+{{--                    </td>--}}
                     <td width="1%">
                         <div class="width-150">
                             <a href="{{ route('admin.orders.show', $order->id) }}" title="Детали заказа" data-order-id="{{ $order->id }}" class="btn btn-xs m-r-2 btn-primary show_order">Детали заказа</a>
@@ -266,7 +266,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="print_order(this);">Распечатать</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" data-accept="" class="btn btn-primary">Подтвердить</button>
+{{--                    <button type="button" data-accept="" class="btn btn-primary">Подтвердить</button>--}}
                 </div>
             </div>
         </div>
