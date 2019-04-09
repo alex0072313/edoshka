@@ -93,6 +93,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/slides/{slide}/destroy', 'Admin\SlidesController@destroy')->name('slides.destroy');
         Route::resource('slides', 'Admin\SlidesController')->except('destroy');
 
+        //Статьи
+        Route::get('/articles/{article}/destroy', 'Admin\ArticleController@destroy')->name('articles.destroy');
+        Route::resource('articles', 'Admin\ArticleController')->except(['destroy', 'show']);
+
         //Поля
         //Route::get('/helpmsgs/{page?}/{name?}', 'Admin\HelpmsgsController@destroy')->name('helpmsgs.destroy');
 

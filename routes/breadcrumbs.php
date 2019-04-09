@@ -43,6 +43,21 @@ Breadcrumbs::for('admin.categories.create', function ($trail) {
 });
 //
 
+//Статьи
+Breadcrumbs::for('admin.articles.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Статьи', route('admin.articles.index'));
+});
+Breadcrumbs::for('admin.articles.edit', function ($trail, $article) {
+    $trail->parent('admin.articles.index');
+    $trail->push('Редактирование статьи', route('admin.articles.edit', $article->id));
+});
+Breadcrumbs::for('admin.articles.create', function ($trail) {
+    $trail->parent('admin.articles.index');
+    $trail->push('Создание статьи', route('admin.articles.create'));
+});
+//
+
 //Рестораны
 Breadcrumbs::for('admin.restaurants.index', function ($trail) {
     if(Auth::user()->hasRole('megaroot')){

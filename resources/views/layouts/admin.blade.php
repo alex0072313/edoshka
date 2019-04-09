@@ -232,13 +232,22 @@
                 @endif
 
                 @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.articles') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.articles.index') }}">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Статьи</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if($_user->hasRole('megaroot'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.helpmsgs') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.helpmsgs.index') }}">
                             <i class="far fa-edit"></i>
                             <span>Области</span>
                         </a>
                     </li>
-                @endif
+            @endif
 
 
                 {{--<li class="has-sub">--}}
