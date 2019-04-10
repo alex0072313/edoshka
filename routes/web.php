@@ -1,25 +1,5 @@
 <?php
 
-Route::get('/', 'Site\HomeController@index')->name('site.home');
-Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
-Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
-Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
-
-//Сохранение подукта в cookie
-Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save')->name('site.dishes_viewed_save');
-
-//Получение продукта для окна
-Route::post('/get_dish_for_modal', 'Site\SiteController@get_dish_for_modal')->name('site.get_dish_for_modal');
-
-//Корзина
-Route::post('/dishes_cart', 'Site\CartController@init')->name('site.dishes_cart');
-
-//Оформление
-Route::post('/send_order', 'Site\OrderController@send')->name('site.send_order');
-
-//Поиск
-Route::post('/search', 'Site\SearchController@query')->name('site.search');
-
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -100,6 +80,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 ////////////////////////////////////////////////////////
+
+Route::get('/', 'Site\HomeController@index')->name('site.home');
+Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
+Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
+Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
+
+//Сохранение подукта в cookie
+Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save')->name('site.dishes_viewed_save');
+
+//Получение продукта для окна
+Route::post('/get_dish_for_modal', 'Site\SiteController@get_dish_for_modal')->name('site.get_dish_for_modal');
+
+//Корзина
+Route::post('/dishes_cart', 'Site\CartController@init')->name('site.dishes_cart');
+
+//Оформление
+Route::post('/send_order', 'Site\OrderController@send')->name('site.send_order');
+
+//Поиск
+Route::post('/search', 'Site\SearchController@query')->name('site.search');
 
 Route::middleware('guest')->group(function () {
     //Вход, регистрация, восстановление пароля
