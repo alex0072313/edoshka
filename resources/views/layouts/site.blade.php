@@ -96,7 +96,7 @@
 					$var = 'foot_block_1';
 				@endphp
 				<div class="h4 font-weight-light text-uppercase">@helpmsg($var)</div>
-				<ul class="list-unstyled font-weight-light mb-0">
+				<ul class="list-unstyled font-weight-light mb-0 btn-x">
 					<li>
 						<a href="{{ route('site.article', 'parth') }}">Добавить ресторан</a>
 					</li>
