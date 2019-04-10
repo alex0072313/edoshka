@@ -55,6 +55,7 @@ if($('input.holdered').length){
     });
 }
 
+
 // //Поиск в шапке
 // if($('.search__module').length){
 //     $('.search__module').each(function () {
@@ -581,6 +582,7 @@ global.ajax_request = function (data, action, datatype, type, on_submit, success
         }
     });
 }
+
 
 function cart_update(data) {
     var html = '';

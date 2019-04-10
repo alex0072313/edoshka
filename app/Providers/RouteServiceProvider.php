@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Article;
 use App\Category;
 use App\Dish;
 use App\Helpmsg;
@@ -40,6 +41,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('category_alias', function ($value) {
             return Category::where('alias', $value)->firstorFail();
+        });
+
+        Route::bind('article_alias', function ($value) {
+            return Article::where('alias', $value)->firstorFail();
         });
 
         Route::bind('restaurant_alias', function ($value) {

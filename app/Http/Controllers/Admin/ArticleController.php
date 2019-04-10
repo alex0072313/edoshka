@@ -81,6 +81,7 @@ class ArticleController extends AdminController
                 ->with('error', 'Ошибка при обновлении статьи!');
         }
 
+
         if($article->update(request()->all())){
             return redirect()
                 ->route('admin.articles.index')

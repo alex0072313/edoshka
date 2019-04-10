@@ -98,7 +98,7 @@
 				<div class="h4 font-weight-light text-uppercase">@helpmsg($var)</div>
 				<ul class="list-unstyled font-weight-light mb-0">
 					<li>
-						<a href="#">Заявка на сотрудничество</a>
+						<a href="{{ route('site.article', 'parth') }}">Добавить ресторан</a>
 					</li>
 					<li>
 						<a href="{{ route('admin.home') }}">Войти в личный кабинет</a>
@@ -112,13 +112,7 @@
 				<div class="h4 font-weight-light text-uppercase">@helpmsg($var)</div>
 				<ul class="list-unstyled font-weight-light mb-0">
 					<li>
-						<a href="#">Публичная оферта</a>
-					</li>
-					<li>
-						<a href="#">Пользовательское соглашение</a>
-					</li>
-					<li>
-						<a href="#">Политика конфиденциальности</a>
+						<a href="{{ route('site.article', 'policy') }}">Политика конфиденциальности</a>
 					</li>
 				</ul>
 			</div>

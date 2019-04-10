@@ -3,6 +3,10 @@
 Breadcrumbs::for('site.home', function ($trail) {
     $trail->push('Рестораны Геленджика', route('site.home'));
 });
+Breadcrumbs::for('site.article', function ($trail, \App\Article $article) {
+    $trail->parent('site.home');
+    $trail->push($article->title, route('site.article', ['alias'=>$article->alias]));
+});
 Breadcrumbs::for('site.category', function ($trail, \App\Category $category) {
     $trail->parent('site.home');
     $trail->push($category->name, route('site.category', ['alias'=>$category->alias]));

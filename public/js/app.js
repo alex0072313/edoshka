@@ -39325,8 +39325,8 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var tiny_slider_src_tiny_slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiny-slider/src/tiny-slider */ "./node_modules/tiny-slider/src/tiny-slider.js");
-/* harmony import */ var vanilla_lazyload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vanilla-lazyload */ "./node_modules/vanilla-lazyload/dist/lazyload.min.js");
-/* harmony import */ var vanilla_lazyload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vanilla_lazyload__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vanilla_lazyload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vanilla-lazyload */ "./node_modules/vanilla-lazyload/dist/lazyload.min.js");
+/* harmony import */ var vanilla_lazyload__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vanilla_lazyload__WEBPACK_IMPORTED_MODULE_3__);
 /**
  * First, we will load all of this project's Javascript utilities and other
  * dependencies. Then, we will be ready to develop a robust and powerful
@@ -39745,7 +39745,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products_search').length && 
   // });
 }
 
-var myLazyLoad = new vanilla_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a({
+var myLazyLoad = new vanilla_lazyload__WEBPACK_IMPORTED_MODULE_3___default.a({
   elements_selector: ".lazy" //load_delay: 300 //adjust according to use case
 
 }); // Оформление заказа
@@ -40057,9 +40057,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\Code\food\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })
