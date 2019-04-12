@@ -6,7 +6,8 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <meta name="yandex-verification" content="0a1e277eb4e3ec2a" />
+    <meta name="google-site-verification" content="rybIUMqtrRnckvYuEdQNrFpw2iQ__RWoAIfy8sNDflc" />
+	<meta name="yandex-verification" content="bb3736f338e67365" />
 
 	<link href="/images/theme/fav.png" rel="icon" />
 	<meta name="csrf-token" content="{{ csrf_token() }}">
