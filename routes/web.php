@@ -81,6 +81,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 ////////////////////////////////////////////////////////
 
+Route::middleware('guest')->group(function () {
+    //Вход, регистрация, восстановление пароля
+    Auth::routes();
+});
+
+
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
 Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
@@ -100,8 +106,3 @@ Route::post('/send_order', 'Site\OrderController@send')->name('site.send_order')
 
 //Поиск
 Route::post('/search', 'Site\SearchController@query')->name('site.search');
-
-Route::middleware('guest')->group(function () {
-    //Вход, регистрация, восстановление пароля
-    Auth::routes();
-});
