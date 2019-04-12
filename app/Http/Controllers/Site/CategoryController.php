@@ -16,8 +16,8 @@ class CategoryController extends SiteController
             $restaurants = $this->town->restaurants->map(function ($restaurant) use ($dishes){
                 $restaurant->all_dishes = $dishes
                 ->where('restaurant_id', '=', $restaurant->id)
-                ->orderBy('name');
-                
+                ->order('name')->get();
+
                 return $restaurant;
             })->filter(function ($restaurant){
                 return $restaurant->all_dishes->count() ? true : false;
