@@ -1,25 +1,21 @@
 <IfModule mod_rewrite.c>
-    Options -MultiViews
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
     RewriteEngine On
 
-    # redirect everything to url without trailing slash
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    RewriteCond %{HTTPS} =on
-    RewriteRule ^(.+)$ - [env=ps:https]
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^(.+)$ - [env=ps:http]
-
-    RewriteCond %{REQUEST_FILENAME} !-f
+    # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
 
-    RewriteCond %{REQUEST_METHOD} ^GET
-
-    RewriteRule ^(.+)/$ %{ENV:ps}://%{SERVER_NAME}/$1 [R=301,L]
-
-    # pretty urls
-
-    RewriteCond %{REQUEST_FILENAME} !-f
+    # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
-
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
