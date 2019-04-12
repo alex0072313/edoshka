@@ -14,7 +14,10 @@ class CategoryController extends SiteController
         $restaurants = cache()->remember('category_'.$category->id.'_dishes', 30, function () use ($category){
             $dishes = $category->dishes;
             $restaurants = $this->town->restaurants->map(function ($restaurant) use ($dishes){
-                $restaurant->all_dishes = $dishes->where('restaurant_id', '=', $restaurant->id);
+                $restaurant->all_dishes = $dishes
+                ->where('restaurant_id', '=', $restaurant->id)
+                ->orderBy('name');
+                
                 return $restaurant;
             })->filter(function ($restaurant){
                 return $restaurant->all_dishes->count() ? true : false;
