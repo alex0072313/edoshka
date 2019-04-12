@@ -89,7 +89,7 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
-Route::get('/category/{category_alias}', 'Site\CategoryController@index')->name('site.category');
+Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
 Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
 
 //Сохранение подукта в cookie
