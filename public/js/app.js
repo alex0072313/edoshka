@@ -40073,6 +40073,8 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').length) {
         }
       } else if ($json.success) {
         cart_update();
+        ga('send', 'event', 'zakaz', 'click', 'confirm');
+        ym(53176072, 'reachGoal', 'order');
         return mod_massage($json.success.title, $json.success.text);
       }
     }, null);

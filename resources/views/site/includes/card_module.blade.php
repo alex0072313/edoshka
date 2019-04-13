@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     @if(!$_cart_restaurants_out_worktime)
-                        <button class="btn btn-success btn-lg submit" onclick="ga('send', 'event', 'zakaz', 'click', 'confirm'); ym(53176072, 'reachGoal', 'order'); return true;">Отправить заказ</button>
+                        <button class="btn btn-success btn-lg submit">Отправить заказ</button>
                     @endif
                 </div>
 
