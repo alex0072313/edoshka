@@ -56,7 +56,23 @@ class AppServiceProvider extends ServiceProvider
         //Корзина
         view()->composer(['site.*', 'layouts.site'], function () {
             //\Cart::clear();
-            View::share( '_cart_content', \Cart::getContent());
+
+            $content = \Cart::getContent();
+
+            $restaurants_out_worktime = [];
+
+            foreach ($content as $dish){
+                if(isset($dish->attributes['restaurant'])){
+                    if($worktime = $dish->attributes['restaurant']->worktime){
+                        if((strtotime(date('H:i')) < strtotime($worktime[0])) || (strtotime(date('H:i')) > strtotime($worktime[1]))){
+                            $restaurants_out_worktime[] = $dish->attributes['restaurant'];
+                        }
+                    }
+                }
+            }
+
+            View::share( '_cart_restaurants_out_worktime', $restaurants_out_worktime);
+            View::share( '_cart_content', $content);
             View::share( '_cart_total_q', \Cart::getTotalQuantity());
             View::share( '_cart_total_p', \Cart::getTotal());
         });

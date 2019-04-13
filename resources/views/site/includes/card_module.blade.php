@@ -41,6 +41,17 @@
                     <div class="card_products mb-4">
                         <div class="h4 text-uppercase font-weight-light mb-3 text-black">Ваш заказ</div>
 
+                        @if($_cart_restaurants_out_worktime)
+                            <div class="alert alert-warning fade show mb-0">
+                                У Вас есть заказы из ресторанов, время работы которых не соответствует текущему! Заказ будет возможен в их рабочее время.
+                                <ul class="pl-3 mb-0">
+                                    @foreach($_cart_restaurants_out_worktime as $restaurant)
+                                        <li><strong>{{ $restaurant->name }}</strong> - {{ $restaurant->worktime[0] }} до {{ $restaurant->worktime[1] }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <table class="table items table-sm">
                             @if(count($_cart_content))
                                 @foreach($_cart_content as $item)
@@ -167,7 +178,9 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-lg submit" onclick="ga('send', 'event', 'zakaz', 'click', 'confirm'); ym(53176072, 'reachGoal', 'order'); return true;">Отправить заказ</button>
+                    @if(!$_cart_restaurants_out_worktime)
+                        <button class="btn btn-success btn-lg submit" onclick="ga('send', 'event', 'zakaz', 'click', 'confirm'); ym(53176072, 'reachGoal', 'order'); return true;">Отправить заказ</button>
+                    @endif
                 </div>
 
             </div>

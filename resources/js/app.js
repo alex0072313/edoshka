@@ -29,6 +29,8 @@ require('jquery-mask-plugin');
 
 import LazyLoad from "vanilla-lazyload";
 
+import swal from 'sweetalert';
+
 require('../js/search');
 
 if($('input.holdered').length){
@@ -215,6 +217,20 @@ $(document).on("click", '.add_to_cart', function(){
         function ($json) {
             btn.removeClass('adding').removeClass('disabled');
             $('#card__module_modal .card_products').removeClass('load');
+
+            if(typeof $json.worktime_invalid !== "undefined"){
+                console.log($json);
+                return swal({
+                    title: 'В данное время Ресторан не работает!',
+                    icon: "warning",
+                    button: {
+                        text: "Ок",
+                        className: "btn btn-primary",
+                    },
+                    content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
+                });
+            }
+
             return cart_update($json);
             console.log($json);
         });

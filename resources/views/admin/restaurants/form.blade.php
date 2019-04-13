@@ -71,6 +71,22 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Время работы (в 24 формате)</label>
+            <div class="col-md-9">
+                <div class="form-inline">
+                    <input type="text" name="worktime_ot" value="{{  old('worktime_ot') ? old('worktime_ot') : isset($restaurant->id) ? $restaurant->worktime[0] : '' }}" class="form-control" placeholder="Например: 09:00">
+                    <label class="mx-3"> - </label>
+                    <input type="text" name="worktime_do" value="{{  old('worktime_do') ? old('worktime_do') : isset($restaurant->id) ? $restaurant->worktime[1] : '' }}" class="form-control" placeholder="Например: 23:00">
+                </div>
+                @if ($errors->has('worktime_ot') || $errors->has('worktime_do'))
+                    <span class="invalid-feedback d-block" role="alert">
+                        Нерпавильно указанно время!
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Описание (кратко)</label>
             <div class="col-md-9">
                 <textarea name="description" class="form-control" rows="4">{{  old('description') ? old('description') : isset($restaurant->id) ? $restaurant->description : '' }}</textarea>

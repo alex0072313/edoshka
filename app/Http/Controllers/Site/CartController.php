@@ -28,6 +28,17 @@ class CartController extends SiteController
 
     protected function add()
     {
+        if($worktime = $this->dish->restaurant->worktime){
+            if((strtotime(date('H:i')) < strtotime($worktime[0])) || (strtotime(date('H:i')) > strtotime($worktime[1]))){
+                //не попадает во время работы
+                return response()->json(['worktime_invalid' => [
+                    'name' => $this->dish->restaurant->name,
+                    'worktime_ot' => $worktime[0],
+                    'worktime_do' => $worktime[1],
+                ]]);
+            }
+        }
+
         $image = \Storage::disk('public')->exists('dish_imgs/'.$this->dish->id.'/img_xs.jpg') ? \Storage::disk('public')->url('dish_imgs/'.$this->dish->id.'/img_xs.jpg') : null;
 
         $product = array(
@@ -35,10 +46,11 @@ class CartController extends SiteController
             'name' => $this->dish->name,
             'price' => $this->dish->new_price ? $this->dish->new_price : $this->dish->price,
             'quantity' => 1,
-            'attributes' => array_merge($this->dish->toArray(), ['image' => $image]),
+            'attributes' => array_merge($this->dish->toArray(), ['image' => $image, 'restaurant'=>$this->dish->restaurant]),
         );
 
         \Cart::add($product);
+
         return response()->json(['total' => \Cart::getTotalQuantity(), 'sum'=>\Cart::getTotal(), 'content'=>\Cart::getContent()]);
     }
 
