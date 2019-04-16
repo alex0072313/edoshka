@@ -12430,7 +12430,8 @@ header .globalmenu .links > a:hover {
   margin-right: 0 !important;
 }
 
-.add_to_cart.adding:before {
+.add_to_cart.adding:before,
+.modal_add_to_cart.adding:before {
   content: "\F110";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -12448,12 +12449,16 @@ header .globalmenu .links > a:hover {
 }
 
 .add_to_cart.adding.btn-lg,
-.btn-group-lg > .add_to_cart.adding.btn {
+.btn-group-lg > .add_to_cart.adding.btn,
+.modal_add_to_cart.adding.btn-lg,
+.btn-group-lg > .modal_add_to_cart.adding.btn {
   padding-left: 1rem;
 }
 
 .add_to_cart.adding.btn-lg:before,
-.btn-group-lg > .add_to_cart.adding.btn:before {
+.btn-group-lg > .add_to_cart.adding.btn:before,
+.modal_add_to_cart.adding.btn-lg:before,
+.btn-group-lg > .modal_add_to_cart.adding.btn:before {
   margin-right: 10px;
 }
 

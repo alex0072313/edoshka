@@ -39,14 +39,28 @@ class CartController extends SiteController
             }
         }
 
+        if($this->dish->variants->count() && !request('variants')){
+            //нужно выбрать вариант
+            return response()->json(['variants_invalid' => true]);
+        }
+
         $image = \Storage::disk('public')->exists('dish_imgs/'.$this->dish->id.'/img_xs.jpg') ? \Storage::disk('public')->url('dish_imgs/'.$this->dish->id.'/img_xs.jpg') : null;
 
+        $price = $this->dish->new_price ? $this->dish->new_price : $this->dish->price;
+        if(request('price')){
+            $price = request('price');
+        }
         $product = array(
             'id' => $this->dish->id,
             'name' => $this->dish->name,
-            'price' => $this->dish->new_price ? $this->dish->new_price : $this->dish->price,
+            'price' => $price,
             'quantity' => 1,
-            'attributes' => array_merge($this->dish->toArray(), ['image' => $image, 'restaurant'=>$this->dish->restaurant]),
+            'attributes' => array_merge($this->dish->toArray(), [
+                'weight' => request('weight') ? request('weight') : $this->dish->weight,
+                'variants' => request('variants'),
+                'image' => $image,
+                'restaurant'=>$this->dish->restaurant
+            ]),
         );
 
         \Cart::add($product);

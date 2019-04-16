@@ -39776,49 +39776,114 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
     }, false);
     box.on('click', function (ev) {
       if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(ev.target).hasClass('add_to_cart') && drag === 0) {
-        load_dish_modal();
+        load_dish_modal(id);
+      }
+    });
+  });
+}
+
+function load_dish_modal(id) {
+  var try_by = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  modal_box.find('.modal-body').html('<div class="text-center"><h5 class="text-orange mb-0 font-weight-bolder"><i class="fas fa-spinner fa-spin fa-1x mr-1"></i> Подождите..</h5></div>').promise().done(function () {
+    modal_box.modal('show');
+  });
+  ajax_request({
+    dish: id
+  }, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
+    modal_box.find('.modal-body').html($json.html).promise().done(init_variants_onchange, init_modal_add_to_cart); // продукт загружен в окно
+  });
+
+  function init_variants_onchange() {
+    var variants_box = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants'),
+        variants_price_holder = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants_price_holder'),
+        variants_shortname_holder = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants_shortname_holder'),
+        btn_add_to_cart = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal_add_to_cart');
+
+    if (variants_box.length) {
+      //Есть варианты для выбора
+      variants_box.find('input').on('change', function () {
+        price = variants_box.data('price');
+        weight = variants_box.data('weight');
+        shortname = [];
+        var variants = {},
+            shortname = [];
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.dish_variants_group').find('.required').remove();
+        variants_box.find('input:checked').each(function () {
+          weight += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight');
+          price += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price');
+          shortname.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname') ? jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname') : jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('name'));
+          variants[jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.dish_variants_group').data('name')] = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('name');
+        });
+        var price = eval(price),
+            weight = eval(weight);
+        variants_price_holder.text(price);
+        variants_shortname_holder.text((weight ? weight + 'г' : '') + (shortname.length ? '/' + shortname.join('/') : ''));
+
+        if (variants) {
+          btn_add_to_cart.attr('data-variants', JSON.stringify(variants));
+        }
+
+        btn_add_to_cart.attr('data-price', price);
+        btn_add_to_cart.attr('data-weight', weight);
+      });
+    }
+  }
+
+  function init_modal_add_to_cart() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal_add_to_cart').on('click', function () {
+      var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this),
+          variants_box = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants'),
+          status = true;
+
+      if (variants_box.length) {
+        variants_box.children('.dish_variants_group').each(function () {
+          if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('input:checked').length) {
+            if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.required').length) {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).append('<div class="required text-danger my-2">Необходимо выбрать!</div>');
+            }
+
+            status = false;
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.required').remove();
+          }
+        });
+      }
+
+      if (status) {
+        ajax_request({
+          'action': 'add',
+          'dish_id': btn.data('dish-id'),
+          'variants': btn.data('variants'),
+          'weight': btn.data('weight'),
+          'price': btn.data('price')
+        }, '/dishes_cart', 'json', 'post', function () {
+          btn.addClass('adding').addClass('disabled');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('added');
+        }, function ($json) {
+          btn.removeClass('adding').removeClass('disabled');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('load');
+
+          if (typeof $json.worktime_invalid !== "undefined") {
+            return sweetalert__WEBPACK_IMPORTED_MODULE_3___default()({
+              title: 'В данное время Ресторан не работает!',
+              icon: "warning",
+              button: {
+                text: "Ок",
+                className: "btn btn-primary"
+              },
+              content: 'Время работы ' + $json.worktime_invalid.name + ' с ' + $json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
+            });
+          }
+
+          return cart_update($json);
+        });
       }
     });
 
-    function load_dish_modal() {
-      modal_box.find('.modal-body').html('<div class="text-center"><h5 class="text-orange mb-0 font-weight-bolder"><i class="fas fa-spinner fa-spin fa-1x mr-1"></i> Подождите..</h5></div>').promise().done(function () {
-        modal_box.modal('show');
-      });
-      ajax_request({
-        dish: id
-      }, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
-        modal_box.find('.modal-body').html($json.html).promise().done(init_variants_onchange);
-      });
+    if (try_by) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal_add_to_cart').trigger('click');
     }
-
-    function init_variants_onchange() {
-      var variants_box = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants'),
-          variants_price_holder = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants_price_holder'),
-          variants_shortname_holder = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants_shortname_holder'),
-          price = 0,
-          weight = 0,
-          shortname = '';
-
-      if (variants_box.length) {
-        //Есть варианты для выбора
-        variants_box.find('input').on('change', function () {
-          price = variants_box.data('price');
-          weight = variants_box.data('weight');
-          shortname = [];
-          variants_box.find('input:checked').each(function () {
-            weight += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight');
-            price += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price');
-            shortname.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname'));
-          });
-          console.log([price, weight]);
-          variants_price_holder.text(eval(price));
-          variants_shortname_holder.text((eval(weight) ? eval(weight) + 'г' : '') + (shortname.length ? '/' + shortname.join('/') : ''));
-        });
-      }
-    }
-
-    function add_to_cart_in_modal() {}
-  });
+  }
 } //Корзина
 
 
@@ -39833,10 +39898,14 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_car
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('added');
   }, function ($json) {
     btn.removeClass('adding').removeClass('disabled');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('load');
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('load'); //нужно выбрать вариант
+
+    if (typeof $json.variants_invalid !== "undefined") {
+      return load_dish_modal(dish_id, true);
+    } //
+
 
     if (typeof $json.worktime_invalid !== "undefined") {
-      console.log($json);
       return sweetalert__WEBPACK_IMPORTED_MODULE_3___default()({
         title: 'В данное время Ресторан не работает!',
         icon: "warning",
@@ -39849,7 +39918,6 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_car
     }
 
     return cart_update($json);
-    console.log($json);
   });
 });
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.remove_from_cart', function () {
@@ -40088,6 +40156,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').length) {
     form.find('[name]').each(function () {
       form_data[jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('name')] = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
     });
+    console.log(form_data);
     ajax_request(form_data, form.data('action'), 'json', 'post', function ($json) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').addClass('load');
       form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
@@ -40190,10 +40259,24 @@ function cart_update(data) {
         html += '<div class="image">' + '<img src="' + data.content[i].attributes.image + '" alt="">' + '</div>';
       }
 
-      html += '</td>' + '<td class="font-weight-bold">' + data.content[i].name;
+      html += '</td>' + '<td class="">' + '<div class="font-weight-bold">' + data.content[i].name + '</div>';
 
-      if (data.content[i].attributes.short_description) {
-        html += '<span class="ml-2 text-secondary font-weight-normal">' + data.content[i].attributes.short_description + '</span>';
+      if (data.content[i].attributes.variants) {
+        var _i = 0;
+        var variant_str = '';
+
+        for (var variant in data.content[i].attributes.variants) {
+          variant_str += (_i ? ', ' : '') + variant + ': ' + data.content[i].attributes.variants[variant];
+          _i++;
+        }
+
+        html += '<small class="text-secondary font-weight-normal">';
+        html += variant_str;
+        html += '</small>';
+        html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + variant_str + '">';
+      } else if (data.content[i].attributes.short_description) {
+        html += '<small class="text-secondary font-weight-normal">' + data.content[i].attributes.short_description + '</small>';
+        html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + data.content[i].attributes.short_description + '">';
       }
 
       html += '</td>' + '<td class="count">' + '<div class="input-group count_input float-right">' + '<div class="input-group-prepend">' + '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' + '</div>' + '<input type="number" min="0"  name="dishes[' + data.content[i].id + ']" readonly value="' + data.content[i].quantity + '" data-dish-id="' + data.content[i].id + '" class="bg-white form-control form-control-sm">' + '<div class="input-group-append">' + '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' + '</div>' + '</div>' + '</td>' + '<td class="text-nowrap text-center">' + '<div class="h4 mb-0">' + data.content[i].price + ' ₽' + '</div>' + '</td>' + '<td class="remove">' + '<a href="javascript:;" class="remove_from_cart" data-dish-id="' + data.content[i].id + '"><i class="fas fa-times"></i></a>' + '</td>' + '</tr>';
@@ -40389,9 +40472,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\Code\food\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })

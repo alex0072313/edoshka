@@ -72,6 +72,10 @@ class RestaurantController extends AdminController
                 ->with('error', 'Проверьте форму на ошибки!');
         }
 
+        if(!request('active')){
+            request()->request->add(['active' => false]);
+        }
+
         if($restaurant->update(request()->toArray())){
 
             //Фото
@@ -114,6 +118,10 @@ class RestaurantController extends AdminController
                 ->withErrors($validator)
                 ->withInput()
                 ->with('error', 'Проверьте форму на ошибки!');
+        }
+
+        if(!request('active')){
+            request()->request->add(['active' => false]);
         }
 
         if($restaurant = Restaurant::create(request()->toArray())){

@@ -83,7 +83,7 @@ class Order extends Notification
             $data['dop'] = $this->order->dop;
         }
 
-        if(!$this->user->hasRole('megaroot') && $this->user->phone){
+        if(!$this->user->hasRole('megaroot') && $this->user->phone && (env('APP_ENV') != 'local')){
             $this->sms($subject);
         }
 

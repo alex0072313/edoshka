@@ -66,6 +66,10 @@ class CategoryController extends AdminController
                 ->with('error', 'Ошибка при создании категории!');
         }
 
+        if(!request('topmenu')){
+            request()->request->add(['topmenu' => false]);
+        }
+
         if($category = auth()->user()->categories()->create(request()->all())){
 
             //Фото

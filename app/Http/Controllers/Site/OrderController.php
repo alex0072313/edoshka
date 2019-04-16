@@ -39,8 +39,11 @@ class OrderController extends Controller
             $order = $restaurant->orders()->create(request()->all());
 
             $sync_data = [];
+            $dishes_variants = request('dishes_variants');
             foreach ($dishes as $dish_id => $quantity){
-                $sync_data[$dish_id] = ['quantity'=>$quantity, 'price'=>$prices[$dish_id], 'total_price'=>$prices[$dish_id] * $quantity];
+                $variants = isset($dishes_variants[$dish_id]) ? $dishes_variants[$dish_id] : '';
+
+                $sync_data[$dish_id] = ['quantity'=>$quantity, 'price'=>$prices[$dish_id], 'variants'=>$variants, 'total_price'=>$prices[$dish_id] * $quantity];
             }
             $order->dishes()->sync($sync_data);
 

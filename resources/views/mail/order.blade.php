@@ -10,12 +10,12 @@
 # Заказ #{{ $order_id }}
 @isset($dishes)
 @component('mail::table')
-    | id | Название | Доп. | Цена | Кол-во |
-    | :- |:---------| :----| :----| ------:|
+    | id | Название  | Цена | Кол-во |
+    | :- |:--------- | :--- | -----: |
     @foreach($dishes as $dish)
-        | {{ $dish->id }} | {{ $dish->name }} | {{ $dish->short_description }} | {{ $dish->price }} | {{ $dish->pivot->quantity }} |
+        | {{ $dish->id }} | {{ $dish->name }}<br><small>({{ $dish->pivot->variants ? $dish->pivot->variants : $dish->short_description }})</small> | {{ $dish->price }} | {{ $dish->pivot->quantity }} |
     @endforeach
-    | | | | <b>Сумма</b> &nbsp; <td align="right"> <b>{{ $total_price }}</b>
+    | | | <b>Сумма</b> &nbsp; <td align="right"> <b>{{ $total_price }}</b>
 @endcomponent
 @endisset
 

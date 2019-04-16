@@ -620,7 +620,7 @@ header {
     }
 }
 
-.add_to_cart{
+.add_to_cart, .modal_add_to_cart{
     &.adding{
         &:before{
             content: '\f110';

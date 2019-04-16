@@ -75,7 +75,9 @@
                     <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_xxs.jpg') }}" class="img-rounded rounded-circle" />
                 @endif
             </td>
-            <td>{{ $dish->name }} ({{ $dish->short_description }})</td>
+            <td>{{ $dish->name }}<br>
+                <i>({{ $dish->pivot->variants ? $dish->pivot->variants : $dish->short_description }})</i>
+            </td>
             <td>{{ $dish->category->name }}</td>
             <td>{{ $dish->pivot->price }} ₽</td>
             <td>{{ $dish->pivot->total_price }} ₽</td>

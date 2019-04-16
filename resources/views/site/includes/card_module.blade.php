@@ -63,10 +63,24 @@
                                                 </div>
                                             @endif
                                         </td>
-                                        <td class="font-weight-bold">
-                                            {{ $item->name }}
-                                            @if($item->attributes->has('short_description'))
-                                                <span class="ml-2 text-secondary font-weight-normal">{{ $item->attributes['short_description'] }}</span>
+                                        <td class="">
+                                            <div class="font-weight-bold">{{ $item->name }}</div>
+                                            @if($variants = $item->attributes['variants'])
+                                                <small class="text-secondary font-weight-normal">
+                                                @php
+                                                    $variant_str = '';
+                                                    $i = 0;
+                                                    foreach($variants as $k => $v){
+                                                        $variant_str .= ($i ? ', ' : '').trim($k).': '.trim($v);
+                                                        $i++;
+                                                    }
+                                                @endphp
+                                                    {!! $variant_str !!}
+                                                </small>
+                                                <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $variant_str }}">
+                                            @elseif($item->attributes->has('short_description'))
+                                                <small class="text-secondary font-weight-normal">{{ $item->attributes['short_description'] }}</small>
+                                                <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $item->attributes['short_description'] }}">
                                             @endif
                                         </td>
                                         <td class="count">

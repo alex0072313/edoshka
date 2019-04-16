@@ -177,65 +177,127 @@ if($('.shop_pos_item').length) {
 
         box.on('click', function (ev) {
             if(!$(ev.target).hasClass('add_to_cart') && (drag === 0)){
-                load_dish_modal();
+                load_dish_modal(id);
             }
         });
 
-        function load_dish_modal() {
-            modal_box
-                .find('.modal-body')
-                .html('<div class="text-center"><h5 class="text-orange mb-0 font-weight-bolder"><i class="fas fa-spinner fa-spin fa-1x mr-1"></i> Подождите..</h5></div>')
-                .promise()
-                .done(function () {
-                    modal_box.modal('show');
-                });
+    });
 
-            ajax_request({dish:id}, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
-                modal_box
-                    .find('.modal-body')
-                    .html($json.html).promise().done(init_variants_onchange);
+}
 
-            });
-        }
+function load_dish_modal(id, try_by = false) {
+    modal_box
+        .find('.modal-body')
+        .html('<div class="text-center"><h5 class="text-orange mb-0 font-weight-bolder"><i class="fas fa-spinner fa-spin fa-1x mr-1"></i> Подождите..</h5></div>')
+        .promise()
+        .done(function () {
+            modal_box.modal('show');
+        });
 
-        function init_variants_onchange() {
-            var variants_box = $('#dish_'+id+'_variants'),
-                variants_price_holder = $('#dish_'+id+'_variants_price_holder'),
-                variants_shortname_holder = $('#dish_'+id+'_variants_shortname_holder'),
-                price = 0,
-                weight = 0,
-                shortname = '';
-
-
-            if(variants_box.length){
-                //Есть варианты для выбора
-                variants_box.find('input').on('change', function () {
-                    price = variants_box.data('price');
-                    weight = variants_box.data('weight');
-                    shortname = [];
-
-                    variants_box.find('input:checked').each(function () {
-                        weight += $(this).data('weight');
-                        price += $(this).data('price');
-                        shortname.push($(this).data('shortname'));
-                    });
-
-                    console.log([price, weight]);
-                    variants_price_holder.text(eval(price));
-
-                    variants_shortname_holder.text((eval(weight) ? (eval(weight)+'г') : '') + (shortname.length ? '/'+shortname.join('/') : ''));
-
-                });
-
-            }
-        }
-
-        function add_to_cart_in_modal() {
-
-        }
+    ajax_request({dish:id}, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
+        modal_box
+            .find('.modal-body')
+            .html($json.html).promise().done(init_variants_onchange, init_modal_add_to_cart); // продукт загружен в окно
 
     });
 
+    function init_variants_onchange() {
+        var variants_box = $('#dish_'+id+'_variants'),
+            variants_price_holder = $('#dish_'+id+'_variants_price_holder'),
+            variants_shortname_holder = $('#dish_'+id+'_variants_shortname_holder'),
+            btn_add_to_cart = $('.modal_add_to_cart');
+
+        if(variants_box.length){
+            //Есть варианты для выбора
+            variants_box.find('input').on('change', function () {
+                price = variants_box.data('price');
+                weight = variants_box.data('weight');
+                shortname = [];
+                var variants = {},
+                    shortname= [];
+
+                $(this).closest('.dish_variants_group').find('.required').remove();
+
+                variants_box.find('input:checked').each(function () {
+                    weight += $(this).data('weight');
+                    price += $(this).data('price');
+                    shortname.push($(this).data('shortname') ? $(this).data('shortname') : $(this).data('name'));
+                    variants[$(this).closest('.dish_variants_group').data('name')] = $(this).data('name');
+                });
+
+                var price = eval(price),
+                    weight = eval(weight);
+
+                variants_price_holder.text(price);
+                variants_shortname_holder.text((weight ? (weight+'г') : '') + (shortname.length ? '/'+shortname.join('/') : ''));
+
+                if(variants){
+                    btn_add_to_cart.attr('data-variants', JSON.stringify(variants));
+                }
+
+                btn_add_to_cart.attr('data-price', price);
+                btn_add_to_cart.attr('data-weight', weight);
+
+            });
+
+        }
+    }
+
+    function init_modal_add_to_cart() {
+        $('.modal_add_to_cart').on('click', function () {
+            var btn = $(this),
+                variants_box = $('#dish_'+id+'_variants'),
+                status = true;
+
+            if(variants_box.length){
+                variants_box.children('.dish_variants_group').each(function () {
+                    if(!$(this).find('input:checked').length){
+                        if(!$(this).find('.required').length){
+                            $(this).append('<div class="required text-danger my-2">Необходимо выбрать!</div>');
+                        }
+                        status = false;
+                    }else {
+
+                        $(this).find('.required').remove();
+                    }
+                });
+            }
+
+            if(status){
+                ajax_request({
+                        'action': 'add',
+                        'dish_id': btn.data('dish-id'),
+                        'variants': btn.data('variants'),
+                        'weight': btn.data('weight'),
+                        'price': btn.data('price'),
+                    }, '/dishes_cart', 'json', 'post',
+                    function () {
+                        btn.addClass('adding').addClass('disabled');
+                        $('#card__module_modal .card_products').addClass('added');
+                    },
+                    function ($json) {
+                        btn.removeClass('adding').removeClass('disabled');
+                        $('#card__module_modal .card_products').removeClass('load');
+
+                        if(typeof $json.worktime_invalid !== "undefined"){
+                            return swal({
+                                title: 'В данное время Ресторан не работает!',
+                                icon: "warning",
+                                button: {
+                                    text: "Ок",
+                                    className: "btn btn-primary",
+                                },
+                                content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
+                            });
+                        }
+                        return cart_update($json);
+                    });
+            }
+        });
+        if(try_by){
+            $('.modal_add_to_cart').trigger('click');
+        }
+    }
 }
 
 //Корзина
@@ -255,8 +317,13 @@ $(document).on("click", '.add_to_cart', function(){
             btn.removeClass('adding').removeClass('disabled');
             $('#card__module_modal .card_products').removeClass('load');
 
+            //нужно выбрать вариант
+            if(typeof $json.variants_invalid !== "undefined"){
+                return load_dish_modal(dish_id, true);
+            }
+            //
+
             if(typeof $json.worktime_invalid !== "undefined"){
-                console.log($json);
                 return swal({
                     title: 'В данное время Ресторан не работает!',
                     icon: "warning",
@@ -269,7 +336,6 @@ $(document).on("click", '.add_to_cart', function(){
             }
 
             return cart_update($json);
-            console.log($json);
         });
 });
 
@@ -473,8 +539,6 @@ if($('#products_search').length && $('#products .products .shop_pos_item').lengt
             scroll = null,
             find = false;
 
-
-
         $('#products .products .shop_pos_item').each(function () {
             var item = $(this),
                 title = item.find('.title');
@@ -557,6 +621,8 @@ if($('.order_form').length){
         form.find('[name]').each(function(){
             form_data[$(this).attr('name')] = $(this).val()
         });
+
+        console.log(form_data);
 
         ajax_request(
             form_data,
@@ -674,11 +740,24 @@ function cart_update(data) {
                                         '</div>';
                             }
                         html += '</td>' +
-                        '<td class="font-weight-bold">' +
-                            data.content[i].name;
-                        if(data.content[i].attributes.short_description){
-                            html += '<span class="ml-2 text-secondary font-weight-normal">'+data.content[i].attributes.short_description+'</span>';
-                        }
+                        '<td class="">' +
+                            '<div class="font-weight-bold">'+data.content[i].name+'</div>';
+                                if(data.content[i].attributes.variants){
+                                    var _i = 0;
+                                    var variant_str = '';
+                                    for (var variant in data.content[i].attributes.variants){
+                                        variant_str += (_i ? ', ' : '')+variant + ': ' + data.content[i].attributes.variants[variant];
+                                        _i++;
+                                    }
+                                    html += '<small class="text-secondary font-weight-normal">';
+                                        html += variant_str;
+                                    html += '</small>';
+                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+variant_str+'">';
+                                }else if(data.content[i].attributes.short_description){
+                                    html += '<small class="text-secondary font-weight-normal">'+data.content[i].attributes.short_description+'</small>';
+                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+data.content[i].attributes.short_description+'">';
+                                }
+
                         html += '</td>' +
                         '<td class="count">' +
                             '<div class="input-group count_input float-right">' +

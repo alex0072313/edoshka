@@ -27,7 +27,7 @@
             <div id="dish_{{$dish->id}}_variants" class="dish_variants_groups" data-id="{{$dish->id}}" data-price="{{ $dish->new_price ? $dish->new_price : $dish->price }}" data-weight="{{ $dish->weight }}">
                 @foreach($dish->variants as $group)
                     <div class="dish_variants_group mb-2" data-id="{{$group->id}}" data-name="{{ $group->name }}">
-                        <div class="h6">{{ $group->name }}:</div>
+                        <div class="h6">{{ $group->name }} <span class="text-danger">*</span> </div>
                         <div class="btn-group-toggle" data-toggle="buttons">
                             @if(count($group->variants))
                                 @foreach($group->variants as $group_variant)
@@ -36,7 +36,7 @@
                                         $name = $all_name[0];
                                         $short_name = isset($all_name[1]) ? $all_name[1] : '';
                                     @endphp
-                                    <button class="btn btn-outline-primary btn-sm">
+                                    <button class="btn btn-outline-primary btn-sm mr-1">
                                         <input type="radio"
                                                name="dish_{{$dish->id}}_variants_group_{{$group->id}}"
                                                id="dish_{{$dish->id}}_variants_group_{{$group->id}}_{{$loop->index}}"
@@ -65,7 +65,7 @@
                 @endif
             </div>
             <div>
-                <button class="btn btn-success btn-lg add_to_cart" data-dish-id="{{ $dish->id }}">В корзину</button>
+                <button class="btn btn-success btn-lg modal_add_to_cart" data-dish-id="{{ $dish->id }}" data-price="{{ $dish->price }}" data-weight="" data-variants="">В корзину</button>
             </div>
         </div>
     </div>
