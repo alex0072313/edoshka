@@ -13,15 +13,7 @@ class CategoryController extends SiteController
 
         $restaurants = cache()->remember('category_'.$category->id.'_dishes', 30, function () use ($category){
 
-            $dishes = $category->dishes->map(function ($dish){
-                $dish->all_variants = $dish->variants;
-
-                if($dish->all_variants->count()){
-                    $dish->price = $dish->all_variants->sortBy('price')->first()->price;
-                }
-
-                return $dish;
-            });
+            $dishes = $category->dishes;
 
             $restaurants = $this->town->restaurants->map(function ($restaurant) use ($dishes){
                 $restaurant->all_dishes = $dishes

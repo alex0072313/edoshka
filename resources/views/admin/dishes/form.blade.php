@@ -178,39 +178,120 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Вес</label>
+                    <div class="col-md-9">
+                        <input type="number" name="weight" min="0" value="{{ old('weight') ? old('weight') : isset($dish) ? $dish->weight : '' }}" class="form-control">
+                    </div>
+                </div>
                 {{--Выбор варианта с ценой--}}
 
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Варианты цен</label>
                     <div class="col-md-9">
                         <div class="price_variants">
+
+                            <div class="group d-none mb-3">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1 mb-2 d-flex">
+                                        <div class="form-group">
+                                            <a href="javascript:;" class="btn btn-danger delete_group"><i class="fas fa-times"></i> Группа</a>
+                                        </div>
+                                        <div class="form-group ml-2 flex-grow-1">
+                                            <input type="text" name="" class="form-control" placeholder="Группа">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="flex-grow-1 variants_list ml-2">
+                                        <div class="variants">
+
+                                        </div>
+
+                                        <a href="javascript:;" class="btn btn-success add_variant"><i class="fas fa-plus"></i> Добавить вариант</a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="variant d-none">
                                 <div class="d-flex">
                                     <div class="form-group flex-grow-1 mb-2">
-                                        <input type="text" name="" class="form-control" placeholder="Вариант">
+                                        <input type="text" name="" class="form-control v_name font-weight-bold text-success" placeholder="Вариант">
                                     </div>
-                                    <div class="form-group ml-2 flex-grow-1 mb-2">
-                                        <input type="number" name="" class="form-control" placeholder="Цена">
+                                    <div class="ml-2 flex-grow-1 mb-2">
+                                        <div class="d-flex">
+                                            <label for="" class="mr-1 mt-2">
+                                                Цена:
+                                            </label>
+                                            <input type="text" name="" class="form-control v_price font-weight-bold text-success" placeholder="+-">
+                                        </div>
+                                    </div>
+                                    <div class="ml-2 flex-grow-1 mb-2">
+                                        <div class="d-flex">
+                                            <label for="" class="mr-1 mt-2">
+                                                Вес:
+                                            </label>
+                                            <input type="text" name="" class="form-control v_weight font-weight-bold text-success" placeholder="+-">
+                                        </div>
                                     </div>
                                     <div class="form-group ml-2 flex-grow-0 mb-2">
-                                        <a href="javascript:;" class="btn btn-danger delete_variant"><i class="fas fa-times"></i></a>
+                                        <a href="javascript:;" class="btn btn-danger delete_variant"><i class="fas fa-times"></i> Вариант</a>
                                     </div>
                                 </div>
                             </div>
 
                             @if(isset($dish))
                                 @if($dish->variants->count())
-                                    @foreach($dish->variants as $variant)
-                                        <div class="variant">
+                                    @foreach($dish->variants as $group)
+                                        <div class="group mb-3" data-id="{{ $group->id }}">
                                             <div class="d-flex">
-                                                <div class="form-group flex-grow-1 mb-2">
-                                                    <input type="text" name="variants[{{ $variant->id }}][name]" value="{{ $variant->name }}" class="form-control" placeholder="Вариант">
+                                                <div class="flex-grow-1 mb-2 d-flex">
+                                                    <div class="form-group">
+                                                        <a href="javascript:;" class="btn btn-danger delete_group"><i class="fas fa-times"></i> Группа</a>
+                                                    </div>
+                                                    <div class="form-group ml-2 flex-grow-1">
+                                                        <input type="text" name="variants[{{ $group->id }}][name]" value="{{ $group->name }}" class="form-control" placeholder="Группа">
+                                                    </div>
+
                                                 </div>
-                                                <div class="form-group ml-2 flex-grow-1 mb-2">
-                                                    <input type="number" name="variants[{{ $variant->id }}][price]" value="{{ $variant->price }}" class="form-control" placeholder="Цена">
-                                                </div>
-                                                <div class="form-group ml-2 flex-grow-0 mb-2">
-                                                    <a href="javascript:;" class="btn btn-danger delete_variant"><i class="fas fa-times"></i></a>
+
+                                                <div class="flex-grow-1 variants_list ml-2">
+                                                    <div class="variants">
+                                                        @if(count($group->variants))
+                                                            @foreach($group->variants as $group_variant)
+                                                                <div class="variant">
+
+                                                                    <div class="d-flex">
+                                                                        <div class="form-group flex-grow-1 mb-2">
+                                                                            <input type="text" name="variants[{{ $group->id }}][variants][{{$loop->index}}][name]" value="{{ $group_variant['name'] }}" class="form-control v_name font-weight-bold text-success" placeholder="Вариант">
+                                                                        </div>
+                                                                        <div class="ml-2 flex-grow-1 mb-2">
+                                                                            <div class="d-flex">
+                                                                                <label for="" class="mr-1 mt-2">
+                                                                                    Цена:
+                                                                                </label>
+                                                                                <input type="text" name="variants[{{ $group->id }}][variants][{{$loop->index}}][price]" value="{{ $group_variant['price'] }}" class="form-control v_price font-weight-bold text-success" placeholder="+-">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="ml-2 flex-grow-1 mb-2">
+                                                                            <div class="d-flex">
+                                                                                <label for="" class="mr-1 mt-2">
+                                                                                    Вес:
+                                                                                </label>
+                                                                                <input type="text" name="variants[{{ $group->id }}][variants][{{$loop->index}}][weight]" value="{{ $group_variant['weight'] }}" class="form-control v_weight font-weight-bold text-success" placeholder="+-">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group ml-2 flex-grow-0 mb-2">
+                                                                            <a href="javascript:;" class="btn btn-danger delete_variant"><i class="fas fa-times"></i> Вариант</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+
+                                                    <a href="javascript:;" class="btn btn-success add_variant"><i class="fas fa-plus"></i> Добавить вариант</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -220,7 +301,7 @@
 
                         </div>
 
-                        <a href="javascript:;" class="btn btn-primary add_variant"><i class="fas fa-plus"></i> Добавить вариант</a>
+                        <a href="javascript:;" class="btn btn-primary add_group"><i class="fas fa-plus"></i> Добавить группу</a>
                         <div>
                             <small class="text-secondary">Если есть хоть один - заменяет поле "Цена"</small>
                         </div>
@@ -303,55 +384,6 @@
                     </div>
                 </div>
 
-                {{--<div class="form-group row">--}}
-                    {{--<label class="col-form-label col-md-3">Рекомендуемые</label>--}}
-                    {{--<div class="col-md-9">--}}
-                        {{--<ul id="jquery-tagIt-success" class="primary">--}}
-                            {{--<li>Tag1</li>--}}
-                            {{--<li>Tag2</li>--}}
-                        {{--</ul>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-                {{--<div class="form-group row">--}}
-                    {{--<label class="col-form-label col-md-3">Родительский обьект</label>--}}
-
-                    {{--<div class="col-md-9">--}}
-                        {{--<select name="parent_id"--}}
-                                {{--class="default-select2 form-control{{ $errors->has('parent_id') ? ' is-invalid' : '' }}"--}}
-                                {{--data-search="true" data-placeholder="Родительский обьект">--}}
-                            {{--<option></option>--}}
-                            {{--<option value="0">-- Без родителя --</option>--}}
-                            {{--@foreach(Auth::user()->company->dishsByCat() as $cat_name => $cat)--}}
-                                {{--<optgroup label="{{ $cat_name }}">--}}
-                                    {{--@foreach($cat as $parent_dish)--}}
-                                        {{--@if(isset($dish))--}}
-                                            {{--@continue($parent_dish->id == $dish->id)--}}
-                                        {{--@endif--}}
-                                        {{--<option value="{{ $parent_dish->id }}"{{ isset($dish) ? $parent_dish->id == $dish->parent_id ? ' selected':'' : '' }} >{{ $parent_dish->name }}</option>--}}
-                                    {{--@endforeach--}}
-                                {{--</optgroup>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-
-        {{--@if(isset($fields))--}}
-            {{--<div class="panel panel-inverse dish_field">--}}
-                {{--<div class="panel-heading">--}}
-                    {{--<h4 class="panel-title">Дополнительные поля</h4>--}}
-                {{--</div>--}}
-
-                {{--<div class="panel-body panel-form">--}}
-                    {{--@foreach($fields as $field)--}}
-                        {{--{!! $field !!}--}}
-                    {{--@endforeach--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--@endif--}}
-
-
         <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
         @if(isset($dish))
             <a href="{{ route('admin.dishes.destroy', 'dish_'.$dish->id) }}" data-click="swal-warning"
@@ -391,20 +423,44 @@
         });
         // Варианты цен
 
-        attach_delete();
+        attach_delete_group();
+        attach_delete_variant();
 
-        $('.add_variant').on('click', function () {
-            var variant = $('.price_variants .variant').first().clone().appendTo('.price_variants').removeClass('d-none');
-            variant.find('input:first').attr('name', 'new_variants['+variant.index()+'][name]');
-            variant.find('input:last').attr('name', 'new_variants['+variant.index()+'][price]');
+        $(document).on('click', '.add_group', function () {
+            var group = $('.price_variants .group').first().clone().appendTo('.price_variants').removeClass('d-none');
+            group.find('input:first').attr('name', 'new_variants['+(group.index('.group:visible'))+'][name]');
 
-            attach_delete();
+            attach_delete_group();
         });
 
-        function attach_delete(){
+        $(document).on('click', '.add_variant', function () {
+            var variant = $('.price_variants .variant').first().clone().appendTo($(this).closest('.variants_list').children('.variants')).removeClass('d-none');
+            var name = 'new_variants',
+                id = variant.closest('.group').index('.group:visible');
+
+            if($(this).closest('.group').data('id')){
+                name = 'variants';
+                id = $(this).closest('.group').data('id');
+            }
+
+            variant.find('input.v_name').attr('name', name+'['+id+'][variants]['+variant.index()+'][name]');
+            variant.find('input.v_price').attr('name', name+'['+id+'][variants]['+variant.index()+'][price]');
+            variant.find('input.v_weight').attr('name', name+'['+id+'][variants]['+variant.index()+'][weight]');
+
+            attach_delete_variant();
+        });
+
+        function attach_delete_variant(){
             $('.delete_variant').off();
             $('.delete_variant').click(function(){
                 $(this).closest('.variant').remove();
+            });
+        }
+
+        function attach_delete_group(){
+            $('.delete_group').off();
+            $('.delete_group').click(function(){
+                $(this).closest('.group').remove();
             });
         }
 

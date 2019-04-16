@@ -39787,9 +39787,37 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
       ajax_request({
         dish: id
       }, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
-        modal_box.find('.modal-body').html($json.html);
+        modal_box.find('.modal-body').html($json.html).promise().done(init_variants_onchange);
       });
     }
+
+    function init_variants_onchange() {
+      var variants_box = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants'),
+          variants_price_holder = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants_price_holder'),
+          variants_shortname_holder = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dish_' + id + '_variants_shortname_holder'),
+          price = 0,
+          weight = 0,
+          shortname = '';
+
+      if (variants_box.length) {
+        //Есть варианты для выбора
+        variants_box.find('input').on('change', function () {
+          price = variants_box.data('price');
+          weight = variants_box.data('weight');
+          shortname = [];
+          variants_box.find('input:checked').each(function () {
+            weight += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight');
+            price += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price');
+            shortname.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname'));
+          });
+          console.log([price, weight]);
+          variants_price_holder.text(eval(price));
+          variants_shortname_holder.text((eval(weight) ? eval(weight) + 'г' : '') + (shortname.length ? '/' + shortname.join('/') : ''));
+        });
+      }
+    }
+
+    function add_to_cart_in_modal() {}
   });
 } //Корзина
 
@@ -40361,9 +40389,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\Code\food\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })

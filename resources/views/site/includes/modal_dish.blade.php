@@ -14,22 +14,54 @@
         </div>
         <div class="h2" id="shop_pos_item_title_{{ $dish->id }}">
             <span class="pr-2">{{ $dish->name }}</span>
-            @if($dish->short_description)
-                <span class="badge text-success bg-transparent pl-0">{{ $dish->short_description }}</span>
-            @endif
+            <span class="badge text-success bg-transparent pl-0"><span id="dish_{{$dish->id}}_variants_shortname_holder">{{ $dish->short_description }}</span></span>
         </div>
+
         @if($dish->description)
             <div class="text-secondary mb-3">
                 {{ $dish->description }}
             </div>
         @endif
+
+        @if($dish->variants->count())
+            <div id="dish_{{$dish->id}}_variants" class="dish_variants_groups" data-id="{{$dish->id}}" data-price="{{ $dish->new_price ? $dish->new_price : $dish->price }}" data-weight="{{ $dish->weight }}">
+                @foreach($dish->variants as $group)
+                    <div class="dish_variants_group mb-2" data-id="{{$group->id}}" data-name="{{ $group->name }}">
+                        <div class="h6">{{ $group->name }}:</div>
+                        <div class="btn-group-toggle" data-toggle="buttons">
+                            @if(count($group->variants))
+                                @foreach($group->variants as $group_variant)
+                                    @php
+                                        $all_name = explode('|', $group_variant['name']);
+                                        $name = $all_name[0];
+                                        $short_name = isset($all_name[1]) ? $all_name[1] : '';
+                                    @endphp
+                                    <button class="btn btn-outline-primary btn-sm">
+                                        <input type="radio"
+                                               name="dish_{{$dish->id}}_variants_group_{{$group->id}}"
+                                               id="dish_{{$dish->id}}_variants_group_{{$group->id}}_{{$loop->index}}"
+                                               data-name="{{ $name }}"
+                                               data-shortname="{{ $short_name }}"
+                                               data-price="{{ $group_variant['price'] }}"
+                                               data-weight="{{ $group_variant['weight'] }}"
+                                               autocomplete="off"> {{ $name }}
+                                    </button>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+        @endif
+
         <div class="price d-flex justify-content-between">
             <div class="h1 mb-0">
                 @if($dish->new_price)
                     <small class="old">{{ $dish->price }}</small>
-                    <span class="new">{{ $dish->new_price }} &#8381;</span>
+                    <span class="new"><span id="dish_{{$dish->id}}_variants_price_holder">{{ $dish->new_price }}</span> &#8381;</span>
                 @else
-                    {{ $dish->price }} &#8381;
+                    <span id="dish_{{$dish->id}}_variants_price_holder">{{ $dish->price }}</span> &#8381;
                 @endif
             </div>
             <div>

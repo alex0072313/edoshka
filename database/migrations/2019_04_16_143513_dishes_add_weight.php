@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVariantsTable extends Migration
+class DishesAddWeight extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateVariantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('variants', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('dish_id')->index()->nullable();
-
-            $table->string('name')->nullable();
-            $table->json('variants')->nullable();
+        Schema::table('dishes', function (Blueprint $table) {
+            $table->integer('weight')->after('price')->nullable();
         });
     }
 
@@ -30,6 +25,8 @@ class CreateVariantsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variants');
+        Schema::table('dishes', function (Blueprint $table) {
+            $table->dropColumn('weight');
+        });
     }
 }

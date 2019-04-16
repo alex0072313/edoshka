@@ -155,6 +155,7 @@ if($('.shop_slider_inner').length){
 if($('.phone_input').length) {
     $('.phone_input').mask('+7 (000) 000-00-00');
 }
+
 //Добавление в козину + просмотр
 if($('.shop_pos_item').length) {
     var modal_box = $('#shop_item_dish_modal');
@@ -192,9 +193,45 @@ if($('.shop_pos_item').length) {
             ajax_request({dish:id}, '/get_dish_for_modal', 'json', 'post', null, function ($json) {
                 modal_box
                     .find('.modal-body')
-                    .html($json.html);
+                    .html($json.html).promise().done(init_variants_onchange);
 
             });
+        }
+
+        function init_variants_onchange() {
+            var variants_box = $('#dish_'+id+'_variants'),
+                variants_price_holder = $('#dish_'+id+'_variants_price_holder'),
+                variants_shortname_holder = $('#dish_'+id+'_variants_shortname_holder'),
+                price = 0,
+                weight = 0,
+                shortname = '';
+
+
+            if(variants_box.length){
+                //Есть варианты для выбора
+                variants_box.find('input').on('change', function () {
+                    price = variants_box.data('price');
+                    weight = variants_box.data('weight');
+                    shortname = [];
+
+                    variants_box.find('input:checked').each(function () {
+                        weight += $(this).data('weight');
+                        price += $(this).data('price');
+                        shortname.push($(this).data('shortname'));
+                    });
+
+                    console.log([price, weight]);
+                    variants_price_holder.text(eval(price));
+
+                    variants_shortname_holder.text((eval(weight) ? (eval(weight)+'г') : '') + (shortname.length ? '/'+shortname.join('/') : ''));
+
+                });
+
+            }
+        }
+
+        function add_to_cart_in_modal() {
+
         }
 
     });
