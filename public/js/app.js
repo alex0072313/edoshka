@@ -39839,7 +39839,7 @@ function load_dish_modal(id) {
         variants_box.children('.dish_variants_group').each(function () {
           if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('input:checked').length) {
             if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).find('.required').length) {
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).append('<div class="required text-danger my-2">Необходимо выбрать!</div>');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).append('<div class="required text-danger mb-2">Необходимо выбрать!</div>');
             }
 
             status = false;

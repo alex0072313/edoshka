@@ -26,7 +26,7 @@
         @if($dish->variants->count())
             <div id="dish_{{$dish->id}}_variants" class="dish_variants_groups" data-id="{{$dish->id}}" data-price="{{ $dish->new_price ? $dish->new_price : $dish->price }}" data-weight="{{ $dish->weight }}">
                 @foreach($dish->variants as $group)
-                    <div class="dish_variants_group mb-2" data-id="{{$group->id}}" data-name="{{ $group->name }}">
+                    <div class="dish_variants_group" data-id="{{$group->id}}" data-name="{{ $group->name }}">
                         <div class="h6">{{ $group->name }} <span class="text-danger">*</span> </div>
                         <div class="btn-group-toggle" data-toggle="buttons">
                             @if(count($group->variants))
@@ -36,7 +36,7 @@
                                         $name = $all_name[0];
                                         $short_name = isset($all_name[1]) ? $all_name[1] : '';
                                     @endphp
-                                    <button class="btn btn-outline-primary btn-sm mr-1">
+                                    <button class="btn btn-outline-primary btn-sm mr-1 mb-2">
                                         <input type="radio"
                                                name="dish_{{$dish->id}}_variants_group_{{$group->id}}"
                                                id="dish_{{$dish->id}}_variants_group_{{$group->id}}_{{$loop->index}}"
@@ -88,9 +88,9 @@
 
                             <div class="flex-grow-1 ml-2 font-weight-bold">
                                 {{ $recomended->name }}
-                                <span class="ml-2 text-secondary font-weight-normal">
-												{{ $recomended->short_description }}
-											</span>
+                                <div class="text-secondary font-weight-normal">
+                                    {{ $recomended->short_description }}
+                                </div>
                             </div>
                             <div class="h4 mb-0 mr-2 text-nowrap price">
                                 @if($recomended->new_price)
@@ -123,7 +123,9 @@
                                     <img src="{{ Storage::disk('public')->url('dish_imgs/' . $viewed->id . '/img_xs.jpg') }}" alt="{{ $viewed->name }}">
                                 </div>
                             @endif
-                            <div class="flex-grow-1 ml-2 font-weight-bold">{{ $viewed->name }}<span class="ml-2 text-secondary font-weight-normal">{{ $viewed->short_description }}</span></div>
+                            <div class="flex-grow-1 ml-2 font-weight-bold">
+                                {{ $viewed->name }}
+                                <div class="text-secondary font-weight-normal">{{ $viewed->short_description }}</div></div>
                             <div class="h4 mb-0 mr-2 text-nowrap price">
                                 @if($viewed->new_price)
                                     <small class="old">{{ $viewed->price }}</small>

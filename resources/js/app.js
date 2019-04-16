@@ -253,7 +253,7 @@ function load_dish_modal(id, try_by = false) {
                 variants_box.children('.dish_variants_group').each(function () {
                     if(!$(this).find('input:checked').length){
                         if(!$(this).find('.required').length){
-                            $(this).append('<div class="required text-danger my-2">Необходимо выбрать!</div>');
+                            $(this).append('<div class="required text-danger mb-2">Необходимо выбрать!</div>');
                         }
                         status = false;
                     }else {
