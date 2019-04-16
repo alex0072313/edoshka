@@ -178,6 +178,57 @@
                         @endif
                     </div>
                 </div>
+                {{--Выбор варианта с ценой--}}
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Варианты цен</label>
+                    <div class="col-md-9">
+                        <div class="price_variants">
+                            <div class="variant d-none">
+                                <div class="d-flex">
+                                    <div class="form-group flex-grow-1 mb-2">
+                                        <input type="text" name="" class="form-control" placeholder="Вариант">
+                                    </div>
+                                    <div class="form-group ml-2 flex-grow-1 mb-2">
+                                        <input type="number" name="" class="form-control" placeholder="Цена">
+                                    </div>
+                                    <div class="form-group ml-2 flex-grow-0 mb-2">
+                                        <a href="javascript:;" class="btn btn-danger delete_variant"><i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if(isset($dish))
+                                @if($dish->variants->count())
+                                    @foreach($dish->variants as $variant)
+                                        <div class="variant">
+                                            <div class="d-flex">
+                                                <div class="form-group flex-grow-1 mb-2">
+                                                    <input type="text" name="variants[{{ $variant->id }}][name]" value="{{ $variant->name }}" class="form-control" placeholder="Вариант">
+                                                </div>
+                                                <div class="form-group ml-2 flex-grow-1 mb-2">
+                                                    <input type="number" name="variants[{{ $variant->id }}][price]" value="{{ $variant->price }}" class="form-control" placeholder="Цена">
+                                                </div>
+                                                <div class="form-group ml-2 flex-grow-0 mb-2">
+                                                    <a href="javascript:;" class="btn btn-danger delete_variant"><i class="fas fa-times"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @endif
+
+                        </div>
+
+                        <a href="javascript:;" class="btn btn-primary add_variant"><i class="fas fa-plus"></i> Добавить вариант</a>
+                        <div>
+                            <small class="text-secondary">Если есть хоть один - заменяет поле "Цена"</small>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{----------------------------}}
 
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Новая цена</label>
@@ -310,7 +361,6 @@
                class="btn btn-sm btn-danger float-right">Удалить</a>
         @endif
 
-
     </form>
 @endsection
 
@@ -338,8 +388,25 @@
                     console.log(json);
                 }
             });
-
-
         });
+        // Варианты цен
+
+        attach_delete();
+
+        $('.add_variant').on('click', function () {
+            var variant = $('.price_variants .variant').first().clone().appendTo('.price_variants').removeClass('d-none');
+            variant.find('input:first').attr('name', 'new_variants['+variant.index()+'][name]');
+            variant.find('input:last').attr('name', 'new_variants['+variant.index()+'][price]');
+
+            attach_delete();
+        });
+
+        function attach_delete(){
+            $('.delete_variant').off();
+            $('.delete_variant').click(function(){
+                $(this).closest('.variant').remove();
+            });
+        }
+
     </script>
 @endpush

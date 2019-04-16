@@ -12,7 +12,17 @@ class CategoryController extends SiteController
         $this->data['category'] = $category;
 
         $restaurants = cache()->remember('category_'.$category->id.'_dishes', 30, function () use ($category){
-            $dishes = $category->dishes;
+
+            $dishes = $category->dishes->map(function ($dish){
+                $dish->all_variants = $dish->variants;
+
+                if($dish->all_variants->count()){
+                    $dish->price = $dish->all_variants->sortBy('price')->first()->price;
+                }
+
+                return $dish;
+            });
+
             $restaurants = $this->town->restaurants->map(function ($restaurant) use ($dishes){
                 $restaurant->all_dishes = $dishes
                 ->where('restaurant_id', '=', $restaurant->id)
@@ -31,7 +41,7 @@ class CategoryController extends SiteController
             foreach ($restaurants as $restaurant){
                 $categories = $categories->merge(Category::HasDishes($restaurant->id)->get());
             }
-            return $categories;
+            return $categories->sortBy('name');
         });
 
         $this->data['categories'] = $categories;

@@ -43,7 +43,7 @@ class RestaurantController extends SiteController
                         return $category->dishes_cnt > 0 ? true : false;
                     });
 
-            return $categories;
+            return $categories->sortBy('name');
         });
 
         return $this->render();

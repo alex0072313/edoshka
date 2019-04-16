@@ -20,6 +20,7 @@
 	</div>
 	<div class="price d-sm-flex justify-content-between">
 		<div class="h4 mb-1 mb-sm-0">
+
 			@if($dish->new_price)
 				<small class="old">{{ $dish->price }}</small>
 				<span class="new">{{ $dish->new_price }} &#8381;</span>

@@ -6,6 +6,7 @@ use App\Category;
 use App\Dish;
 use App\Repositories\DishRepository;
 use App\Restaurant;
+use App\Variant;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -269,6 +270,34 @@ class DishesController extends AdminController
 
             //Поля
             //$this->fields($owner);
+
+            //Поля цен /////////////////////////////////
+
+            //Обновление
+            $dish_variants = $dish->variants;
+            if($variants = request('variants')){
+
+                foreach ($dish_variants as $dish_variant){
+                    if(!isset($variants[$dish_variant->id])){
+                        // Удаление
+                        Variant::find($dish_variant->id)->delete();
+                    }elseif (($dish_variant->name != $variants[$dish_variant->id]['name']) || ($dish_variant->price != $variants[$dish_variant->id]['price'])){
+                        // Обновление
+                        Variant::find($dish_variant->id)->update($variants[$dish_variant->id]);
+                    }
+                }
+
+            }else if($dish_variants->count()){
+                $dish->variants()->delete();
+            }
+
+            //Новые
+            if($new_variants = request('new_variants')){
+                foreach ($new_variants as $new_variant){
+                    $dish->variants()->create($new_variant);
+                }
+            }
+            /////////////////////////////////////////////
 
             //Фото
             if ($img = request()->file('image')) {
