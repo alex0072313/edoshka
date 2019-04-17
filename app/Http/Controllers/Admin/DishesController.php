@@ -358,6 +358,20 @@ class DishesController extends AdminController
         return response()->json($json);
     }
 
+    public function recomendedsRandom()
+    {
+        $json = [];
+
+        if($reatuarant_id = request('reatuarant_id')){
+
+            $json = Restaurant::find($reatuarant_id)->dishes()->inRandomOrder()->where('id','!=',request('dish_id'))->select(['id', 'name'])->take(3)->get()->map(function ($dish){
+                return $dish->id;
+            });
+        }
+
+        return response()->json($json);
+    }
+
     protected function price_variants(Dish $dish)
     {
         //Обновление

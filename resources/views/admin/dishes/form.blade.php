@@ -373,14 +373,13 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Рекомендуемые</label>
                     <div class="col-md-9">
-
-                        <select class="default-select2 form-control" name="recomendeds[]" multiple data-search="true" data-placeholder="Выберете блюда">
+                        <select class="default-select2 form-control" name="recomendeds[]" id="recomendeds_select" multiple data-search="true" data-placeholder="Выберете блюда">
                             <option></option>
                             @foreach($recomendeds as $recomended)
                                 <option value="{{ $recomended->id }}" {{ isset($dish_recomendeds) ? $dish_recomendeds->find($recomended->id) ? ' selected' : '' : '' }}> {{ Auth::user()->hasRole('megaroot') ? $recomended->restaurant->name . ' / ' : '' }}{{ $recomended->name }}</option>
                             @endforeach
                         </select>
-
+                        <a href="javasript:;" class="btn btn-sm btn-default mt-2 recomendeds_random" data-dish-id="{{ isset($dish->id) ? $dish->id : '0' }}">Сгенерировать</a>
                     </div>
                 </div>
 
@@ -486,6 +485,25 @@
                 $(this).closest('.group').remove();
             });
         }
+
+        //
+        $('.recomendeds_random').on('click', function () {
+            var reatuarant_id = $('[name="restaurant_id"]').val(),
+                dish_id = $(this).data('dish-id');
+                select = $('#recomendeds_select');
+
+            $.ajax({
+                type: "POST",
+                url: '{{ route('admin.dishes.recomendeds_random') }}',
+                data: {reatuarant_id:reatuarant_id, dish_id:dish_id},
+                dataType: 'json',
+                success: function (ids) {
+                    if(ids){
+                        select.val(ids).trigger('change.select2');
+                    }
+                }
+            });
+        });
 
     </script>
 @endpush

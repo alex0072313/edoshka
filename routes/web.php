@@ -19,6 +19,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     //Блюда
     Route::post('dishes/find_repeat', 'Admin\DishesController@findRepeat')->name('dishes.find_repeat');
+    Route::post('dishes/recomendeds_random', 'Admin\DishesController@recomendedsRandom')->name('dishes.recomendeds_random');
 
     Route::get('dishes/create', 'Admin\DishesController@create')->name('dishes.create');
     Route::get('dishes/{dish}/copy', 'Admin\DishesController@copy')->name('dishes.copy');
