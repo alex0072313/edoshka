@@ -65,18 +65,19 @@
                                         </td>
                                         <td class="">
                                             <div class="font-weight-bold">{{ $item->name }}</div>
-                                            @if(count($variants = $item->attributes['variants']))
-                                                <small class="text-secondary font-weight-normal">
-                                                @php
-                                                    $variant_str = '';
-                                                    $i = 0;
-                                                    foreach($variants as $k => $v){
-                                                        $variant_str .= ($i ? ', ' : '').trim($k).': '.trim($v);
-                                                        $i++;
-                                                    }
-                                                @endphp
-                                                    {!! $variant_str !!}
-                                                </small>
+
+                                            @php
+                                                $variants = $item->attributes['variants'];
+                                                $variant_str = '';
+                                                $i = 0;
+                                                foreach($variants as $k => $v){
+                                                    $variant_str .= ($i ? ', ' : '').trim($k).': '.trim($v);
+                                                    $i++;
+                                                }
+                                            @endphp
+
+                                            @if($variant_str)
+                                                <small class="text-secondary font-weight-normal">{{ $variant_str }}</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $variant_str }}">
                                             @elseif($item->attributes->has('short_description'))
                                                 <small class="text-secondary font-weight-normal">{{ $item->attributes['short_description'] }}</small>
