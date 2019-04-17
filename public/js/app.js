@@ -40277,6 +40277,9 @@ function cart_update(data) {
       } else if (data.content[i].attributes.short_description) {
         html += '<small class="text-secondary font-weight-normal">' + data.content[i].attributes.short_description + '</small>';
         html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + data.content[i].attributes.short_description + '">';
+      } else if (data.content[i].attributes.weight) {
+        html += '<small class="text-secondary font-weight-normal">' + data.content[i].attributes.weight + '</small>';
+        html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + data.content[i].attributes.weight + '">';
       }
 
       html += '</td>' + '<td class="count">' + '<div class="input-group count_input float-right">' + '<div class="input-group-prepend">' + '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' + '</div>' + '<input type="number" min="0"  name="dishes[' + data.content[i].id + ']" readonly value="' + data.content[i].quantity + '" data-dish-id="' + data.content[i].id + '" class="bg-white form-control form-control-sm">' + '<div class="input-group-append">' + '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' + '</div>' + '</div>' + '</td>' + '<td class="text-nowrap text-center">' + '<div class="h4 mb-0">' + data.content[i].price + ' ₽' + '</div>' + '</td>' + '<td class="remove">' + '<a href="javascript:;" class="remove_from_cart" data-dish-id="' + data.content[i].id + '"><i class="fas fa-times"></i></a>' + '</td>' + '</tr>';
@@ -40472,9 +40475,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Code\food\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\Code\food\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\Code\food\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! D:\code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })
