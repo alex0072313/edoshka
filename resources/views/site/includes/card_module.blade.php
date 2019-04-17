@@ -65,7 +65,7 @@
                                         </td>
                                         <td class="">
                                             <div class="font-weight-bold">{{ $item->name }}</div>
-                                            @if($variants = $item->attributes['variants'])
+                                            @if(count($variants = $item->attributes['variants']))
                                                 <small class="text-secondary font-weight-normal">
                                                 @php
                                                     $variant_str = '';
