@@ -75,8 +75,7 @@
                 <div class="h4 text-uppercase font-weight-light">Рекомендуем</div>
                 <div class="items">
                     @foreach($dish->recomendeds as $recomended)
-                        <div
-                            class="item d-flex align-items-center{{ $loop->index ? ' border-top mt-2 pt-2' : ' mt-2' }}">
+                        <div class="item d-flex align-items-center{{ $loop->index ? ' border-top mt-2 pt-2' : ' mt-2' }}">
 
                             @if(Storage::disk('public')->exists('dish_imgs/'.$recomended->id.'/img_s.jpg'))
                                 <div class="image">
@@ -117,7 +116,7 @@
 
                 <div class="items">
                     @foreach($dishes_viewed as $viewed)
-                        <div class="item d-flex align-items-center mt-2">
+                        <div class="item d-flex align-items-center{{ $loop->index ? ' border-top pt-2' : ' mt-2' }}">
                             @if(Storage::disk('public')->exists('dish_imgs/' . $viewed->id . '/img_xs.jpg'))
                                 <div class="image">
                                     <img src="{{ Storage::disk('public')->url('dish_imgs/' . $viewed->id . '/img_xs.jpg') }}" alt="{{ $viewed->name }}">
