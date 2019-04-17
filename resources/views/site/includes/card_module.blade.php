@@ -67,12 +67,13 @@
                                             <div class="font-weight-bold">{{ $item->name }}</div>
 
                                             @php
-                                                $variants = $item->attributes['variants'];
                                                 $variant_str = '';
-                                                $i = 0;
-                                                foreach($variants as $k => $v){
-                                                    $variant_str .= ($i ? ', ' : '').trim($k).': '.trim($v);
-                                                    $i++;
+                                                if($variants = $item->attributes['variants']){
+                                                    $i = 0;
+                                                    foreach($variants as $k => $v){
+                                                        $variant_str .= ($i ? ', ' : '').trim($k).': '.trim($v);
+                                                        $i++;
+                                                    }
                                                 }
                                             @endphp
 
