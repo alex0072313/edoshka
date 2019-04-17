@@ -82,9 +82,9 @@ class Restaurant extends Model
         return parent::delete();
     }
 
-    public function scopeActive()
+    public function scopeActive($query)
     {
-        return $this->query->where('active','=','1');
+        return $query->where('active','=','1');
     }
 
 }
