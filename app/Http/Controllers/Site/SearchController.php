@@ -17,7 +17,10 @@ class SearchController extends SiteController
             $json = [];
 
             $dishes_by_q = Dish::where('name', 'LIKE', '%'.$q.'%')->get();
-            $restaurants = collect($this->town->restaurants);
+            $restaurants = collect($this->town->restaurants)
+                ->filter(function ($restaurant){
+                    return !auth()->user()->hasRole('megaroot') && $restaurant->active ? true : false;
+                });
 
             $dishes = [];
             foreach ($dishes_by_q as $dish){

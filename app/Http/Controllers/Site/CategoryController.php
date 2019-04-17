@@ -24,6 +24,8 @@ class CategoryController extends SiteController
             });
 
             return $restaurants;
+        })->filter(function ($restaurant){
+            return !auth()->user()->hasRole('megaroot') && $restaurant->active ? true : false;
         });
 
         $categories = cache()->rememberForever('town_'.$this->town->id.'_categories_has_dishes', function () use ($restaurants){
