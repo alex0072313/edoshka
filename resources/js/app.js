@@ -757,8 +757,8 @@ function cart_update(data) {
                                     html += '<small class="text-secondary font-weight-normal">'+data.content[i].attributes.short_description+'</small>';
                                     html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+data.content[i].attributes.short_description+'">';
                                 }else if(data.content[i].attributes.weight){
-                                    html += '<small class="text-secondary font-weight-normal">'+data.content[i].attributes.weight+'</small>';
-                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+data.content[i].attributes.weight+'">';
+                                    html += '<small class="text-secondary font-weight-normal">'+data.content[i].attributes.weight+'г</small>';
+                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+data.content[i].attributes.weight+'г">';
                                 }
 
 
