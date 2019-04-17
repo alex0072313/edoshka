@@ -14,7 +14,7 @@
         </div>
         <div class="h2" id="shop_pos_item_title_{{ $dish->id }}">
             <span class="pr-2">{{ $dish->name }}</span>
-            <span class="badge text-success bg-transparent pl-0"><span id="dish_{{$dish->id}}_variants_shortname_holder">{{ $dish->short_description }}</span></span>
+            <span class="badge text-success bg-transparent pl-0"><span id="dish_{{$dish->id}}_variants_shortname_holder">{{ $dish->short_description ? $dish->short_description : $dish->weight.'г' }}</span></span>
         </div>
 
         @if($dish->description)
@@ -42,8 +42,8 @@
                                                id="dish_{{$dish->id}}_variants_group_{{$group->id}}_{{$loop->index}}"
                                                data-name="{{ $name }}"
                                                data-shortname="{{ $short_name }}"
-                                               data-price="{{ $group_variant['price'] }}"
-                                               data-weight="{{ $group_variant['weight'] }}"
+                                               data-price="{{ $group_variant['price'] ? $group_variant['price'] : $dish->new_price ? $dish->new_price : $dish->price }}"
+                                               data-weight="{{ $group_variant['weight'] ? $group_variant['weight'] : $dish->weight.'г' }}"
                                                autocomplete="off"> {{ $name }}
                                     </button>
                                 @endforeach
