@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Dish;
+use App\Marker;
 use App\Repositories\DishRepository;
 use App\Restaurant;
 use App\Variant;
@@ -117,6 +118,23 @@ class DishesController extends AdminController
         return $this->render();
     }
 
+    public function copy(Dish $dish)
+    {
+        $dish->load('variants');
+
+        $newModel = $dish->replicate();
+        $newModel->push();
+
+        foreach($dish->getRelations() as $relation => $items){
+            foreach($items as $item){
+                unset($item->id);
+                $newModel->{$relation}()->create($item->toArray());
+            }
+        }
+
+        return redirect()->route('admin.dishes.edit', $newModel->id);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -168,6 +186,10 @@ class DishesController extends AdminController
             //Фото
             if ($img = request()->file('image')) {
                 DishRepository::createImage($img, $dish, request()->get('whitespace'));
+            }
+
+            if(request('create_copy')){
+                return $this->copy($dish);
             }
 
             return redirect()
@@ -286,6 +308,10 @@ class DishesController extends AdminController
             //Фото
             if ($img = request()->file('image')) {
                 DishRepository::createImage($img, $dish, request()->get('whitespace'));
+            }
+
+            if(request('create_copy')){
+                return $this->copy($dish);
             }
 
             return redirect()

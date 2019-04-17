@@ -155,7 +155,8 @@
                     {{--@endforeach--}}
 
                     <td width="1%">
-                        <div class="width-60">
+                        <div class="width-80">
+                            <a href="{{ route('admin.dishes.copy', $dish->id) }}" title="Копировать" class="btn btn-xs m-r-2 btn-success"><i class="far fa-xs fa-fw fa-copy"></i></a>
                             <a href="{{ route('admin.dishes.edit', $dish->id) }}" title="Изменить" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
                             <a href="{{ route('admin.dishes.destroy', $dish->id) }}" title="Удалить" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить обьект {{ $dish->name }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
                         </div>

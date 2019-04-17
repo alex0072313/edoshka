@@ -385,8 +385,11 @@
                 </div>
 
         <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
+
+        <input type="submit" name="create_copy" class="btn btn-sm btn-success float-left ml-2" value="Сохранить и создать копию">
+
         @if(isset($dish))
-            <a href="{{ route('admin.dishes.destroy', 'dish_'.$dish->id) }}" data-click="swal-warning"
+            <a href="{{ route('admin.dishes.destroy', $dish->id) }}" data-click="swal-warning"
                data-title="Подтвердите действие"
                data-text="Удалить блюдо {{ $dish->name }}?"
                data-classbtn="danger" data-actionbtn="Удалить" data-type="error"

@@ -21,6 +21,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('dishes/find_repeat', 'Admin\DishesController@findRepeat')->name('dishes.find_repeat');
 
     Route::get('dishes/create', 'Admin\DishesController@create')->name('dishes.create');
+    Route::get('dishes/{dish}/copy', 'Admin\DishesController@copy')->name('dishes.copy');
     Route::get('dishes/{category_str_id?}', 'Admin\DishesController@index')->name('dishes.index');
     Route::get('dishes/{category_str_id}/create', 'Admin\DishesController@create')->name('dishes.create_in_cat');
     Route::get('dishes/{dish}/destroy', 'Admin\DishesController@destroy')->name('dishes.destroy');

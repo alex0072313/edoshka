@@ -294,7 +294,7 @@
     <!-- end #sidebar -->
 
     <!-- begin #content -->
-    <div id="content" class="content">
+    <div id="content" class="content clearfix">
         {{ @Breadcrumbs::render() }}
 
         <!-- begin page-header -->
