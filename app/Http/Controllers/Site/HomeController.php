@@ -13,7 +13,7 @@ class HomeController extends SiteController
 
         $this->data['slides'] = Slide::all();
 
-        $restaurants = $this->town->restaurants()->Active()->get()->map(function ($restaurant){
+        $restaurants = $this->town->restaurants()->active()->get()->map(function ($restaurant){
             $cats = $this->admin_categories
                 ->merge(
                     $restaurant->categories
