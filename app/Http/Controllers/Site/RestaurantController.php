@@ -10,6 +10,8 @@ class RestaurantController extends SiteController
 {
     public function index(Restaurant $restaurant)
     {
+        if(!$restaurant->active) return redirect()->back();
+
         $this->view = 'site.restaurant';
         $this->data['restaurant'] = $restaurant;
 

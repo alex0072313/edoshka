@@ -15,7 +15,7 @@ class CategoryController extends SiteController
 
             $dishes = $category->dishes;
 
-            $restaurants = $this->town->restaurants->map(function ($restaurant) use ($dishes){
+            $restaurants = $this->town->restaurants()->active()->get()->map(function ($restaurant) use ($dishes){
                 $restaurant->all_dishes = $dishes
                 ->where('restaurant_id', '=', $restaurant->id)
                 ->sortBy('name');
