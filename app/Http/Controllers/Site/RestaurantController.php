@@ -27,7 +27,7 @@ class RestaurantController extends SiteController
 //
 //        $this->data['categories'] = $categories;
 
-        $this->data['categories'] = cache()->remember('restaurant_'.$restaurant->id.'_categories_dishes', 30, function () use ($restaurant){
+        $this->data['categories'] = cache()->rememberForever('restaurant_'.$restaurant->id.'_categories_dishes', function () use ($restaurant){
             $dishes = $restaurant->dishes;
             $categories =
                 Category::all()

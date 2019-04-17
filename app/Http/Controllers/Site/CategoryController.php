@@ -11,11 +11,9 @@ class CategoryController extends SiteController
         $this->view = 'site.category';
         $this->data['category'] = $category;
 
-        $restaurants = cache()->remember('category_'.$category->id.'_dishes', 30, function () use ($category){
-
+        $restaurants = cache()->rememberForever('category_'.$category->id.'_dishes', function () use ($category){
             $dishes = $category->dishes;
-
-            $restaurants = $this->town->restaurants()->active()->get()->map(function ($restaurant) use ($dishes){
+            $restaurants = $this->town->restaurants()->ActiveNotMegaRoot()->get()->map(function ($restaurant) use ($dishes){
                 $restaurant->all_dishes = $dishes
                 ->where('restaurant_id', '=', $restaurant->id)
                 ->sortBy('name');
@@ -28,7 +26,7 @@ class CategoryController extends SiteController
             return $restaurants;
         });
 
-        $categories = cache()->remember('town_'.$this->town->id.'_categories_has_dishes', 30, function () use ($restaurants){
+        $categories = cache()->rememberForever('town_'.$this->town->id.'_categories_has_dishes', function () use ($restaurants){
             $categories = collect();
             foreach ($restaurants as $restaurant){
                 $categories = $categories->merge(Category::HasDishes($restaurant->id)->get());

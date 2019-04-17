@@ -82,9 +82,9 @@ class Restaurant extends Model
         return parent::delete();
     }
 
-    public function scopeActive($query)
+    public function scopeActiveNotMegaRoot($query)
     {
-        return $query->where('active','=','1');
+        return !auth()->user()->hasRole('megaroot') ? $query->where('active','=','1') : $query;
     }
 
 }

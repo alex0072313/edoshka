@@ -71,7 +71,7 @@ class CategoryController extends AdminController
         }
 
         if($category = auth()->user()->categories()->create(request()->all())){
-
+            \Cache::clear();
             //Фото
             if($img = request()->file('image')){
                 CategoryRepository::createImage($img, $category);
@@ -142,7 +142,7 @@ class CategoryController extends AdminController
         }
 
         if($category->update(request()->all())){
-
+            \Cache::clear();
             //Фото
             if($img = request()->file('image')){
                 CategoryRepository::createImage($img, $category);

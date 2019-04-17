@@ -153,6 +153,9 @@ class DishesController extends AdminController
         }
 
         if ($dish = Auth::user()->dishes()->create(request()->all())) {
+
+            \Cache::clear();
+
             $dish->markers()->sync(request()->get('markers'));
             $dish->recomendeds()->sync(request()->get('recomendeds'));
 
@@ -267,6 +270,8 @@ class DishesController extends AdminController
         }
 
         if ($dish->update(request()->all())) {
+
+            \Cache::clear();
 
             $dish->markers()->sync(request()->get('markers'));
             $dish->recomendeds()->sync(request()->get('recomendeds'));
