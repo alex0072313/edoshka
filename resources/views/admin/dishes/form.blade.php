@@ -450,6 +450,26 @@
             attach_delete_variant();
         });
 
+        $(document).on('change', 'input.v_price', function () {
+            var input = $(this),
+                target_val = $('input[name="price"]').val(),
+                val = input.val();
+
+            if(val.indexOf('-') > 0){
+                input.val(parseInt(val) - parseInt(target_val));
+            }
+        });
+
+        $(document).on('change', 'input.v_weight', function () {
+            var input = $(this),
+                target_val = $('input[name="weight"]').val(),
+                val = input.val();
+
+            if(val.indexOf('-') > 0){
+                input.val(parseInt(val) - parseInt(target_val));
+            }
+        });
+
         function attach_delete_variant(){
             $('.delete_variant').off();
             $('.delete_variant').click(function(){
