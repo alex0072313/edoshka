@@ -42,8 +42,8 @@
                                                id="dish_{{$dish->id}}_variants_group_{{$group->id}}_{{$loop->index}}"
                                                data-name="{{ $name }}"
                                                data-shortname="{{ $short_name }}"
-                                               data-price="{{ $group_variant['price'] ? $group_variant['price'] : $dish->new_price ? $dish->new_price : $dish->price }}"
-                                               data-weight="{{ $group_variant['weight'] ? $group_variant['weight'] : $dish->weight }}"
+                                               data-price="{{ $group_variant['price'] }}"
+                                               data-weight="{{ $group_variant['weight'] }}"
                                                autocomplete="off"> {{ $name }}
                                     </button>
                                 @endforeach
