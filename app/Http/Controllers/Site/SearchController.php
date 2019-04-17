@@ -19,7 +19,14 @@ class SearchController extends SiteController
             $dishes_by_q = Dish::where('name', 'LIKE', '%'.$q.'%')->get();
             $restaurants = collect($this->town->restaurants)
                 ->filter(function ($restaurant){
-                    return !auth()->user()->hasRole('megaroot') && $restaurant->active ? true : false;
+
+                    if(auth()->check() && auth()->user()->hasRole('megaroot')){
+                        return true;
+                    }elseif (!$restaurant->active){
+                        return false;
+                    }
+
+                    return true;
                 });
 
             $dishes = [];

@@ -13,9 +13,16 @@ class HomeController extends SiteController
 
         $this->data['slides'] = Slide::all();
 
-        $restaurants = $this->town->restaurants()
+        $restaurants = $this->town->restaurants
             ->filter(function ($restaurant){
-                return !auth()->user()->hasRole('megaroot') && $restaurant->active ? true : false;
+
+                if(auth()->check() && auth()->user()->hasRole('megaroot')){
+                    return true;
+                }elseif (!$restaurant->active){
+                    return false;
+                }
+
+                return true;
             })
             ->map(function ($restaurant){
             $cats = $this->admin_categories

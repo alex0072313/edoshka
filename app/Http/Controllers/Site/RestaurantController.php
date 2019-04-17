@@ -10,7 +10,15 @@ class RestaurantController extends SiteController
 {
     public function index(Restaurant $restaurant)
     {
-        if(!$restaurant->active) return redirect()->route('site.home');
+        $red = false;
+        if(!$restaurant->active){
+            $red = true;
+            if(auth()->check() && auth()->user()->hasRole('megaroot')){
+                $red = false;
+            }
+        }
+
+        if($red) return redirect()->route('site.home');
 
         $this->view = 'site.restaurant';
         $this->data['restaurant'] = $restaurant;
