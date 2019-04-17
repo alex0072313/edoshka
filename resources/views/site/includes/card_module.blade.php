@@ -75,13 +75,13 @@
                                                     }
                                                 }
                                             @endphp
-                                            @if(!empty($variant_str))
+                                            @if($variant_str)
                                                 <small class="text-secondary font-weight-normal">{{ $variant_str }}</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $variant_str }}">
-                                            @elseif(!empty($item->attributes->has('short_description')))
+                                            @elseif($item->attributes['short_description'])
                                                 <small class="text-secondary font-weight-normal">{{ $item->attributes['short_description'] }}</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $item->attributes['short_description'] }}">
-                                            @elseif(!empty($item->attributes['weight']))
+                                            @elseif($item->attributes['weight'])
                                                 <small class="text-secondary font-weight-normal">{{ $item->attributes['weight'] }}г</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $item->attributes['weight'] }}г">
                                             @endif
