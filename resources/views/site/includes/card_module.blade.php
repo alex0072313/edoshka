@@ -65,7 +65,6 @@
                                         </td>
                                         <td class="">
                                             <div class="font-weight-bold">{{ $item->name }}</div>
-
                                             @php
                                                 $variant_str = '';
                                                 if($variants = $item->attributes['variants']){
@@ -76,14 +75,13 @@
                                                     }
                                                 }
                                             @endphp
-
-                                            @if($variant_str)
+                                            @if(!empty($variant_str))
                                                 <small class="text-secondary font-weight-normal">{{ $variant_str }}</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $variant_str }}">
-                                            @elseif($item->attributes->has('short_description'))
+                                            @elseif(!empty($item->attributes->has('short_description')))
                                                 <small class="text-secondary font-weight-normal">{{ $item->attributes['short_description'] }}</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $item->attributes['short_description'] }}">
-                                            @elseif($item->attributes['weight'])
+                                            @elseif(!empty($item->attributes['weight']))
                                                 <small class="text-secondary font-weight-normal">{{ $item->attributes['weight'] }}г</small>
                                                 <input type="hidden" name="dishes_variants[{{ $item->id }}]" value="{{ $item->attributes['weight'] }}г">
                                             @endif
