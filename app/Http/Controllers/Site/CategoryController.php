@@ -13,7 +13,7 @@ class CategoryController extends SiteController
 
         $restaurants = cache()->rememberForever('category_'.$category->id.'_dishes', function () use ($category){
             $dishes = $category->dishes;
-            $restaurants = $this->town->restaurants()->ActiveNotMegaRoot()->get()->map(function ($restaurant) use ($dishes){
+            $restaurants = $this->town->restaurants()->get()->map(function ($restaurant) use ($dishes){
                 $restaurant->all_dishes = $dishes
                 ->where('restaurant_id', '=', $restaurant->id)
                 ->sortBy('name');

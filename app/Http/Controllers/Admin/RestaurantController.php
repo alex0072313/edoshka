@@ -77,7 +77,7 @@ class RestaurantController extends AdminController
         }
 
         if($restaurant->update(request()->toArray())){
-
+            
             //Фото
             if($img = request()->file('bg')){
                 RestaurantRepository::createThumb($img, $restaurant);
