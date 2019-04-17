@@ -43,7 +43,7 @@
                                                data-name="{{ $name }}"
                                                data-shortname="{{ $short_name }}"
                                                data-price="{{ $group_variant['price'] ? $group_variant['price'] : $dish->new_price ? $dish->new_price : $dish->price }}"
-                                               data-weight="{{ $group_variant['weight'] ? $group_variant['weight'] : $dish->weight.'г' }}"
+                                               data-weight="{{ $group_variant['weight'] ? $group_variant['weight'] : $dish->weight }}"
                                                autocomplete="off"> {{ $name }}
                                     </button>
                                 @endforeach
