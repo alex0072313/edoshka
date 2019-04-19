@@ -34,10 +34,11 @@ class HomeController extends SiteController
                     $dishes_cats[$dish->category_id] = $dish->category_id;
                 }
 
-                if(isset($dishes_cats[$cat->id])) return $cat;
+                if(!isset($dishes_cats[$cat->id])) return false;
+                return true;
+
             });
 
-            $restaurant->cats = $cats;
             return $restaurant;
         });
 
