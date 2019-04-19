@@ -104,17 +104,17 @@
                 <input type="file" name="bg" class="form-control-file">
             </div>
         </div>
-
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Активен</label>
-            <div class="col-md-9">
-                <div class="checkbox checkbox-css on_g">
-                    <input type="checkbox" name="active" id="active" value="1"{{ isset($restaurant->id) ? $restaurant->active || old('active') ? ' checked':'':'' }} />
-                    <label for="active">&nbsp;</label>
+        @role('megaroot')
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Активен</label>
+                <div class="col-md-9">
+                    <div class="checkbox checkbox-css on_g">
+                        <input type="checkbox" name="active" id="active" value="1"{{ isset($restaurant->id) ? $restaurant->active || old('active') ? ' checked':'':'' }} />
+                        <label for="active">&nbsp;</label>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        @endrole
         <div class="form-group">
             <div>
                 <input type="submit" class="btn btn-sm btn-primary" value="Сохранить">

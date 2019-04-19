@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Category;
 use App\Slide;
 use App\User;
 
@@ -15,22 +16,19 @@ class HomeController extends SiteController
 
         $restaurants = $this->town->restaurants
             ->filter(function ($restaurant){
-
-                if(auth()->check() && auth()->user()->hasRole('megaroot')){
-                    return true;
-                }elseif (!$restaurant->active){
-                    return false;
-                }
-
-                return true;
+                if($restaurant->active || (auth()->check() && (auth()->user()->hasRole('megaroot') || auth()->user()->hasRole('boss')))) return true;
+                return false;
             })
             ->map(function ($restaurant){
-            $cats = $this->admin_categories
-                ->merge(
-                    $restaurant->categories
-                );
+//            $cats = $this->admin_categories
+//                ->merge(
+//                    $restaurant->categories
+//                );
+
+            $cats = Category::all();
+
             $dishes = $restaurant->dishes;
-            $cats = $cats->filter(function ($cat) use ($dishes){
+            $restaurant->cats = $cats->filter(function ($cat) use ($dishes){
                 $dishes_cats = [];
                 foreach ($dishes as $dish){
                     $dishes_cats[$dish->category_id] = $dish->category_id;

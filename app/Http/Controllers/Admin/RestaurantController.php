@@ -72,7 +72,7 @@ class RestaurantController extends AdminController
                 ->with('error', 'Проверьте форму на ошибки!');
         }
 
-        if(!request('active')){
+        if(!request('active') && auth()->user()->hasRole('megaroot')){
             request()->request->add(['active' => false]);
         }
 
@@ -84,7 +84,7 @@ class RestaurantController extends AdminController
             }
 
             return redirect()
-                ->route('admin.restaurants.index')
+                ->route(auth()->user()->hasRole('megaroot') ? 'admin.restaurants.index' : 'admin.restaurants.edit', $restaurant->id)
                 ->with('success', 'Данные ресторана успешно обновлены!');
         }
     }
