@@ -14,8 +14,7 @@ class HomeController extends AdminController
         if(\Auth::user()->hasRole('megaroot')){
             $orders = Order::all()->sortByDesc('created_ad');
         }else{
-
-            $orders = \Auth::user()->restaurant()->orders()->sortByDesc('created_ad')->gey();
+            $orders = \Auth::user()->restaurant->orders->sortByDesc('created_ad');
         }
 
         $orders = $orders->map(function ($order){
