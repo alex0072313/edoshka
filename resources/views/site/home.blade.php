@@ -28,7 +28,12 @@
         </section>
     @endif
 
-    <div class="h2 text-center mb-5">Доставка еды из ресторанов Геленджика</div>
+    <h1 class="h2 text-center mb-5">
+        @php
+            $var = 'town_'.$_town->id.'home_h1';
+        @endphp
+        @helpmsg($var)
+    </h1>
 
     <section id="shops_catalog" class="mb-5">
         <div class="container">
