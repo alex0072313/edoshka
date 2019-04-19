@@ -47,12 +47,7 @@ class UserController extends AdminController
                 return false;
             });
         }else{
-            $users = Auth::user()->restaurant->managers()->filter(function ($user){
-                if($user->id == Auth::user()->id){
-                    return false;
-                }
-                return true;
-            });
+            $users = Auth::user()->restaurant->managers();
         }
 
         $this->data['users'] = $users;
