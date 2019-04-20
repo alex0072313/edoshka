@@ -40022,6 +40022,37 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav_desctop').lengt
       });
     });
   });
+} //Каталог - развертывание
+
+
+if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_items_show_more').length) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on('load resize', products_show_more);
+}
+
+function products_show_more() {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_items_show_more').each(function () {
+    var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this),
+        container = btn.closest('.products_items'),
+        hiddens = container.children('.row').children('div:hidden').length,
+        holders = btn.data('switch').split('|');
+
+    if (!hiddens) {
+      btn.parent('div').addClass('d-none');
+    } else {
+      btn.parent('div').removeClass('d-none');
+    }
+
+    btn.text(holders[0] + ' ' + hiddens);
+    btn.on('click', function () {
+      if (container.hasClass('compact')) {
+        container.removeClass('compact');
+        btn.text(holders[1]);
+      } else {
+        container.addClass('compact');
+        btn.text(holders[0] + ' ' + hiddens);
+      }
+    });
+  });
 } //Каталог - моб меню
 
 

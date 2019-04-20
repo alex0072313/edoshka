@@ -3,17 +3,17 @@
 	<section id="greetin_page_default" class="shop" {!! Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg').'\');"' : '' !!}>
 		<div class="container position-relative h-100">
 			<div class="d-flex align-content-end flex-wrap inner">
-				<nav aria-label="breadcrumb" class="d-inline-block">
+				<nav aria-label="breadcrumb" class="d-inline-block mx-auto mx-md-0">
 					{{ @Breadcrumbs::render() }}
 				</nav>
-				<div class="d-sm-flex w-100">
+				<div class="d-md-flex w-100 text-md-left text-center">
 					<div class="clearfix flex-grow-1">
-						<div class="h1 font-weight-bolder text-white float-left shop_title mb-0">
+						<h1 class="h1 font-weight-bolder text-white float-left shop_title mb-2">
 							@php
 								$var = 'restaurant_'.$restaurant->id.'_title';
 							@endphp
 							@helpmsg($var)
-						</div>
+						</h1>
 					</div>
 					<div class="mr-4">
                         <div class="dropdown">
@@ -61,7 +61,7 @@
 				</div>
 
 				@if($restaurant->min_sum_order)
-					<div class="mb-5 w-100 text-white-50 font-weight-light shop_min_price">
+					<div class="mb-3 mt-3 mb-md-5 w-100 text-white-50 font-weight-light shop_min_price text-md-left text-center">
 						Бесплатная доставка от {{ $restaurant->min_sum_order }} &#8381;
 					</div>
 				@endif
@@ -129,9 +129,9 @@
 					<div class="products pt-2">
 						@foreach($categories as $category)
 							<div class="products_group{{ !$loop->first ? ' mt-4' : '' }}" id="products_group_{{ $category->id }}">
-							<div class="h2 mb-3 products_title">{{ $category->name }}</div>
+							    <h2 class="h2 mb-3 products_title text-md-left text-center">{{ $category->name }}</h2>
 								<div class="products_items pr-3 pr-sm-0">
-									<div class="row">
+									<div class="row mr-0">
 										@foreach($category->dishes as $dish)
 											<div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
 												@include('site.includes.dish')

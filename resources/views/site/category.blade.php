@@ -4,10 +4,10 @@
     <section id="greetin_page_default" class="shop"{!! Storage::disk('public')->exists('category_imgs/'.$category->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('category_imgs/'.$category->id.'/src.jpg').'\');"' : '' !!}>
         <div class="container">
             <div class="d-flex align-content-end flex-wrap inner w-auto">
-                <nav aria-label="breadcrumb" class="d-inline-block">
+                <nav aria-label="breadcrumb" class="d-inline-block mx-auto mx-md-0">
                     {{ @Breadcrumbs::render() }}
                 </nav>
-                <div class="h1 w-100 font-weight-bolder text-white mb-3">
+                <div class="h1 w-100 font-weight-bolder text-white mb-3 text-md-left text-center">
                     @php
                         $var = 'town_'.$_town->id.'_category_'.$category->id.'_title';
                     @endphp
@@ -73,21 +73,24 @@
                 </div>
                 <div class="col-md-9">
                     <div class="products pt-2">
+
                         @foreach($restaurants as $restaurant)
                             <div class="products_group{{ !$loop->first ? ' mt-4' : '' }}" id="products_group_{{ $category->id }}">
-                                <div class="d-flex justify-content-between">
-                                    <div class="h2 mb-3 products_title">
-                                        @php
-                                            $var = 'town_'.$_town->id.'_category_'.$category->id.'_restaurant_'.$restaurant->id.'_title';
-                                        @endphp
-                                        @helpmsg($var)
-                                    </div>
+                                <div class="d-md-flex justify-content-between mb-3 mb-md-0 text-md-left text-center">
+
+                                    <h2 class="h2 mb-3 products_title">
+                                        {{--@php--}}
+                                            {{--$var = 'town_'.$_town->id.'_category_'.$category->id.'_restaurant_'.$restaurant->id.'_title';--}}
+                                        {{--@endphp--}}
+                                        {{--@helpmsg($var)--}}
+                                        {{ $category->name }} от ресторана {{ $restaurant->name }}
+                                    </h2>
                                     <div>
                                         <a href="{{ route('site.restaurant', $restaurant->alias) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-utensils mr-1"></i> Полное меню</a>
                                     </div>
                                 </div>
 
-                                <div class="products_items pr-3 pr-sm-0">
+                                <div class="products_items pr-3 pr-sm-0{{ ($restaurants->count() > 1) && ($restaurant->all_dishes->count() > 6) ? ' compact' : '' }}">
                                     <div class="row mr-0">
                                         @foreach($restaurant->all_dishes as $dish)
                                             <div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
@@ -95,6 +98,11 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    @if(($restaurants->count() > 1) && ($restaurant->all_dishes->count() > 6))
+                                        <div class="mb-3 text-center">
+                                            <button class="btn btn-dark products_items_show_more" data-switch="Показать еще|Свернуть">Показать еще</button>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

@@ -12975,3 +12975,33 @@ footer .powered a {
   color: #495057;
 }
 
+.products_items.compact > .row:first-child > div:nth-child(12) ~ div {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .products_items.compact > .row:first-child > div:nth-child(9) ~ div {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .products_items.compact > .row:first-child > div:nth-child(6) ~ div {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  h1,
+  .h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  h2,
+  .h2 {
+    font-size: 1.5rem;
+  }
+}
+

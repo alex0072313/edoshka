@@ -1125,3 +1125,40 @@ footer {
         }
     }
 }
+
+.products_items {
+    &.compact{
+        .toggle_btn_box{
+
+        }
+        & > .row:first-child > div{
+
+            &:nth-child(12) ~ div{
+                display: none;
+            }
+
+            @include media-breakpoint-down(md) {
+                &:nth-child(9) ~ div{
+                    display: none;
+                }
+            }
+
+            @include media-breakpoint-down(sm) {
+                &:nth-child(6) ~ div{
+                    display: none;
+                }
+            }
+
+        }
+    }
+}
+h1, .h1{
+    @include media-breakpoint-down(sm) {
+        font-size: 1.5rem;
+    }
+}
+h2, .h2{
+    @include media-breakpoint-down(md) {
+        font-size: 1.5rem;
+    }
+}
