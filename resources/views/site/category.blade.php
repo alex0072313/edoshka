@@ -86,7 +86,7 @@
                                         {{ $category->name }} от ресторана {{ $restaurant->name }}
                                     </h2>
                                     <div>
-                                        <a href="{{ route('site.restaurant', $restaurant->alias) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-utensils mr-1"></i> Полное меню</a>
+                                        <a href="{{ route('site.restaurant', $restaurant->alias) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-utensils mr-1"></i> Меню</a>
                                     </div>
                                 </div>
 
