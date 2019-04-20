@@ -14,7 +14,7 @@
         </div>
         <div class="h2" id="shop_pos_item_title_{{ $dish->id }}">
             <span class="pr-2">{{ $dish->name }}</span>
-            <span class="badge text-success bg-transparent pl-0"><span id="dish_{{$dish->id}}_variants_shortname_holder">{{ $dish->short_description ? $dish->short_description : $dish->weight.'г' }}</span></span>
+            <span class="badge text-success bg-transparent pl-0"><span id="dish_{{$dish->id}}_variants_shortname_holder">{{ $dish->short_description ? $dish->short_description : $dish->weight ? $dish->weight.'г' : '' }}</span></span>
         </div>
 
         @if($dish->description)

@@ -12355,6 +12355,12 @@ header .globalmenu .links > a:hover {
   background: #ffc107;
 }
 
+.shop_pos_item .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .price .old {
   text-decoration: line-through;
 }
