@@ -4,6 +4,25 @@
 
     <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-lg mb-4">Добавить категорию</a>
 
+    @if($categories->count())
+        <div class="btn-group mb-4 ml-2">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-folder-open"></i>
+                Сортировка: <span>Все</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item d-block" >
+                    Все
+                </a>
+                @foreach(\App\Restaurant::all() as $rest)
+                    <a class="dropdown-item d-block" >
+                        {{ $rest->name }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     @if(count($categories))
         <div class="table-responsive">
             <table class="table table-striped m-b-0">
@@ -21,9 +40,9 @@
                     <th width="1%"></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="sort_items">
                 @foreach($categories as $category)
-                    <tr>
+                    <tr data-id="{{$category->id}}">
                         <td class="pr-0">
                             {{ $category->id }}
                         </td>
@@ -92,3 +111,30 @@
 
 
 @endsection
+
+@push('js')
+    <script src="/assets/js/sortablejs/Sortable.min.js"></script>
+    <script>
+        var el = document.getElementById('sort_items');
+        var sortable = Sortable.create(el, {
+            ghostClass: 'sortghost',
+            onUpdate: function () {
+                var ids = [];
+                $('#sort_items > tr').each(function () {
+                    ids.push(parseInt($(this).data('id')));
+                });
+
+                $.ajax({
+                    url: '{{ route('admin.categories.sort') }}',
+                    dataType: 'json',
+                    data: {ids:ids},
+                    type: 'post',
+                    success:function(response){
+                        console.log(response);
+                    },
+                });
+
+            }
+        });
+    </script>
+@endpush

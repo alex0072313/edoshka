@@ -170,4 +170,9 @@ class CategoryController extends AdminController
                 ->with('success', 'Категория "'.$category->name.'" была удалена!');
         }
     }
+
+    public function sort()
+    {
+        return response()->json(request()->all());
+    }
 }

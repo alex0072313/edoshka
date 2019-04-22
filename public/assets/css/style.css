@@ -6,3 +6,7 @@
   background-color: rgba(50, 169, 50, 0.1) !important;
 }
 
+#sort_items .sortghost td {
+  background: rgba(33, 150, 243, 0.5) !important;
+}
+

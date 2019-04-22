@@ -18,6 +18,8 @@ mix
 mix
     .sass('public/assets/css/_style.scss', 'public/assets/css/style.css');
 
+mix.copy('node_modules/sortablejs', 'public/assets/js/sortablejs');
+
 
 //
 // //Панель управления
