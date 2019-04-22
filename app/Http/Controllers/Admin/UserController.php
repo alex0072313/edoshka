@@ -98,6 +98,10 @@ class UserController extends AdminController
                 ->with('error', 'Ошибка при сохранении данных!');
         }
 
+        if(!request('order_in_sms')){
+            request()->request->add(['order_in_sms' => false]);
+        }
+
         // Валидация прошла ..
         $new_password = request()->get('password');
 
@@ -204,6 +208,10 @@ class UserController extends AdminController
                 ->withErrors($validator)
                 ->withInput()
                 ->with('error', 'Проверьте форму на ошибки!');
+        }
+
+        if(!request('order_in_sms')){
+            request()->request->add(['order_in_sms' => false]);
         }
 
         if(request()->get('role') && config('role.names.'.request()->get('role').'.name')){

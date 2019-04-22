@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lastname', 'restaurant_id', 'phone'
+        'name', 'email', 'password', 'lastname', 'restaurant_id', 'phone', 'phone2', 'order_in_sms'
     ];
 
     /**
@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function delete()
     {
-        Storage::disk('public')->deleteDirectory('user_imgs/'.$this->id);
+        \Storage::disk('public')->deleteDirectory('user_imgs/'.$this->id);
         return parent::delete();
     }
 

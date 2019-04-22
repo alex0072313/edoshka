@@ -89,6 +89,24 @@
         </div>
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Телефон 2</label>
+            <div class="col-md-9">
+                <input type="text" name="phone2" value="{{  old('phone2') ? old('phone2') : isset($user) ? $user->phone2 : '' }}" class="form-control">
+                <small class="text-secondary">Используется для SMS уведомлений</small>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Подробный заказ в SMS</label>
+            <div class="col-md-9">
+                <div class="checkbox checkbox-css on_g">
+                    <input type="checkbox" name="order_in_sms" id="order_in_sms" value="1"{{ isset($user->order_in_sms) ? $user->order_in_sms || old('order_in_sms') ? ' checked':'':'' }} />
+                    <label for="order_in_sms">&nbsp;</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Аватар</label>
             <div class="col-md-9">
 
