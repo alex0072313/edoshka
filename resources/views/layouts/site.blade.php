@@ -35,7 +35,7 @@
                     </a>
                 </div>
 
-                <div class="d-md-none search col-10">
+                <div class="d-md-none search col-10 pt-3 mt-1">
                     <div class="text-right mb-2 d-none">
                         @if($_user)
                             <a href="{{ route('admin.home') }}">
