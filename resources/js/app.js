@@ -479,11 +479,9 @@ global.products_show_more2 = function (btn) {
     if (container.hasClass('compact')) {
         container.removeClass('compact');
         btn.text(holders[1]);
-        alert('open1');
     } else {
         container.addClass('compact');
         btn.text(holders[0]);
-        alert('close1');
     }
 
     return false;
