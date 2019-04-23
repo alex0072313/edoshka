@@ -100,7 +100,7 @@
                                     </div>
                                     @if(($restaurants->count() > 1) && ($restaurant->all_dishes->count() > 6))
                                         <div class="mb-3 text-center">
-                                            <button class="btn btn-dark products_items_show_more" data-switch="Показать еще|Свернуть">Показать еще</button>
+                                            <a href="javascript:;" class="btn btn-dark products_items_show_more" data-switch="Показать еще|Свернуть">Показать еще</a>
                                         </div>
                                     @endif
                                 </div>

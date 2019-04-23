@@ -40032,27 +40032,25 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_items_show_more').l
 function products_show_more() {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_items_show_more').each(function () {
     var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this),
-        container = btn.closest('.products_items'),
+        container = btn.parents('.products_items'),
         hiddens = container.children('.row').children('div:hidden').length,
-        holders = btn.data('switch').split('|');
-
-    if (!hiddens) {
-      btn.parent('div').addClass('d-none');
-    } else {
-      btn.parent('div').removeClass('d-none');
-    }
+        holders = btn.data('switch').split('|'); // if(!hiddens){
+    //     btn.parent('div').addClass('d-none');
+    // }else{
+    //     btn.parent('div').removeClass('d-none');
+    // }
 
     btn.text(holders[0] + ' ' + hiddens);
     btn.on('click', function () {
       if (container.hasClass('compact')) {
         container.removeClass('compact');
         btn.text(holders[1]);
+        return false;
       } else {
         container.addClass('compact');
         btn.text(holders[0] + ' ' + hiddens);
+        return false;
       }
-
-      return false;
     }); // btn.on('click', function () {
     //     if(container.hasClass('compact')){
     //         container.removeClass('compact');
