@@ -40045,17 +40045,18 @@ function products_show_more() {
     btn.on('click', function () {
       var now = Date.now();
 
-      if (now - lastCall > 1e3) {
+      if (now - lastCall > 3e3) {
         if (container.hasClass('compact')) {
           container.removeClass('compact');
           btn.text(holders[1]);
+          alert('open');
         } else {
           container.addClass('compact');
           btn.text(holders[0] + ' ' + hiddens);
+          alert('close');
         }
 
         lastCall = now;
-        return false;
       }
     });
   });
