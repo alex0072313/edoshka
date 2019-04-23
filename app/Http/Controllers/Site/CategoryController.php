@@ -39,7 +39,7 @@ class CategoryController extends SiteController
         })->unique('id');
 
         $this->data['categories'] = $categories;
-        $this->data['restaurants'] = $restaurants;
+        $this->data['restaurants'] = $restaurants->shuffle();
 
         return $this->render();
     }
