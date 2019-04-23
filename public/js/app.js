@@ -40052,6 +40052,7 @@ function products_show_more() {
         btn.text(holders[0] + ' ' + hiddens);
       }
 
+      alert('123');
       return false;
     }); // btn.on('click', function () {
     //     if(container.hasClass('compact')){
