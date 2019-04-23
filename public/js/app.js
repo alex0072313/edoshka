@@ -40025,8 +40025,7 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_nav_desctop').lengt
 } //Каталог - развертывание
 
 
-if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_items_show_more').length) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on('load resize', products_show_more);
+if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.products_items_show_more').length) {//$(window).on('load resize', products_show_more);
 }
 
 function products_show_more() {
@@ -40060,7 +40059,27 @@ function products_show_more() {
       }
     });
   });
-} //Каталог - моб меню
+}
+
+global.products_show_more2 = function (btn) {
+  var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(btn),
+      container = btn.parents('.products_items'),
+      hiddens = container.children('.row').children('div:hidden').length,
+      holders = btn.data('switch').split('|');
+  btn.text(holders[0]);
+
+  if (container.hasClass('compact')) {
+    container.removeClass('compact');
+    btn.text(holders[1]);
+    alert('open1');
+  } else {
+    container.addClass('compact');
+    btn.text(holders[0]);
+    alert('close1');
+  }
+
+  return false;
+}; //Каталог - моб меню
 
 
 if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.filter_mobile').length) {
