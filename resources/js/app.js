@@ -492,10 +492,12 @@ function products_show_more() {
             if(container.hasClass('compact')){
                 container.removeClass('compact');
                 btn.text(holders[1]);
+                alert('open');
                 return false;
             }else{
                 container.addClass('compact');
                 btn.text(holders[0]+' '+hiddens);
+                alert('close');
                 return false;
             }
         });
