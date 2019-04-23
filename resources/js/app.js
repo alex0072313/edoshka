@@ -488,7 +488,7 @@ function products_show_more() {
 
         btn.text(holders[0]+' '+hiddens);
 
-        $(document).on('click', btn, function () {
+        btn.on('click', function () {
             if(container.hasClass('compact')){
                 container.removeClass('compact');
                 btn.text(holders[1]);
@@ -496,7 +496,6 @@ function products_show_more() {
                 container.addClass('compact');
                 btn.text(holders[0]+' '+hiddens);
             }
-            alert('123');
             return false;
         });
 
