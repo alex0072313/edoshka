@@ -40043,7 +40043,7 @@ function products_show_more() {
     }
 
     btn.text(holders[0] + ' ' + hiddens);
-    btn.on('click', function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('click', btn, function () {
       if (container.hasClass('compact')) {
         container.removeClass('compact');
         btn.text(holders[1]);
@@ -40051,7 +40051,17 @@ function products_show_more() {
         container.addClass('compact');
         btn.text(holders[0] + ' ' + hiddens);
       }
-    });
+
+      return false;
+    }); // btn.on('click', function () {
+    //     if(container.hasClass('compact')){
+    //         container.removeClass('compact');
+    //         btn.text(holders[1]);
+    //     }else{
+    //         container.addClass('compact');
+    //         btn.text(holders[0]+' '+hiddens);
+    //     }
+    // });
   });
 } //Каталог - моб меню
 

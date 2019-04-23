@@ -130,7 +130,7 @@
 						@foreach($categories as $category)
 							<div class="products_group{{ !$loop->first ? ' mt-4' : '' }}" id="products_group_{{ $category->id }}">
 							    <h2 class="h2 mb-3 products_title text-md-left text-center">{{ $category->name }}</h2>
-								<div class="products_items pr-3 pr-sm-0">
+								<div class="products_items">
 									<div class="row mr-0">
 										@foreach($category->dishes as $dish)
 											<div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">

@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
 
-                                <div class="products_items pr-3 pr-sm-0{{ ($restaurants->count() > 1) && ($restaurant->all_dishes->count() > 6) ? ' compact' : '' }}">
+                                <div class="products_items{{ ($restaurants->count() > 1) && ($restaurant->all_dishes->count() > 6) ? ' compact' : '' }}">
                                     <div class="row mr-0">
                                         @foreach($restaurant->all_dishes as $dish)
                                             <div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
