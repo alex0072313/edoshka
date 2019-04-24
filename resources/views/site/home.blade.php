@@ -226,6 +226,11 @@
 
                 </div>
             </div>
+
+            @php
+                $var = 'town_'.$_town->id.'home_text';
+            @endphp
+            @helpmsg($var)
         </div>
     </section>
 @endsection
