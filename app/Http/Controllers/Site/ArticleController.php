@@ -6,6 +6,7 @@ use App\Article;
 
 class ArticleController extends SiteController
 {
+
     public function index(Article $article)
     {
         $this->view = 'site.article';
