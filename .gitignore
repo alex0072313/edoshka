@@ -5,11 +5,11 @@
 /storage/*.key
 /vendor
 .env
+composer.phar
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-
 app/Http/Controllers/Site/SocialController.php
 public/Apache-PHP-7.2_vhost.conf
