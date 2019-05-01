@@ -14,7 +14,13 @@ class AdminController extends Controller
 
     protected function checkUser()
     {
+
         $this->middleware(function ($request, $next) {
+
+            if(\Auth::user() && \Auth::user()->hasRole('customer')){
+                return redirect()->route('site.home');
+            }
+
             if(!\Auth::user() || (!\Auth::user()->hasRole('megaroot') && !\Auth::user()->hasRole('boss') && !\Auth::user()->hasRole('manager'))){
                 return redirect()->route('login');
             }

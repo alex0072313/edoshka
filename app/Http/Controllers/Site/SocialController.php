@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Socialite;
+use Spatie\Permission\Models\Role;
 
 class SocialController extends Controller
 {
@@ -20,17 +21,24 @@ class SocialController extends Controller
         $user      = User::where(['email' => $userSocial->getEmail()])->first();
 
         if($user){
-            Auth::login($user);
+            \Auth::login($user);
         }else{
-            $user = User::create([
-                'name'          => $userSocial->getName(),
-                'email'         => $userSocial->getEmail(),
-                'image'         => $userSocial->getAvatar(),
-                'provider_id'   => $userSocial->getId(),
-                'provider'      => $provider,
-            ]);
+            $user = new User;
+            $user->name = $userSocial->getName();
+            $user->password = \Hash::make($userSocial->getName().$userSocial->getEmail());
+            $user->email = $userSocial->getEmail();
+            $user->image = $userSocial->getAvatar();
+            $user->provider_id = $userSocial->getId();
+            $user->provider = $provider;
+
+            $user
+                ->save();
+
+            $user->assignRole('customer');
+
+            \Auth::login($user);
         }
 
-        return redirect()->route('site.home');
+        return redirect('/');
     }
 }

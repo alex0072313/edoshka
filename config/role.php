@@ -13,5 +13,9 @@ return [
             'name' => 'manager',
             'dolg' => 'Менеджер'
         ],
+        'customer'  => [
+            'name' => 'customer',
+            'dolg' => 'Покупатель'
+        ],
     ]
 ];
