@@ -132,8 +132,12 @@
                         <div class="col-md-9">
                             <select name="restaurant_id" class="default-select2 form-control{{ $errors->has('restaurant_id') ? ' is-invalid' : '' }}" {{ isset($dish) ? ' data-dish="'.$dish->id.'"' : '' }} data-search="true" data-placeholder="Выберете ресторан">
                                 <option></option>
-                                @foreach($restaurants as $restaurant)
-                                    <option value="{{ $restaurant->id }}"{{ isset($dish) ? $restaurant->id == $dish->restaurant_id ? ' selected':'' : '' }} >{{ $restaurant->name . ' - ' . $restaurant->town->name }}</option>
+                                @foreach($restaurants as $rest)
+                                    @if(isset($restaurant))
+                                        <option value="{{ $rest->id }}"{{ $restaurant->id == $rest->id ? ' selected':'' }} >{{ $rest->name }}</option>
+                                    @else
+                                        <option value="{{ $rest->id }}"{{ isset($dish) ? $rest->id == $dish->restaurant_id ? ' selected':'' : '' }} >{{ $rest->name . ' - ' . $rest->town->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @if ($errors->has('restaurant_id'))
@@ -151,7 +155,7 @@
                     <div class="col-md-9">
                         <select name="category_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('category_id') ? ' is-invalid' : '' }}" {{ isset($dish) ? ' data-dish="'.$dish->id.'"' : '' }} data-search="true" data-placeholder="Выберете категорию блюда">
                             <option></option>
-                            @foreach(App\Category::allToAccess(true) as $cat)
+                            @foreach(App\Category::allToAccess() as $cat)
                                 @if(isset($category))
                                     <option value="{{ $cat->id }}"{{ $cat->id == $category->id ? ' selected':'' }} >{{ $cat->name }}</option>
                                 @else

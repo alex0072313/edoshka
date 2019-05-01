@@ -78,11 +78,17 @@
 @extends('layouts.admin')
 
 @section('content')
+    @php
+        $params = [];
+		if(isset($restaurant)) $params['restaurant'] = $restaurant->id;
+		if(isset($category)) $params['category'] = $category->id;
+    @endphp
 
-    <a href="{{ isset($category) ? route('admin.dishes.create_in_cat', 'category_'.$category->id) : route('admin.dishes.create') }}" class="btn btn-primary btn-lg mb-4"><i class="fas mr-1 fa-concierge-bell"></i> Добавить блюдо</a>
+    <a href="{{ qs_url('admin.dishes.create', $params) }}" class="btn btn-primary btn-lg mb-4"><i class="fas mr-1 fa-concierge-bell"></i> Добавить блюдо</a>
 
     @php
-        $list_categories = App\Category::allToAccess(true);
+        $list_categories = App\Category::allToAccess(isset($restaurant) ? $restaurant : null);
+        $list_restaurants = App\Restaurant::all();
     @endphp
 
     @if($list_categories->count())
@@ -96,11 +102,21 @@
                 @endif
             </button>
             <div class="dropdown-menu">
+                @php
+                    $params = [];
+					if(isset($restaurant)) $params['restaurant'] = $restaurant->id;
+                @endphp
+
                 @if(isset($category))
-                    <a class="dropdown-item" href="{{ route('admin.dishes.index') }}">Все</a>
+                    <a class="dropdown-item" href="{{ qs_url('admin.dishes.index', $params) }}">Все</a>
                 @endif
                 @foreach($list_categories as $cat)
-                    <a class="dropdown-item d-block clearfix{{ (isset($category) && $category->id == $cat->id) ? ' bg-grey-lighter' :'' }}" href="{{ route('admin.dishes.index', 'category_'.$cat->id) }}">
+
+                    @php
+						$params['category'] = $cat->id;
+                    @endphp
+
+                    <a class="dropdown-item d-block clearfix{{ (isset($category) && $category->id == $cat->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.dishes.index', $params) }}">
                         <div class="pull-left mr-3">{{ $cat->name }}</div>
                         @if($category_by_dishes[$cat->id])
                             <div class="font-weight-bold text-primary pull-right">{{ $category_by_dishes[$cat->id] }}</div>
@@ -110,6 +126,43 @@
             </div>
         </div>
     @endif
+
+    @hasrole('megaroot')
+
+
+        <div class="btn-group mb-4 ml-2">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-university"></i>
+                @if(isset($restaurant))
+                    Ресторан: {{ $restaurant->name }}
+                @else
+                    Ресторан: Все
+                @endif
+            </button>
+            <div class="dropdown-menu">
+
+                @php
+                    $params = [];
+					if(isset($category)) $params['category'] = $category->id;
+                @endphp
+
+                @if(isset($restaurant))
+                    <a class="dropdown-item" href="{{ qs_url('admin.dishes.index', $params) }}">Все</a>
+                @endif
+                @foreach($list_restaurants as $rest)
+                    @php
+                        $params['restaurant'] = $rest->id;
+                    @endphp
+                    <a class="dropdown-item d-block clearfix{{ (isset($restaurant) && $restaurant->id == $rest->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.dishes.index', $params) }}">
+                        <div class="pull-left mr-3">{{ $rest->name }}</div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endrole
+
+
+
 
     {{--<a href="{{ isset($category) ? route('fields.index', 'category_'.$category->id) : route('fields.index') }}" class="btn btn-default mb-4 ml-2"><i class="fas fa-fw fa-server"></i> Управение доп. полями</a>--}}
 

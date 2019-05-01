@@ -55,6 +55,10 @@ class RouteServiceProvider extends ServiceProvider
             return Category::findOrFail(str_replace('category_', '', $value));
         });
 
+        Route::bind('restaurant_str_id', function ($value) {
+            return Restaurant::findOrFail(str_replace('restaurant_', '', $value));
+        });
+
         Route::bind('dish_str_id', function ($value) {
             return Dish::findOrFail(str_replace('dish_', '', $value));
         });

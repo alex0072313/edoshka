@@ -38,18 +38,32 @@ class Category extends Model
         return $this->user->hasRole('megaroot');
     }
 
-    public static function allToAccess(){
+    public static function allToAccess($restaurant = null){
         $results = [];
 
-        if (auth()->user()->hasRole('megaroot')){
-            $results = Category::all();
-        }else{
-            $results = User::getAdmin()
-                ->categories()
-                ->get()
-                ->merge(
-                    auth()->user()->restaurant->categories
-                );
+//        if (auth()->user()->hasRole('megaroot')){
+//            $results = Category::all();
+//        }else{
+//            $results = User::getAdmin()
+//                ->categories()
+//                ->get()
+//                ->merge(
+//                    auth()->user()->restaurant->categories
+//                );
+//        }
+
+        $results = Category::all();
+
+        if (!auth()->user()->hasRole('megaroot') && !$restaurant){
+            $restaurant = auth()->user()->restaurant;
+        }
+
+        if($restaurant){
+            if($dishes = $restaurant->dishes){
+                $results = $results->filter(function ($category) use ($dishes){
+                    return $dishes->where('category_id', '=', $category->id)->count() > 0 ? true : false;
+                });
+            }
         }
 
         return $results;

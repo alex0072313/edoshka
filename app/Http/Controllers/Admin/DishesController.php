@@ -18,71 +18,79 @@ class DishesController extends AdminController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category)
+    public function index()
     {
         $this->title = 'Блюда';
         $this->view = 'admin.dishes.index';
         $this->pagetitle = 'Блюда';
 
-        $dishes = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
+        $category = null;
+        if($category_id = request('category')) $category = Category::find($category_id);
 
-        foreach (Category::allToAccess(true) as $cat) {
+        $restaurant = null;
+        if($restaurant_id = request('restaurant')) $restaurant = Restaurant::find($restaurant_id);
+
+        if(Auth::user()->hasRole('megaroot')){
+            $dishes = Dish::all();
+        }else{
+            $dishes = Auth::user()->restaurant->dishes;
+        }
+
+        foreach (Category::allToAccess($restaurant) as $cat) {
             $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
         }
 
-        if ($category->name) {
+        if ($category) {
+            $dishes = $dishes->where('category_id', $category->id);
+
             $this->title = 'Блюда в категории';
             $this->longtitle = $category->name;
-
             $this->data['category'] = $category;
-
-            if(Auth::user()->hasRole('megaroot')){
-                $dishes = Dish::where('category_id', $category->id)->get();
-            }else{
-                $dishes = Auth::user()
-                    ->restaurant
-                    ->dishes()
-                    ->where('category_id', $category->id)
-                    ->get();
-            }
-
         }
 
-        if (!$category->name && !Category::all()->count()) {
-            \request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
-            //session(['error' => 'Для добавления блюда необходимо добавить хотябы 1 категорию!']);
-            //$this->data['error'] = 'Для добавления блюда необходимо добавить хотябы 1 категорию!';
+        if ($restaurant) {
+            $dishes = $dishes->where('restaurant_id', $restaurant->id);
+            $this->data['restaurant'] = $restaurant;
+            $this->longtitle .= ' ('.$restaurant->name.')';
         }
 
-//        $this->data['fields_names'] = [];
-//        $fields_owners = [];
-//        foreach ($owners as $owner){
-//            foreach ($owner->fields as $field_content){
-//                $field = $field_content->field;
-//                $type = $field->type;
-//
-//                if(($type->type == 'htmltext') || ($type->type == 'files')) continue;
-//
-//                $this->data['fields_names'][$field->id] = $field->name;
-//                $fields_owners[$owner->id][$field->id] = $field_content->content;
-//            }
-//        }
-//
-//        $owners = $owners->map(function ($owner) use ($fields_owners){
-//            if($thumb = $owner
-//                ->images()
-//                ->orderBy('pos')
-//                ->first())
-//            {
-//                $owner->thumb = $thumb->th_url(3);
-//            }
-//            $owner->fields_cont = $fields_owners[$owner->id];
-//            return $owner;
-//        });
 
-        //dd($owners);
+        if (!$category && !Category::all()->count()) {
+            request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
+        }
 
         $this->data['dishes'] = $dishes;
+
+
+//        $dishes = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
+//
+//        foreach (Category::allToAccess(true) as $cat) {
+//            $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
+//        }
+//
+//        if ($category->name) {
+//            $this->title = 'Блюда в категории';
+//            $this->longtitle = $category->name;
+//
+//            $this->data['category'] = $category;
+//
+//            if(Auth::user()->hasRole('megaroot')){
+//                $dishes = Dish::where('category_id', $category->id)->get();
+//            }else{
+//                $dishes = Auth::user()
+//                    ->restaurant
+//                    ->dishes()
+//                    ->where('category_id', $category->id)
+//                    ->get();
+//            }
+//
+//        }
+//
+//        if (!$category->name && !Category::all()->count()) {
+//            request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
+//        }
+//
+//        $this->data['dishes'] = $dishes;
 
         return $this->render();
     }
@@ -92,14 +100,25 @@ class DishesController extends AdminController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Category $category)
+    public function create()
     {
         $this->view = 'admin.dishes.form';
         $this->title = 'Добавление блюда';
 
+        $category = null;
+        if($category_id = request('category')) $category = Category::find($category_id);
+
+        $restaurant = null;
+        if($restaurant_id = request('restaurant')) $restaurant = Restaurant::find($restaurant_id);
+
         if ($category) {
             $this->longtitle = $category->name;
             $this->data['category'] = $category;
+        }
+
+        if ($restaurant) {
+            $this->longtitle .= ' ('.$restaurant->name.')';
+            $this->data['restaurant'] = $restaurant;
         }
 
         $recomendeds = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
@@ -192,8 +211,8 @@ class DishesController extends AdminController
                 return $this->copy($dish);
             }
 
-            return redirect()
-                ->route('admin.dishes.index', 'category_' . $dish->category->id)
+            return redirect(qs_url('admin.dishes.index', ['category'=>$dish->category_id, 'restaurant'=>$dish->restaurant_id]))
+                //->route('admin.dishes.index', 'category_' . $dish->category->id)
                 ->with(['success' =>
                     'Блюдо <a href="' . route('admin.dishes.edit', $dish->id) . '">' . $dish->name . '</a> добавлено в категорию ' .
                     (Auth::user()->can('access', $dish->category) ? '<a class="text-green" href="' . route('admin.categories.edit', $dish->category->id) . '">' : '') .
@@ -314,8 +333,8 @@ class DishesController extends AdminController
                 return $this->copy($dish);
             }
 
-            return redirect()
-                ->route('admin.dishes.index')
+            return redirect(qs_url('admin.dishes.index', ['category'=>$dish->category_id, 'restaurant'=>$dish->restaurant_id]))
+                //->route('admin.dishes.index')
                 ->with(['success' => 'Блюдо было успешно обновлено!']);
         }
     }
@@ -331,8 +350,8 @@ class DishesController extends AdminController
         $this->authorize('access', $dish);
 
         if ($dish->delete()) {
-            return redirect()
-                ->route('admin.dishes.index', 'category_' . $dish->category->id)
+            return redirect(qs_url('admin.dishes.index', ['category'=>$dish->category_id, 'restaurant'=>$dish->restaurant_id]))
+                //->route('admin.dishes.index', 'category_' . $dish->category->id)
                 ->with(['success' => 'Блюдо ' . $dish->name . ' было удалено!']);
         }
     }

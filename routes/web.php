@@ -25,11 +25,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('dishes/create', 'Admin\DishesController@create')->name('dishes.create');
     Route::get('dishes/{dish}/copy', 'Admin\DishesController@copy')->name('dishes.copy');
-    Route::get('dishes/{category_str_id?}', 'Admin\DishesController@index')->name('dishes.index');
-    Route::get('dishes/{category_str_id}/create', 'Admin\DishesController@create')->name('dishes.create_in_cat');
+
+    //Route::get('dishes/{category_str_id?}/{restaurant_str_id?}', 'Admin\DishesController@index')->name('dishes.index');
+    //Route::get('dishes/{category_str_id?}/{restaurant_str_id?}/create', 'Admin\DishesController@create')->name('dishes.create_in_cat');
+
     Route::get('dishes/{dish}/destroy', 'Admin\DishesController@destroy')->name('dishes.destroy');
     Route::resource('dishes', 'Admin\DishesController')
-        ->except(['index', 'create', 'destroy'])
+        ->except(['destroy'])
         ->parameters([
             'dishes' => 'dish_str_id'
         ]);
@@ -88,6 +90,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::middleware('guest')->group(function () {
     //Вход, регистрация, восстановление пароля
     Auth::routes();
+    Route::get('login/{provider}', 'Site\SocialController@redirect')->name('login_soc');
+    Route::get('login/{provider}/callback','Site\SocialController@Callback')->name('login_soc_callback');
 });
 
 

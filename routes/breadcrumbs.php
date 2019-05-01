@@ -114,6 +114,7 @@ Breadcrumbs::for('admin.dishes.create', function ($trail) {
     $trail->parent('admin.dishes.index');
     $trail->push('Добавление блюда', route('admin.dishes.create'));
 });
+
 Breadcrumbs::for('admin.dishes.create_in_cat', function ($trail, $category) {
     $trail->parent('admin.dishes.index', $category);
     $trail->push('Добавление блюда', route('admin.dishes.create_in_cat', 'category_'.$category->id));
