@@ -39644,6 +39644,8 @@ __webpack_require__(/*! jquery-mask-plugin */ "./node_modules/jquery-mask-plugin
 
 
 
+__webpack_require__(/*! ../js/login */ "./resources/js/login.js");
+
 __webpack_require__(/*! ../js/search */ "./resources/js/search.js");
 
 if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('input.holdered').length) {
@@ -40358,6 +40360,41 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/login.js":
+/*!*******************************!*\
+  !*** ./resources/js/login.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//Логин
+if ($('#login_form').length) {
+  var login_form = $('#login_form'),
+      login_form_btn_submit = login_form.find('.submit');
+  login_form_btn_submit.on('click', function (submit_standart) {
+    submit_standart.preventDefault();
+    var form_data = {};
+    login_form.find('[name]').each(function () {
+      form_data[$(this).attr('name')] = $(this).val();
+    });
+    ajax_request(form_data, login_form.data('action'), 'json', 'post', function ($json) {
+      login_form.addClass('load');
+      login_form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
+    }, function ($json) {
+      console.log($json);
+      login_form.removeClass('load');
+
+      if ($json.errors) {
+        for (var i in $json.errors) {
+          login_form.find('[name="' + i + '"]').addClass('is-invalid').after('<div class="invalid-feedback">' + $json.errors[i][0] + '</span>');
+        }
+      } else if ($json.success) {}
+    }, null);
+  });
+}
 
 /***/ }),
 

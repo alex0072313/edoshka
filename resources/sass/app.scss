@@ -1175,42 +1175,41 @@ h2, .h2{
         color: $white;
         font-weight: lighter;
         text-transform: none;
-        @extend .pl-3;
-        .i{
-            border-right:1px solid;
+        .i + span{
+            border-left:1px solid;
         }
 
         &.fb{
             background: #4267B2;
-            .i{
+            .i + span{
                 border-color: #395690;
             }
         }
 
         &.tw{
             background: #1DA1F2;
-            .i{
+            .i + span{
                 border-color: #2784e2;
             }
         }
 
         &.gl{
             background: #DB4832;
-            .i{
+            .i + span{
                 border-color: #CC412A;
             }
         }
 
         &.vk{
             background: #4A76A8;
-            .i{
+            .i + span{
                 border-color: #456e9c;
             }
         }
 
         &.in{
             background: #B8349D;
-            .i{
+            .i + span{
                 border-color: #aa3091;
             }
         }

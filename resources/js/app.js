@@ -30,7 +30,7 @@ require('jquery-mask-plugin');
 import LazyLoad from "vanilla-lazyload";
 
 import swal from 'sweetalert';
-
+require('../js/login');
 require('../js/search');
 
 if($('input.holdered').length){

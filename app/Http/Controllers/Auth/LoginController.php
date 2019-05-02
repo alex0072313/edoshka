@@ -44,4 +44,9 @@ class LoginController extends Controller
         return redirect()->route('site.home');
     }
 
+    public function customer_login()
+    {
+        return response()->json(request()->post());
+    }
+
 }

@@ -90,6 +90,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::middleware('guest')->group(function () {
     //Вход, регистрация, восстановление пароля
     Auth::routes();
+
+    Route::post('/customer_login', 'Auth\LoginController@customer_login')->name('customer_login');
+
     Route::get('login/{provider}', 'Site\SocialController@redirect')->name('login_soc');
     Route::get('login/{provider}/callback','Site\SocialController@Callback')->name('login_soc_callback');
 });

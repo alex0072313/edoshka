@@ -18,7 +18,7 @@
             if($dish->short_description){
                 $description = $dish->short_description;
             }elseif ($dish->weight){
-                $description = $dish->weight;
+                $description = $dish->weight.'г';
             }else{
                 $description = '';
             }

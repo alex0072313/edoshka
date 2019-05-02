@@ -7,8 +7,6 @@
 
         <h4>Вход в кабинет</h4>
 
-        <a href="{{ route('login_soc', 'facebook') }}">facebook</a>
-
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">

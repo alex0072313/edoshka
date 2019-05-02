@@ -109,6 +109,12 @@
                     </div>
                 </div>
             </div>
+
+            @php
+                $var = 'town_'.$_town->id.'_category_'.$category->id.'_content';
+            @endphp
+            @helpmsg($var)
+
         </div>
     </section>
 
