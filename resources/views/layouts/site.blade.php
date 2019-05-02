@@ -36,13 +36,13 @@
                 </div>
 
                 <div class="d-md-none search col-10 pt-3 mt-1">
-                    <div class="text-right mb-2 d-none">
+                    <div class="text-right mb-2">
                         @if($_user)
                             <a href="{{ route('admin.home') }}">
                                 <i class="far fa-user"></i> Кабинет
                             </a>
                         @else
-                            <a href="{{ route('login') }}">
+                            <a href="jsvascript:;" class="user_enter_modal_link">
                                 <span class="icon"></span> Войти
                             </a>
                         @endif
@@ -63,14 +63,59 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-2 d-none d-md-block">
-                    <div class="account text-right d-none">
+                    <div class="account text-right">
                         @if($_user)
-                            <a href="{{ route('admin.home') }}" class="inner text-center d-inline-block p-2">
-                                <span class="icon"></span><br>
-                                Кабинет
-                            </a>
+                            @hasrole('customer')
+                                <a href="javascript:;" data-toggle="modal" data-target="#user_modal_account" class="inner text-center d-inline-block p-2">
+                                    <span class="icon"></span><br>
+                                    Кабинет
+                                </a>
+                            @push('modals')
+                                <div class="modal fade product" id="user_modal_account" tabindex="-1" role="dialog"
+                                     aria-labelledby="user_modal_account_title" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                            </button>
+
+                                            <div class="modal-body">
+                                                <div class="h2 mb-4" id="card__module_modal_title">Профиль покупателя</div>
+
+                                                <div class="account_form" data-action="">
+
+                                                    <div class="h4 text-uppercase font-weight-light mb-3 text-black">Ваши данные</div>
+
+                                                    <div class="form-group">
+                                                        <label for="account_name">Имя</label>
+                                                        <input type="text" name="name" class="form-control" value="{{ $_user->name }}" id="account_name" aria-describedby="account_name">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="account_phone">Телефон</label>
+                                                        <input type="text" name="phone" value="{{ $_user->phone }}" class="form-control phone_input" id="account_phone" aria-describedby="account_phone" maxlength="18">
+                                                    </div>
+
+                                                    <button class="btn btn-success btn-lg submit">Сохранить все</button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @endpush
+
+                            @else
+                                <a href="{{ route('admin.home') }}" class="inner text-center d-inline-block p-2">
+                                    <span class="icon"></span><br>
+                                    Кабинет
+                                </a>
+                            @endrole
                         @else
-                            <a href="{{ route('login') }}" class="inner text-center d-inline-block p-2">
+                            <a href="jsvascript:;" data-toggle="modal" data-target="#user_enter_modal"
+                               class="user_enter_modal_link inner text-center d-inline-block p-2">
                                 <span class="icon"></span><br>
                                 Войти
                             </a>
@@ -86,6 +131,123 @@
 
         </div>
     </div>
+
+    @push('modals')
+        <div class="modal fade product" id="user_enter_modal" tabindex="-1" role="dialog" aria-labelledby="user_enter_modal_title" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                    <div class="modal-body pb-0 pt-0">
+
+                        <div class="row">
+
+                            <div class="col-sm-6 border-right py-3">
+
+                                <div class="font-weight-bold text-right mb-2">
+                                    Войти через соц. сеть:
+                                </div>
+
+                                <a href="{{ route('login_soc', 'facebook') }}"
+                                   class="btn btn-lg fb soc_btn text-left btn-block mb-3">
+                                    <span class="row">
+                                        <span class="col-3 text-center i">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </span>
+                                        <span class="col-9">
+                                            Facebook login
+                                        </span>
+                                    </span>
+                                </a>
+
+                                <a href="{{ route('login_soc', 'twitter') }}"
+                                   class="btn btn-lg tw soc_btn text-left btn-block mb-3">
+                                    <span class="row">
+                                        <span class="col-3 text-center i">
+                                            <i class="fab fa-twitter"></i>
+                                        </span>
+                                        <span class="col-9">
+                                            Twitter login
+                                        </span>
+                                    </span>
+                                </a>
+
+                                <a href="{{ route('login_soc', 'google') }}"
+                                   class="btn btn-lg gl soc_btn text-left btn-block">
+                                    <span class="row">
+                                        <span class="col-3 text-center i">
+                                            <i class="fab fa-google-plus-g"></i>
+                                        </span>
+                                        <span class="col-9">
+                                            Google login
+                                        </span>
+                                    </span>
+                                </a>
+
+                            </div>
+                            <div class="col-sm-6 py-3">
+
+                                <div class="font-weight-bold mb-2">
+                                    Войти с помощью Email:
+                                </div>
+
+                                <form method="POST" action="{{ route('login') }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input id="email" type="email" class="form-control-lg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Ваш Email" required autofocus>
+                                        @if ($errors->has('email'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input id="password" type="password" class="form-control-lg form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="Ваш Пароль" required>
+                                        @if ($errors->has('password'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group mb-0 d-flex justify-content-between">
+                                        <div class="pt-2">
+                                            <div class="custom-control custom-checkbox mt-1">
+                                                <input type="checkbox" name="remember" class="custom-control-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="remember">Запомнить</label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="submit" class="btn btn-primary btn-lg px-3">Вход</button>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="modal-footer d-block pt-0 pb-0">
+                        <div class="row">
+                            <div class="col-6 border-right text-right py-2">
+                                <a href="{{ route('password.request') }}" class="">Зарегестрироваться</a>
+                            </div>
+                            <div class="col-6 text-left py-2">
+                                <a href="{{ route('password.request') }}" class="">Восстановление пароля</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @endpush
 
 </header>
 @yield('content')
@@ -162,7 +324,10 @@
 
 
 @if(Request::get('test'))
-    <button class="btn btn-success btn-lg submit" onclick="ga('send', 'event', 'zakaz', 'click', 'confirm');ym(53176072, 'reachGoal', 'order');return true;">Отправить заказ</button>
+    <button class="btn btn-success btn-lg submit"
+            onclick="ga('send', 'event', 'zakaz', 'click', 'confirm');ym(53176072, 'reachGoal', 'order');return true;">
+        Отправить заказ
+    </button>
 @endif
 
 @stack('modals')

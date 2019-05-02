@@ -1169,3 +1169,38 @@ h2, .h2{
         font-size: 1.5rem;
     }
 }
+
+#user_enter_modal{
+    .soc_btn{
+        color: $white;
+        font-weight: lighter;
+        text-transform: none;
+        @extend .pl-3;
+        .i{
+            border-right:1px solid;
+        }
+
+        &.fb{
+            background: #4267B2;
+            .i{
+                border-color: #395690;
+            }
+        }
+
+        &.tw{
+            background: #1DA1F2;
+            .i{
+                border-color: #2784e2;
+            }
+        }
+
+        &.gl{
+            background: #DB4832;
+            .i{
+                border-color: #CC412A;
+            }
+        }
+    }
+
+}
+

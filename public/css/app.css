@@ -9472,6 +9472,7 @@ footer .powered {
 }
 
 .pl-3,
+#user_enter_modal .soc_btn,
 .px-3,
 header .globalmenu .links > a {
   padding-left: 1rem !important;
@@ -13009,5 +13010,39 @@ footer .powered a {
   .h2 {
     font-size: 1.5rem;
   }
+}
+
+#user_enter_modal .soc_btn {
+  color: #fff;
+  font-weight: lighter;
+  text-transform: none;
+}
+
+#user_enter_modal .soc_btn .i {
+  border-right: 1px solid;
+}
+
+#user_enter_modal .soc_btn.fb {
+  background: #4267B2;
+}
+
+#user_enter_modal .soc_btn.fb .i {
+  border-color: #395690;
+}
+
+#user_enter_modal .soc_btn.tw {
+  background: #1DA1F2;
+}
+
+#user_enter_modal .soc_btn.tw .i {
+  border-color: #2784e2;
+}
+
+#user_enter_modal .soc_btn.gl {
+  background: #DB4832;
+}
+
+#user_enter_modal .soc_btn.gl .i {
+  border-color: #CC412A;
 }
 
