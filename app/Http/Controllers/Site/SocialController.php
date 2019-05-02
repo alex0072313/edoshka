@@ -18,7 +18,20 @@ class SocialController extends Controller
     public function Callback($provider)
     {
         $userSocial = Socialite::driver($provider)->stateless()->user();
-        $user      = User::where(['email' => $userSocial->getEmail()])->first();
+
+        if(!$email = $userSocial->getEmail()){
+            $email = '';
+            if(isset($userSocial->nickname) && !empty($userSocial->nickname)){
+                $email .= $userSocial->nickname;
+            }elseif ($userSocial->getId()){
+                $email .= $userSocial->getId();
+            }
+            $email .= '_'.$provider.'@edoshka.ru';
+        }
+
+        dd($email);
+
+        $user = User::where(['email' => $email])->first();
 
         if($user){
             \Auth::login($user);
@@ -26,14 +39,12 @@ class SocialController extends Controller
             $user = new User;
             $user->name = $userSocial->getName();
             $user->password = \Hash::make($userSocial->getName().$userSocial->getEmail());
-            $user->email = $userSocial->getEmail();
+            $user->email = $email;
             $user->image = $userSocial->getAvatar();
             $user->provider_id = $userSocial->getId();
             $user->provider = $provider;
 
-            $user
-                ->save();
-
+            $user->save();
             $user->assignRole('customer');
 
             \Auth::login($user);

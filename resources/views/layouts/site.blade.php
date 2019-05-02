@@ -146,8 +146,32 @@
                             <div class="col-sm-6 border-right py-3">
 
                                 <div class="font-weight-bold text-right mb-2">
-                                    Войти через соц. сеть:
+                                    Вход/регистрация через:
                                 </div>
+
+                                <a href="{{ route('login_soc', 'vkontakte') }}"
+                                   class="btn btn-lg vk soc_btn text-left btn-block mb-3">
+                                    <span class="row">
+                                        <span class="col-3 text-center i">
+                                            <i class="fab fa-vk"></i>
+                                        </span>
+                                        <span class="col-9">
+                                            Вконтакте
+                                        </span>
+                                    </span>
+                                </a>
+
+                                <a href="{{ route('login_soc', 'instagram') }}"
+                                   class="btn btn-lg in soc_btn text-left btn-block mb-3">
+                                    <span class="row">
+                                        <span class="col-3 text-center i">
+                                            <i class="fab fa-instagram"></i>
+                                        </span>
+                                        <span class="col-9">
+                                            Instagram
+                                        </span>
+                                    </span>
+                                </a>
 
                                 <a href="{{ route('login_soc', 'facebook') }}"
                                    class="btn btn-lg fb soc_btn text-left btn-block mb-3">
@@ -156,22 +180,22 @@
                                             <i class="fab fa-facebook-f"></i>
                                         </span>
                                         <span class="col-9">
-                                            Facebook login
+                                            Facebook
                                         </span>
                                     </span>
                                 </a>
 
-                                <a href="{{ route('login_soc', 'twitter') }}"
-                                   class="btn btn-lg tw soc_btn text-left btn-block mb-3">
-                                    <span class="row">
-                                        <span class="col-3 text-center i">
-                                            <i class="fab fa-twitter"></i>
-                                        </span>
-                                        <span class="col-9">
-                                            Twitter login
-                                        </span>
-                                    </span>
-                                </a>
+                                {{--<a href="{{ route('login_soc', 'twitter') }}"--}}
+                                   {{--class="btn btn-lg tw soc_btn text-left btn-block mb-3">--}}
+                                    {{--<span class="row">--}}
+                                        {{--<span class="col-3 text-center i">--}}
+                                            {{--<i class="fab fa-twitter"></i>--}}
+                                        {{--</span>--}}
+                                        {{--<span class="col-9">--}}
+                                            {{--Twitter--}}
+                                        {{--</span>--}}
+                                    {{--</span>--}}
+                                {{--</a>--}}
 
                                 <a href="{{ route('login_soc', 'google') }}"
                                    class="btn btn-lg gl soc_btn text-left btn-block">
@@ -180,7 +204,7 @@
                                             <i class="fab fa-google-plus-g"></i>
                                         </span>
                                         <span class="col-9">
-                                            Google login
+                                            Google
                                         </span>
                                     </span>
                                 </a>
@@ -236,7 +260,7 @@
                     <div class="modal-footer d-block pt-0 pb-0">
                         <div class="row">
                             <div class="col-6 border-right text-right py-2">
-                                <a href="{{ route('password.request') }}" class="">Зарегестрироваться</a>
+                                <a href="{{ route('password.request') }}" class="">Зарегистрироваться</a>
                             </div>
                             <div class="col-6 text-left py-2">
                                 <a href="{{ route('password.request') }}" class="">Восстановление пароля</a>

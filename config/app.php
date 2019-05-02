@@ -183,6 +183,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
 
         NotificationChannels\Twilio\TwilioProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
     /*
@@ -235,7 +236,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Carbon' => \Carbon\Carbon::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
-        'Socialite' => \Laravel\Socialite\Facades\Socialite::class
+        'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

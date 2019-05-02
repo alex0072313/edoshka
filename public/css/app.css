@@ -13046,3 +13046,19 @@ footer .powered a {
   border-color: #CC412A;
 }
 
+#user_enter_modal .soc_btn.vk {
+  background: #4A76A8;
+}
+
+#user_enter_modal .soc_btn.vk .i {
+  border-color: #456e9c;
+}
+
+#user_enter_modal .soc_btn.in {
+  background: #B8349D;
+}
+
+#user_enter_modal .soc_btn.in .i {
+  border-color: #aa3091;
+}
+
