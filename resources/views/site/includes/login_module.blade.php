@@ -84,27 +84,17 @@
                         <div id="login_form" data-action="{{ route('customer_login') }}">
                             @csrf
                             <div class="form-group">
-                                <input id="email" type="email" class="form-control-lg form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" placeholder="Ваш Email" required autofocus>
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                @endif
+                                <input id="email" type="email" class="form-control-lg form-control" name="email" placeholder="Ваш Email" autofocus>
                             </div>
 
                             <div class="form-group">
-                                <input id="password" type="password" class="form-control-lg form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="Ваш Пароль" required>
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                @endif
+                                <input id="password" type="password" class="form-control-lg form-control" name="password" placeholder="Ваш Пароль">
                             </div>
 
                             <div class="form-group d-flex justify-content-between">
                                 <div class="pt-2">
                                     <div class="custom-control custom-checkbox mt-1">
-                                        <input type="checkbox" name="remember" class="custom-control-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                        <input type="checkbox" name="remember" value="1" class="custom-control-input" id="remember">
                                         <label class="custom-control-label" for="remember">Запомнить</label>
                                     </div>
                                 </div>

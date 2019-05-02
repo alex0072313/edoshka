@@ -44,9 +44,25 @@ class LoginController extends Controller
         return redirect()->route('site.home');
     }
 
-    public function customer_login()
+    public function customer_login(\Request $request)
     {
-        return response()->json(request()->post());
+        $validate = \Validator::make(request()->all(), [
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ], [
+            'email.required' => 'Укажите Email!',
+            'password.required' => 'Укажите Пароль!',
+        ]);
+
+        if($validate->fails()){
+            return response()->json(['errors'=>$validate->errors()]);
+        }
+
+        if($this->attemptLogin(request(), request('remember'))){
+            return response()->json(['success'=> route('site.home')]);
+        }
+
+        return response()->json(['invalid_login'=> true]);
     }
 
 }

@@ -10,7 +10,13 @@ if($('#login_form').length){
         var form_data = {};
 
         login_form.find('[name]').each(function(){
-            form_data[$(this).attr('name')] = $(this).val()
+
+            if($(this).attr('type') == 'checkbox'){
+                if($(this).prop('checked') === true) form_data[$(this).attr('name')] = 1;
+            }else{
+                form_data[$(this).attr('name')] = $(this).val()
+            }
+
         });
 
         ajax_request(
@@ -26,11 +32,16 @@ if($('#login_form').length){
                 console.log($json);
                 login_form.removeClass('load');
                 if($json.errors){
+                    login_form.children('.invalid_login').remove();
                     for(var i in $json.errors){
                         login_form.find('[name="'+i+'"]').addClass('is-invalid').after('<div class="invalid-feedback">'+$json.errors[i][0]+'</span>');
                     }
+                }else if($json.invalid_login){
+                    if(!login_form.children('.invalid_login').length){
+                        login_form.prepend('<div class="invalid_login text-danger mb-3">Неверный Email и/или Пароль!</div>');
+                    }
                 }else if($json.success){
-
+                    window.location.href = $json.success;
                 }
             },
             null
