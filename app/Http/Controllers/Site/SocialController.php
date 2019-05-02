@@ -29,8 +29,6 @@ class SocialController extends Controller
             $email .= '_'.$provider.'@edoshka.ru';
         }
 
-        dd($email);
-
         $user = User::where(['email' => $email])->first();
 
         if($user){
