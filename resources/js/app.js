@@ -796,8 +796,11 @@ function cart_update(data) {
                         '</td>' +
                         '<td class="text-nowrap text-center">' +
                             '<div class="h4 mb-0">' +
-                            data.content[i].price + ' ₽' +
-                            '</div>' +
+                            data.content[i].price + ' ₽';
+
+                            html += '<input type="hidden" name="dishes_prices['+data.content[i].id+']" value="'+data.content[i].price+'">';
+
+                            html += '</div>' +
                         '</td>' +
                         '<td class="remove">' +
                             '<a href="javascript:;" class="remove_from_cart" data-dish-id="'+data.content[i].id+'"><i class="fas fa-times"></i></a>' +

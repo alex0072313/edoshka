@@ -13,6 +13,7 @@ class OrderController extends Controller
 {
     public function send()
     {
+
         $response = [];
 
         $validate = \Validator::make(request()->all(), [
@@ -30,7 +31,9 @@ class OrderController extends Controller
         $prices = [];
         foreach ($dishes = request('dishes') as $dish_id => $quantity){
             $dish = Dish::find($dish_id);
-            $prices[$dish_id] = $dish->new_price ? $dish->new_price : $dish->price;
+
+            $prices[$dish_id] = request('dishes_prices')[$dish_id];
+
             $restaurants[$dish->restaurant_id][$dish_id] = $quantity;
         }
 

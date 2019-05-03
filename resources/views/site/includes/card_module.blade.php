@@ -100,6 +100,8 @@
                                         <td class="text-nowrap text-center">
                                             <div class="h4 mb-0">
                                                 {{ $item->price }} ₽
+
+                                                <input type="hidden" name="dishes_prices[{{ $item->id }}]" value="{{ $item->price }}">
                                             </div>
                                         </td>
                                         <td class="remove">
