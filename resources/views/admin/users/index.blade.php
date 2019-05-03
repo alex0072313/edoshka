@@ -35,7 +35,11 @@
                         </td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
-                        <td><a href="{{ route('admin.restaurants.edit', $user->restaurant->id) }}" class="text-green">{{ $user->restaurant->name }}</a></td>
+                        <td>
+                            @if(isset($user->restaurant))
+                                <a href="{{ route('admin.restaurants.edit', $user->restaurant->id) }}" class="text-green">{{ $user->restaurant->name }}</a>
+                            @endif
+                        </td>
                         <td>{{ $user->roleName() }}</td>
 
                         <td class="with-btn" nowrap>

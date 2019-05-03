@@ -66,7 +66,7 @@
                     <div class="account text-right">
                         @if($_user)
                             @hasrole('customer')
-                                <a href="javascript:;" data-toggle="modal" data-target="#user_modal_account" class="inner text-center d-inline-block p-2">
+                                <a href="{{ route('customer.home') }}" class="inner text-center d-inline-block p-2">
                                     <span class="icon"></span><br>
                                     Кабинет
                                 </a>

@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function dishes()
     {
         return $this->hasMany(Dish::class);

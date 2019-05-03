@@ -59,7 +59,14 @@ class LoginController extends Controller
         }
 
         if($this->attemptLogin(request(), request('remember'))){
-            return response()->json(['success'=> route('site.home')]);
+
+            if(!auth()->user()->hasRole('customer')){
+                $r = route('admin.home');
+            }else{
+                $r = redirect()->back();
+            }
+
+            return response()->json(['success'=> $r]);
         }
 
         return response()->json(['invalid_login'=> true]);

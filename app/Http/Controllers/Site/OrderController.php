@@ -16,7 +16,7 @@ class OrderController extends Controller
         $response = [];
 
         $validate = \Validator::make(request()->all(), [
-            'phone' => 'required|min:18'
+            'phone' => 'required'
         ], [
             'phone.required' => 'Необходимо указать телефон!',
             'phone.min' => 'Телефон указан не верно!',
@@ -36,6 +36,12 @@ class OrderController extends Controller
 
         foreach ($restaurants as $restaurant_id => $dishes){
             $restaurant = Restaurant::find($restaurant_id);
+
+            //Привязываем к юзеру
+            if(auth()->user()){
+                request()->request->add(['user_id'=>auth()->id()]);
+            }
+
             $order = $restaurant->orders()->create(request()->all());
 
             $sync_data = [];

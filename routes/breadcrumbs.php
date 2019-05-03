@@ -15,6 +15,11 @@ Breadcrumbs::for('site.restaurant', function ($trail, \App\Restaurant $restauran
     $trail->parent('site.home');
     $trail->push($restaurant->name, route('site.restaurant', ['alias'=>$restaurant->alias]));
 });
+
+Breadcrumbs::for('customer.home', function ($trail) {
+    $trail->parent('site.home');
+    $trail->push('Личный кабинет', route('customer.home'));
+});
 ///
 
 // Home

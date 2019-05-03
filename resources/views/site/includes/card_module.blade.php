@@ -131,7 +131,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Телефон <b class="text-danger">*</b></label>
-                                    <input type="text" name="phone" class="form-control phone_input" id="phone" aria-describedby="phone">
+                                    <input type="text" name="phone" class="form-control" id="phone" aria-describedby="phone" placeholder="+79281234567">
                                 </div>
                             </div>
                             <div class="col-md-6">

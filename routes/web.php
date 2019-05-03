@@ -98,6 +98,10 @@ Route::middleware('guest')->group(function () {
 });
 
 
+Route::prefix('customer')->name('customer.')->middleware('role:customer')->group(function () {
+    Route::get('/', 'Site\CustomerController@index')->name('home');
+});
+
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
 Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
