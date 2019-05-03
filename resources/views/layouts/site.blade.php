@@ -42,7 +42,7 @@
                                 <i class="far fa-user"></i> Кабинет
                             </a>
                         @else
-                            <a href="jsvascript:;" class="user_enter_modal_link">
+                            <a href="jsvascript:;" class="user_enter_modal_link" data-toggle="modal" data-target="#user_enter_modal">
                                 <span class="icon"></span> Войти
                             </a>
                         @endif
