@@ -84,7 +84,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/seopages', 'Admin\SeopagesController@save')->name('seopages.save');
 
         //Покупатели
-        Route::get('/customers/{customer}/destroy', 'Admin\CustomerController@destroy')->name('customers.destroy');
+        Route::get('/customers/{user}/destroy', 'Admin\CustomerController@destroy')->name('customers.destroy');
         Route::resource('customers', 'Admin\CustomerController')->except('destroy');
 
     });
