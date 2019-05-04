@@ -10,7 +10,7 @@ class CustomerController extends AdminController
         $this->view = 'admin.customers.index';
         $this->title = 'Все покупатели';
 
-        $this->data['users'] = User::role('customer')->get();
+        $this->data['users'] = User::role('customer')->orderByDesc('id')->get();
 
         return $this->render();
     }

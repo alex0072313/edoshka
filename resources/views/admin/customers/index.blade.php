@@ -13,6 +13,7 @@
                     <th>Телефон</th>
                     <th>Провайдер</th>
                     <th>Заказов</th>
+                    <th>Создан</th>
                     <th width="1%"></th>
                 </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         <td>{{ $user->provider ? $user->provider : '-' }}</td>
 
                         <td>{{ $user->orders()->count() }}</td>
+                        <td>{{ $user->created_at }}</td>
 
                         <td class="with-btn" nowrap>
                             {{--<a href="{{ route('admin.customers.show', $user->id) }}" class="btn btn-xs m-r-2 btn-primary"><i class="fas fa-eye"></i></a>--}}
