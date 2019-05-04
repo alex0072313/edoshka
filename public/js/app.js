@@ -39779,9 +39779,11 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_pos_item').length) {
       drag = 1;
     }, false);
     box.on('click', function (ev) {
-      if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(ev.target).hasClass('add_to_cart') && drag === 0) {
-        load_dish_modal(id);
-      }
+      if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()(ev.target).hasClass('add_to_cart')
+      /*&& (drag === 0)*/
+      ) {
+          load_dish_modal(id);
+        }
     });
   });
 }

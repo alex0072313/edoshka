@@ -177,16 +177,18 @@ if($('.shop_pos_item').length) {
         }, false);
 
         box.on('click', function (ev) {
-            if(!$(ev.target).hasClass('add_to_cart') && (drag === 0)){
+            if(!$(ev.target).hasClass('add_to_cart') /*&& (drag === 0)*/){
                 load_dish_modal(id);
             }
         });
 
     });
 
+
 }
 
 function load_dish_modal(id, try_by = false) {
+
     modal_box
         .find('.modal-body')
         .html('<div class="text-center"><h5 class="text-orange mb-0 font-weight-bolder"><i class="fas fa-spinner fa-spin fa-1x mr-1"></i> Подождите..</h5></div>')
