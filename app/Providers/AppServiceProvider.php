@@ -6,6 +6,7 @@ use App\Helpmsg;
 use Illuminate\Support\ServiceProvider;
 use View;
 use Auth;
+use Validator;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Validator::extend('phone_number', function($attribute, $value, $parameters)
+        {
+            return valid_phone($value) != null;
+        });
 
         View::composer('*', function() {
             $user = (object)[];

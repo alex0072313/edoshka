@@ -98,7 +98,7 @@ Route::middleware('guest')->group(function () {
 });
 
 
-Route::prefix('customer')->name('customer.')->middleware('role:customer')->group(function () {
+Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/', 'Site\CustomerController@index')->name('home');
 });
 

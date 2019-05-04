@@ -31,6 +31,7 @@ import LazyLoad from "vanilla-lazyload";
 
 import swal from 'sweetalert';
 require('../js/login');
+require('../js/order');
 require('../js/search');
 
 if($('input.holdered').length){
@@ -631,49 +632,8 @@ var myLazyLoad = new LazyLoad({
     //load_delay: 300 //adjust according to use case
 });
 
-// Оформление заказа
-if($('.order_form').length){
 
-    $('.order_form .submit').on('click', function(submit_standart){
-        submit_standart.preventDefault();
-        var form      = $('.order_form'),
-            form_data = {};
-
-        form.find('[name]').each(function(){
-            form_data[$(this).attr('name')] = $(this).val()
-        });
-
-        console.log(form_data);
-
-        ajax_request(
-            form_data,
-            form.data('action'),
-            'json',
-            'post',
-            function ($json) {
-                $('.order_form').addClass('load');
-                form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
-            },
-            function ($json) {
-                console.log($json);
-                $('.order_form').removeClass('load');
-                if($json.errors){
-                    for(var i in $json.errors){
-                        form.find('[name="'+i+'"]').addClass('is-invalid').after('<div class="invalid-feedback">'+$json.errors[i][0]+'</span>');
-                    }
-                }else if($json.success){
-                    cart_update();
-                    ga('send', 'event', 'zakaz', 'click', 'confirm');
-                    ym(53176072, 'reachGoal', 'order');
-                    return mod_massage($json.success.title, $json.success.text);
-                }
-            },
-            null
-        );
-    });
-}
-
-function mod_massage(title, text) {
+global.mod_massage = function (title, text) {
     $('#mod_massage__module .title').text(title);
     $('#mod_massage__module .text').text(text);
 
@@ -725,7 +685,7 @@ global.ajax_request = function (data, action, datatype, type, on_submit, success
     });
 }
 
-function cart_update(data) {
+global.cart_update = function (data) {
     var html = '';
 
     if(data === undefined){

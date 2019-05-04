@@ -11,7 +11,7 @@
                     <div class="col-sm-6 border-right pt-3 pb-0 pb-sm-3">
 
                         <div class="font-weight-bold text-center text-sm-right mb-2">
-                            Вход/регистрация через:
+                            Вход через аккаунт:
                         </div>
 
                         <a href="{{ route('login_soc', 'vkontakte') }}"
@@ -64,27 +64,27 @@
 
                         <a href="{{ route('login_soc', 'google') }}"
                            class="btn btn-lg gl soc_btn text-left d-inline-block d-sm-block mb-3 px-4 px-sm-3"">
-                                    <span class="row">
-                                        <span class="px-0 px-sm-3 col-12 col-sm-3 text-center i">
-                                            <i class="fab fa-google-plus-g"></i>
-                                        </span>
-                                        <span class="col-9 d-none d-sm-block">
-                                            Google
-                                        </span>
-                                    </span>
+                            <span class="row">
+                                <span class="px-0 px-sm-3 col-12 col-sm-3 text-center i">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </span>
+                                <span class="col-9 d-none d-sm-block">
+                                    Google
+                                </span>
+                            </span>
                         </a>
 
                     </div>
                     <div class="col-sm-6 pb-3 pt-0 pt-sm-3">
 
                         <div class="font-weight-bold mb-2">
-                            Войти с помощью Email:
+                            Вход через Телефон/Email:
                         </div>
 
                         <div id="login_form" data-action="{{ route('customer_login') }}">
                             @csrf
                             <div class="form-group">
-                                <input id="email" type="email" class="form-control-lg form-control" name="email" placeholder="Ваш Email" autofocus>
+                                <input id="email_or_phone" type="text" class="form-control-lg form-control" name="email_or_phone" placeholder="Ваш Телефон или Email" autofocus>
                             </div>
 
                             <div class="form-group">
@@ -103,13 +103,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb-0">
-                                <a href="{{ route('password.request') }}" class="">Зарегистрироваться</a>
-                            </div>
+                            {{--<div class="form-group mb-0">--}}
+                                {{--<a href="{{ route('password.request') }}" class="">Зарегистрироваться</a>--}}
+                            {{--</div>--}}
 
-                            <div class="form-group mb-0">
-                                <a href="{{ route('password.request') }}" class="">Восстановление пароля</a>
-                            </div>
+                            {{--<div class="form-group mb-0">--}}
+                                {{--<a href="{{ route('password.request') }}" class="">Восстановление пароля</a>--}}
+                            {{--</div>--}}
 
                         </div>
 

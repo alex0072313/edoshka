@@ -12547,6 +12547,22 @@ header .globalmenu .links > a:hover {
   }
 }
 
+#card__module_modal .card_register .fa-vk {
+  color: #4A76A8;
+}
+
+#card__module_modal .card_register .fa-instagram {
+  color: #B8349D;
+}
+
+#card__module_modal .card_register .fa-facebook-f {
+  color: #4267B2;
+}
+
+#card__module_modal .card_register .fa-google-plus-g {
+  color: #DB4832;
+}
+
 .load {
   position: relative;
 }
@@ -13026,15 +13042,7 @@ footer .powered a {
 }
 
 #user_enter_modal .soc_btn.fb .i + span {
-  border-color: #395690;
-}
-
-#user_enter_modal .soc_btn.tw {
-  background: #1DA1F2;
-}
-
-#user_enter_modal .soc_btn.tw .i + span {
-  border-color: #2784e2;
+  border-color: #3b5c9f;
 }
 
 #user_enter_modal .soc_btn.gl {
@@ -13042,7 +13050,7 @@ footer .powered a {
 }
 
 #user_enter_modal .soc_btn.gl .i + span {
-  border-color: #CC412A;
+  border-color: #cf3b24;
 }
 
 #user_enter_modal .soc_btn.vk {
@@ -13050,7 +13058,7 @@ footer .powered a {
 }
 
 #user_enter_modal .soc_btn.vk .i + span {
-  border-color: #456e9c;
+  border-color: #426a96;
 }
 
 #user_enter_modal .soc_btn.in {
@@ -13058,6 +13066,6 @@ footer .powered a {
 }
 
 #user_enter_modal .soc_btn.in .i + span {
-  border-color: #aa3091;
+  border-color: #a42e8c;
 }
 

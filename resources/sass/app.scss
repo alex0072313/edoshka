@@ -7,6 +7,12 @@ $orange: #FF5F00;
 $custom-control-indicator-bg: #fff;
 $custom-control-indicator-checked-disabled-bg: #fff;
 
+
+$fb_color:#4267B2;
+$gl_color:#DB4832;
+$vk_color:#4A76A8;
+$in_color:#B8349D;
+
 $theme-colors: (
         "primary": $orange,
         "success": $orange,
@@ -723,6 +729,20 @@ header {
     .card_order_info{
 
     }
+    .card_register{
+        .fa-vk{
+            color: $vk_color;
+        }
+        .fa-instagram{
+            color: $in_color;
+        }
+        .fa-facebook-f{
+            color: $fb_color;
+        }
+        .fa-google-plus-g{
+            color: $gl_color;
+        }
+    }
 }
 
 .load{
@@ -1180,40 +1200,32 @@ h2, .h2{
         }
 
         &.fb{
-            background: #4267B2;
+            background: $fb_color;
             .i + span{
-                border-color: #395690;
-            }
-        }
-
-        &.tw{
-            background: #1DA1F2;
-            .i + span{
-                border-color: #2784e2;
+                border-color: darken($fb_color, 5%);
             }
         }
 
         &.gl{
-            background: #DB4832;
+            background: $gl_color;
             .i + span{
-                border-color: #CC412A;
+                border-color: darken($gl_color, 5%);
             }
         }
 
         &.vk{
-            background: #4A76A8;
+            background: $vk_color;
             .i + span{
-                border-color: #456e9c;
+                border-color: darken($vk_color, 5%);
             }
         }
 
         &.in{
-            background: #B8349D;
+            background: $in_color;
             .i + span{
-                border-color: #aa3091;
+                border-color: darken($in_color, 5%);
             }
         }
     }
-
 }
 

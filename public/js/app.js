@@ -39646,6 +39646,8 @@ __webpack_require__(/*! jquery-mask-plugin */ "./node_modules/jquery-mask-plugin
 
 __webpack_require__(/*! ../js/login */ "./resources/js/login.js");
 
+__webpack_require__(/*! ../js/order */ "./resources/js/order.js");
+
 __webpack_require__(/*! ../js/search */ "./resources/js/search.js");
 
 if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('input.holdered').length) {
@@ -40167,46 +40169,16 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products_search').length && 
 var myLazyLoad = new vanilla_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a({
   elements_selector: ".lazy" //load_delay: 300 //adjust according to use case
 
-}); // Оформление заказа
+});
 
-if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').length) {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form .submit').on('click', function (submit_standart) {
-    submit_standart.preventDefault();
-    var form = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form'),
-        form_data = {};
-    form.find('[name]').each(function () {
-      form_data[jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).attr('name')] = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-    });
-    console.log(form_data);
-    ajax_request(form_data, form.data('action'), 'json', 'post', function ($json) {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').addClass('load');
-      form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
-    }, function ($json) {
-      console.log($json);
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.order_form').removeClass('load');
-
-      if ($json.errors) {
-        for (var i in $json.errors) {
-          form.find('[name="' + i + '"]').addClass('is-invalid').after('<div class="invalid-feedback">' + $json.errors[i][0] + '</span>');
-        }
-      } else if ($json.success) {
-        cart_update();
-        ga('send', 'event', 'zakaz', 'click', 'confirm');
-        ym(53176072, 'reachGoal', 'order');
-        return mod_massage($json.success.title, $json.success.text);
-      }
-    }, null);
-  });
-}
-
-function mod_massage(title, text) {
+global.mod_massage = function (title, text) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mod_massage__module .title').text(title);
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mod_massage__module .text').text(text);
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mod_massage__module').modal('show');
   setTimeout(function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mod_massage__module').modal('hide');
   }, 4000);
-}
+};
 
 function TrimStr(s) {
   s = s.replace(/^\s+/g, '');
@@ -40245,7 +40217,7 @@ global.ajax_request = function (data, action, datatype, type, on_submit, _succes
   });
 };
 
-function cart_update(data) {
+global.cart_update = function (data) {
   var html = '';
 
   if (data === undefined) {
@@ -40315,7 +40287,7 @@ function cart_update(data) {
   }
 
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products .items').html(html);
-}
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
@@ -40401,13 +40373,106 @@ if ($('#login_form').length) {
         }
       } else if ($json.invalid_login) {
         if (!login_form.children('.invalid_login').length) {
-          login_form.prepend('<div class="invalid_login text-danger mb-3">Неверный Email и/или Пароль!</div>');
+          login_form.prepend('<div class="invalid_login text-danger mb-3">Неверные данные для входа!</div>');
         }
       } else if ($json.success) {
         window.location.href = $json.success;
       }
     }, null);
   });
+}
+
+/***/ }),
+
+/***/ "./resources/js/order.js":
+/*!*******************************!*\
+  !*** ./resources/js/order.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Оформление заказа
+if ($('.order_form').length) {
+  $('.order_form .submit').on('click', function (submit_standart) {
+    submit_standart.preventDefault();
+    var form = $('.order_form'),
+        form_data = {};
+    form.find('[name]').each(function () {
+      if ($(this).attr('type') == 'radio') {
+        if ($(this).prop('checked') == true) {
+          form_data[$(this).attr('name')] = $(this).val();
+        }
+      } else {
+        form_data[$(this).attr('name')] = $(this).val();
+      }
+    });
+    console.log(form_data);
+    ajax_request(form_data, form.data('action'), 'json', 'post', function ($json) {
+      $('.order_form').addClass('load');
+      form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
+    }, function ($json) {
+      console.log($json);
+      $('.order_form').removeClass('load');
+
+      if ($json.errors) {
+        for (var i in $json.errors) {
+          form.find('[name="' + i + '"]').addClass('is-invalid').after('<div class="invalid-feedback">' + $json.errors[i][0] + '</span>');
+        }
+      } else if ($json.success) {
+        cart_update();
+        ga('send', 'event', 'zakaz', 'click', 'confirm');
+        ym(53176072, 'reachGoal', 'order');
+
+        if ($json.redirect) {
+          $('#mod_massage__module').on('hidden.bs.modal', function (e) {
+            window.location.href = $json.redirect;
+          });
+        }
+
+        return mod_massage($json.success.title, $json.success.text);
+      }
+    }, null);
+  });
+
+  if ($('.order_form .card_register').length) {
+    var change_reg_type = function change_reg_type() {
+      check.each(function () {
+        var check = $(this),
+            check_text = check.data('select-text'),
+            val = check.val();
+
+        if (check.prop('checked') == true) {
+          if (val == 'phone') {
+            if ($('.order_form [name="phone"]').val()) {
+              check_text = check_text.replace("%p", '<b>' + $('.order_form [name="phone"]').val() + '</b>');
+            } else {
+              check_text = '<span class="text-danger">Укажите телефон!</span>';
+              $('.order_form [name="phone"]').on('change', function () {
+                check.trigger('change');
+              });
+            }
+          } else if (val == 'email') {
+            if ($('.order_form [name="email"]').val()) {
+              check_text = check_text.replace("%e", '<b>' + $('.order_form [name="email"]').val() + '</b>');
+            } else {
+              check_text = '<span class="text-danger">Укажите Email!</span>';
+              $('.order_form [name="email"]').on('change', function () {
+                check.trigger('change');
+              });
+            }
+          }
+
+          check_text_box.html(check_text);
+        }
+      });
+    };
+
+    var card_register = $('.order_form .card_register'),
+        check_text = '',
+        check_text_box = card_register.find('.check_text'),
+        check = card_register.find('[name="reg_type"]');
+    check.on('change', change_reg_type).trigger('change');
+  }
 }
 
 /***/ }),

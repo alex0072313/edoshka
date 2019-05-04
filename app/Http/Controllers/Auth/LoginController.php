@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -47,10 +48,10 @@ class LoginController extends Controller
     public function customer_login(\Request $request)
     {
         $validate = \Validator::make(request()->all(), [
-            'email' => 'required|string',
+            'email_or_phone' => 'required|string',
             'password' => 'required|string'
         ], [
-            'email.required' => 'Укажите Email!',
+            'email_or_phone.required' => 'Укажите Email!',
             'password.required' => 'Укажите Пароль!',
         ]);
 
@@ -58,17 +59,25 @@ class LoginController extends Controller
             return response()->json(['errors'=>$validate->errors()]);
         }
 
-        if($this->attemptLogin(request(), request('remember'))){
+        $user = User::where('email', '=', request('email_or_phone'))->first();
 
-            if(!auth()->user()->hasRole('customer')){
-                $r = route('admin.home');
-            }else{
-                $r = redirect()->back();
+        if(!$user) $user = User::where('phone', '=', valid_phone(request('email_or_phone')))->first();
+
+
+        if($user){
+            if(\Auth::attempt([
+                'email' => $user->email,
+                'password' => request('password'),
+            ], request('remember'))){
+
+                if(!auth()->user()->hasRole('customer')){
+                    $r = route('admin.home');
+                }else{
+                    $r = url()->previous();
+                }
+                return response()->json(['success'=> $r]);
             }
-
-            return response()->json(['success'=> $r]);
         }
-
         return response()->json(['invalid_login'=> true]);
     }
 

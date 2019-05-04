@@ -49,14 +49,18 @@ class RestaurantController extends AdminController
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ];
 
-        if(request('worktime_ot') || request('worktime_do')){
+        $worktime = ['worktime'=>null];
+
+        if(request('worktime_ot') || request('worktime_do')) {
             $validator = [
                 'worktime_ot' => 'required|date_format:H:i',
                 'worktime_do' => 'required|date_format:H:i',
             ];
 
-            request()->request->add(['worktime'=>[request('worktime_ot'), request('worktime_do')]]);
+            $worktime = ['worktime' => [request('worktime_ot'), request('worktime_do')]];
         }
+
+        request()->request->add($worktime);
 
         if(\Auth::user()->hasRole('megaroot')){
             $validator['town_id'] = 'required';

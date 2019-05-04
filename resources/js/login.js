@@ -38,7 +38,7 @@ if($('#login_form').length){
                     }
                 }else if($json.invalid_login){
                     if(!login_form.children('.invalid_login').length){
-                        login_form.prepend('<div class="invalid_login text-danger mb-3">Неверный Email и/или Пароль!</div>');
+                        login_form.prepend('<div class="invalid_login text-danger mb-3">Неверные данные для входа!</div>');
                     }
                 }else if($json.success){
                     window.location.href = $json.success;

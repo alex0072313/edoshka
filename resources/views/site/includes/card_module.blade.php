@@ -128,6 +128,7 @@
                     </div>
 
                     <div class="card_order_info mb-4">
+
                         <div class="h4 text-uppercase font-weight-light mb-3 text-black">Данные для оформления</div>
                         <div class="row">
                             <div class="col-md-6">
@@ -188,7 +189,7 @@
                         </div>
                     </div>
 
-                    <div class="card_order_info mb-5">
+                    <div class="card_order_info mb-4">
                         <div class="h4 text-uppercase font-weight-light mb-3 text-black">Оплата</div>
                         <div class="form-inline">
                             <div class="custom-control custom-radio">
@@ -197,6 +198,62 @@
                             </div>
                         </div>
                     </div>
+
+                    @if(!auth()->user())
+                        <div class="card_register mb-5">
+                            <div class="h4 text-uppercase font-weight-light mb-3 text-black">Регистрация на сайте</div>
+
+                            <div class="row mx-0">
+                                <div class="col-lg-6">
+                                    <div class="row">
+
+                                        <div class="custom-control custom-radio col-6 mb-2">
+                                            <input type="radio" value="phone" id="reg_on_phone" name="reg_type" class="custom-control-input" checked data-select-text="На Ваш номер %p будет отправлена СМС с логином и паролем для входа на сайт">
+                                            <label class="custom-control-label text-dark" for="reg_on_phone">Через телефон</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio col-6 mb-2">
+                                            <input type="radio" value="email" id="reg_on_email" name="reg_type" class="custom-control-input" data-select-text="На Ваш email %e будет отправлено письмо с логином и паролем для входа на сайт">
+                                            <label class="custom-control-label text-dark" for="reg_on_email">Через Email</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio col-6 mb-2">
+                                            <input type="radio" value="vkontakte" id="reg_on_vkontakte" name="reg_type" class="custom-control-input" data-select-text="Регистрация с помощью Вашего аккаунта Вконтакте (мы не публикуем данные из Вашего профиля)">
+                                            <label class="custom-control-label" for="reg_on_vkontakte"><i class="fab fa-vk fa-lg mt-1"></i></label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio col-6 mb-2">
+                                            <input type="radio" value="instagram" id="reg_on_instagram" name="reg_type" class="custom-control-input" data-select-text="Регистрация с помощью Вашего аккаунта Instagram (мы не публикуем данные из Вашего профиля)">
+                                            <label class="custom-control-label" for="reg_on_instagram"><i class="fab fa-lg fa-instagram mt-1"></i></label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio col-6 mb-2">
+                                            <input type="radio" value="facebook" id="reg_on_facebook" name="reg_type" class="custom-control-input" data-select-text="Регистрация с помощью Вашего аккаунта Facebook (мы не публикуем данные из Вашего профиля)">
+                                            <label class="custom-control-label" for="reg_on_facebook"><i class="fab fa-lg fa-facebook-f mt-1"></i></label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio col-6 mb-2">
+                                            <input type="radio" value="google" id="reg_on_google" name="reg_type" class="custom-control-input" data-select-text="Регистрация с помощью Вашего аккаунта Google (мы не публикуем данные из Вашего профиля)">
+                                            <label class="custom-control-label" for="reg_on_google"><i class="fab fa-lg fa-google-plus-g mt-1"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="check_text text-secondary"></div>
+
+                            <div class="mt-2">
+                                <h5>Для чего нужна регистрация?</h5>
+                                <p>Заказывая еду из ресторанов с помощью сервиса Едошка, вы  накапливаете баллы, которые впоследствии сможете потратить. Каждые 100 рублей в заказе приносят вам <b>1 балл. 1 балл = 1 рубль</b>. При помощи баллов можно оплатить заказ как частично, так и полностью! Обратите внимание, что баллов должно хватать хотя бы на  самое дешевое блюдо из заказа, так как частичная оплата блюда баллами невозможна.</p>
+                                <p><b>Баллы являются дополнительным бонусом сервиса и никак не связаны с акциями ресторанов - заказывая еду через Едошку, вы получаете и баллы, и все акции, действующие в выбранном вами ресторане!</b></p>
+                            </div>
+
+                            <div class="form-inline">
+
+                            </div>
+                        </div>
+                    @endif
+
                     @if(!$_cart_restaurants_out_worktime)
                         <button class="btn btn-success btn-lg submit">Отправить заказ</button>
                     @endif

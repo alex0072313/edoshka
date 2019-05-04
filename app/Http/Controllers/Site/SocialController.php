@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Order;
 use App\User;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Socialite;
@@ -32,7 +33,7 @@ class SocialController extends Controller
         $user = User::where(['email' => $email])->first();
 
         if($user){
-            \Auth::login($user);
+            \Auth::login($user, true);
         }else{
             $user = new User;
             $user->name = $userSocial->getName();
@@ -45,7 +46,14 @@ class SocialController extends Controller
             $user->save();
             $user->assignRole('customer');
 
-            \Auth::login($user);
+            \Auth::login($user, true);
+        }
+
+        if(session()->exists('user_orders')){
+            foreach (session()->get('user_orders') as $order_id){
+                Order::find($order_id)->update(['user_id'=>$user->id]);
+            }
+            session()->remove('user_orders');
         }
 
         return redirect()->back();

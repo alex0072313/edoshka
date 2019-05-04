@@ -20,3 +20,34 @@ if (!function_exists('qs_url')) {
     }
 
 }
+
+if (!function_exists('valid_phone')) {
+
+    function valid_phone($phone = '', $prefix = '+7')
+    {
+        preg_match_all('!\d+!', $phone, $matches);
+        $phone = implode('', $matches[0]);
+        if(strlen($phone) == 11){
+            return $prefix.substr($phone, 1);
+        }
+        return null;
+    }
+
+}
+
+if (!function_exists('send_sms')) {
+
+    function send_sms($text, $phone)
+    {
+        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+        $client->messages->create(
+            $phone,
+            array(
+                'from' => getenv('TWILIO_FROM_PHONE'),
+                'body' => $text
+            )
+        );
+    }
+
+}
+
