@@ -41,7 +41,7 @@ class UserController extends AdminController
                 ->get();
 
             $users = $users->filter(function ($user){
-                if(!$user->hasRole('megaroot')){
+                if(!$user->hasRole(['megaroot', 'customer'])){
                     return $user;
                 }
                 return false;

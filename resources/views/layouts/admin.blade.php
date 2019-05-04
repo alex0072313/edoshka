@@ -199,6 +199,15 @@
                     </li>
                 @endif
 
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.customers') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.customers.index') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Покупатели</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li{!! stristr(Route::currentRouteName(), 'admin.dishes') ? ' class="active"': '' !!}>
                     <a href="{{ route('admin.dishes.index') }}">
                         <i class="fas fa-concierge-bell"></i>

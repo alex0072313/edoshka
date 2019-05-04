@@ -106,6 +106,17 @@ Breadcrumbs::for('admin.towns.create', function ($trail) {
     $trail->push('Добавление города', route('admin.towns.create'));
 });
 
+//Покупатели
+Breadcrumbs::for('admin.customers.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список покупателей', route('admin.customers.index'));
+});
+
+Breadcrumbs::for('admin.customers.show', function ($trail, $customer) {
+    $trail->parent('admin.customers.index');
+    $trail->push('Покупатель', route('admin.customers.show', $customer));
+});
+
 //Блюда
 Breadcrumbs::for('admin.dishes.index', function ($trail, $category = false) {
     $trail->parent('admin.home');

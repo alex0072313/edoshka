@@ -83,6 +83,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/seopages/{url?}/{town?}',  'Admin\SeopagesController@form')->name('seopages.edit');
         Route::post('/seopages', 'Admin\SeopagesController@save')->name('seopages.save');
 
+        //Покупатели
+        Route::get('/customers/{customer}/destroy', 'Admin\CustomerController@destroy')->name('customers.destroy');
+        Route::resource('customers', 'Admin\CustomerController')->except('destroy');
+
     });
 });
 ////////////////////////////////////////////////////////
