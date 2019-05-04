@@ -35,10 +35,10 @@ class CategoryController extends SiteController
             foreach ($restaurants as $restaurant){
                 $categories = $categories->merge(Category::HasDishes($restaurant->id)->get());
             }
-            return $categories->sortBy('name');
+            //return $categories->sortBy('name');
         //})->unique('id');
 
-        $this->data['categories'] = $categories->unique('id');
+        $this->data['categories'] = $categories->sortBy('name')->unique('id');
         $this->data['restaurants'] = $restaurants->shuffle();
 
         return $this->render();
