@@ -30,15 +30,15 @@ class CategoryController extends SiteController
             return false;
         });
 
-        $categories = cache()->rememberForever('town_'.$this->town->id.'_categories_has_dishes', function () use ($restaurants){
+        //$categories = cache()->rememberForever('town_'.$this->town->id.'_categories_has_dishes', function () use ($restaurants){
             $categories = collect();
             foreach ($restaurants as $restaurant){
                 $categories = $categories->merge(Category::HasDishes($restaurant->id)->get());
             }
             return $categories->sortBy('name');
-        })->unique('id');
+        //})->unique('id');
 
-        $this->data['categories'] = $categories;
+        $this->data['categories'] = $categories->unique('id');
         $this->data['restaurants'] = $restaurants->shuffle();
 
         return $this->render();
