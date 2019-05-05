@@ -40237,58 +40237,16 @@ global.cart_update = function (data) {
     if (!jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').hasClass('show_order')) jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('card__module_show');
   } else {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').addClass('cleared').removeClass('card__module_show');
-  }
-
-  var size = 0,
-      key;
-
-  for (key in data.content) {
-    if (data.content.hasOwnProperty(key)) size++;
-  }
-
-  if (size) {
-    for (var i in data.content) {
-      html += '<tr class="item">' + '<td>';
-
-      if (data.content[i].attributes.image) {
-        html += '<div class="image">' + '<img src="' + data.content[i].attributes.image + '" alt="">' + '</div>';
-      }
-
-      html += '</td>' + '<td class="">' + '<div class="font-weight-bold">' + data.content[i].name + '</div>';
-
-      if (data.content[i].attributes.variants) {
-        var _i = 0;
-        var variant_str = '';
-
-        for (var variant in data.content[i].attributes.variants) {
-          variant_str += (_i ? ', ' : '') + variant + ': ' + data.content[i].attributes.variants[variant];
-          _i++;
-        }
-
-        html += '<small class="text-secondary font-weight-normal">';
-        html += variant_str;
-        html += '</small>';
-        html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + variant_str + '">';
-      } else if (data.content[i].attributes.short_description) {
-        html += '<small class="text-secondary font-weight-normal">' + data.content[i].attributes.short_description + '</small>';
-        html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + data.content[i].attributes.short_description + '">';
-      } else if (data.content[i].attributes.weight) {
-        html += '<small class="text-secondary font-weight-normal">' + data.content[i].attributes.weight + 'г</small>';
-        html += '<input type="hidden" name="dishes_variants[' + data.content[i].id + ']" value="' + data.content[i].attributes.weight + 'г">';
-      }
-
-      html += '</td>' + '<td class="count">' + '<div class="input-group count_input float-right">' + '<div class="input-group-prepend">' + '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' + '</div>' + '<input type="number" min="0"  name="dishes[' + data.content[i].id + ']" readonly value="' + data.content[i].quantity + '" data-dish-id="' + data.content[i].id + '" class="bg-white form-control form-control-sm">' + '<div class="input-group-append">' + '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' + '</div>' + '</div>' + '</td>' + '<td class="text-nowrap text-center">' + '<div class="h4 mb-0">' + data.content[i].price + ' ₽';
-      html += '<input type="hidden" name="dishes_prices[' + data.content[i].id + ']" value="' + data.content[i].price + '">';
-      html += '</div>' + '</td>' + '<td class="remove">' + '<a href="javascript:;" class="remove_from_cart" data-dish-id="' + data.content[i].id + '"><i class="fas fa-times"></i></a>' + '</td>' + '</tr>';
-    }
-
-    html += '<tr>' + '<td colspan="3" class="text-right">' + '<div class="h4 text-secondary font-weight-light mb-0">Сумма заказа</div>' + '</td>' + '<td class="text-nowrap text-center">' + '<div class="h4 mb-0">' + data.sum + ' ₽' + '</div>' + '</td>' + '<td></td>' + '</tr>';
-  } else {
-    html += '<tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>';
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal').modal('hide');
   }
 
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products .items').html(html);
+  if (data.small_order) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_order_actions').addClass('disabled_box');
+  } else {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_order_actions').removeClass('disabled_box');
+  }
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products .items').html(data.content);
 };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
@@ -40404,6 +40362,10 @@ if ($('.order_form').length) {
         if ($(this).prop('checked') == true) {
           form_data[$(this).attr('name')] = $(this).val();
         }
+      } else if ($(this).attr('type') == 'checkbox') {
+        if ($(this).prop('checked') == true) {
+          form_data[$(this).attr('name')] = $(this).val();
+        }
       } else {
         form_data[$(this).attr('name')] = $(this).val();
       }
@@ -40411,14 +40373,22 @@ if ($('.order_form').length) {
     console.log(form_data);
     ajax_request(form_data, form.data('action'), 'json', 'post', function ($json) {
       $('.order_form').addClass('load');
-      form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
+      form.find('.is-invalid').removeClass('is-invalid');
+      form.find('.invalid-feedback').remove();
     }, function ($json) {
       console.log($json);
       $('.order_form').removeClass('load');
 
       if ($json.errors) {
         for (var i in $json.errors) {
-          form.find('[name="' + i + '"]').addClass('is-invalid').after('<div class="invalid-feedback">' + $json.errors[i][0] + '</span>');
+          var input = form.find('[name="' + i + '"]');
+          input.addClass('is-invalid');
+
+          if (input.parent('.custom-checkbox').length) {
+            input.parent('.custom-checkbox').after('<div class="invalid-feedback d-block">' + $json.errors[i][0] + '</span>');
+          } else {
+            input.after('<div class="invalid-feedback">' + $json.errors[i][0] + '</span>');
+          }
         }
       } else if ($json.success) {
         cart_update();

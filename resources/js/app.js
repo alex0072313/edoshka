@@ -705,87 +705,17 @@ global.cart_update = function (data) {
         if(!$('body').hasClass('show_order')) $('body').addClass('card__module_show');
     }else {
         $('body').addClass('cleared').removeClass('card__module_show');
-    }
-
-    var size = 0, key;
-    for (key in data.content) {
-        if (data.content.hasOwnProperty(key)) size++;
-    }
-
-    if(size){
-        for(var i in data.content){
-            html +=  '<tr class="item">' +
-                        '<td>';
-                            if(data.content[i].attributes.image){
-                                html += '<div class="image">' +
-                                            '<img src="'+data.content[i].attributes.image+'" alt="">' +
-                                        '</div>';
-                            }
-                        html += '</td>' +
-                        '<td class="">' +
-                            '<div class="font-weight-bold">'+data.content[i].name+'</div>';
-                                if(data.content[i].attributes.variants){
-                                    var _i = 0;
-                                    var variant_str = '';
-                                    for (var variant in data.content[i].attributes.variants){
-                                        variant_str += (_i ? ', ' : '')+variant + ': ' + data.content[i].attributes.variants[variant];
-                                        _i++;
-                                    }
-                                    html += '<small class="text-secondary font-weight-normal">';
-                                        html += variant_str;
-                                    html += '</small>';
-                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+variant_str+'">';
-                                }else if(data.content[i].attributes.short_description){
-                                    html += '<small class="text-secondary font-weight-normal">'+data.content[i].attributes.short_description+'</small>';
-                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+data.content[i].attributes.short_description+'">';
-                                }else if(data.content[i].attributes.weight){
-                                    html += '<small class="text-secondary font-weight-normal">'+data.content[i].attributes.weight+'г</small>';
-                                    html += '<input type="hidden" name="dishes_variants['+data.content[i].id+']" value="'+data.content[i].attributes.weight+'г">';
-                                }
-
-
-                        html += '</td>' +
-                        '<td class="count">' +
-                            '<div class="input-group count_input float-right">' +
-                                '<div class="input-group-prepend">' +
-                                    '<button class="btn btn-sm quintity_cart_m" type="button"><i class="fas fa-minus fa-sm"></i></button>' +
-                                '</div>' +
-                                '<input type="number" min="0"  name="dishes['+data.content[i].id+']" readonly value="'+data.content[i].quantity+'" data-dish-id="'+data.content[i].id+'" class="bg-white form-control form-control-sm">' +
-                                '<div class="input-group-append">' +
-                                    '<button class="btn btn-sm quintity_cart_p" type="button"><i class="fas fa-plus fa-sm"></i></button>' +
-                                '</div>' +
-                            '</div>' +
-                        '</td>' +
-                        '<td class="text-nowrap text-center">' +
-                            '<div class="h4 mb-0">' +
-                            data.content[i].price + ' ₽';
-
-                            html += '<input type="hidden" name="dishes_prices['+data.content[i].id+']" value="'+data.content[i].price+'">';
-
-                            html += '</div>' +
-                        '</td>' +
-                        '<td class="remove">' +
-                            '<a href="javascript:;" class="remove_from_cart" data-dish-id="'+data.content[i].id+'"><i class="fas fa-times"></i></a>' +
-                        '</td>' +
-                    '</tr>';
-        }
-        html +=  '<tr>' +
-                    '<td colspan="3" class="text-right">' +
-                        '<div class="h4 text-secondary font-weight-light mb-0">Сумма заказа</div>' +
-                    '</td>' +
-                    '<td class="text-nowrap text-center">' +
-                        '<div class="h4 mb-0">' +
-                            data.sum + ' ₽' +
-                        '</div>' +
-                    '</td>' +
-                    '<td></td>' +
-                '</tr>';
-    }else{
-        html +=  '<tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>';
         $('#card__module_modal').modal('hide');
     }
 
-    $('#card__module_modal .card_products .items').html(html);
+    if(data.small_order){
+        $('#card__module_modal .card_order_actions').addClass('disabled_box');
+    }else{
+        $('#card__module_modal .card_order_actions').removeClass('disabled_box');
+    }
+
+    $('#card__module_modal .card_products .items').html(data.content);
+
 }
 
 

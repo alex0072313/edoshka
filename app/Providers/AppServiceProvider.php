@@ -62,10 +62,12 @@ class AppServiceProvider extends ServiceProvider
         //Корзина
         view()->composer(['site.*', 'layouts.site'], function () {
             //\Cart::clear();
-
             $content = \Cart::getContent();
 
             $restaurants_out_worktime = [];
+            $restaurants_sums = [];
+            $restaurants_small_order = [];
+            $restaurants_min_sum_order = [];
 
             foreach ($content as $dish){
                 if(isset($dish->attributes['restaurant'])){
@@ -74,9 +76,19 @@ class AppServiceProvider extends ServiceProvider
                             $restaurants_out_worktime[] = $dish->attributes['restaurant'];
                         }
                     }
+                    $restaurants_sums[$dish->attributes['restaurant']->id][] = $dish->price * $dish->quantity;
+                    $restaurants_min_sum_order[$dish->attributes['restaurant']->id] = $dish->attributes['restaurant']->min_sum_order;
                 }
             }
 
+            foreach ($restaurants_sums as $id => $restaurants_sum){
+                $sum = array_sum($restaurants_sum);
+                if($sum < $restaurants_min_sum_order[$id]){
+                    $restaurants_small_order[$id] = $restaurants_min_sum_order[$id];
+                }
+            }
+
+            View::share( '_cart_restaurants_small_order', $restaurants_small_order);
             View::share( '_cart_restaurants_out_worktime', $restaurants_out_worktime);
             View::share( '_cart_content', $content);
             View::share( '_cart_total_q', \Cart::getTotalQuantity());

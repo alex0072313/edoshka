@@ -65,7 +65,19 @@ class CartController extends SiteController
 
         \Cart::add($product);
 
-        return response()->json(['total' => \Cart::getTotalQuantity(), 'sum'=>\Cart::getTotal(), 'content'=>\Cart::getContent()]);
+
+        $restaurants_small_order = $this->check_small_order();
+
+        return response()->json([
+            'total' => \Cart::getTotalQuantity(),
+            'sum'=>\Cart::getTotal(),
+            'small_order'=>count($restaurants_small_order),
+            'content'=>view('site.includes.card_content',
+                    [
+                        '_cart_content' => \Cart::getContent(),
+                        '_cart_restaurants_small_order' => $restaurants_small_order,
+                    ]
+                )->render() ]);
     }
 
     protected function get()
@@ -76,7 +88,19 @@ class CartController extends SiteController
     protected function remove()
     {
         \Cart::remove($this->dish->id);
-        return response()->json(['total' => \Cart::getTotalQuantity(), 'sum'=>\Cart::getTotal(), 'content'=>\Cart::getContent()]);
+
+        $restaurants_small_order = $this->check_small_order();
+
+        return response()->json([
+            'total' => \Cart::getTotalQuantity(),
+            'sum'=>\Cart::getTotal(),
+            'small_order'=>count($restaurants_small_order),
+            'content'=>view('site.includes.card_content',
+                    [
+                        '_cart_content' => \Cart::getContent(),
+                        '_cart_restaurants_small_order' => $restaurants_small_order
+                    ]
+                )->render()]);
     }
 
     protected function quantity()
@@ -89,11 +113,47 @@ class CartController extends SiteController
             \Cart::remove($this->dish->id);
         }
 
-        return response()->json(['quantity'=>request('quantity'), 'remove'=>request('remove'), 'total' => \Cart::getTotalQuantity(), 'sum'=>\Cart::getTotal(), 'content'=>\Cart::getContent()]);
+        $restaurants_small_order = $this->check_small_order();
+
+        return response()->json([
+            'quantity'=>request('quantity'),
+            'remove'=>request('remove'),
+            'total' => \Cart::getTotalQuantity(),
+            'sum'=>\Cart::getTotal(),
+            'small_order'=>count($restaurants_small_order),
+            'content'=>view('site.includes.card_content',
+                [
+                    '_cart_content' => \Cart::getContent(),
+                    '_cart_restaurants_small_order' => $restaurants_small_order
+                ]
+            )->render()
+        ]);
     }
 
-    protected function all()
+    protected function check_small_order()
     {
+        $restaurants_sums = [];
+        $restaurants_small_order = [];
+        $restaurants_min_sum_order = [];
 
+        $content = \Cart::getContent();
+
+        foreach ($content as $dish){
+            if(isset($dish->attributes['restaurant'])){
+                $restaurants_sums[$dish->attributes['restaurant']->id][] = $dish->price * $dish->quantity;
+                $restaurants_min_sum_order[$dish->attributes['restaurant']->id] = $dish->attributes['restaurant']->min_sum_order;
+            }
+        }
+
+        foreach ($restaurants_sums as $id => $restaurants_sum){
+            $sum = array_sum($restaurants_sum);
+            if($sum < $restaurants_min_sum_order[$id]){
+                $restaurants_small_order[$id] = $restaurants_min_sum_order[$id];
+            }
+        }
+
+        return $restaurants_small_order;
     }
+
+
 }

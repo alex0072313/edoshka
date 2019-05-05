@@ -11,7 +11,12 @@ if($('.order_form').length){
                 if($(this).prop('checked') == true){
                     form_data[$(this).attr('name')] = $(this).val();
                 }
-            }else{
+            }else if($(this).attr('type') == 'checkbox'){
+                if($(this).prop('checked') == true){
+                    form_data[$(this).attr('name')] = $(this).val();
+                }
+            }
+            else{
                 form_data[$(this).attr('name')] = $(this).val();
             }
 
@@ -26,14 +31,24 @@ if($('.order_form').length){
             'post',
             function ($json) {
                 $('.order_form').addClass('load');
-                form.find('.is-invalid').removeClass('is-invalid').next('.invalid-feedback').remove();
+                form.find('.is-invalid').removeClass('is-invalid');
+                form.find('.invalid-feedback').remove();
             },
             function ($json) {
                 console.log($json);
                 $('.order_form').removeClass('load');
                 if($json.errors){
                     for(var i in $json.errors){
-                        form.find('[name="'+i+'"]').addClass('is-invalid').after('<div class="invalid-feedback">'+$json.errors[i][0]+'</span>');
+                        var input = form.find('[name="'+i+'"]');
+
+                        input.addClass('is-invalid');
+
+                        if(input.parent('.custom-checkbox').length){
+                            input.parent('.custom-checkbox').after('<div class="invalid-feedback d-block">'+$json.errors[i][0]+'</span>');
+                        }else{
+                            input.after('<div class="invalid-feedback">'+$json.errors[i][0]+'</span>');
+                        }
+
                     }
                 }else if($json.success){
                     cart_update();

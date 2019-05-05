@@ -17,10 +17,12 @@ class OrderController extends Controller
         $response = [];
 
         $validate = \Validator::make(request()->all(), [
-            'phone' => 'required|phone_number'
+            'phone' => 'required|phone_number',
+            'accept_policy' => 'required'
         ], [
             'phone.required' => 'Необходимо указать телефон!',
             'phone.phone_number' => 'Телефон указан не верно!',
+            'accept_policy.required' => 'Необходимо согласиться с политикой конфиденциальности!',
         ]);
 
         if($validate->fails()){
