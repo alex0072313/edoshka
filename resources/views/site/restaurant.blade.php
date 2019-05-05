@@ -144,6 +144,12 @@
 					</div>
 				</div>
 			</div>
+
+            @php
+                $var = 'town_'.$_town->id.'_restaurant_'.$restaurant->id.'_content';
+            @endphp
+            @helpmsg($var)
+
 		</div>
 	</section>
 @endsection
