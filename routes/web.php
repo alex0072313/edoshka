@@ -106,8 +106,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/', 'Site\CustomerController@index')->name('home');
 });
 
+
 Route::get('/', 'Site\HomeController@index')->name('site.home');
-Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
 Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
 Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
 
@@ -125,3 +125,8 @@ Route::post('/send_order', 'Site\OrderController@send')->name('site.send_order')
 
 //Поиск
 Route::post('/search', 'Site\SearchController@query')->name('site.search');
+
+//Карта сайта
+Route::get('/sitemap.xml', 'Site\SitemapController@index')->name('site.sitemap');
+
+Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');

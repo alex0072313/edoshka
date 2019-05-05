@@ -3,3 +3,5 @@ Disallow: /login
 Disallow: /admin
 Disallow: /password/reset
 Disallow: /parth
+
+Sitemap: https://edoshka.ru/sitemap.xml
