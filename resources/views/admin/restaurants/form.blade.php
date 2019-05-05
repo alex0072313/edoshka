@@ -104,6 +104,20 @@
                 <input type="file" name="bg" class="form-control-file">
             </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Акции</label>
+            <div class="col-md-9">
+                <select class="default-select2 form-control" name="specials[]" id="specials_select" multiple data-search="true" data-placeholder="Выберете блюда">
+                    <option></option>
+                    @foreach($specials as $special)
+                        <option value="{{ $special->id }}" {{ isset($restaurant_specials) ? $restaurant_specials->find($special->id) ? ' selected' : '' : '' }}>{{ $special->name }}</option>
+                    @endforeach
+                </select>
+                <a href="javasript:;" class="btn btn-sm btn-default mt-2 recomendeds_random" data-dish-id="{{ isset($dish->id) ? $dish->id : '0' }}">Сгенерировать</a>
+            </div>
+        </div>
+
         @role('megaroot')
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Активен</label>

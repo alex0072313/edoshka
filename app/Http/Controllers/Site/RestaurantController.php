@@ -56,6 +56,8 @@ class RestaurantController extends SiteController
             return $categories->sortBy('name');
         });
 
+        $this->data['specials'] = $restaurant->specials;
+
         return $this->render();
     }
 }

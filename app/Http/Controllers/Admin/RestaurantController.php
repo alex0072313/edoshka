@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Repositories\RestaurantRepository;
 
 use App\Restaurant;
+use App\Special;
 use Illuminate\Http\Request;
 
 class RestaurantController extends AdminController
@@ -34,6 +35,12 @@ class RestaurantController extends AdminController
         $this->view = 'admin.restaurants.form';
 
         $this->data['restaurant'] = $restaurant;
+        $this->data['restaurant_specials'] = $restaurant->specials;
+
+        $specials = Special::where('id', '!=', $restaurant->id)->get();
+
+        $this->data['specials'] = $specials;
+        $this->data['restaurant_specials'] = $restaurant->specials;
 
         return $this->render();
     }
@@ -81,14 +88,14 @@ class RestaurantController extends AdminController
         }
 
         if($restaurant->update(request()->toArray())){
-            
+            $restaurant->specials()->sync(request()->get('specials'));
             //Фото
             if($img = request()->file('bg')){
                 RestaurantRepository::createThumb($img, $restaurant);
             }
 
             return redirect()
-                ->route(auth()->user()->hasRole('megaroot') ? 'admin.restaurants.index' : 'admin.restaurants.edit', $restaurant->id)
+                ->route((auth()->user()->hasRole('megaroot') ? 'admin.restaurants.index' : 'admin.restaurants.edit'), $restaurant->id)
                 ->with('success', 'Данные ресторана успешно обновлены!');
         }
     }
@@ -97,7 +104,7 @@ class RestaurantController extends AdminController
     {
         $this->title = 'Добавление ресторана';
         $this->view = 'admin.restaurants.form';
-
+        $this->data['specials'] = Special::all();
         return $this->render();
     }
 
@@ -129,6 +136,8 @@ class RestaurantController extends AdminController
         }
 
         if($restaurant = Restaurant::create(request()->toArray())){
+
+            $restaurant->specials()->sync(request()->get('specials'));
 
             //Фото
             if($img = request()->file('bg')){

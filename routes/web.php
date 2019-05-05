@@ -87,6 +87,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/customers/{user}/destroy', 'Admin\CustomerController@destroy')->name('customers.destroy');
         Route::resource('customers', 'Admin\CustomerController')->except('destroy');
 
+        //Акции
+        Route::get('/specials/{special}/destroy', 'Admin\SpecialsController@destroy')->name('specials.destroy');
+        Route::resource('specials', 'Admin\SpecialsController')->except('destroy');
+
     });
 });
 ////////////////////////////////////////////////////////

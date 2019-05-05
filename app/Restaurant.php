@@ -28,6 +28,11 @@ class Restaurant extends Model
         return $this->hasMany(Dish::class);
     }
 
+    public function specials()
+    {
+        return $this->belongsToMany(Special::class, 'restaurants_specials');
+    }
+
     public function managers(){
         $filtered = $this->users->filter(function ($user) {
             return $user->hasRole(config('role.names.manager.name'));

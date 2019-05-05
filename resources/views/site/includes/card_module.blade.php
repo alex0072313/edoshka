@@ -236,11 +236,16 @@
                                             <input type="radio" value="google" id="reg_on_google" name="reg_type" class="custom-control-input" data-select-text="Регистрация с помощью Вашего аккаунта Google (мы не публикуем данные из Вашего профиля)">
                                             <label class="custom-control-label" for="reg_on_google"><i class="fab fa-lg fa-google-plus-g mt-1"></i></label>
                                         </div>
+
+                                        <div class="custom-control custom-radio col-12 mb-2">
+                                            <input type="radio" value="" id="reg_on_none" name="reg_type" class="custom-control-input" data-select-text="">
+                                            <label class="custom-control-label" for="reg_on_none">Без регистрации (не рекомендуется)</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="check_text text-secondary"></div>
+                            <div class="check_text text-primary"></div>
 
                             <div class="mt-2">
                                 <h5>Для чего нужна регистрация?</h5>

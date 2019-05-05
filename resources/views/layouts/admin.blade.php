@@ -232,6 +232,15 @@
                 @endif
 
                 @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.specials') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.specials.index') }}">
+                            <i class="fas fa-fire"></i>
+                            <span>Акции</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if($_user->hasRole('megaroot'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.slides') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.slides.index') }}">
                             <i class="fas fa-images"></i>

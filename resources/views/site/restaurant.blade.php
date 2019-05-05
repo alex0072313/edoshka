@@ -84,9 +84,16 @@
                         <div class="flex-column">
                             <div class="nav_outer custom_scrollbar">
                                 <ul class="products_nav products_nav_mobile">
+
+                                    @if($specials->count())
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#products_group_specials">Акции</a>
+                                        </li>
+                                    @endif
+
                                     @foreach($categories as $category)
                                         <li class="nav-item">
-                                            <a class="nav-link{{ $loop->first ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
+                                            <a class="nav-link{{ $loop->first && !$specials->count() ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -115,9 +122,16 @@
 
                         <div class="nav_outer custom_scrollbar">
                             <ul class="nav flex-column mt-3 products_nav products_nav_desctop">
+
+                                @if($specials->count())
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#products_group_specials">Акции</a>
+                                    </li>
+                                @endif
+
                                 @foreach($categories as $category)
                                     <li class="nav-item">
-                                        <a class="nav-link{{ $loop->first ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
+                                        <a class="nav-link{{ $loop->first && !$specials->count() ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -127,8 +141,34 @@
 				</div>
 				<div class="col-md-9">
 					<div class="products pt-2">
+
+                        @if($specials->count())
+                            <div id="products_group_specials">
+                                <h2 class="h2 mb-3 text-md-left text-center text-primary">Акции ресторана {{ $restaurant->name }}</h2>
+
+                                <div class="row">
+                                    @foreach($specials as $special)
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="card text-white"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>
+                                                <div class="inner">
+                                                    <div class="h4">
+                                                        {{ $special->name }}
+                                                    </div>
+                                                    <p class="mb-0 font-weight-light">{{ $special->content }}</p>
+                                                    {{--<div class="text-white-50 font-weight-light">--}}
+                                                        {{--Заказ от 300 ₽--}}
+                                                    {{--</div>--}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                            </div>
+                        @endif
+
 						@foreach($categories as $category)
-							<div class="products_group{{ !$loop->first ? ' mt-4' : '' }}" id="products_group_{{ $category->id }}">
+							<div class="products_group{{ !$loop->first || $specials->count() ? ' mt-4' : '' }}" id="products_group_{{ $category->id }}">
 							    <h2 class="h2 mb-3 products_title text-md-left text-center">{{ $category->name }}</h2>
 								<div class="products_items">
 									<div class="row mr-0">

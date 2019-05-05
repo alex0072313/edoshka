@@ -52,6 +52,21 @@ Breadcrumbs::for('admin.categories.create', function ($trail) {
 });
 //
 
+//Акции
+Breadcrumbs::for('admin.specials.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Акции ресторанов', route('admin.specials.index'));
+});
+Breadcrumbs::for('admin.specials.edit', function ($trail, $special) {
+    $trail->parent('admin.specials.index');
+    $trail->push('Редактирование акции', route('admin.specials.edit', $special->id));
+});
+Breadcrumbs::for('admin.specials.create', function ($trail) {
+    $trail->parent('admin.specials.index');
+    $trail->push('Создание акции', route('admin.specials.create'));
+});
+//
+
 //Статьи
 Breadcrumbs::for('admin.articles.index', function ($trail) {
     $trail->parent('admin.home');
