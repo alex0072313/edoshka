@@ -37,7 +37,7 @@ class RestaurantController extends AdminController
         $this->data['restaurant'] = $restaurant;
         $this->data['restaurant_specials'] = $restaurant->specials;
 
-        $specials = Special::where('id', '!=', $restaurant->id)->get();
+        $specials = Special::all();
 
         $this->data['specials'] = $specials;
         $this->data['restaurant_specials'] = $restaurant->specials;
