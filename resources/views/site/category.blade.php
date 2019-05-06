@@ -110,10 +110,10 @@
                 </div>
             </div>
 
-{{--            @php--}}
-{{--                $var = 'town_'.$_town->id.'_category_'.$category->id.'_content';--}}
-{{--            @endphp--}}
-{{--            @helpmsg($var)--}}
+            @php
+                $var = 'town_'.$_town->id.'_category_'.$category->id.'_content';
+            @endphp
+            @helpmsg($var)
 
             @php
                 $var = 'town_'.$_town->id.'_balls_info';
