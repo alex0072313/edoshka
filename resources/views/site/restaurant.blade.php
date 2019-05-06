@@ -232,6 +232,11 @@
             @endphp
             @helpmsg($var)
 
+            @php
+                $var = 'town_'.$_town->id.'_balls_info';
+            @endphp
+            @helpmsg($var)
+
 			</div>
 		</div>
 	</section>
