@@ -39756,6 +39756,44 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.shop_slider_inner').length) 
       }
     });
   });
+} //Слайдер акций
+
+
+if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.specials_slider').length) {
+  var slider = Object(tiny_slider_src_tiny_slider__WEBPACK_IMPORTED_MODULE_1__["tns"])({
+    container: '#specials_slider',
+    items: 1,
+    slideBy: 1,
+    loop: false,
+    //autoWidth: true,
+    mouseDrag: true,
+    controls: true,
+    controlsText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>'],
+    nav: false,
+    swipeAngle: false,
+    autoHeight: true,
+    responsive: {
+      576: {
+        items: 1,
+        slideBy: 2
+      },
+      768: {
+        items: 2,
+        slideBy: 3
+      },
+      992: {
+        items: 2,
+        slideBy: 4
+      }
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on('resize load', function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.specials_slider .card-img-overlay > div').each(function () {
+      var height = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).innerHeight();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent('div').parent('div').css('height', height);
+    });
+    slider.updateSliderHeight();
+  });
 } //Маска
 
 

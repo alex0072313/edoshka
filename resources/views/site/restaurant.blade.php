@@ -140,28 +140,71 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="products pt-2">
 
                         @if($specials->count())
                             <div id="products_group_specials">
                                 <h2 class="h2 mb-3 text-md-left text-center text-primary">Акции ресторана {{ $restaurant->name }}</h2>
 
-                                <div class="row">
-                                    @foreach($specials as $special)
-                                        <div class="col-lg-6 mb-4">
-                                            <div class="card text-white"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>
-                                                <div class="inner">
-                                                    <div class="h4">
-                                                        {{ $special->name }}
-                                                    </div>
-                                                    <p class="mb-0 font-weight-light">{{ $special->content }}</p>
+                                {{--<div class="row">--}}
+                                    {{--@foreach($specials as $special)--}}
+
+                                        {{--<div class="col-lg-6 mb-4">--}}
+                                            {{--<div class="card text-white"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>--}}
+                                                {{--<div class="inner">--}}
+                                                    {{--<div class="h4">--}}
+                                                        {{--{{ $special->name }}--}}
+                                                    {{--</div>--}}
+                                                    {{--<p class="mb-0 font-weight-light">{{ $special->content }}</p>--}}
                                                     {{--<div class="text-white-50 font-weight-light">--}}
                                                         {{--Заказ от 300 ₽--}}
                                                     {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+
+                                    {{--@endforeach--}}
+                                {{--</div>--}}
+
+                                <div class="shop_slider">
+                                    <div class="specials_slider" id="specials_slider">
+                                        @foreach($specials as $special)
+                                            <div class="inner px-2">
+
+                                                <div class="card text-white">
+                                                    {{--<div class="badges">--}}
+                                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 104</div>--}}
+                                                    {{--</div>--}}
+
+                                                    <div class="inner"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>
+                                                        <div class="card-img-overlay">
+                                                            <div>
+                                                                <div class="h4">
+                                                                    {{ $special->name }}
+                                                                </div>
+                                                                <p class="mb-0 font-weight-light">{{ $special->content }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+
+
+                                                {{--<div class="card text-white"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>--}}
+                                                    {{--<div class="inner">--}}
+                                                        {{--<div>--}}
+                                                            {{--<div class="h4">--}}
+                                                                {{--{{ $special->name }}--}}
+                                                            {{--</div>--}}
+                                                            {{--<p class="mb-0 font-weight-light">{{ $special->content }}</p>--}}
+                                                            {{--<div class="text-white-50 font-weight-light">--}}
+                                                            {{--Заказ от 300 ₽--}}
+                                                            {{--</div>--}}
+                                                        {{--</div>--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                 </div>
 
                             </div>
