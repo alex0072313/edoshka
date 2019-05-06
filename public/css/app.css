@@ -8067,7 +8067,8 @@ footer .socials::after {
 }
 
 .d-flex,
-#products_group_specials #specials_slider .card .card-img-overlay {
+#products_group_specials #specials_slider .card .card-img-overlay,
+.shop_slider .tns-controls {
   display: flex !important;
 }
 
@@ -9662,6 +9663,7 @@ header .globalmenu .links > a {
 }
 
 .mr-auto,
+.shop_slider .tns-controls button[data-controls=prev],
 .mx-auto,
 .count_input .input-group {
   margin-right: auto !important;
@@ -12376,29 +12378,33 @@ header .globalmenu .links > a:hover {
 }
 
 .shop_slider {
-  margin: 0 22px;
+  margin: 0 -0.5rem;
+}
+
+.shop_slider .tns-outer {
+  padding-bottom: 36px !important;
+}
+
+.shop_slider .tns-controls {
+  margin: 0 0.5rem;
+  outline: none !important;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .shop_slider .tns-controls button {
   background: none;
   border: none;
   color: #FF5F00;
-  font-size: 2.5rem;
-  position: absolute;
-  top: 50%;
-  margin-top: -31px;
+  font-size: 1.5rem;
+  position: relative;
+  padding: 0;
 }
 
 .shop_slider .tns-controls button[disabled] {
   color: #e9ecef;
-}
-
-.shop_slider .tns-controls button:first-child {
-  left: -30px;
-}
-
-.shop_slider .tns-controls button:last-child {
-  right: -30px;
 }
 
 .shop_slider .shop_title .badge {
