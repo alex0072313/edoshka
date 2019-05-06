@@ -13110,6 +13110,13 @@ footer .powered a {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  min-height: 160px;
+}
+
+@media (max-width: 767.98px) {
+  #products_group_specials #specials_slider .card .inner {
+    min-height: auto;
+  }
 }
 
 #products_group_specials #specials_slider .card .card-img-overlay {
@@ -13121,6 +13128,7 @@ footer .powered a {
     text-align: center;
     height: auto !important;
     display: block !important;
+    min-height: auto;
   }
 }
 

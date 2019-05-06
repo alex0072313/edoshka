@@ -1193,6 +1193,11 @@ h2, .h2{
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
+                min-height: 160px;
+
+                @include media-breakpoint-down(sm) {
+                    min-height: auto;
+                }
             }
             .card-img-overlay{
                 padding: 0 !important;
@@ -1208,6 +1213,7 @@ h2, .h2{
                     text-align: center;
                     height: auto !important;
                     display: block !important;
+                    min-height: auto;
 
                 }
             }
