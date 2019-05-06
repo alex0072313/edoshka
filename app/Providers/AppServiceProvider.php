@@ -40,25 +40,6 @@ class AppServiceProvider extends ServiceProvider
             View::share('_restaurant', $restaurant);
         });
 
-        //Поля
-        view()->composer('*', function($view){
-            if (!strstr($view->getName(), 'site.includes')) {
-                $view_name = str_replace('.', '-', str_replace('.', '-', $view->getName()));
-                view()->share('view_name', $view_name);
-            }
-        });
-
-        view()->composer(['site.*', 'layouts.site'], function ($view) {
-            if (!strstr($view->getName(), 'site.includes')) {
-
-                $helpmsgs_on_page = cache()->remember('helpmsgs_on_page_'.$view->getName(), 30, function () use ($view){
-                    return Helpmsg::getByPage(str_replace('.', '-', $view->getName()));
-                });
-
-                View::share('helpmsgs_on_page', $helpmsgs_on_page);
-            }
-        });
-
         //Корзина
         view()->composer(['site.*', 'layouts.site'], function () {
             //\Cart::clear();
@@ -95,21 +76,6 @@ class AppServiceProvider extends ServiceProvider
             View::share( '_cart_total_p', \Cart::getTotal());
         });
 
-        \Blade::directive('helpmsg', function ($val) {
-            return "<?php 
-            \$name = $val;
-            if(isset(\$helpmsgs_on_page[\$name])){
-                \$config = \$helpmsgs_on_page[\$name];
-            }else{
-                \$config = [
-                    'id'=> 0,
-                    'value'=> '',
-                    'name'=> \$name,
-                ];
-            }
-            echo \$__env->make('site.includes.helpmsg', ['config' => \$config, 'page' => \$view_name])->render(); 
-            ?>";
-        });
         //
 
     }

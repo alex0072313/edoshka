@@ -184,6 +184,7 @@ return [
 
         NotificationChannels\Twilio\TwilioProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
+        \App\Providers\HelpMsgServiceProvider::class
     ],
 
     /*
