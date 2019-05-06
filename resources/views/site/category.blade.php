@@ -116,9 +116,9 @@
             @helpmsg($var)
 
             @php
-                $var = 'town_'.$_town->id.'_balls_info';
+                $var1 = 'town_'.$_town->id.'_balls_info';
             @endphp
-            @helpmsg($var)
+            @helpmsg($var1)
 
         </div>
     </section>
