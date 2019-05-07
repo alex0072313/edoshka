@@ -11985,6 +11985,22 @@ input[type=number] {
   color: #fff !important;
 }
 
+.fa-vk {
+  color: #4A76A8;
+}
+
+.fa-instagram {
+  color: #B8349D;
+}
+
+.fa-facebook-f {
+  color: #4267B2;
+}
+
+.fa-google-plus-g {
+  color: #DB4832;
+}
+
 header {
   position: absolute;
   width: 100%;
@@ -12662,22 +12678,6 @@ header .globalmenu .links > a:hover {
   }
 }
 
-#card__module_modal .card_register .fa-vk {
-  color: #4A76A8;
-}
-
-#card__module_modal .card_register .fa-instagram {
-  color: #B8349D;
-}
-
-#card__module_modal .card_register .fa-facebook-f {
-  color: #4267B2;
-}
-
-#card__module_modal .card_register .fa-google-plus-g {
-  color: #DB4832;
-}
-
 .load,
 .disabled_box {
   position: relative;
@@ -13136,5 +13136,9 @@ footer .powered a {
     display: block !important;
     min-height: auto;
   }
+}
+
+.account_page .filter .nav_outer {
+  top: 0 !important;
 }
 

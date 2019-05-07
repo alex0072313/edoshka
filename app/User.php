@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lastname', 'restaurant_id', 'phone', 'phone2', 'order_in_sms', 'image', 'provider', 'provider_id'
+        'name', 'email', 'password', 'lastname', 'restaurant_id', 'phone', 'phone2', 'order_in_sms', 'image', 'provider', 'provider_id', 'responder', 'accept_policy'
     ];
 
     /**
@@ -29,6 +29,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ($this->lastname ? ' '.$this->lastname : '');
+    }
+
+    public function setPhoneAttribute($value = null)
+    {
+        $this->attributes['phone'] = valid_phone($value);
+    }
 
     public function restaurant(){
         return $this->hasOne('App\Restaurant', 'id', 'restaurant_id');

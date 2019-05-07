@@ -75,6 +75,19 @@ input[type="number"] {
     }
 }
 
+.fa-vk{
+    color: $vk_color;
+}
+.fa-instagram{
+    color: $in_color;
+}
+.fa-facebook-f{
+    color: $fb_color;
+}
+.fa-google-plus-g{
+    color: $gl_color;
+}
+
 header {
     position: absolute;
     width: 100%;
@@ -740,18 +753,7 @@ header {
 
     }
     .card_register{
-        .fa-vk{
-            color: $vk_color;
-        }
-        .fa-instagram{
-            color: $in_color;
-        }
-        .fa-facebook-f{
-            color: $fb_color;
-        }
-        .fa-google-plus-g{
-            color: $gl_color;
-        }
+
     }
 }
 
@@ -1235,4 +1237,15 @@ h2, .h2{
         }
     }
 }
+
+
+.account_page{
+
+    .filter{
+        .nav_outer{
+            top:0 !important;
+        }
+    }
+}
+
 

@@ -25,8 +25,9 @@
                         <div class="flex-column">
                             <div class="nav_outer custom_scrollbar">
                                 <ul class="products_nav products_nav_mobile links">
-                                    <li class="nav-item"><a class="nav-link" href="#">Профиль</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Мои заказы</a></li>
+                                    <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.home') ? ' active': '' !!}" href="{{ route('customer.home') }}">Главная</a></li>
+                                    <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.profile') ? ' active': '' !!}" href="{{ route('customer.profile') }}">Профиль</a></li>
+                                    {{--<li class="nav-item"><a class="nav-link" href="#">Мои заказы</a></li>--}}
                                 </ul>
                             </div>
                         </div>
@@ -39,18 +40,35 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="filter d-none d-md-block">
+                    <div class="d-none d-md-block filter">
 
-                        <div class="nav_outer custom_scrollbar">
-                            <ul class="nav flex-column mt-3">
-                                <li class="nav-item"><a class="nav-link" href="#">Профиль</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Мои заказы</a></li>
+                        <div class="nav_outer">
+                            <h4 class="border-bottom pb-3 pt-0 mb-3 font-weight-light">{{ $_user->fullname }}</h4>
+                            <ul class="nav flex-column">
+                                <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.home') ? ' active': '' !!}" href="{{ route('customer.home') }}">Главная</a></li>
+                                <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.profile') ? ' active': '' !!}" href="{{ route('customer.profile') }}">Профиль</a></li>
+                                {{--<li class="nav-item"><a class="nav-link" href="#">Мои заказы</a></li>--}}
                             </ul>
                         </div>
 
                     </div>
                 </div>
                 <div class="col-md-9">
+
+                    @if(session('success'))
+                        <div class="alert alert-primary fade show m-b-10">
+                            <span class="close" data-dismiss="alert">×</span>
+                            {!! session('success') !!}
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger fade show m-b-10">
+                            <span class="close" data-dismiss="alert">×</span>
+                            {!! session('error') !!}
+                        </div>
+                    @endif
+
                     @yield('customer_content')
                 </div>
             </div>

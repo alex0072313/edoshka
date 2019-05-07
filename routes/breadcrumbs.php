@@ -20,6 +20,11 @@ Breadcrumbs::for('customer.home', function ($trail) {
     $trail->parent('site.home');
     $trail->push('Личный кабинет', route('customer.home'));
 });
+
+Breadcrumbs::for('customer.profile', function ($trail) {
+    $trail->parent('customer.home');
+    $trail->push('Профиль', route('customer.profile'));
+});
 ///
 
 // Home
