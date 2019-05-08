@@ -43,11 +43,22 @@
                     <div class="d-none d-md-block filter">
 
                         <div class="nav_outer">
-                            <h4 class="border-bottom pb-3 pt-0 mb-3 font-weight-light">{{ $_user->fullname }}</h4>
+
+                            <div class="d-flex border-bottom pb-3 pt-0 mb-3 align-items-center">
+                                <div class="mr-2">
+                                    @if(Storage::disk('public')->exists('user_imgs/'.$_user->id.'/thumb_xs.jpg'))
+                                        <img src="{{ Storage::disk('public')->url('user_imgs/'.$_user->id.'/thumb_xs.jpg') }}" class="rounded-circle" alt="">
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h4 class="font-weight-light mb-0">{{ $_user->fullname }}</h4>
+                                </div>
+                            </div>
+
                             <ul class="nav flex-column">
                                 <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.home') ? ' active': '' !!}" href="{{ route('customer.home') }}">Главная</a></li>
                                 <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.profile') ? ' active': '' !!}" href="{{ route('customer.profile') }}">Профиль</a></li>
-                                {{--<li class="nav-item"><a class="nav-link" href="#">Мои заказы</a></li>--}}
+                                <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.orders') ? ' active': '' !!}" href="{{ route('customer.orders') }}">Мои заказы</a></li>
                             </ul>
                         </div>
 

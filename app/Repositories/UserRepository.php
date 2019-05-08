@@ -8,16 +8,20 @@ use Storage;
 abstract class UserRepository extends Repository
 {
 
-    public static function createThumb($imgfile, $user){
-        $sizes = getimagesize($imgfile);
+    public static function createThumb($imgfile, $user, $check_size = true){
+
         $img = Image::make($imgfile);
 
-        //origin
-        if(($sizes[0] > 1920) || ($sizes[1] > 1080)){
-            $img->fit(1920, 1080, function ($constraint) {
-                $constraint->upsize();
-            });
+        if($check_size){
+            $sizes = getimagesize($imgfile);
+            if(($sizes[0] > 1920) || ($sizes[1] > 1080)){
+                $img->fit(1920, 1080, function ($constraint) {
+                    $constraint->upsize();
+                });
+            }
         }
+
+        //origin
         Storage::disk('public')->put('user_imgs/'.$user->id.'/src.jpg', (string) $img->encode());
 
         $img->fit(114, 114, function ($constraint) {

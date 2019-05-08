@@ -32,5 +32,17 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getTotalPriceAttribute()
+    {
+        $total = 0;
+        if($this->dishes()->count()){
+            foreach ($this->dishes as $dish){
+                $total += $dish->pivot->total_price;
+            }
+        }
+
+        return $total;
+    }
+
 
 }

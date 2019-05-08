@@ -25,6 +25,11 @@ Breadcrumbs::for('customer.profile', function ($trail) {
     $trail->parent('customer.home');
     $trail->push('Профиль', route('customer.profile'));
 });
+
+Breadcrumbs::for('customer.orders', function ($trail) {
+    $trail->parent('customer.home');
+    $trail->push('Заказы', route('customer.orders'));
+});
 ///
 
 // Home

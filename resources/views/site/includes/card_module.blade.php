@@ -65,7 +65,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone">Телефон <b class="text-danger">*</b></label>
-                                        <input type="text" name="phone" class="form-control" id="phone" aria-describedby="phone" placeholder="+79281234567">
+                                        <input type="text" name="phone" value="{{ isset($_user) ? $_user->phone : '' }}" class="form-control" id="phone" aria-describedby="phone" placeholder="+79281234567">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -90,13 +90,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Имя</label>
-                                        <input type="text" name="name" class="form-control" id="name" aria-describedby="name">
+                                        <input type="text" name="name" value="{{ isset($_user) ? $_user->name : '' }}" class="form-control" id="name" aria-describedby="name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="street">Улица</label>
-                                        <input type="text" name="street" class="form-control" id="street" aria-describedby="street">
+                                        <input type="text" name="street" value="{{ isset($_user) ? $_user->street : '' }}" class="form-control" id="street" aria-describedby="street">
                                     </div>
                                 </div>
                             </div>
@@ -104,13 +104,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" name="email" class="form-control" id="email" aria-describedby="email">
+                                        <input type="text" name="email" value="{{ isset($_user) ? $_user->email : '' }}" class="form-control" id="email" aria-describedby="email">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="home">Дом</label>
-                                        <input type="text" name="home" class="form-control" id="home" aria-describedby="home">
+                                        <input type="text" name="home" value="{{ isset($_user) ? $_user->home : '' }}" class="form-control" id="home" aria-describedby="home">
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                             <div class="d-lg-flex justify-content-between">
                                 <div class="pt-lg-2 order-1 mb-lg-0 mb-3">
                                     <div class="custom-control custom-checkbox mt-1">
-                                        <input type="checkbox" name="accept_policy" value="1" class="custom-control-input" id="accept_policy">
+                                        <input type="checkbox" name="accept_policy" value="1" class="custom-control-input" id="accept_policy"{{ isset($_user) && $_user->accept_policy ? ' checked' : '' }}>
                                         <label class="custom-control-label" for="accept_policy">Согласен(а) с <a href="{{ route('site.article', 'policy') }}">Политикой конфиденциальности</a></label>
                                     </div>
                                 </div>

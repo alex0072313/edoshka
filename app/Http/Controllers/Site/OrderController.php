@@ -45,6 +45,9 @@ class OrderController extends Controller
         //Привязываем к юзеру
         if(auth()->user()){
             request()->request->add(['user_id'=>auth()->id()]);
+
+            //Добавляем баллы
+            auth()->user()->addBalls(\Cart::getTotal());
         }
 
         foreach ($restaurants as $restaurant_id => $dishes){

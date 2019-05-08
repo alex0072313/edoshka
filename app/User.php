@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lastname', 'restaurant_id', 'phone', 'phone2', 'order_in_sms', 'image', 'provider', 'provider_id', 'responder', 'accept_policy'
+        'name', 'email', 'password', 'lastname', 'restaurant_id', 'phone', 'phone2', 'order_in_sms', 'image', 'provider', 'provider_id', 'responder', 'accept_policy', 'street', 'home'
     ];
 
     /**
@@ -93,6 +93,13 @@ class User extends Authenticatable
         })->get();
 
         return $r[0];
+    }
+
+    public function addBalls($sumorder = 0)
+    {
+        $balls = intval(floor($sumorder / 100));
+        $this->balls = $this->balls + $balls;
+        $this->save();
     }
 
 

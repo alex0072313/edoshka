@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 use App\Http\Middleware\Customer;
+use App\Order;
 use App\Repositories\UserRepository;
 use App\User;
 
@@ -86,7 +87,12 @@ class CustomerController extends SiteController
 
     public function orders()
     {
+        $this->view = 'site.customer.orders';
+        $this->title = 'Личный кабинет | Мои заказы';
 
+        $this->data['orders'] = auth()->user()->orders;
+
+        return $this->render();
     }
 
 

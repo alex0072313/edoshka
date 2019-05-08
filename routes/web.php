@@ -110,6 +110,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/', 'Site\CustomerController@index')->name('home');
 
     Route::match(['get', 'post'], '/profile/{user?}', 'Site\CustomerController@profile')->name('profile');
+
+    Route::get('/orders', 'Site\CustomerController@orders')->name('orders');
 });
 
 

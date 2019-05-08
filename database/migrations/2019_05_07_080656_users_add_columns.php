@@ -16,6 +16,11 @@ class UsersAddColumns extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('responder')->default(false);
             $table->boolean('accept_policy')->default(false);
+
+            $table->string('street')->nullable();
+            $table->string('home')->nullable();
+
+            $table->integer('balls')->default(0);
         });
     }
 
@@ -27,7 +32,7 @@ class UsersAddColumns extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['responder', 'accept_policy']);
+            $table->dropColumn(['responder', 'accept_policy', 'street', 'home', 'balls']);
         });
     }
 }
