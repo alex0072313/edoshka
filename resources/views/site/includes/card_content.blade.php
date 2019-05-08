@@ -111,19 +111,19 @@
         </td>
         <td></td>
     </tr>
-    @if(auth()->check())
-        <tr>
-            <td colspan="3">
-                <div class="h4 text-primary mb-0 text-nowrap text-right">Начислится баллов</div>
-            </td>
-            <td class="text-nowrap text-center">
-                <div class="h4 mb-0 text-primary">
-                    {{ calc_balls($_cart_total_p) }}
-                </div>
-            </td>
-            <td></td>
-        </tr>
-    @endif
+
+    <tr>
+        <td colspan="3">
+            <div class="h4 text-primary mb-0 text-nowrap text-right">Начислится баллов</div>
+        </td>
+        <td class="text-nowrap text-center">
+            <div class="h4 mb-0 text-primary">
+                {{ calc_balls($_cart_total_p) }}
+            </div>
+        </td>
+        <td></td>
+    </tr>
+
 @else
     <tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>
 @endif
