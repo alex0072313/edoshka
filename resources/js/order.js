@@ -56,6 +56,7 @@ if($('.order_form').length){
                     ga('send', 'event', 'zakaz', 'click', 'confirm');
                     ym(53176072, 'reachGoal', 'order');
 
+
                     if($json.redirect){
                         $('#mod_massage__module').on('hidden.bs.modal', function (e) {
                             window.location.href = $json.redirect;
