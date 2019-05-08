@@ -13,6 +13,7 @@
                     <th>Телефон</th>
                     <th>Провайдер</th>
                     <th>Заказов</th>
+                    <th>Баллов</th>
                     <th>Создан</th>
                     <th width="1%"></th>
                 </tr>
@@ -34,6 +35,7 @@
                         <td>{{ $user->provider ? $user->provider : '-' }}</td>
 
                         <td>{{ $user->orders()->count() }}</td>
+                        <td>{{ $user->balls }}</td>
                         <td>{{ $user->created_at }}</td>
 
                         <td class="with-btn" nowrap>
