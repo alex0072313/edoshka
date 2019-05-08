@@ -86,6 +86,7 @@
                                 <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.home') ? ' active': '' !!}" href="{{ route('customer.home') }}">Главная</a></li>
                                 <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.profile') ? ' active': '' !!}" href="{{ route('customer.profile') }}">Профиль</a></li>
 {{--                                <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.orders') ? ' active': '' !!}" href="{{ route('customer.orders') }}">Мои заказы</a></li>--}}
+                                <li class="nav-item"><a class="nav-link" href="{{ route('customer.logout') }}">Выйти</a></li>
                             </ul>
                         </div>
 
