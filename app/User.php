@@ -97,8 +97,7 @@ class User extends Authenticatable
 
     public function addBalls($sumorder = 0)
     {
-        $balls = intval(floor($sumorder / 100));
-        $this->balls = $this->balls + $balls;
+        $this->balls = $this->balls + calc_balls($sumorder);
         $this->save();
     }
 

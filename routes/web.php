@@ -112,6 +112,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::match(['get', 'post'], '/profile/{user?}', 'Site\CustomerController@profile')->name('profile');
 
     Route::get('/orders', 'Site\CustomerController@orders')->name('orders');
+    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });
 
 

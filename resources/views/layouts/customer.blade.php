@@ -52,13 +52,41 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <h4 class="font-weight-light mb-0">{{ $_user->fullname }}</h4>
+
+                                    <a href="jsvascript:;" data-toggle="modal" data-target="#user_balls_info" >
+                                        <small>
+                                            <i class="fas fa-coins fa-sm"></i> {{ $_user->balls }} {{ plural(['балл', 'балла', 'баллов'], $_user->balls) }}
+                                        </small>
+                                    </a>
+                                    @push('modals')
+                                        <div class="modal fade product" id="user_balls_info" tabindex="-1" role="dialog" aria-labelledby="user_balls_info_title" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                                    </button>
+
+                                                    <div class="modal-body">
+                                                        <div class="h2 mb-4" id="user_balls_info_title">Для чего нужны баллы?</div>
+                                                        @php
+                                                            $var = 'town_'.$_town->id.'_balls_info';
+                                                        @endphp
+                                                        @helpmsg($var)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endpush
+
                                 </div>
                             </div>
 
                             <ul class="nav flex-column">
                                 <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.home') ? ' active': '' !!}" href="{{ route('customer.home') }}">Главная</a></li>
                                 <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.profile') ? ' active': '' !!}" href="{{ route('customer.profile') }}">Профиль</a></li>
-                                <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.orders') ? ' active': '' !!}" href="{{ route('customer.orders') }}">Мои заказы</a></li>
+{{--                                <li class="nav-item"><a class="nav-link{!! stristr(Route::currentRouteName(), 'customer.orders') ? ' active': '' !!}" href="{{ route('customer.orders') }}">Мои заказы</a></li>--}}
+                                <li class="nav-item"><a class="nav-link" href="{{ route('customer.logout') }}">Выйти</a></li>
                             </ul>
                         </div>
 

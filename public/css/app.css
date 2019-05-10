@@ -13076,6 +13076,10 @@ footer .powered a {
   text-transform: none;
 }
 
+#user_enter_modal .soc_btn i {
+  color: #fff;
+}
+
 #user_enter_modal .soc_btn .i + span {
   border-left: 1px solid;
 }

@@ -1136,6 +1136,9 @@ h2, .h2{
         color: $white;
         font-weight: lighter;
         text-transform: none;
+        i{
+            color: $white;
+        }
         .i + span{
             border-left:1px solid;
         }
