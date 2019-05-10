@@ -3,6 +3,11 @@
     <link href="/assets/plugins/DataTables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/plugins/DataTables/extensions/FixedHeader/css/fixedHeader.bootstrap.min.css" rel="stylesheet" />
+
+    <link href="/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+    <link href="/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+
 @endpush
 
 @push('js')
@@ -18,6 +23,11 @@
     <script src="/assets/plugins/DataTables/extensions/Buttons/js/buttons.print.min.js"></script>
     <script src="/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
     <script src="/assets/plugins/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js"></script>
+
+    <script src="/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src=/assets/plugins/bootstrap-daterangepicker/moment.js"></script>
+    <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
     <script>
 
         var table = $("#data-table-default").DataTable({
@@ -50,29 +60,27 @@
             //dom: '<"toolbar">frtip'
         });
 
-                {{--@if(isset($fields_names))--}}
-        {{--var checkboxes = '<div id="data-table-default-checkboxes" class="clearfix pt-2">';--}}
-        {{--checkboxes += '<div class="pull-left clearfix bg-grey-transparent-1 rounded px-2 pb-2">';--}}
-        {{--@foreach($fields_names as $field_id => $field_name)--}}
-            {{--checkboxes += '<div class="checkbox checkbox-css pull-left{{ $loop->index ? ' ml-3' :'' }}">' +--}}
-            {{--'<input class="form-check-input" type="checkbox" data-column="{{ $loop->index + 4 }}" name="remember" checked id="table_filter_{{ $field_id }}" >' +--}}
-            {{--'<label for="table_filter_{{ $field_id }}">' +--}}
-            {{--'{{ $field_name }}' +--}}
-            {{--'</label>' +--}}
-            {{--'</div>';--}}
-        {{--@endforeach--}}
+                var totals = '<div class="pull-left d-flex">';
 
-            {{--checkboxes += '</div>';--}}
-        {{--checkboxes += '</div>';--}}
+                    totals += '<div class="h5 mb-0 mr-3 text-dark">Заказов: <b>{{ $orders->count() }}</b></div>';
+                    totals += '<div class="h5 mb-0 mr-3 text-dark">Выручка: <b>{{ number_format($total_price) }} ₽</b></div>';
+                    totals += '<div class="h5 mb-0 mr-3 text-dark">Комиссия: <b>{!! number_format($commission_calc) . (isset($restaurant) ? ' ₽</b> <small class="text-green">(ставка '.$restaurant->commission.'%)</small>':'') !!}</div>';
 
-        {{--$("#data-table-default").before(checkboxes);--}}
-        {{--@endif--}}
+                totals += '</div>';
+
+
+            $("#data-table-default_filter").prepend(totals);
+
 
         // $('#data-table-default-checkboxes .form-check-input').on('change', function () {
         //     var column = table.column( $(this).attr('data-column') );
         //     column.visible( ! column.visible() );
         // } );
 
+        $(".input-daterange").datepicker({
+            todayHighlight:!0,
+            format:'dd-mm-yyyy'
+        })
     </script>
 @endpush
 
@@ -109,6 +117,54 @@
     {{--@endif--}}
 
     {{--<a href="{{ isset($category) ? route('fields.index', 'category_'.$category->id) : route('fields.index') }}" class="btn btn-default mb-4 ml-2"><i class="fas fa-fw fa-server"></i> Управение доп. полями</a>--}}
+    @php
+        $list_restaurants = App\Restaurant::all();
+    @endphp
+
+    @hasrole('megaroot')
+        <div class="btn-group mb-3">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-university"></i>
+                @if(isset($restaurant))
+                    Ресторан: {{ $restaurant->name }}
+                @else
+                    Ресторан: Все
+                @endif
+            </button>
+            <div class="dropdown-menu">
+                @php
+                    $params = request()->except(['restaurant_id']);
+                @endphp
+                @if(isset($restaurant))
+                    <a class="dropdown-item" href="{{ route('admin.home') }}">Все</a>
+                @endif
+                @foreach($list_restaurants as $rest)
+                     @php
+                        $params['restaurant_id'] = $rest->id;
+                     @endphp
+                    <a class="dropdown-item d-block clearfix{{ (isset($restaurant) && $restaurant->id == $rest->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.home', $params) }}">
+                        <div class="pull-left mr-3">{{ $rest->name }}</div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endrole
+
+    <form class="form-group d-flex" action="{{ route('admin.home') }}" method="get">
+        @if($restaurant_id = request('restaurant_id'))
+            <input type="hidden" name="restaurant_id" value="{{ $restaurant_id }}">
+        @endif
+        <div>
+            <div class="input-group input-daterange">
+                <input type="text" value="{{ request('start') }}" class="form-control input-sm rounded-left" name="start" placeholder="Дата от" />
+                <span class="input-group-addon">-</span>
+                <input type="text" value="{{ request('end') }}" class="form-control input-sm rounded-right" name="end" placeholder="Дата до" />
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary ml-2">Выбрать</button>
+        </div>
+    </form>
 
     @if(count($orders))
         <table id="data-table-default" class="table row-border table-striped orders_table">
