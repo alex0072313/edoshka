@@ -61,13 +61,10 @@
         });
 
                 var totals = '<div class="pull-left d-flex">';
-
                     totals += '<div class="h5 mb-0 mr-3 text-dark">Заказов: <b>{{ $orders->count() }}</b></div>';
                     totals += '<div class="h5 mb-0 mr-3 text-dark">Выручка: <b>{{ number_format($total_price) }} ₽</b></div>';
                     totals += '<div class="h5 mb-0 mr-3 text-dark">Комиссия: <b>{!! number_format($commission_calc) . (isset($restaurant) ? ' ₽</b> <small class="text-green">(ставка '.$restaurant->commission.'%)</small>':'') !!}</div>';
-
                 totals += '</div>';
-
 
             $("#data-table-default_filter").prepend(totals);
 
