@@ -27,7 +27,7 @@ class HomeController extends AdminController
                 $orders = Order::query();
             }
         }else{
-            $orders = \Auth::user()->restaurant()->orders();
+            $orders = \Auth::user()->restaurant->orders();
         }
 
         if($start = request('start')){
