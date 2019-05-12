@@ -39788,14 +39788,15 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.specials_slider').length) {
         }
       }
     });
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on('resize load', function () {
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.specials_slider .card-img-overlay > div').each(function () {
-        var height = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).innerHeight();
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent('div').parent('div').css('height', height);
-      });
-      slider.updateSliderHeight();
-    });
   }
+
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(window).on('resize load', function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.specials_slider .card-img-overlay > div').each(function () {
+      var height = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).innerHeight();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent('div').parent('div').css('height', height);
+    });
+    if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.specials_slider').children('.inner').length > 1) slider.updateSliderHeight();
+  });
 } //Маска
 
 
