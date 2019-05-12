@@ -156,8 +156,6 @@ if($('.shop_slider_inner').length){
 if($('.specials_slider').length){
 
     if($('.specials_slider').children('.inner').length > 1) {
-
-
         var slider = tns({
             container: '#specials_slider',
             items: 1,
@@ -185,16 +183,17 @@ if($('.specials_slider').length){
                 }
             }
         });
-
-        $(window).on('resize load', function () {
-            $('.specials_slider .card-img-overlay > div').each(function () {
-                var height = $(this).innerHeight();
-
-                $(this).parent('div').parent('div').css('height', height);
-            });
-            slider.updateSliderHeight();
-        });
     }
+
+    $(window).on('resize load', function () {
+        $('.specials_slider .card-img-overlay > div').each(function () {
+            var height = $(this).innerHeight();
+
+            $(this).parent('div').parent('div').css('height', height);
+        });
+        if($('.specials_slider').children('.inner').length > 1) slider.updateSliderHeight();
+    });
+
 }
 
 //Маска
