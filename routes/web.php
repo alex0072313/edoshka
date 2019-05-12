@@ -17,6 +17,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/categories/{category}/destroy', 'Admin\CategoryController@destroy')->name('categories.destroy');
     Route::post('/categories/sort', 'Admin\CategoryController@sort')->name('categories.sort');
 
+    Route::get('/categories/clearsort/{restaurant_id}', 'Admin\CategoryController@clearsort')->name('categories.clearsort');
+
     Route::resource('categories', 'Admin\CategoryController')->except(['destroy', 'show']);
 
     //Блюда

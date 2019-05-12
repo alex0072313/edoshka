@@ -4,22 +4,43 @@
 
     <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-lg mb-4">Добавить категорию</a>
 
-    @if($categories->count())
-        <div class="btn-group mb-4 ml-2">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-folder-open"></i>
-                Сортировка: <span>Все</span>
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item d-block" >
-                    Все
-                </a>
-                @foreach(\App\Restaurant::all() as $rest)
-                    <a class="dropdown-item d-block" >
-                        {{ $rest->name }}
+        @if($categories->count())
+            <div class="btn-group mb-4 ml-2">
+                @hasrole('megaroot')
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder-open"></i>
+                    @if(isset($restaurant->id))
+                        Сортировка: {{ $restaurant->name }}
+                    @else
+                        Сортировка: Все
+                    @endif
+                </button>
+                <div class="dropdown-menu">
+                    @php
+                        $params = request()->all();
+                    @endphp
+                    <a class="dropdown-item d-block" href="{{ route('admin.categories.index') }}" >
+                        Все
                     </a>
-                @endforeach
+                    @foreach(\App\Restaurant::all() as $rest)
+                        @php
+                            $params['restaurant_id'] = $rest->id;
+                        @endphp
+                        <a class="dropdown-item d-block{{ (isset($restaurant->id) && $restaurant->id == $rest->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.categories.index', $params) }}" >
+                            {{ $rest->name }}
+                        </a>
+                    @endforeach
+                </div>
+                @endrole
+                @if(isset($restaurant->id) && $restaurant->categories_sort)
+                    <a href="{{ route('admin.categories.clearsort', $restaurant->id) }}" class="btn btn-danger ml-2 rounded-left" data-click="swal-warning" data-title="Подтвердите действие" data-text="Восстановить сотировку по умолчанию?" data-classbtn="danger" data-actionbtn="Да" data-type="warning">Сбросить сортировку</a>
+                @endif
             </div>
+        @endif
+
+    @if(isset($restaurant->id))
+        <div class="alert alert-info fade show">
+            Сорировку категорий можно изменить перетаскиванием.
         </div>
     @endif
 
@@ -62,14 +83,14 @@
                         </td>
                         <td>
                             @php
-                                $restaurant = $category->restaurant();
+                                $rest = $category->restaurant();
                             @endphp
-                            @if(!is_null($restaurant))
-                                @if(Auth::user()->can('access', $restaurant))
-                                    <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}">
+                            @if(!is_null($rest))
+                                @if(Auth::user()->can('access', $rest))
+                                    <a href="{{ route('admin.restaurants.edit', $rest->id) }}">
                                 @endif
-                                    {{ isset($restaurant->name) ? $restaurant->name : ' - ' }}
-                                @if(Auth::user()->can('access', $restaurant))
+                                    {{ isset($rest->name) ? $rest->name : ' - ' }}
+                                @if(Auth::user()->can('access', $rest))
                                     </a>
                                 @endif
                             @else
@@ -109,32 +130,33 @@
         </p>
     @endif
 
-
 @endsection
 
-@push('js')
-    <script src="/assets/js/sortablejs/Sortable.min.js"></script>
-    <script>
-        var el = document.getElementById('sort_items');
-        var sortable = Sortable.create(el, {
-            ghostClass: 'sortghost',
-            onUpdate: function () {
-                var ids = [];
-                $('#sort_items > tr').each(function () {
-                    ids.push(parseInt($(this).data('id')));
-                });
+@if(isset($restaurant->id))
+    @push('js')
+        <script src="/assets/js/sortablejs/Sortable.min.js"></script>
+        <script>
+            var el = document.getElementById('sort_items');
+            var sortable = Sortable.create(el, {
+                ghostClass: 'sortghost',
+                onUpdate: function () {
+                    var ids = [];
+                    $('#sort_items > tr').each(function () {
+                        ids.push(parseInt($(this).data('id')));
+                    });
 
-                $.ajax({
-                    url: '{{ route('admin.categories.sort') }}',
-                    dataType: 'json',
-                    data: {ids:ids},
-                    type: 'post',
-                    success:function(response){
-                        console.log(response);
-                    },
-                });
+                    $.ajax({
+                        url: '{{ route('admin.categories.sort') }}',
+                        dataType: 'json',
+                        data: { ids:ids, restaurant_id:{{ $restaurant->id }} },
+                        type: 'post',
+                        success:function(response){
+                            console.log(response);
+                        },
+                    });
+                }
+            });
+        </script>
+    @endpush
+@endif
 
-            }
-        });
-    </script>
-@endpush

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Repositories\CategoryRepository;
+use App\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +22,45 @@ class CategoryController extends AdminController
         $this->view = 'admin.categories.index';
         $this->title = 'Категории блюд';
 
-        $this->data['categories'] = Category::allToAccess();
+        $restaurant = null;
+
+        if(\Auth::user()->hasRole('megaroot')) {
+            if ($restaurant_id = request('restaurant_id')) {
+                $restaurant = Restaurant::find($restaurant_id);
+            }
+        }else{
+            $restaurant = \Auth::user()->restaurant;
+        }
+
+        $this->data['restaurant'] = $restaurant;
+
+        if($restaurant){
+            $dishes = $restaurant->dishes;
+            $categories =
+                Category::all()
+                    ->map(function ($category) use ($dishes){
+                        $dishes_in_cat = $dishes->where('category_id', '=', $category->id);
+                        if($dishes_in_cat->count()){
+                            $category->dishes_cnt = $dishes_in_cat->count();
+                        }
+                        return $category;
+                    })->filter(function ($category){
+                        return $category->dishes_cnt > 0 ? true : false;
+                    });
+
+            if($restaurant->categories_sort){
+                $categories = $categories->sortBy(function($category) use ($restaurant){
+                    return array_search($category->id, $restaurant->categories_sort);
+                });
+            }else{
+                $categories = $categories->sortBy('name');
+            }
+
+        }else{
+            $categories = Category::allToAccess()->sortBy('name');
+        }
+
+        $this->data['categories'] = $categories;
 
         return $this->render();
     }
@@ -173,6 +212,20 @@ class CategoryController extends AdminController
 
     public function sort()
     {
-        return response()->json(request()->all());
+        if($ids = request('ids')){
+
+            if($restaurant = request('restaurant_id')){
+                Restaurant::find($restaurant)->update(['categories_sort' => $ids]);
+            }
+        }
+
+        return response()->json($ids);
     }
+
+    public function clearsort(Restaurant $restaurant)
+    {
+        $restaurant->update(['categories_sort' => []]);
+        return redirect()->back();
+    }
+
 }

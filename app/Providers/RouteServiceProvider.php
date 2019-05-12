@@ -63,6 +63,10 @@ class RouteServiceProvider extends ServiceProvider
             return Dish::findOrFail(str_replace('dish_', '', $value));
         });
 
+        Route::bind('restaurant_id', function ($value) {
+            return Restaurant::findOrFail($value);
+        });
+
         $this->userAccess();
 
     }

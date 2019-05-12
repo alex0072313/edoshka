@@ -35,7 +35,7 @@ class RestaurantController extends SiteController
 //
 //        $this->data['categories'] = $categories;
 
-        $this->data['categories'] = cache()->rememberForever('restaurant_'.$restaurant->id.'_categories_dishes', function () use ($restaurant){
+        $categories = cache()->rememberForever('restaurant_'.$restaurant->id.'_categories_dishes', function () use ($restaurant){
             $dishes = $restaurant->dishes;
             $categories =
                 Category::all()
@@ -56,6 +56,15 @@ class RestaurantController extends SiteController
             return $categories->sortBy('name');
         });
 
+        if($restaurant->categories_sort){
+            $categories = $categories->sortBy(function($category) use ($restaurant){
+                return array_search($category->id, $restaurant->categories_sort);
+            });
+        }else{
+            $categories = $categories->sortBy('name');
+        }
+
+        $this->data['categories'] = $categories;
         $this->data['specials'] = $restaurant->specials;
 
         return $this->render();

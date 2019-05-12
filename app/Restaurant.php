@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     protected $fillable = [
-        'name', 'address', 'description', 'min_sum_order', 'town_id', 'alias', 'worktime', 'active', 'commission'
+        'name', 'address', 'description', 'min_sum_order', 'town_id', 'alias', 'worktime', 'active', 'commission', 'categories_sort'
     ];
 
     protected $casts = [
-        'worktime' => 'array'
+        'worktime' => 'array',
+        'categories_sort' => 'array'
     ];
 
     public function town()
