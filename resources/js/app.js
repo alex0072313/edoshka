@@ -156,6 +156,8 @@ if($('.shop_slider_inner').length){
 if($('.specials_slider').length){
 
     if($('.specials_slider').children('.inner').length > 1) {
+
+
         var slider = tns({
             container: '#specials_slider',
             items: 1,
