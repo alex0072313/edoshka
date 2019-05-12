@@ -185,6 +185,7 @@ if($('.specials_slider').length){
         });
     }
 
+
     $(window).on('resize load', function () {
         $('.specials_slider .card-img-overlay > div').each(function () {
             var height = $(this).innerHeight();

@@ -127,3 +127,13 @@
 @else
     <tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>
 @endif
+
+@if(isset($restaurants) && count($restaurants) > 1)
+    <tr class="item">
+        <td colspan="5" class="border-0">
+            <div class="alert alert-primary fade show mb-0">
+                Внимание! Вы заказываете в {{ count($restaurants) }} разных ресторанах, доставка будет осуществляться {{ count($restaurants) }} разными курьерами!
+            </div>
+        </td>
+    </tr>
+@endif
