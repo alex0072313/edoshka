@@ -155,43 +155,44 @@ if($('.shop_slider_inner').length){
 //Слайдер акций
 if($('.specials_slider').length){
 
-    var slider = tns({
-        container: '#specials_slider',
-        items: 1,
-        slideBy:1,
-        loop:false,
-        //autoWidth: true,
-        mouseDrag: true,
-        controls: true,
-        controlsText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>'],
-        nav: false,
-        swipeAngle: false,
-        autoHeight: true,
-        responsive: {
-            576: {
-                items: 1,
-                slideBy:2,
-            },
-            768: {
-                items: 2,
-                slideBy:3,
-            },
-            992: {
-                items: 2,
-                slideBy:4,
+    if($('.specials_slider').children('.inner').length > 1) {
+        var slider = tns({
+            container: '#specials_slider',
+            items: 1,
+            slideBy: 1,
+            loop: false,
+            //autoWidth: true,
+            mouseDrag: true,
+            controls: true,
+            controlsText: ['<i class="fas fa-angle-left"></i>', '<i class="fas fa-angle-right"></i>'],
+            nav: false,
+            swipeAngle: false,
+            autoHeight: true,
+            responsive: {
+                576: {
+                    items: 1,
+                    slideBy: 2,
+                },
+                768: {
+                    items: 2,
+                    slideBy: 3,
+                },
+                992: {
+                    items: 2,
+                    slideBy: 4,
+                }
             }
-        }
-    })
-
-
-    $(window).on('resize load', function(){
-        $('.specials_slider .card-img-overlay > div').each(function () {
-            var height = $(this).innerHeight();
-
-            $(this).parent('div').parent('div').css('height', height);
         });
-        slider.updateSliderHeight();
-    });
+
+        $(window).on('resize load', function () {
+            $('.specials_slider .card-img-overlay > div').each(function () {
+                var height = $(this).innerHeight();
+
+                $(this).parent('div').parent('div').css('height', height);
+            });
+            slider.updateSliderHeight();
+        });
+    }
 }
 
 //Маска
