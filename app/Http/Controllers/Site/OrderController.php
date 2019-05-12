@@ -31,6 +31,8 @@ class OrderController extends Controller
 
         //return response()->json(request()->all());
 
+        $cart_total = \Cart::getTotal();
+
         $restaurants = [];
         $prices = [];
         $user_orders = [];
@@ -47,7 +49,7 @@ class OrderController extends Controller
             request()->request->add(['user_id'=>auth()->id()]);
 
             //Добавляем баллы
-            auth()->user()->addBalls(\Cart::getTotal());
+            auth()->user()->addBalls($cart_total);
         }
 
         foreach ($restaurants as $restaurant_id => $dishes){
@@ -108,6 +110,9 @@ class OrderController extends Controller
                             $user->assignRole('customer');
                             \Auth::login($user, true);
 
+                            //Добавляем баллы
+                            $user->addBalls($cart_total);
+
                             foreach ($user_orders as $order_id){
                                 Order::find($order_id)->update(['user_id'=>$user->id]);
                             }
@@ -142,6 +147,9 @@ class OrderController extends Controller
                                 $user->save();
                                 $user->assignRole('customer');
                                 \Auth::login($user, true);
+
+                                //Добавляем баллы
+                                $user->addBalls($cart_total);
 
                                 foreach ($user_orders as $order_id){
                                     Order::find($order_id)->update(['user_id'=>$user->id]);

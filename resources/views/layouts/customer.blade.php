@@ -51,7 +51,7 @@
                                     @endif
                                 </div>
                                 <div class="flex-grow-1">
-                                    <h4 class="font-weight-light mb-0">{{ $_user->fullname }}</h4>
+                                    <h4 class="font-weight-light mb-0">{{ $_user->fullname ? $_user->fullname : $_user->phone }}</h4>
 
                                     <a href="jsvascript:;" data-toggle="modal" data-target="#user_balls_info" >
                                         <small>

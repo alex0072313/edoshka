@@ -13,6 +13,7 @@
                     <th>Телефон</th>
                     <th>Провайдер</th>
                     <th>Заказов</th>
+                    <th>Сумма покупок</th>
                     <th>Баллов</th>
                     <th>Создан</th>
                     <th width="1%"></th>
@@ -35,6 +36,9 @@
                         <td>{{ $user->provider ? $user->provider : '-' }}</td>
 
                         <td>{{ $user->orders()->count() }}</td>
+
+                        <td>{{ $user->sumOrders() }}</td>
+
                         <td>{{ $user->balls }}</td>
                         <td>{{ $user->created_at }}</td>
 

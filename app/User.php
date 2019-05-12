@@ -101,5 +101,16 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function sumOrders()
+    {
+        $total = 0;
+        foreach ($this->orders as $order){
+            foreach ($order->dishes as $dish){
+                $total += $dish->pivot->total_price;
+            }
+        }
+        return $total;
+    }
+
 
 }
