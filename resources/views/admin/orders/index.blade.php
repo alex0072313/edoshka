@@ -172,6 +172,7 @@
                 <th width="1%" class="text-nowrap">Ресторан</th>
                 @endrole
                 <th width="1%" class="text-nowrap">Сумма</th>
+                <th width="1%" class="text-nowrap">Покупатель</th>
                 <th width="1%" class="text-nowrap">Создан</th>
                 <th width="1%" class="text-nowrap">Просмотрен</th>
 {{--                <th width="1%" class="text-nowrap">Подтвержден</th>--}}
@@ -186,6 +187,9 @@
                         <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->restaurant->name}}</td>
                     @endrole
                     <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->total_price}} ₽</td>
+
+                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $order->user->name ?? $order->phone }}</td>
+
                     <td width="1%" class="f-s-600 text-inverse pr-0">
                         {{ \Carbon\Carbon::createFromTimeString($order->created_at)->diffForHumans() }}
                     </td>
