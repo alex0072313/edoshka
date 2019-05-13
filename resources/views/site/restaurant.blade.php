@@ -155,7 +155,7 @@
 
                         @if($specials->count())
                             <div id="products_group_specials">
-                                <h2 class="h2 mb-3 text-md-left text-center text-primary">Акции ресторана {{ $restaurant->name }}</h2>
+                                <h2 class="h2 mb-3 text-md-left text-center products_title">Акции ресторана {{ $restaurant->name }}</h2>
                                 <div class="shop_slider">
                                     <div class="specials_slider" id="specials_slider">
                                         @foreach($specials as $special)
