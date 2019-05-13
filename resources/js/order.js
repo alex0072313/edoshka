@@ -53,8 +53,9 @@ if($('.order_form').length){
                 }else if($json.success){
                     cart_update();
 
-                    //ga('send', 'event', 'zakaz', 'click', 'confirm');
-                    //ym(53176072, 'reachGoal', 'order');
+
+                    ga('send', 'event', 'zakaz', 'click', 'confirm');
+                    ym(53176072, 'reachGoal', 'order');
 
                     if($json.redirect){
                         $('#mod_massage__module').on('hidden.bs.modal', function (e) {
