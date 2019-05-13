@@ -1175,6 +1175,9 @@ h2, .h2{
 
 #products_group_specials{
 
+    .products_title{
+        color: $red;
+    }
     //.card{
     //    position: relative;
     //    background-size: cover;
@@ -1238,6 +1241,12 @@ h2, .h2{
             }
 
         }
+    }
+}
+
+#products_group_pop{
+    .products_title{
+        color: $orange;
     }
 }
 

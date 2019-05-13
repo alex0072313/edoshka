@@ -91,9 +91,15 @@
                                         </li>
                                     @endif
 
+                                    @if($dishes_pop->count())
+                                        <li class="nav-item">
+                                            <a class="nav-link{{ !$specials->count() ? ' active' : '' }}" href="#products_group_pop">Популярное</a>
+                                        </li>
+                                    @endif
+
                                     @foreach($categories as $category)
                                         <li class="nav-item">
-                                            <a class="nav-link{{ $loop->first && !$specials->count() ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
+                                            <a class="nav-link{{ $loop->first && (!$specials->count() && !$dishes_pop->count()) ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -129,9 +135,15 @@
                                     </li>
                                 @endif
 
+                                @if($dishes_pop->count())
+                                    <li class="nav-item">
+                                        <a class="nav-link{{ !$specials->count() ? ' active' : '' }}" href="#products_group_pop">Популярное</a>
+                                    </li>
+                                @endif
+
                                 @foreach($categories as $category)
                                     <li class="nav-item">
-                                        <a class="nav-link{{ $loop->first && !$specials->count() ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
+                                        <a class="nav-link{{ $loop->first && (!$specials->count() && !$dishes_pop->count()) ? ' active' : '' }}" href="#products_group_{{ $category->id }}">{{ $category->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -144,37 +156,11 @@
                         @if($specials->count())
                             <div id="products_group_specials">
                                 <h2 class="h2 mb-3 text-md-left text-center text-primary">Акции ресторана {{ $restaurant->name }}</h2>
-
-                                {{--<div class="row">--}}
-                                    {{--@foreach($specials as $special)--}}
-
-                                        {{--<div class="col-lg-6 mb-4">--}}
-                                            {{--<div class="card text-white"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>--}}
-                                                {{--<div class="inner">--}}
-                                                    {{--<div class="h4">--}}
-                                                        {{--{{ $special->name }}--}}
-                                                    {{--</div>--}}
-                                                    {{--<p class="mb-0 font-weight-light">{{ $special->content }}</p>--}}
-                                                    {{--<div class="text-white-50 font-weight-light">--}}
-                                                        {{--Заказ от 300 ₽--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-
-                                    {{--@endforeach--}}
-                                {{--</div>--}}
-
                                 <div class="shop_slider">
                                     <div class="specials_slider" id="specials_slider">
                                         @foreach($specials as $special)
                                             <div class="inner px-2">
-
                                                 <div class="card text-white">
-                                                    {{--<div class="badges">--}}
-                                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 104</div>--}}
-                                                    {{--</div>--}}
-
                                                     <div class="inner"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>
                                                         <div class="card-img-overlay">
                                                             <div>
@@ -186,27 +172,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
-                                                {{--<div class="card text-white"{!! Storage::disk('public')->exists('special_imgs/'.$special->id.'/src.jpg') ? ' style="background-image: url(\''.Storage::disk('public')->url('special_imgs/'.$special->id.'/src.jpg').'\');"' : '' !!}>--}}
-                                                    {{--<div class="inner">--}}
-                                                        {{--<div>--}}
-                                                            {{--<div class="h4">--}}
-                                                                {{--{{ $special->name }}--}}
-                                                            {{--</div>--}}
-                                                            {{--<p class="mb-0 font-weight-light">{{ $special->content }}</p>--}}
-                                                            {{--<div class="text-white-50 font-weight-light">--}}
-                                                            {{--Заказ от 300 ₽--}}
-                                                            {{--</div>--}}
-                                                        {{--</div>--}}
-                                                    {{--</div>--}}
-                                                {{--</div>--}}
                                             </div>
                                         @endforeach
                                     </div>
                                 </div>
+                            </div>
+                        @endif
 
+                        @if($dishes_pop->count())
+                            <div class="products_group{{ $specials->count() ? ' mt-4' : '' }}" id="products_group_pop">
+                                <h2 class="h2 mb-3 products_title text-md-left text-center ">Популярно в ресторане {{ $restaurant->name }}</h2>
+                                <div class="products_items">
+                                    <div class="row mr-0">
+                                        @foreach($dishes_pop as $dish)
+                                            <div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
+                                                @include('site.includes.dish')
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         @endif
 

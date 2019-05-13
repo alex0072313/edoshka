@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Category;
 use App\Restaurant;
 use App\User;
+use vakata\database\Query;
 
 class RestaurantController extends SiteController
 {
@@ -35,8 +36,22 @@ class RestaurantController extends SiteController
 //
 //        $this->data['categories'] = $categories;
 
-        $categories = cache()->rememberForever('restaurant_'.$restaurant->id.'_categories_dishes', function () use ($restaurant){
+        $restaurant_dishes = cache()->rememberForever('restaurant_'.$restaurant->id.'_categories_dishes', function () use ($restaurant){
             $dishes = $restaurant->dishes;
+
+            $orders_ids = $restaurant->orders->map(function ($order){
+                return $order->id;
+            })->toArray();
+            $dishes_orders = \DB::table('dishes_orders')->select(['dish_id'])->whereIn('order_id', $orders_ids)->groupBy(['dish_id'])->get();
+
+            $dishes_pop = $dishes
+            ->filter(function ($dish) use ($dishes_orders){
+                return $dishes_orders->where('dish_id', '=', $dish->id)->count() ? true : false;
+            })
+            ->sortBy(function($dish) use ($dishes_orders){
+                return $dishes_orders->where('dish_id', '=', $dish->id)->count();
+            })->take(8);
+
             $categories =
                 Category::all()
                     ->map(function ($category) use ($dishes){
@@ -53,18 +68,20 @@ class RestaurantController extends SiteController
                         return $category->dishes_cnt > 0 ? true : false;
                     });
 
-            return $categories->sortBy('name');
+            return ['categories' => $categories->sortBy('name'), 'pop' => $dishes_pop];
         });
 
         if($restaurant->categories_sort){
-            $categories = $categories->sortBy(function($category) use ($restaurant){
+            $restaurant_dishes['categories'] = $restaurant_dishes['categories']->sortBy(function($category) use ($restaurant){
                 return array_search($category->id, $restaurant->categories_sort);
             });
         }else{
-            $categories = $categories->sortBy('name');
+            $restaurant_dishes['categories'] = $restaurant_dishes['categories']->sortBy('name');
         }
 
-        $this->data['categories'] = $categories;
+        $this->data['categories'] = $restaurant_dishes['categories'];
+        $this->data['dishes_pop'] = $restaurant_dishes['pop'];
+
         $this->data['specials'] = $restaurant->specials;
 
         return $this->render();

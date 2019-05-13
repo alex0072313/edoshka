@@ -13116,6 +13116,10 @@ footer .powered a {
   border-color: #a42e8c;
 }
 
+#products_group_specials .products_title {
+  color: #dc3545;
+}
+
 #products_group_specials #specials_slider .card .inner {
   background-size: cover;
   background-repeat: no-repeat;
@@ -13140,6 +13144,10 @@ footer .powered a {
     display: block !important;
     min-height: auto;
   }
+}
+
+#products_group_pop .products_title {
+  color: #FF5F00;
 }
 
 .account_page .filter .nav_outer {
