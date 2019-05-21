@@ -16,12 +16,6 @@ class SiteController extends Controller
 
     public function __construct()
     {
-        $this->admin_categories = cache()->remember('admin_categories', 30, function (){
-            return User::getAdmin()->categories()->where('topmenu', '=', true)->get();
-        });
-
-        $this->data['top_categories'] = $this->admin_categories;
-
         //Текущий город Геленджик
         $this->town = $this->data['_town'] = Town::find(1);
 

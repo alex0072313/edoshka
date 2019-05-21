@@ -22,7 +22,7 @@
         <meta name="keywords" content="{{ $seopage['keywords'] }}">
     @endif
 
-    <title>{{ isset($seopage['title']) ? $seopage['title'] : $title }}</title>
+    <title>{{ isset($seopage['title']) ? $seopage['title'] : isset($title) ? $title : '' }}</title>
 </head>
 <body class="{!! count($_cart_content) ? 'card__module_show ' : '' !!}{!! isset($body_class) ? $body_class : '' !!}">
 <header>

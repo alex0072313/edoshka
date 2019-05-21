@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Helpmsg;
+use App\Seopage;
+use App\Town;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 use View;
 use Auth;
@@ -40,8 +43,9 @@ class AppServiceProvider extends ServiceProvider
             View::share('_restaurant', $restaurant);
         });
 
-        //Корзина
         view()->composer(['site.*', 'layouts.site'], function () {
+
+            //Корзина
             //\Cart::clear();
             $content = \Cart::getContent();
 
@@ -74,10 +78,15 @@ class AppServiceProvider extends ServiceProvider
             View::share( '_cart_content', $content);
             View::share( '_cart_total_q', \Cart::getTotalQuantity());
             View::share( '_cart_total_p', \Cart::getTotal());
+
+            $admin_categories = cache()->remember('admin_categories', 30, function (){
+                return User::getAdmin()->categories()->where('topmenu', '=', true)->get();
+            });
+
+            View::share('top_categories', $admin_categories);
+            View::share('_town', Town::find(1));
         });
-
         //
-
     }
 
     /**
