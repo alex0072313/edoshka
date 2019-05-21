@@ -21,8 +21,10 @@
     @if(isset($seopage['keywords']))
         <meta name="keywords" content="{{ $seopage['keywords'] }}">
     @endif
-
-    <title>{{ isset($seopage['title']) ? $seopage['title'] : isset($title) ? $title : '' }}</title>
+    @php
+        $title = isset($title) ? $title : null;
+    @endphp
+    <title>{{ isset($seopage['title']) ? $seopage['title'] : $title }}</title>
 </head>
 <body class="{!! count($_cart_content) ? 'card__module_show ' : '' !!}{!! isset($body_class) ? $body_class : '' !!}">
 <header>
