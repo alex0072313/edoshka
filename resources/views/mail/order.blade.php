@@ -13,7 +13,7 @@
     | id | Название  | Цена | Кол-во |
     | :- |:--------- | :--- | -----: |
     @foreach($dishes as $dish)
-        | {{ $dish->id }} | {{ $dish->name }}<br><small>({{ $dish->pivot->variants ? $dish->pivot->variants : $dish->short_description }})</small> | {{ $dish->price }} | {{ $dish->pivot->quantity }} |
+        | {{ $dish->id }} | {{ $dish->name }}<br><small>({{ $dish->pivot->variants ? $dish->pivot->variants : $dish->short_description }})</small> | {{ $dish->pivot->price }} | {{ $dish->pivot->quantity }} |
     @endforeach
     | | | <b>Сумма</b> &nbsp; <td align="right"> <b>{{ $total_price }}</b>
 @endcomponent

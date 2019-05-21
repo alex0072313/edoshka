@@ -13,9 +13,6 @@ class OrderController extends Controller
 {
     public function send()
     {
-
-        $response = [];
-
         $validate = \Validator::make(request()->all(), [
             'phone' => 'required|phone_number',
             'accept_policy' => 'required'
@@ -25,18 +22,16 @@ class OrderController extends Controller
             'accept_policy.required' => 'Необходимо согласиться с политикой конфиденциальности!',
         ]);
 
-        if($validate->fails()){
-            return response()->json(['errors'=>$validate->errors()]);
+        if ($validate->fails()) {
+            return response()->json(['errors' => $validate->errors()]);
         }
-
-        //return response()->json(request()->all());
 
         $cart_total = \Cart::getTotal();
 
         $restaurants = [];
         $prices = [];
         $user_orders = [];
-        foreach ($dishes = request('dishes') as $dish_id => $quantity){
+        foreach ($dishes = request('dishes') as $dish_id => $quantity) {
             $dish = Dish::find($dish_id);
 
             $prices[$dish_id] = request('dishes_prices')[$dish_id];
@@ -45,28 +40,28 @@ class OrderController extends Controller
         }
 
         //Привязываем к юзеру
-        if(auth()->user()){
-            request()->request->add(['user_id'=>auth()->id()]);
+        if (auth()->user()) {
+            request()->request->add(['user_id' => auth()->id()]);
 
             //Добавляем баллы
             auth()->user()->addBalls($cart_total);
         }
 
-        foreach ($restaurants as $restaurant_id => $dishes){
+        foreach ($restaurants as $restaurant_id => $dishes) {
             $restaurant = Restaurant::find($restaurant_id);
 
             $order = $restaurant->orders()->create(request()->all());
 
             $sync_data = [];
             $dishes_variants = request('dishes_variants');
-            foreach ($dishes as $dish_id => $quantity){
+            foreach ($dishes as $dish_id => $quantity) {
                 $variants = isset($dishes_variants[$dish_id]) ? $dishes_variants[$dish_id] : '';
 
-                $sync_data[$dish_id] = ['quantity'=>$quantity, 'price'=>$prices[$dish_id], 'variants'=>$variants, 'total_price'=>$prices[$dish_id] * $quantity];
+                $sync_data[$dish_id] = ['quantity' => $quantity, 'price' => $prices[$dish_id], 'variants' => $variants, 'total_price' => $prices[$dish_id] * $quantity];
             }
             $order->dishes()->sync($sync_data);
 
-            foreach ($restaurant->users as $user){
+            foreach ($restaurant->users as $user) {
                 //$user->notify(new NewOrder($user, $order));
                 $user->notify(new \App\Notifications\Order($user, $order));
             }
@@ -81,20 +76,19 @@ class OrderController extends Controller
         \Cart::clear();
 
         $redirect = null;
-
         //Регистрация юзера
-        if(!auth()->user()){
+        if (!auth()->user()) {
 
-            if($reg_type = request('reg_type')){
-                switch ($reg_type){
+            if ($reg_type = request('reg_type')) {
+                switch ($reg_type) {
                     case 'phone':
-                        if($phone = valid_phone(request('phone'))){
+                        if ($phone = valid_phone(request('phone'))) {
                             $user = new User();
 
-                            if($email = request('email')){
+                            if ($email = request('email')) {
                                 $user->email = $email;
-                            }else{
-                                $user->email = $phone.'@edoshka.ru';
+                            } else {
+                                $user->email = $phone . '@edoshka.ru';
                             }
                             $user->phone = $phone;
 
@@ -113,24 +107,23 @@ class OrderController extends Controller
                             //Добавляем баллы
                             $user->addBalls($cart_total);
 
-                            foreach ($user_orders as $order_id){
-                                Order::find($order_id)->update(['user_id'=>$user->id]);
+                            foreach ($user_orders as $order_id) {
+                                Order::find($order_id)->update(['user_id' => $user->id]);
                             }
 
-                            $text = 'Edoshka.ru - Вы зарегистрированы!'."\r\n";
-                            $text .= 'Логин: '.$user->phone."\r\n";
-                            $text .= 'Пароль: '.$new_password."\r\n";
+                            $text = 'Edoshka.ru - Вы зарегистрированы!' . "\r\n";
+                            $text .= 'Логин: ' . $user->phone . "\r\n";
+                            $text .= 'Пароль: ' . $new_password . "\r\n";
 
                             send_sms($text, $phone);
 
                             $redirect = url()->previous();
                         }
-                    break;
-
+                        break;
                     case 'email':
-                        if($email = request('email')){
+                        if ($email = request('email')) {
                             $phone = valid_phone(request('phone'));
-                            if(!User::where('email', '=', $email)->orWhere('phone', '=', $phone)->count()){
+                            if (!User::where('email', '=', $email)->orWhere('phone', '=', $phone)->count()) {
 
                                 $user = new User();
                                 $user->email = $email;
@@ -151,26 +144,26 @@ class OrderController extends Controller
                                 //Добавляем баллы
                                 $user->addBalls($cart_total);
 
-                                foreach ($user_orders as $order_id){
-                                    Order::find($order_id)->update(['user_id'=>$user->id]);
+                                foreach ($user_orders as $order_id) {
+                                    Order::find($order_id)->update(['user_id' => $user->id]);
                                 }
 
                                 $user->notify(new \App\Notifications\NewCustomer($user, $new_password));
                                 $redirect = url()->previous();
                             }
                         }
-                    break;
+                        break;
                     case 'vkontakte':
                     case 'instagram':
                     case 'facebook':
                     case 'google':
                         session(['user_orders' => $user_orders]);
                         $redirect = route('login_soc', $reg_type);
-                    break;
+                        break;
                 }
             }
         }
 
-        return response()->json(['success'=>['title'=>'Заказ принят', 'text'=>'Мы перезвоним Вам для уточнения заказа в ближайшее время!'], 'redirect' => $redirect]);
+        return response()->json(['success' => ['title' => 'Заказ принят', 'text' => 'Мы перезвоним Вам для уточнения заказа в ближайшее время!'], 'redirect' => $redirect]);
     }
 }

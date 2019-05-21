@@ -65,7 +65,7 @@ class Order extends Notification
 
         $sms .= "\r\n".'--'."\r\n";
         foreach ($data['dishes'] as $dish){
-            $sms .= $dish->name . ' '.($dish->pivot->variants ? $dish->pivot->variants : $dish->short_description).' ('.$dish->price.'р) '.$dish->pivot->quantity.'шт,'."\r\n";
+            $sms .= $dish->name . ' '.($dish->pivot->variants ? $dish->pivot->variants : $dish->short_description).' ('.$dish->pivot->price.'р) '.$dish->pivot->quantity.'шт,'."\r\n";
         }
         $sms .= '--'."\r\n";
 
