@@ -277,7 +277,7 @@ function load_dish_modal(id, try_by = false) {
                     weight = eval(weight);
 
                 variants_price_holder.text(price);
-                variants_shortname_holder.text((weight ? (weight+'г') : '') + (shortname.length ? '/'+shortname.join('/') : ''));
+                variants_shortname_holder.text((weight ? (weight+'г/') : '') + (shortname.length ? shortname.join('/') : ''));
 
                 if(variants){
                     btn_add_to_cart.attr('data-variants', JSON.stringify(variants));
