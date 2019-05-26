@@ -105,7 +105,7 @@ class UserController extends AdminController
         // Валидация прошла ..
         $new_password = request()->get('password');
 
-        request()->request->add(['image' => null]);
+        request()->request->add(['image' => '']);
 
         $to_save = request()->toArray();
         $to_save['password'] = Hash::make($new_password);
