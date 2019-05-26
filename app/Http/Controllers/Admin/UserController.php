@@ -106,6 +106,8 @@ class UserController extends AdminController
         $new_password = request()->get('password');
 
         request()->request->add(['image' => '']);
+        request()->request->add(['provider' => 'email']);
+        request()->request->add(['provider_id' => '']);
 
         $to_save = request()->toArray();
         $to_save['password'] = Hash::make($new_password);
