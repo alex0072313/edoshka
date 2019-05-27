@@ -64,6 +64,7 @@ class HomeController extends AdminController
                 $orders
                 ->pluck('restaurant_id')
                 ->unique();
+
             $restaurant_commission = [];
             foreach ($restaurants as $restaurant){
                 if($commission = Restaurant::find($restaurant)->commission){
@@ -89,5 +90,10 @@ class HomeController extends AdminController
         }
 
         return $this->render();
+    }
+
+    private function calcCommission(Restaurant $restaurant)
+    {
+
     }
 }

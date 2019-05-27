@@ -16,7 +16,7 @@
 		{{ $dish->name }}
 	</div>
 	<div class="params text-secondary">
-		{{ $dish->short_description }}
+		<small class="text-nowrap">{{ $dish->short_description }}</small>
 	</div>
 	<div class="price d-sm-flex justify-content-between">
 		<div class="h4 mb-1 mb-sm-0">

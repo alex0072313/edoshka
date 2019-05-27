@@ -74,7 +74,7 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Комиссия %</label>
                 <div class="col-md-9">
-                    <input type="number" name="commission" min="0" value="{{  old('commission') ? old('commission') : isset($restaurant->id) ? $restaurant->commission : '' }}" class="form-control">
+                    <input type="text" name="commission" min="0" value="{{  old('commission') ? old('commission') : isset($restaurant->id) ? $restaurant->commission : '' }}" class="form-control">
                 </div>
             </div>
         @endrole
