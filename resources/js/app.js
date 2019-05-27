@@ -600,7 +600,7 @@ if($('.card__module').length){
 }
 
 //Каталог - поиск
-if($('#products_search').length && $('#products .products .shop_pos_item').length){
+if($('#products_search').length && $('#products .shop_pos_item').length){
 
     $('#products_search').on('keyup', function () {
         var input = $(this),
@@ -608,7 +608,7 @@ if($('#products_search').length && $('#products .products .shop_pos_item').lengt
             scroll = null,
             find = false;
 
-        $('#products .products .shop_pos_item').each(function () {
+        $('#products .shop_pos_item').each(function () {
             var item = $(this),
                 title = item.find('.title');
 

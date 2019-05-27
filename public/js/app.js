@@ -40145,13 +40145,13 @@ if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.filter_mobile').length) {
 if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.card__module').length) {} //Каталог - поиск
 
 
-if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products_search').length && jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products .products .shop_pos_item').length) {
+if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products_search').length && jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products .shop_pos_item').length) {
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products_search').on('keyup', function () {
     var input = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this),
         query = TrimStr(input.val()).toLowerCase(),
         scroll = null,
         find = false;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products .products .shop_pos_item').each(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#products .shop_pos_item').each(function () {
       var item = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this),
           title = item.find('.title');
       title.html(title.text()); // чистим теги

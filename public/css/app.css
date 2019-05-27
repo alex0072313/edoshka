@@ -12490,6 +12490,7 @@ header .globalmenu .links > a:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 16px;
 }
 
 .price .old {
