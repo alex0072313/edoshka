@@ -39849,27 +39849,29 @@ function load_dish_modal(id) {
     if (variants_box.length) {
       //Есть варианты для выбора
       variants_box.find('input').on('change', function () {
-        var price = eval(variants_box.data('price'));
-        var weight = eval(variants_box.data('weight'));
+        var price = eval(variants_box.data('price')) ? eval(variants_box.data('price')) : 0;
+        var weight = eval(variants_box.data('weight')) ? eval(variants_box.data('weight')) : 0;
         shortname = [];
         var variants = {},
             shortname = [];
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.dish_variants_group').find('.required').remove();
         variants_box.find('input:checked').each(function () {
-          weight += eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight'));
-          price += eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price'));
+          weight = weight + (eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight')) ? eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight')) : 0);
+          price = price + (eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price')) ? eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price')) : 0);
           shortname.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname') ? jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname') : jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('name'));
           variants[jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.dish_variants_group').data('name')] = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('name');
         });
-        variants_price_holder.text(price);
-        variants_shortname_holder.text((weight ? weight + 'г/' : '') + (shortname.length ? shortname.join('/') : ''));
+        var t_weight = weight;
+        var t_price = price;
+        variants_price_holder.text(t_price);
+        variants_shortname_holder.text((t_weight ? t_weight + 'г/' : '') + (shortname.length ? shortname.join('/') : ''));
 
         if (variants) {
           btn_add_to_cart.attr('data-variants', JSON.stringify(variants));
         }
 
-        btn_add_to_cart.attr('data-price', price);
-        btn_add_to_cart.attr('data-weight', weight);
+        btn_add_to_cart.attr('data-price', t_price);
+        btn_add_to_cart.attr('data-weight', t_weight);
       });
     }
   }
