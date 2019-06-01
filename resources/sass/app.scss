@@ -563,6 +563,11 @@ header {
 
 
     }
+    .params{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
     &:hover {
         border-color: $gray-400;
         @include animate(.3s);

@@ -12477,6 +12477,12 @@ header .globalmenu .links > a:hover {
   display: inherit;
 }
 
+.shop_pos_item .params {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .shop_pos_item:hover {
   border-color: #ced4da;
   transition: 0.3s ease-out;
