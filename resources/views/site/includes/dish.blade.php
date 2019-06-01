@@ -18,7 +18,7 @@
 	<div class="params text-secondary">
 		<small class="text-nowrap">{{ $dish->description }}</small>
 	</div>
-	<div class="price d-sm-flex justify-content-between">
+	<div class="price d-sm-flex justify-content-between mt-2">
 		<div class="h4 mb-1 mb-sm-0">
 
 			@if($dish->new_price)
