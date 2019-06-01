@@ -258,8 +258,8 @@ function load_dish_modal(id, try_by = false) {
         if(variants_box.length){
             //Есть варианты для выбора
             variants_box.find('input').on('change', function () {
-                price = variants_box.data('price');
-                weight = variants_box.data('weight');
+                var price = eval(variants_box.data('price'));
+                var weight = eval(variants_box.data('weight'));
                 shortname = [];
                 var variants = {},
                     shortname= [];
@@ -267,14 +267,11 @@ function load_dish_modal(id, try_by = false) {
                 $(this).closest('.dish_variants_group').find('.required').remove();
 
                 variants_box.find('input:checked').each(function () {
-                    weight += $(this).data('weight');
-                    price += $(this).data('price');
+                    weight += eval($(this).data('weight'));
+                    price += eval($(this).data('price'));
                     shortname.push($(this).data('shortname') ? $(this).data('shortname') : $(this).data('name'));
                     variants[$(this).closest('.dish_variants_group').data('name')] = $(this).data('name');
                 });
-
-                var price = eval(price),
-                    weight = eval(weight);
 
                 variants_price_holder.text(price);
                 variants_shortname_holder.text((weight ? (weight+'г/') : '') + (shortname.length ? shortname.join('/') : ''));

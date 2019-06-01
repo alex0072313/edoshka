@@ -39849,20 +39849,18 @@ function load_dish_modal(id) {
     if (variants_box.length) {
       //Есть варианты для выбора
       variants_box.find('input').on('change', function () {
-        price = variants_box.data('price');
-        weight = variants_box.data('weight');
+        var price = eval(variants_box.data('price'));
+        var weight = eval(variants_box.data('weight'));
         shortname = [];
         var variants = {},
             shortname = [];
         jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.dish_variants_group').find('.required').remove();
         variants_box.find('input:checked').each(function () {
-          weight += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight');
-          price += jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price');
+          weight += eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('weight'));
+          price += eval(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('price'));
           shortname.push(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname') ? jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('shortname') : jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('name'));
           variants[jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).closest('.dish_variants_group').data('name')] = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('name');
         });
-        var price = eval(price),
-            weight = eval(weight);
         variants_price_holder.text(price);
         variants_shortname_holder.text((weight ? weight + 'г/' : '') + (shortname.length ? shortname.join('/') : ''));
 

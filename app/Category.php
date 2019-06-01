@@ -39,19 +39,6 @@ class Category extends Model
     }
 
     public static function allToAccess($restaurant = null){
-        $results = [];
-
-//        if (auth()->user()->hasRole('megaroot')){
-//            $results = Category::all();
-//        }else{
-//            $results = User::getAdmin()
-//                ->categories()
-//                ->get()
-//                ->merge(
-//                    auth()->user()->restaurant->categories
-//                );
-//        }
-
         $results = Category::all();
 
         if (!auth()->user()->hasRole('megaroot') && !$restaurant){
