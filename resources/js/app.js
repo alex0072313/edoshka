@@ -29,6 +29,14 @@ require('jquery-mask-plugin');
 
 import LazyLoad from "vanilla-lazyload";
 
+const gallery = require('gallery');
+
+// Init galleries found inside document
+gallery(document);
+
+// Init galleries found inside specific node
+gallery(document.querySelector('.gallery'));
+
 import swal from 'sweetalert';
 require('../js/login');
 require('../js/order');
@@ -52,9 +60,6 @@ if($('input.holdered').length){
                 }
             });
         });
-
-
-
     });
 }
 

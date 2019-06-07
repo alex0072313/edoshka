@@ -64,6 +64,7 @@
         "flag-icon-css": "^2.9.0",
         "flot": "^0.8.0-alpha",
         "fullcalendar": "^3.9.0",
+        "gallery": "^1.0.2",
         "graceful-fs": "^4.1.15",
         "gritter": "^1.7.4",
         "highlight.js": "^9.15.6",
