@@ -7995,7 +7995,8 @@ button.bg-dark:focus {
   border-color: #fff !important;
 }
 
-.rounded {
+.rounded,
+.gallery > li {
   border-radius: 0 !important;
 }
 
@@ -9071,6 +9072,7 @@ footer .socials::after {
 }
 
 .overflow-hidden,
+.gallery > li,
 .page_top_banner,
 #greetin_page_default,
 #greetin .slider .slide {
