@@ -7995,8 +7995,7 @@ button.bg-dark:focus {
   border-color: #fff !important;
 }
 
-.rounded,
-.gallery > li {
+.rounded {
   border-radius: 0 !important;
 }
 
@@ -13166,6 +13165,11 @@ footer .powered a {
   grid-gap: 1rem;
   max-width: 46rem;
   width: 100%;
+  padding: 0;
+}
+
+.gallery > li {
+  border-radius: 4px;
 }
 
 .gallery > li:first-child {
