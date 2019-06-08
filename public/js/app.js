@@ -39800,7 +39800,10 @@ var gallery = __webpack_require__(/*! gallery */ "./node_modules/gallery/lib/gal
 
 gallery(document); // Init galleries found inside specific node
 
-gallery(document.querySelector('.gallery'));
+if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('.gallery').length) {
+  gallery(document.querySelector('.gallery'));
+}
+
 
 
 __webpack_require__(/*! ../js/login */ "./resources/js/login.js");
@@ -40782,9 +40785,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\OSPanel\domains\edoshka.loc\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\OSPanel\domains\edoshka.loc\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\OSPanel\domains\edoshka.loc\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! D:\OSPanel\domains\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! D:\OSPanel\domains\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\OSPanel\domains\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })
