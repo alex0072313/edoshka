@@ -1,35 +1,35 @@
 <?php
 
-Route::get('/lh', function (){
-    $t = "Квартиры в Геленджике, выгода до 100000"."\r\n"."http://02181.ru?utm_source=em";
-    $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
-
-
-    //$client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
-    $i = 0;
-    foreach ($orders as $row){
-        $p = valid_phone($row->phone);
-        $i++;
-        if(strstr($p,'+78') || strstr($p,'7649892') || strstr($p,'4715073') || strstr($p,'4715073')){
-            continue;
-        }
-
-
-        echo '<pre>';
-        print_r(valid_phone($row->phone).' : '.$i);
-        echo '<pre>';
-
-//        $client->messages->create(
-//            valid_phone($row->phone),
-//            array(
-//                'from' => getenv('TWILIO_FROM_PHONE'),
-//                'body' => $t
-//            )
-//        );
-    }
-
-    exit();
-});
+//Route::get('/lh', function (){
+//    $t = "Квартиры в Геленджике, выгода до 100000"."\r\n"."http://02181.ru?utm_source=em";
+//    $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
+//
+//
+//    //$client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+//    $i = 0;
+//    foreach ($orders as $row){
+//        $p = valid_phone($row->phone);
+//        $i++;
+//        if(strstr($p,'+78') || strstr($p,'7649892') || strstr($p,'4715073') || strstr($p,'4715073')){
+//            continue;
+//        }
+//
+////
+////        echo '<pre>';
+////        print_r(valid_phone($row->phone).' : '.$i);
+////        echo '<pre>';
+//
+////        $client->messages->create(
+////            valid_phone($row->phone),
+////            array(
+////                'from' => getenv('TWILIO_FROM_PHONE'),
+////                'body' => $t
+////            )
+////        );
+//    }
+//
+//    exit();
+//});
 
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
