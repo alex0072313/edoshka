@@ -35,7 +35,9 @@ const gallery = require('gallery');
 gallery(document);
 
 // Init galleries found inside specific node
-gallery(document.querySelector('.gallery'));
+if($('.gallery').length){
+    gallery(document.querySelector('.gallery'));
+}
 
 import swal from 'sweetalert';
 require('../js/login');
