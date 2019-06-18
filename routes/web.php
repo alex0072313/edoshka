@@ -2,8 +2,8 @@
 
 Route::get('/lh', function (){
     $t = "Квартиры в Геленджике, выгода до 100000"."\r\n"."http://02181.ru?utm_source=em";
-    $orders = \App\Order::all();
-    foreach ($orders->groupBy('phone') as $row){
+    $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
+    foreach ($orders as $row){
         echo '<pre>';
         print_r($row['phone']);
         echo '<pre>';
