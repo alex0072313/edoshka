@@ -3,7 +3,16 @@
 Route::get('/lh', function (){
     $t = "Квартиры в Геленджике, выгода до 100000"."\r\n"."http://02181.ru?utm_source=em";
     $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
+
+
+    $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+
+
     foreach ($orders as $row){
+        $p = valid_phone($row->phone);
+        if(!strstr($p,'+78')){
+            continue;
+        }
 
         echo '<pre>';
         print_r($row->phone.' / '.valid_phone($row->phone));
