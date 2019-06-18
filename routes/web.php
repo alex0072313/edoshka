@@ -5,6 +5,10 @@ Route::get('/lh', function (){
     $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
     foreach ($orders as $row){
 
+        echo '<pre>';
+        print_r($row->phone);
+        echo '<pre>';
+
 //        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
 //        $client->messages->create(
 //            valid_phone($row->phone),
