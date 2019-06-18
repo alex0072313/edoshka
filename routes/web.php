@@ -1,5 +1,23 @@
 <?php
 
+Route::get('/lh', function (){
+
+    $t = "Квартиры в Геленджике, выгода до 100000"."\r\n"."http://02181.ru?utm_source=em";
+
+    foreach (\App\Order::all() as $row){
+        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+        $client->messages->create(
+            valid_phone($row->phone),
+            array(
+                'from' => getenv('TWILIO_FROM_PHONE'),
+                'body' => $t
+            )
+        );
+    }
+
+    exit();
+});
+
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 
