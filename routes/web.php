@@ -4,17 +4,14 @@ Route::get('/lh', function (){
     $t = "Квартиры в Геленджике, выгода до 100000"."\r\n"."http://02181.ru?utm_source=em";
     $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
     foreach ($orders as $row){
-        echo '<pre>';
-        print_r(valid_phone($row->phone));
-        echo '<pre>';
-//        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
-//        $client->messages->create(
-//            valid_phone($row->phone),
-//            array(
-//                'from' => getenv('TWILIO_FROM_PHONE'),
-//                'body' => $t
-//            )
-//        );
+        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+        $client->messages->create(
+            valid_phone($row->phone),
+            array(
+                'from' => getenv('TWILIO_FROM_PHONE'),
+                'body' => $t
+            )
+        );
     }
 
     exit();
