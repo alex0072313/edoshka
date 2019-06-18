@@ -5,22 +5,27 @@ Route::get('/lh', function (){
     $orders = DB::table('orders')->select(['phone'])->groupBy(['phone'])->get()->toArray();
 
 
-    $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
-
+    //$client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
+    $i = 0;
     foreach ($orders as $row){
         $p = valid_phone($row->phone);
+        $i++;
         if(strstr($p,'+78') || strstr($p,'7649892') || strstr($p,'4715073') || strstr($p,'4715073')){
             continue;
         }
 
-        //$client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
-        $client->messages->create(
-            valid_phone($row->phone),
-            array(
-                'from' => getenv('TWILIO_FROM_PHONE'),
-                'body' => $t
-            )
-        );
+
+        echo '<pre>';
+        print_r(valid_phone($row->phone).' : '.$i);
+        echo '<pre>';
+
+//        $client->messages->create(
+//            valid_phone($row->phone),
+//            array(
+//                'from' => getenv('TWILIO_FROM_PHONE'),
+//                'body' => $t
+//            )
+//        );
     }
 
     exit();
