@@ -10,7 +10,7 @@ Route::get('/lh', function (){
 
     foreach ($orders as $row){
         $p = valid_phone($row->phone);
-        if(!strstr($p,'+78')){
+        if(strstr($p,'+78')){
             continue;
         }
 
