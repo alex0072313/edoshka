@@ -6,7 +6,7 @@ Route::get('/lh', function (){
     foreach ($orders as $row){
 
         echo '<pre>';
-        print_r($row->phone);
+        print_r($row->phone.' / '.valid_phone($row->phone));
         echo '<pre>';
 
 //        $client = new \Twilio\Rest\Client(getenv('TWILIO_ACCOUNT_SID'), getenv('TWILIO_AUTH_TOKEN'));
