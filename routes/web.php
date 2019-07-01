@@ -35,6 +35,7 @@
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', 'Admin\HomeController@index')->name('home');
+    Route::post('/orders_report', 'Admin\HomeController@ordersReport')->name('orders_report');
 
     //Заказы
     Route::get('/orders/{order}/destroy', 'Admin\OrdersController@destroy')->name('orders.destroy');

@@ -147,21 +147,37 @@
         </div>
     @endrole
 
-    <form class="form-group d-flex" action="{{ route('admin.home') }}" method="get">
-        @if($restaurant_id = request('restaurant_id'))
-            <input type="hidden" name="restaurant_id" value="{{ $restaurant_id }}">
-        @endif
-        <div>
-            <div class="input-group input-daterange">
-                <input type="text" value="{{ request('start') }}" class="form-control input-sm rounded-left" name="start" placeholder="Дата от" />
-                <span class="input-group-addon">-</span>
-                <input type="text" value="{{ request('end') }}" class="form-control input-sm rounded-right" name="end" placeholder="Дата до" />
+    <div class="d-flex">
+        <form class="form-group d-flex" action="{{ route('admin.home') }}" method="get">
+            @if($restaurant_id = request('restaurant_id'))
+                <input type="hidden" name="restaurant_id" value="{{ $restaurant_id }}">
+            @endif
+            <div>
+                <div class="input-group input-daterange">
+                    <input type="text" value="{{ request('start') }}" class="form-control input-sm rounded-left" name="start" placeholder="Дата от" />
+                    <span class="input-group-addon">-</span>
+                    <input type="text" value="{{ request('end') }}" class="form-control input-sm rounded-right" name="end" placeholder="Дата до" />
+                </div>
             </div>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary ml-2">Выбрать</button>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="btn btn-primary ml-2">Выбрать</button>
+            </div>
+        </form>
+
+        @if($restaurant_id = request('restaurant_id'))
+            <form class="form-group ml-2" action="{{ route('admin.orders_report') }}" method="post">
+                @csrf
+                <input type="hidden" name="restaurant_id" value="{{ $restaurant_id }}">
+                @if($start = request('start'))
+                    <input type="hidden" name="start" value="{{ $start }}">
+                @endif
+                @if($end = request('end'))
+                    <input type="hidden" name="end" value="{{ $end }}">
+                @endif
+                <button type="submit" class="btn btn-success ml-2">Экспорт</button>
+            </form>
+        @endif
+    </div>
 
     @if(count($orders))
         <table id="data-table-default" class="table row-border table-striped orders_table">

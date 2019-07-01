@@ -184,7 +184,8 @@ return [
 
         NotificationChannels\Twilio\TwilioProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
-        \App\Providers\HelpMsgServiceProvider::class
+        \App\Providers\HelpMsgServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -238,6 +239,7 @@ return [
         'Carbon' => \Carbon\Carbon::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

@@ -6,6 +6,10 @@ use App\Order;
 use App\Restaurant;
 use Carbon\Carbon;
 
+use App\Exports\OrdersExports;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+
 class HomeController extends AdminController
 {
     public function index()
@@ -75,13 +79,12 @@ class HomeController extends AdminController
             $commission_calc = 0;
             foreach ($orders as $order){
                 if(isset($restaurant_commission[$order->restaurant_id])){
-
                     $total_price = 0;
                     foreach ($order->dishes as $dish){
                         $total_price += $dish->pivot->total_price;
                     }
 
-                    $commission_calc += round($total_price / 100 * $restaurant_commission[$order->restaurant_id]);
+                    if((int)$total_price && (int)$restaurant_commission[$order->restaurant_id]) $commission_calc += round($total_price / 100 * $restaurant_commission[$order->restaurant_id]);
                 }
 
             }
@@ -90,6 +93,29 @@ class HomeController extends AdminController
         }
 
         return $this->render();
+    }
+
+    public function ordersReport()
+    {
+        $data = [
+            'restaurant_id'=>request('restaurant_id'),
+            'start'=>request('start'),
+            'end'=>request('end'),
+        ];
+
+        $name = 'orders';
+
+        if($data['start']){
+            $name .= '-ot-'.$data['start'];
+        }
+
+        if($data['end']){
+            $name .= '-do-'.$data['end'];
+        }
+
+        $name .= '.xlsx';
+
+        return Excel::download(new OrdersExports($data), $name);
     }
 
     private function calcCommission(Restaurant $restaurant)
