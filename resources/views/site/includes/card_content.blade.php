@@ -13,6 +13,7 @@
         foreach ($dishes as $dish){
             $restaurants[$dish->restaurant->id]['name'] = $dish->restaurant->name;
             $restaurants[$dish->restaurant->id]['alias'] = $dish->restaurant->alias;
+            $restaurants[$dish->restaurant->id]['specilals'] = $dish->restaurant->specilals;
             $restaurants[$dish->restaurant->id]['sum_price'] =+ $dish->price;
             $restaurants[$dish->restaurant->id]['dishes'][] = $dish;
         }
@@ -24,7 +25,11 @@
 
                 <div class="d-flex justify-content-between">
                     <div>
-                        <small>Заказы в ресторане {{ $restaurant_data['name'] }}</small>
+                        <small>Заказы в ресторане {{ $restaurant_data['name'] }}
+                        @if (App\Restaurant::find($restaurant_id)->specials()->count())
+                            <a href="{{ route('site.restaurant', $restaurant_data['alias']) }}#products_group_specials" class="ml-2">Есть акции</a>
+                        @endif
+                        </small>
                     </div>
                     @if(isset($_cart_restaurants_small_order[$restaurant_id]))
                         <div class="mb-2">
@@ -133,6 +138,7 @@
         <td colspan="5" class="border-0">
             <div class="alert alert-primary fade show mb-0">
                 Внимание! Вы заказываете в {{ count($restaurants) }} разных ресторанах, доставка будет осуществляться {{ count($restaurants) }} разными курьерами!
+                <br>Обратите внимание, акции одного ресторана распространяются только на заказы в рамках данного ресторана.
             </div>
         </td>
     </tr>
