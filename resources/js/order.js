@@ -48,7 +48,6 @@ if($('.order_form').length){
                         }else{
                             input.after('<div class="invalid-feedback">'+$json.errors[i][0]+'</span>');
                         }
-
                     }
                 }else if($json.success){
                     cart_update();

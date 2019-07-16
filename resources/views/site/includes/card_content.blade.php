@@ -1,24 +1,5 @@
-@if(count($_cart_content))
-    @php
-        $dishes = $_cart_content
-        ->sortBy(function ($dish) {
-            return $dish->attributes['restaurant_id'];
-        })
-        ->map(function ($dish){
-            $dish->restaurant = $dish->attributes['restaurant'];
-            return $dish;
-        });
+@if(count($restaurants))
 
-        $restaurants = [];
-        foreach ($dishes as $dish){
-            $restaurants[$dish->restaurant->id]['name'] = $dish->restaurant->name;
-            $restaurants[$dish->restaurant->id]['alias'] = $dish->restaurant->alias;
-            $restaurants[$dish->restaurant->id]['specilals'] = $dish->restaurant->specilals;
-            $restaurants[$dish->restaurant->id]['sum_price'] =+ $dish->price;
-            $restaurants[$dish->restaurant->id]['dishes'][] = $dish;
-        }
-
-    @endphp
     @foreach($restaurants as $restaurant_id => $restaurant_data)
         <tr class="item border-top-0">
             <td colspan="5" class="p-0 border-top-0">
@@ -131,15 +112,4 @@
     @endif
 @else
     <tr class="item"><td colspan="5">Нет блюд в корзине!</td></tr>
-@endif
-
-@if(isset($restaurants) && count($restaurants) > 1)
-    <tr class="item">
-        <td colspan="5" class="border-0">
-            <div class="alert alert-primary fade show mb-0">
-                Внимание! Вы заказываете в {{ count($restaurants) }} разных ресторанах, доставка будет осуществляться {{ count($restaurants) }} разными курьерами!
-                <br>Обратите внимание, акции одного ресторана распространяются только на заказы в рамках данного ресторана.
-            </div>
-        </td>
-    </tr>
 @endif

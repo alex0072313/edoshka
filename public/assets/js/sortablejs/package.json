@@ -1,35 +1,33 @@
 {
-  "_args": [
-    [
-      "sortablejs@1.9.0",
-      "D:\\OSPanel\\domains\\edoshka.ru"
-    ]
-  ],
-  "_from": "sortablejs@1.9.0",
+  "_from": "sortablejs",
   "_id": "sortablejs@1.9.0",
   "_inBundle": false,
   "_integrity": "sha512-Ot6bYJ6PoqPmpsqQYXjn1+RKrY2NWQvQt/o4jfd/UYwVWndyO5EPO8YHbnm5HIykf8ENsm4JUrdAvolPT86yYA==",
   "_location": "/sortablejs",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "sortablejs@1.9.0",
+    "raw": "sortablejs",
     "name": "sortablejs",
     "escapedName": "sortablejs",
-    "rawSpec": "1.9.0",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "1.9.0"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/sortablejs/-/sortablejs-1.9.0.tgz",
-  "_spec": "1.9.0",
+  "_shasum": "2d1e74ae6bac2cb4ad0622908f340848969eb88d",
+  "_spec": "sortablejs",
   "_where": "D:\\OSPanel\\domains\\edoshka.ru",
   "bugs": {
     "url": "https://github.com/SortableJS/Sortable/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "JavaScript library for reorderable drag-and-drop lists on modern browsers and touch devices. No jQuery required. Supports Meteor, AngularJS, React, Polymer, Vue, Knockout and any CSS library, e.g. Bootstrap.",
   "devDependencies": {
     "gulp": "^4.0.0",
