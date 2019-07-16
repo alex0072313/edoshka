@@ -13,21 +13,6 @@ class OrderController extends Controller
 {
     public function send()
     {
-        $validate = \Validator::make(request()->all(), [
-            'phone' => 'required|phone_number',
-            'accept_policy' => 'required',
-            'accept_usl' => 'required',
-        ], [
-            'phone.required' => 'Необходимо указать телефон!',
-            'phone.phone_number' => 'Телефон указан не верно!',
-            'accept_policy.required' => 'Необходимо согласиться с политикой конфиденциальности!',
-            'accept_usl.required' => 'Необходимо согласиться с условиями заказа!',
-        ]);
-
-        if ($validate->fails()) {
-            return response()->json(['errors' => $validate->errors()]);
-        }
-
         $cart_total = \Cart::getTotal();
 
         $restaurants = [];
@@ -39,6 +24,28 @@ class OrderController extends Controller
             $prices[$dish_id] = request('dishes_prices')[$dish_id];
 
             $restaurants[$dish->restaurant_id][$dish_id] = $quantity;
+        }
+
+        $val_r = [
+            'phone' => 'required|phone_number',
+            'accept_policy' => 'required',
+        ];
+
+        $val_v = [
+            'phone.required' => 'Необходимо указать телефон!',
+            'phone.phone_number' => 'Телефон указан не верно!',
+            'accept_policy.required' => 'Необходимо согласиться с политикой конфиденциальности!',
+        ];
+
+        if(count($restaurants) > 1){
+            $val_r['accept_usl'] = 'required';
+            $val_v['accept_usl.required'] = 'Необходимо согласиться с условиями заказа!';
+        }
+
+        $validate = \Validator::make(request()->all(), $val_r, $val_v);
+
+        if ($validate->fails()) {
+            return response()->json(['errors' => $validate->errors()]);
         }
 
         //Привязываем к юзеру
