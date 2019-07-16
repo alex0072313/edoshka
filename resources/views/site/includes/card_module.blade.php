@@ -28,8 +28,8 @@
 
 @php
     $restaurants = [];
-    if(count($_cart_content)){
-        $dishes = $_cart_content
+    if(count(\Cart::getContent())){
+        $dishes = \Cart::getContent()
         ->sortBy(function ($dish) {
             return $dish->attributes['restaurant_id'];
         })
@@ -142,7 +142,7 @@
                             </div>
                         </div>
 
-                        @if(isset($restaurants) && count($restaurants) > 1)
+                        @if(count($restaurants) > 1)
                             <div class="card_order_info mb-4">
                                 <div class="h4 text-uppercase font-weight-light mb-3 text-black">Условия заказа</div>
 

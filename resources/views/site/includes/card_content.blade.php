@@ -2,9 +2,9 @@
     if(!isset($restaurants)){
         $restaurants = [];
     
-        if(count($_cart_content)){
+        if(count(\Cart::getContent())){
         
-            $dishes = $_cart_content
+            $dishes = \Cart::getContent()
             ->sortBy(function ($dish) {
                 return $dish->attributes['restaurant_id'];
             })
