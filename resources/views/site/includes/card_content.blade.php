@@ -1,3 +1,29 @@
+@php
+    if(!isset($restaurants)){
+        $restaurants = [];
+    
+        if(count($_cart_content)){
+        
+            $dishes = $_cart_content
+            ->sortBy(function ($dish) {
+                return $dish->attributes['restaurant_id'];
+            })
+            ->map(function ($dish){
+                $dish->restaurant = $dish->attributes['restaurant'];
+                return $dish;
+            });
+
+            foreach ($dishes as $dish){
+                $restaurants[$dish->restaurant->id]['name'] = $dish->restaurant->name;
+                $restaurants[$dish->restaurant->id]['alias'] = $dish->restaurant->alias;
+                $restaurants[$dish->restaurant->id]['specilals'] = $dish->restaurant->specilals;
+                $restaurants[$dish->restaurant->id]['sum_price'] =+ $dish->price;
+                $restaurants[$dish->restaurant->id]['dishes'][] = $dish;
+            }
+        }
+    }
+@endphp
+
 @if(count($restaurants))
 
     @foreach($restaurants as $restaurant_id => $restaurant_data)
