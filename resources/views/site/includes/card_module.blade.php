@@ -26,28 +26,6 @@
     </div>
 </div>
 
-@php
-    $restaurants = [];
-    if(count(\Cart::getContent())){
-        $dishes = \Cart::getContent()
-        ->sortBy(function ($dish) {
-            return $dish->attributes['restaurant_id'];
-        })
-        ->map(function ($dish){
-            $dish->restaurant = $dish->attributes['restaurant'];
-            return $dish;
-        });
-
-        foreach ($dishes as $dish){
-            $restaurants[$dish->restaurant->id]['name'] = $dish->restaurant->name;
-            $restaurants[$dish->restaurant->id]['alias'] = $dish->restaurant->alias;
-            $restaurants[$dish->restaurant->id]['specilals'] = $dish->restaurant->specilals;
-            $restaurants[$dish->restaurant->id]['sum_price'] =+ $dish->price;
-            $restaurants[$dish->restaurant->id]['dishes'][] = $dish;
-        }
-    }
-@endphp
-
 <div class="modal product" id="card__module_modal" tabindex="-1" role="dialog" aria-labelledby="card__module_modal_title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal_order" role="document">
         <div class="modal-content">
@@ -75,7 +53,7 @@
                         @endif
 
                         <table class="table items table-sm">
-                            @include('site.includes.card_content', ['restaurants' => $restaurants])
+                            @include('site.includes.card_content')
                         </table>
                     </div>
 
@@ -141,29 +119,6 @@
                                 <textarea name="dop" class="form-control" id="dop" aria-describedby="dop" rows="4"></textarea>
                             </div>
                         </div>
-
-                        @if(count($restaurants) > 1)
-                            <div class="card_order_info mb-4">
-                                <div class="h4 text-uppercase font-weight-light mb-3 text-black">Условия заказа</div>
-
-                                <div class="alert alert-primary fade show mb-0">
-                                    <div class="h5">Внимание! Вы заказываете в {{ count($restaurants) }} разных ресторанах, ознакомьтесь с условиями.</div>
-
-                                    <ul class="pl-3 mt-3">
-                                        <li>Для подтверждения заказа - с Вами свяжутся операторы из каждого ресторана</li>
-                                        <li>Доставка будет осуществляться {{ count($restaurants) }} разными курьерами</li>
-                                        <li>Время ожидания заказа может быть разное</li>
-                                        <li>Акции одного ресторана НЕ распространяются на заказы из другого ресторана</li>
-                                    </ul>
-
-                                    <div class="custom-control custom-checkbox mt-1">
-                                        <input type="checkbox" name="accept_usl" value="1" class="custom-control-input" id="accept_usl">
-                                        <label class="custom-control-label font-weight-bold" style="color: inherit !important;" for="accept_usl">Я ознакомился(ась) с условиями заказа и подтверждаю свое согласие</label>
-                                    </div>
-                                </div>
-
-                            </div>
-                        @endif
 
                         @if(!auth()->user())
                             <div class="card_register mb-4">

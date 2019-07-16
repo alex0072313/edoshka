@@ -1,25 +1,23 @@
 @php
-    if(!isset($restaurants)){
-        $restaurants = [];
-    
-        if(count(\Cart::getContent())){
-        
-            $dishes = \Cart::getContent()
-            ->sortBy(function ($dish) {
-                return $dish->attributes['restaurant_id'];
-            })
-            ->map(function ($dish){
-                $dish->restaurant = $dish->attributes['restaurant'];
-                return $dish;
-            });
+    $restaurants = [];
 
-            foreach ($dishes as $dish){
-                $restaurants[$dish->restaurant->id]['name'] = $dish->restaurant->name;
-                $restaurants[$dish->restaurant->id]['alias'] = $dish->restaurant->alias;
-                $restaurants[$dish->restaurant->id]['specilals'] = $dish->restaurant->specilals;
-                $restaurants[$dish->restaurant->id]['sum_price'] =+ $dish->price;
-                $restaurants[$dish->restaurant->id]['dishes'][] = $dish;
-            }
+    if(count($_cart_content)){
+    
+        $dishes = $_cart_content
+        ->sortBy(function ($dish) {
+            return $dish->attributes['restaurant_id'];
+        })
+        ->map(function ($dish){
+            $dish->restaurant = $dish->attributes['restaurant'];
+            return $dish;
+        });
+
+        foreach ($dishes as $dish){
+            $restaurants[$dish->restaurant->id]['name'] = $dish->restaurant->name;
+            $restaurants[$dish->restaurant->id]['alias'] = $dish->restaurant->alias;
+            $restaurants[$dish->restaurant->id]['specilals'] = $dish->restaurant->specilals;
+            $restaurants[$dish->restaurant->id]['sum_price'] =+ $dish->price;
+            $restaurants[$dish->restaurant->id]['dishes'][] = $dish;
         }
     }
 @endphp
@@ -104,6 +102,28 @@
             </tr>
         @endforeach
     @endforeach
+
+    @if(count($restaurants) > 1)
+        <tr>
+            <td colspan="5">
+                <div class="alert alert-primary fade show mb-0">
+                    <div class="h5">Внимание! Вы заказываете в {{ count($restaurants) }} разных ресторанах, ознакомьтесь с условиями.</div>
+
+                    <ul class="pl-3 mt-3">
+                        <li>Для подтверждения заказа - с Вами свяжутся операторы из каждого ресторана</li>
+                        <li>Доставка будет осуществляться {{ count($restaurants) }} разными курьерами</li>
+                        <li>Время ожидания заказа может быть разное</li>
+                        <li>Акции одного ресторана НЕ распространяются на заказы из другого ресторана</li>
+                    </ul>
+
+                    <div class="custom-control custom-checkbox mt-1">
+                        <input type="checkbox" name="accept_usl" value="1" class="custom-control-input" id="accept_usl">
+                        <label class="custom-control-label font-weight-bold" style="color: inherit !important;" for="accept_usl">Я ознакомился(ась) с условиями заказа и подтверждаю свое согласие</label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    @endif
 
     <tr>
         <td colspan="3">
