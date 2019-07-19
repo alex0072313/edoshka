@@ -15,6 +15,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+    <div itemscope itemtype ="http://schema.org/Organization">
+        <meta itemprop="name" content="Edoshka" />
+        <meta itemprop="address" content="Геленджик" />
+        <div itemscope itemtype ="http://schema.org/Service">
+        <meta itemprop="name" content="Данные из title" />
+        <meta itemprop="description" content="Данные из description" />
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+        <meta itemprop="name" content="Ресторан Добрый Повар" />
+        <meta itemprop="description" content="Доставка еды из ресторана Добрый Повар в Геленджике на дом, в отель или в офис за 20-60 минут" />
+        <meta itemprop="name" content="https://edoshka.ru/restaurant/dobryi-povar" />
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+        <meta itemprop="name" content="Ресторан Farina Pizza" />
+        <meta itemprop="description" content="Доставка еды из ресторана Farina Pizza в Геленджике на дом, в отель или в офис за 20-60 минут." />
+        <meta itemprop="name" content="https://edoshka.ru/restaurant/farina-pizza" />
+    </div>
+
     @if(isset($seopage['description']))
         <meta name="description" content="{{ $seopage['description'] }}">
     @endif
