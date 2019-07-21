@@ -249,7 +249,7 @@
     <meta property="og:description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика"/>
 
 
-    <div itemscope itemtype ="http://schema.org/Organization">
+    <div itemscope itemtype ="http://schema.org/Organization" class="d-none">
         <meta itemprop="name" content="Edoshka" />
         <meta itemprop="address" content="Город Геленджик" />
         <div itemscope itemtype ="http://schema.org/Service">
