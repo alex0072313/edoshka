@@ -26,6 +26,9 @@
         $title = isset($title) ? $title : null;
     @endphp
     <title>{{ isset($seopage['title']) ? $seopage['title'] : $title }}</title>
+
+    @stack('head')
+
 </head>
 <body class="{!! count($_cart_content) ? 'card__module_show ' : '' !!}{!! isset($body_class) ? $body_class : '' !!}">
 <header>

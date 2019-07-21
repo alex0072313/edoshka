@@ -241,6 +241,44 @@
     </section>
 @endsection
 
+@push('head')
+    <meta property="og:type" content="website"/>
+    <meta  property="og:title" content="Доставка еды из лучших ресторанов Геленджика за 20-60 минут"/>
+    <meta property="og:image" content="https://edoshka.ru/storage/category_imgs/5/src.jpg">
+    <meta property="og:url" content= "http://edoshka.ru" />
+    <meta property="og:description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика"/>
+
+
+    <div itemscope itemtype ="http://schema.org/Organization">
+        <meta itemprop="name" content="Edoshka" />
+        <meta itemprop="address" content="Город Геленджик" />
+        <div itemscope itemtype ="http://schema.org/Service">
+            <meta itemprop="name" content="Доставка еды из лучших ресторанов Геленджика за 20-60 минут" />
+            <meta itemprop="description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика" />
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Добрый Повар" />
+            <meta itemprop="description" content="Доставка еды из ресторана Добрый Повар в Геленджике на дом, в отель или в офис за 20-60 минут" />
+            <a href="https://edoshka.ru/restaurant/dobryi-povar" itemprop="url">edoshka.ru/restaurant/dobryi-povar</a>
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Farina Pizza" />
+            <meta itemprop="description" content="Доставка еды из ресторана Farina Pizza в Геленджике на дом, в отель или в офис за 20-60 минут." />
+            <a href="https://edoshka.ru/restaurant/farina-pizza" itemprop="url">edoshka.ru/restaurant/farina-pizza</a>
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Гиро-King" />
+            <meta itemprop="description" content="Доставка еды из ресторана Гиро-King в Геленджике на дом, в отель или в офис за 20-60 минут." />
+            <a href="https://edoshka.ru/restaurant/giro-king" itemprop="url">edoshka.ru/restaurant/giro-king</a>
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Автороллы Азия" />
+            <meta itemprop="description" content="Доставка еды из ресторана Автороллы Азия в Геленджике на дом, в отель или в офис за 20-60 минут." />
+            <a href="https://edoshka.ru/restaurant/aziya" itemprop="url">edoshka.ru/restaurant/aziya</a>
+        </div>
+    </div>
+@endpush
+
 @push('js')
     <script>
         function shops_catalog_resize(){
