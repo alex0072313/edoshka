@@ -689,17 +689,19 @@ var myLazyLoad = new LazyLoad({
 });
 
 
-global.mod_massage = function (title, text) {
+global.mod_massage = function (title, text, autoclose = true) {
     $('#mod_massage__module .title').text(title);
-    $('#mod_massage__module .text').text(text);
+    $('#mod_massage__module .text').html(text);
 
     $('#mod_massage__module').modal('show');
 
-    setTimeout(function () {
-        $('#mod_massage__module').modal('hide');
-    }, 4000);
-}
+    if (autoclose) {
+        setTimeout(function () {
+            $('#mod_massage__module').modal('hide');
+        }, 4000);
+    }
 
+}
 function TrimStr(s) {
     s = s.replace(/^\s+/g, '');
     return s.replace(/\s+$/g, '');

@@ -86,6 +86,9 @@ class OrderController extends Controller
 
         $redirect = null;
         //Регистрация юзера
+
+        $login_msg = '';
+
         if (!auth()->user()) {
 
             if ($reg_type = request('reg_type')) {
@@ -120,11 +123,11 @@ class OrderController extends Controller
                                 Order::find($order_id)->update(['user_id' => $user->id]);
                             }
 
-                            $text = 'Edoshka.ru - Вы зарегистрированы!' . "\r\n";
-                            $text .= 'Логин: ' . $user->phone . "\r\n";
-                            $text .= 'Пароль: ' . $new_password . "\r\n";
+                            $login_msg = '<div class="text-center mt-3"><b>Для входа на сайт</b>:';
+                            $login_msg .= '<br>Логин: ' . $user->phone;
+                            $login_msg .= '<br>Пароль: ' . $new_password.'</div>';
 
-                            send_sms($text, $phone);
+                            //send_sms($text, $phone);
 
                             $redirect = url()->previous();
                         }
@@ -173,6 +176,6 @@ class OrderController extends Controller
             }
         }
 
-        return response()->json(['success' => ['title' => 'Заказ принят', 'text' => 'Мы перезвоним Вам для уточнения заказа в ближайшее время!'], 'redirect' => $redirect]);
+        return response()->json(['success' => ['title' => 'Заказ принят', 'text' => 'Мы перезвоним Вам для уточнения заказа в ближайшее время!'.$login_msg], 'redirect' => $redirect]);
     }
 }

@@ -129,7 +129,7 @@
                                         <div class="row">
 
                                             <div class="custom-control custom-radio col-6 mb-2">
-                                                <input type="radio" value="phone" id="reg_on_phone" name="reg_type" class="custom-control-input" checked data-select-text="На Ваш номер %p будет отправлена СМС с логином и паролем для входа на сайт">
+                                                <input type="radio" value="phone" id="reg_on_phone" name="reg_type" class="custom-control-input" checked data-select-text="Вы будете зарегистрированы по номеру телефона %p">
                                                 <label class="custom-control-label text-dark" for="reg_on_phone">Через телефон</label>
                                             </div>
 

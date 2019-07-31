@@ -16,17 +16,17 @@ use Twilio\Rest\FlexApi\V1\FlexFlowList;
 use Twilio\Version;
 
 /**
- * @property \Twilio\Rest\FlexApi\V1\FlexFlowList flexFlow
- * @property \Twilio\Rest\FlexApi\V1\ConfigurationList configuration
+ * @property \Twilio\Rest\FlexApi\V1\ConfigurationList $configuration
+ * @property \Twilio\Rest\FlexApi\V1\FlexFlowList $flexFlow
  * @method \Twilio\Rest\FlexApi\V1\FlexFlowContext flexFlow(string $sid)
  */
 class V1 extends Version {
-    protected $_flexFlow = null;
     protected $_configuration = null;
+    protected $_flexFlow = null;
 
     /**
      * Construct the V1 version of FlexApi
-     * 
+     *
      * @param \Twilio\Domain $domain Domain that contains the version
      * @return \Twilio\Rest\FlexApi\V1 V1 version of FlexApi
      */
@@ -36,17 +36,7 @@ class V1 extends Version {
     }
 
     /**
-     * @return \Twilio\Rest\FlexApi\V1\FlexFlowList 
-     */
-    protected function getFlexFlow() {
-        if (!$this->_flexFlow) {
-            $this->_flexFlow = new FlexFlowList($this);
-        }
-        return $this->_flexFlow;
-    }
-
-    /**
-     * @return \Twilio\Rest\FlexApi\V1\ConfigurationList 
+     * @return \Twilio\Rest\FlexApi\V1\ConfigurationList
      */
     protected function getConfiguration() {
         if (!$this->_configuration) {
@@ -56,11 +46,21 @@ class V1 extends Version {
     }
 
     /**
+     * @return \Twilio\Rest\FlexApi\V1\FlexFlowList
+     */
+    protected function getFlexFlow() {
+        if (!$this->_flexFlow) {
+            $this->_flexFlow = new FlexFlowList($this);
+        }
+        return $this->_flexFlow;
+    }
+
+    /**
      * Magic getter to lazy load root resources
-     * 
+     *
      * @param string $name Resource to return
      * @return \Twilio\ListResource The requested resource
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @throws TwilioException For unknown resource
      */
     public function __get($name) {
         $method = 'get' . ucfirst($name);
@@ -73,11 +73,11 @@ class V1 extends Version {
 
     /**
      * Magic caller to get resource contexts
-     * 
+     *
      * @param string $name Resource to return
      * @param array $arguments Context parameters
      * @return \Twilio\InstanceContext The requested resource context
-     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     * @throws TwilioException For unknown resource
      */
     public function __call($name, $arguments) {
         $property = $this->$name;
@@ -90,7 +90,7 @@ class V1 extends Version {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
     public function __toString() {
