@@ -37,7 +37,7 @@ class OrdersExports implements FromView
             $title .= ' по '.$this->end;
         }
 
-        $orders = $orders->get()->sortByDesc('created_ad');
+        $orders = $orders->get()->sortByDesc('created_at');
 
         if(!$commission = $this->restaurant->commission){
             $commission = 0;
