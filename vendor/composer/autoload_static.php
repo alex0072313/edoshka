@@ -162,6 +162,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         array (
             'NunoMaduro\\Collision\\' => 21,
             'NotificationChannels\\Twilio\\' => 28,
+            'NotificationChannels\\Telegram\\' => 30,
         ),
         'M' => 
         array (
@@ -426,6 +427,10 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'NotificationChannels\\Twilio\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel-notification-channels/twilio/src',
+        ),
+        'NotificationChannels\\Telegram\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-notification-channels/telegram/src',
         ),
         'Monolog\\' => 
         array (
@@ -789,6 +794,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'Carbon\\CarbonTimeZone' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonTimeZone.php',
         'Carbon\\Cli\\Invoker' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Cli/Invoker.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
+        'Carbon\\Exceptions\\NotAPeriodException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/NotAPeriodException.php',
         'Carbon\\Factory' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Factory.php',
         'Carbon\\FactoryImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/FactoryImmutable.php',
         'Carbon\\Language' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Language.php',
@@ -1055,6 +1061,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'Composer\\Util\\Hg' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Hg.php',
         'Composer\\Util\\IniHelper' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/IniHelper.php',
         'Composer\\Util\\NoProxyPattern' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/NoProxyPattern.php',
+        'Composer\\Util\\PackageSorter' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/PackageSorter.php',
         'Composer\\Util\\Perforce' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Perforce.php',
         'Composer\\Util\\Platform' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Platform.php',
         'Composer\\Util\\ProcessExecutor' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/ProcessExecutor.php',
@@ -1065,6 +1072,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'Composer\\Util\\Svn' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Svn.php',
         'Composer\\Util\\TlsHelper' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/TlsHelper.php',
         'Composer\\Util\\Url' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Url.php',
+        'Composer\\Util\\Zip' => __DIR__ . '/..' . '/composer/composer/src/Composer/Util/Zip.php',
         'Composer\\XdebugHandler' => __DIR__ . '/..' . '/composer/composer/src/Composer/XdebugHandler.php',
         'Composer\\XdebugHandler\\PhpConfig' => __DIR__ . '/..' . '/composer/xdebug-handler/src/PhpConfig.php',
         'Composer\\XdebugHandler\\Process' => __DIR__ . '/..' . '/composer/xdebug-handler/src/Process.php',
@@ -3258,6 +3266,11 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'Monolog\\ResettableInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/ResettableInterface.php',
         'Monolog\\SignalHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/SignalHandler.php',
         'Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
+        'NotificationChannels\\Telegram\\Exceptions\\CouldNotSendNotification' => __DIR__ . '/..' . '/laravel-notification-channels/telegram/src/Exceptions/CouldNotSendNotification.php',
+        'NotificationChannels\\Telegram\\Telegram' => __DIR__ . '/..' . '/laravel-notification-channels/telegram/src/Telegram.php',
+        'NotificationChannels\\Telegram\\TelegramChannel' => __DIR__ . '/..' . '/laravel-notification-channels/telegram/src/TelegramChannel.php',
+        'NotificationChannels\\Telegram\\TelegramMessage' => __DIR__ . '/..' . '/laravel-notification-channels/telegram/src/TelegramMessage.php',
+        'NotificationChannels\\Telegram\\TelegramServiceProvider' => __DIR__ . '/..' . '/laravel-notification-channels/telegram/src/TelegramServiceProvider.php',
         'NotificationChannels\\Twilio\\Exceptions\\CouldNotSendNotification' => __DIR__ . '/..' . '/laravel-notification-channels/twilio/src/Exceptions/CouldNotSendNotification.php',
         'NotificationChannels\\Twilio\\Twilio' => __DIR__ . '/..' . '/laravel-notification-channels/twilio/src/Twilio.php',
         'NotificationChannels\\Twilio\\TwilioCallMessage' => __DIR__ . '/..' . '/laravel-notification-channels/twilio/src/TwilioCallMessage.php',

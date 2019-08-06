@@ -75,4 +75,8 @@ return [
         'redirect'      => env('INSTAGRAM_REDIRECT_URI')
     ],
 
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN', '984316090:AAFTLO2ASdTya7ioK1Q6BeXy2jPKkhrRBx8')
+    ],
+
 ];

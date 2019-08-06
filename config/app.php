@@ -186,6 +186,8 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
         \App\Providers\HelpMsgServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
+        NotificationChannels\Telegram\TelegramServiceProvider::class,
     ],
 
     /*

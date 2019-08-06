@@ -53,6 +53,7 @@ return array(
     'Opis\\Closure\\' => array($vendorDir . '/opis/closure/src'),
     'NunoMaduro\\Collision\\' => array($vendorDir . '/nunomaduro/collision/src'),
     'NotificationChannels\\Twilio\\' => array($vendorDir . '/laravel-notification-channels/twilio/src'),
+    'NotificationChannels\\Telegram\\' => array($vendorDir . '/laravel-notification-channels/telegram/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
     'Maatwebsite\\Excel\\' => array($vendorDir . '/maatwebsite/excel/src'),
