@@ -681,6 +681,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'App\\Notifications\\NewUserRegister' => __DIR__ . '/../..' . '/app/Notifications/NewUserRegister.php',
         'App\\Notifications\\Order' => __DIR__ . '/../..' . '/app/Notifications/Order.php',
         'App\\Notifications\\SmsOrder' => __DIR__ . '/../..' . '/app/Notifications/SmsOrder.php',
+        'App\\Notifications\\TelegramOrder' => __DIR__ . '/../..' . '/app/Notifications/TelegramOrder.php',
         'App\\Notifications\\toNewManagerNotification' => __DIR__ . '/../..' . '/app/Notifications/toNewManagerNotification.php',
         'App\\Order' => __DIR__ . '/../..' . '/app/Order.php',
         'App\\Policies\\CategoryPolicy' => __DIR__ . '/../..' . '/app/Policies/CategoryPolicy.php',

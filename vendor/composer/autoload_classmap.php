@@ -65,6 +65,7 @@ return array(
     'App\\Notifications\\NewUserRegister' => $baseDir . '/app/Notifications/NewUserRegister.php',
     'App\\Notifications\\Order' => $baseDir . '/app/Notifications/Order.php',
     'App\\Notifications\\SmsOrder' => $baseDir . '/app/Notifications/SmsOrder.php',
+    'App\\Notifications\\TelegramOrder' => $baseDir . '/app/Notifications/TelegramOrder.php',
     'App\\Notifications\\toNewManagerNotification' => $baseDir . '/app/Notifications/toNewManagerNotification.php',
     'App\\Order' => $baseDir . '/app/Order.php',
     'App\\Policies\\CategoryPolicy' => $baseDir . '/app/Policies/CategoryPolicy.php',

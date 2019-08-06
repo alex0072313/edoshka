@@ -16,10 +16,12 @@ class Order extends Notification
      *
      * @return void
      */
-    public function __construct($user, $order)
+    public function __construct($user, $order, $restaurant)
     {
         $this->user = $user;
         $this->order = $order;
+        $this->restaurant = $restaurant;
+
         $this->total_price = 0;
 
         foreach ($this->order->dishes as $dish){
@@ -98,14 +100,20 @@ class Order extends Notification
             $sms .= 'Доп: '.$data['dop']."\r\n";
         }
 
-        if(!$this->user->hasRole('megaroot') && $this->user->phone /*&& (env('APP_ENV') != 'local') */){
-            if($this->user->order_in_sms){
-                $this->sms($sms);
-            }else{
-                $this->sms($subject);
+        if(!$this->user->hasRole('megaroot')){
+            
+            if($this->restaurant->telegram_chat_id){
+                $this->user->notify(new \App\Notifications\TelegramOrder($this->restaurant->telegram_chat_id, $sms));
+            }
+
+            if($this->user->phone){
+               if($this->user->order_in_sms){
+                    $this->sms($sms);
+                }else{
+                    $this->sms($subject);
+                } 
             }
         }
-
         return $mail->markdown('mail.order', $data);
     }
 

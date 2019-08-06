@@ -72,12 +72,12 @@ class OrderController extends Controller
 
             foreach ($restaurant->users as $user) {
                 //$user->notify(new NewOrder($user, $order));
-                $user->notify(new \App\Notifications\Order($user, $order));
+                $user->notify(new \App\Notifications\Order($user, $order, $restaurant));
             }
 
             //Дублируем мне
             $admin = User::getAdmin();
-            $admin->notify(new \App\Notifications\Order($admin, $order));
+            $admin->notify(new \App\Notifications\Order($admin, $order, $restaurant));
 
             $user_orders[] = $order->id;
         }

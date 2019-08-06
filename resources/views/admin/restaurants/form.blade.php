@@ -77,6 +77,13 @@
                     <input type="text" name="commission" min="0" value="{{  old('commission') ? old('commission') : isset($restaurant->id) ? $restaurant->commission : '' }}" class="form-control">
                 </div>
             </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">ID Telegram Chanell</label>
+                <div class="col-md-9">
+                    <input type="text" name="telegram_chat_id" value="{{  old('telegram_chat_id') ? old('telegram_chat_id') : isset($restaurant->id) ? $restaurant->telegram_chat_id : '' }}" class="form-control">
+                </div>
+            </div>
         @endrole
 
         <div class="form-group row">

@@ -8,6 +8,12 @@ use Illuminate\Notifications\Notification;
 
 class TelegramOrder extends Notification
 {
+    public function __construct($chat_id = '', $text = '')
+    {
+        $this->chat_id = $chat_id;
+        $this->text = $text;
+    }
+
     public function via($notifiable)
     {
         return [TelegramChannel::class];
@@ -26,8 +32,8 @@ class TelegramOrder extends Notification
     public function toTelegram($notifiable)
     {
         return TelegramMessage::create()
-            ->to('-1001289286904')
-            ->content("*HELLO!* \n One of your invoices has been paid!");
+            ->to($this->chat_id)
+            ->content($this->text);
     }
 
     public function routeNotificationForTelegram()
