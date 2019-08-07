@@ -151,10 +151,12 @@ class OrderController extends Controller
 
                                 $new_password = str_random(6);
                                 $user->password = \Hash::make($new_password);
+                                
                                 $user->provider = 'email';
 
                                 $user->save();
                                 $user->assignRole('customer');
+                                $user->notify(new \App\Notifications\NewCustomer($user, $new_password));
                             }
 
                             \Auth::login($user, true);
@@ -165,8 +167,7 @@ class OrderController extends Controller
                             foreach ($user_orders as $order_id) {
                                 Order::find($order_id)->update(['user_id' => $user->id]);
                             }
-
-                            $user->notify(new \App\Notifications\NewCustomer($user, $new_password));
+                           
                             $redirect = url()->previous();
                             
                         }
