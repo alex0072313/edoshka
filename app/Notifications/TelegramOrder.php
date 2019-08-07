@@ -11,7 +11,7 @@ class TelegramOrder extends Notification
     public function __construct($chat_id = '', $text = '')
     {
         $this->chat_id = $chat_id;
-        $this->text = str_replace('*', '-', $text);
+        $this->text = str_replace(['`','*','_'], '-', $text);
     }
 
     public function via($notifiable)
