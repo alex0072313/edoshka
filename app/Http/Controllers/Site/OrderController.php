@@ -95,25 +95,29 @@ class OrderController extends Controller
                 switch ($reg_type) {
                     case 'phone':
                         if ($phone = valid_phone(request('phone'))) {
-                            $user = new User();
 
                             if ($email = request('email')) {
-                                $user->email = $email;
-                            } else {
-                                $user->email = $phone . '@edoshka.ru';
+                                $new_email = $email;
+                            }  else {
+                                $new_email = $phone . '@edoshka.ru';
                             }
-                            $user->phone = $phone;
 
-                            $user->name = request('name') ? request('name') : '';
+                            if (!$user = User::where('email', '=', $new_email)->orWhere('phone', '=', $phone)->first()) {
+                                $user = new User();
 
-                            $user->image = '';
-                            $user->provider_id = '';
+                                $user->email = $new_email;
+                                $user->phone = $phone;
+                                $user->name = request('name') ? request('name') : '';
+                                $user->image = '';
+                                $user->provider_id = '';
 
-                            $new_password = str_random(6);
-                            $user->password = \Hash::make($new_password);
-                            $user->provider = 'phone';
-                            $user->save();
-                            $user->assignRole('customer');
+                                $new_password = str_random(6);
+                                $user->password = \Hash::make($new_password);
+                                $user->provider = 'phone';
+                                $user->save();
+                                $user->assignRole('customer');
+                            }
+
                             \Auth::login($user, true);
 
                             //Добавляем баллы
@@ -135,8 +139,8 @@ class OrderController extends Controller
                     case 'email':
                         if ($email = request('email')) {
                             $phone = valid_phone(request('phone'));
-                            if (!User::where('email', '=', $email)->orWhere('phone', '=', $phone)->count()) {
 
+                            if (!$user = User::where('email', '=', $email)->orWhere('phone', '=', $phone)->first()) {
                                 $user = new User();
                                 $user->email = $email;
                                 $user->phone = $phone;
@@ -151,18 +155,20 @@ class OrderController extends Controller
 
                                 $user->save();
                                 $user->assignRole('customer');
-                                \Auth::login($user, true);
-
-                                //Добавляем баллы
-                                $user->addBalls($cart_total);
-
-                                foreach ($user_orders as $order_id) {
-                                    Order::find($order_id)->update(['user_id' => $user->id]);
-                                }
-
-                                $user->notify(new \App\Notifications\NewCustomer($user, $new_password));
-                                $redirect = url()->previous();
                             }
+
+                            \Auth::login($user, true);
+
+                            //Добавляем баллы
+                            $user->addBalls($cart_total);
+
+                            foreach ($user_orders as $order_id) {
+                                Order::find($order_id)->update(['user_id' => $user->id]);
+                            }
+
+                            $user->notify(new \App\Notifications\NewCustomer($user, $new_password));
+                            $redirect = url()->previous();
+                            
                         }
                         break;
                     case 'vkontakte':
