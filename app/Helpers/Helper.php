@@ -25,6 +25,25 @@ if (!function_exists('valid_phone')) {
 
     function valid_phone($phone = '', $prefix = '+7')
     {
+//        preg_match_all('!\d+!', $phone, $matches);
+//        $phone_all = implode('', $matches[0]);
+//
+//        $phone = substr($phone_all, -7);
+//
+//        $code = str_replace($phone, '', $phone_all);
+//
+//        if(strlen($code) > 3){
+//            $code = '+7'.substr($code, -3);
+//        }elseif($code){
+//            $code = '+7'.$code;
+//        }else{
+//            return null;
+//        }
+//
+//        if(strlen($phone) == 7){
+//            return $code.$phone;
+//        }
+//        return null;
         preg_match_all('!\d+!', $phone, $matches);
         $phone = implode('', $matches[0]);
         if(strlen($phone) == 11){

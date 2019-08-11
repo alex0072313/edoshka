@@ -34,6 +34,13 @@ class Order extends Model
 
     public function getTotalPriceAttribute()
     {
+        if($this->cancle) return 0;
+
+        return $this->newsum > 0 ? $this->newsum : $this->OldTotalPrice;
+    }
+
+    public function getOldTotalPriceAttribute()
+    {
         $total = 0;
         if($this->dishes()->count()){
             foreach ($this->dishes as $dish){

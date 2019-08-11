@@ -55,7 +55,7 @@ class OrdersExports implements FromView
 
             foreach ($order->dishes as $dish){
                 $order->total_quantity += $dish->pivot->quantity;
-                $order->total_price += $dish->pivot->total_price;
+                $order->total_price = $order->TotalPrice;
             }
 
             if($this->restaurant->id == 4){

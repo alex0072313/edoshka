@@ -15,9 +15,9 @@ use Twilio\Rest\Wireless\V1;
 
 /**
  * @property \Twilio\Rest\Wireless\V1 $v1
- * @property \Twilio\Rest\Wireless\V1\UsageRecordList $usageRecords
  * @property \Twilio\Rest\Wireless\V1\CommandList $commands
  * @property \Twilio\Rest\Wireless\V1\RatePlanList $ratePlans
+ * @property \Twilio\Rest\Wireless\V1\UsageRecordList $usageRecords
  * @property \Twilio\Rest\Wireless\V1\SimList $sims
  * @method \Twilio\Rest\Wireless\V1\CommandContext commands(string $sid)
  * @method \Twilio\Rest\Wireless\V1\RatePlanContext ratePlans(string $sid)
@@ -83,13 +83,6 @@ class Wireless extends Domain {
     }
 
     /**
-     * @return \Twilio\Rest\Wireless\V1\UsageRecordList
-     */
-    protected function getUsageRecords() {
-        return $this->v1->usageRecords;
-    }
-
-    /**
      * @return \Twilio\Rest\Wireless\V1\CommandList
      */
     protected function getCommands() {
@@ -113,11 +106,19 @@ class Wireless extends Domain {
     }
 
     /**
-     * @param string $sid The sid
+     * @param string $sid A 34 character string that uniquely identifies this
+     *                    resource.
      * @return \Twilio\Rest\Wireless\V1\RatePlanContext
      */
     protected function contextRatePlans($sid) {
         return $this->v1->ratePlans($sid);
+    }
+
+    /**
+     * @return \Twilio\Rest\Wireless\V1\UsageRecordList
+     */
+    protected function getUsageRecords() {
+        return $this->v1->usageRecords;
     }
 
     /**

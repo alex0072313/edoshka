@@ -46,10 +46,11 @@ class HomeController extends AdminController
         $orders = $orders->get()->sortByDesc('created_ad');
 
         $orders = $orders->map(function ($order){
+            $order->total_price = $order->TotalPrice;
             foreach ($order->dishes as $dish){
                 $order->total_quantity += $dish->pivot->quantity;
-                $order->total_price += $dish->pivot->total_price;
             }
+
             return $order;
         });
 
@@ -118,8 +119,4 @@ class HomeController extends AdminController
         return Excel::download(new OrdersExports($data), $name);
     }
 
-    private function calcCommission(Restaurant $restaurant)
-    {
-
-    }
 }

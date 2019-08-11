@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Site\SiteController;
 use App\Order;
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -61,6 +62,78 @@ class OrdersController  extends AdminController
         }
 
         $this->view = 'admin.orders.show';
+        $this->data['order'] = $order;
+
+        return $this->render();
+    }
+
+    public function change_sum(Order $order)
+    {
+
+        if(request()->method() == 'POST'){
+
+            $validate = \Validator::make(request()->all(),
+                [
+                    'newsum' => 'required',
+                ],
+                [
+                    'newsum.required' => 'Укажите новую сумму заказа!',
+                ]
+            );
+
+            if ($validate->fails()) {
+                return response()->json(['errors' => $validate->errors()]);
+            }
+
+            $order->newsum = request('newsum');
+            $order->newsum_comment = request('newsum_comment');
+            $order->save();
+
+            return response()->json(['success' => ['html'=>view('admin.includes.order_price_item', ['order'=>$order])->render()]]);
+        }
+
+        if(!$order->viewed){
+            $order->viewed = now();
+            $order->save();
+        }
+
+        $this->view = 'admin.orders.change_sum';
+        $this->data['order'] = $order;
+
+        return $this->render();
+    }
+
+    public function cancle(Order $order)
+    {
+
+        if(request()->method() == 'POST'){
+
+            $validate = \Validator::make(request()->all(),
+                [
+                    'cancle_comment' => 'required',
+                ],
+                [
+                    'cancle_comment.required' => 'Укажите причину отмены заказа!',
+                ]
+            );
+
+            if ($validate->fails()) {
+                return response()->json(['errors' => $validate->errors()]);
+            }
+
+            $order->cancle = true;
+            $order->cancle_comment = request('cancle_comment');
+            $order->save();
+
+            return response()->json(['success' => ['html'=>view('admin.includes.order_id_item', ['order'=>$order])->render()]]);
+        }
+
+        if(!$order->viewed){
+            $order->viewed = now();
+            $order->save();
+        }
+
+        $this->view = 'admin.orders.cancle';
         $this->data['order'] = $order;
 
         return $this->render();

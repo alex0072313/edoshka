@@ -40,6 +40,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     //Заказы
     Route::get('/orders/{order}/destroy', 'Admin\OrdersController@destroy')->name('orders.destroy');
     Route::post('/orders/accept', 'Admin\OrdersController@accept')->name('orders.accept');
+
+    Route::match(['get', 'post'], '/orders/{order}/change_sum', 'Admin\OrdersController@change_sum')->name('orders.change_sum');
+    Route::match(['get', 'post'], '/orders/{order}/cancle', 'Admin\OrdersController@cancle')->name('orders.cancle');
+
     Route::resource('orders', 'Admin\OrdersController')->except(['destroy']);
 
     //Профиль
