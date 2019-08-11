@@ -43,7 +43,7 @@ class HomeController extends AdminController
             $orders = $orders->whereDate('created_at', '<', Carbon::createFromDate($end)->addDay(1));
         }
 
-        $orders = $orders->get()->sortByDesc('created_ad');
+        $orders = $orders->orderBy('created_at', 'desc')->get();
 
         $orders = $orders->map(function ($order){
             $order->total_price = $order->TotalPrice;

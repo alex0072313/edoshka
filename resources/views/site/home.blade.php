@@ -58,9 +58,6 @@
 
                         <div class="{{ $class }}">
                             <div class="card text-white">
-                                {{--<div class="badges">--}}
-                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 104</div>--}}
-                                {{--</div>--}}
 
                                 <div class="inner" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')">
                                     <div class="card-img-overlay">
@@ -220,8 +217,6 @@
                             {{--</a>--}}
                         {{--</div>--}}
                     {{--</div>--}}
-
-
 
 
                 </div>
