@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Kitchen;
 use App\Repositories\RestaurantRepository;
 
 use App\Restaurant;
@@ -36,11 +37,10 @@ class RestaurantController extends AdminController
 
         $this->data['restaurant'] = $restaurant;
         $this->data['restaurant_specials'] = $restaurant->specials;
+        $this->data['restaurant_kitchens'] = $restaurant->kitchens;
 
-        $specials = Special::all();
-
-        $this->data['specials'] = $specials;
-        $this->data['restaurant_specials'] = $restaurant->specials;
+        $this->data['specials'] = Special::all();
+        $this->data['kitchens'] = Kitchen::all();
 
         return $this->render();
     }
@@ -89,6 +89,7 @@ class RestaurantController extends AdminController
 
         if($restaurant->update(request()->toArray())){
             $restaurant->specials()->sync(request()->get('specials'));
+            $restaurant->kitchens()->sync(request()->get('kitchens'));
             //Фото
             if($img = request()->file('bg')){
                 RestaurantRepository::createThumb($img, $restaurant);
@@ -105,6 +106,7 @@ class RestaurantController extends AdminController
         $this->title = 'Добавление ресторана';
         $this->view = 'admin.restaurants.form';
         $this->data['specials'] = Special::all();
+        $this->data['kitchens'] = Kitchen::all();
         return $this->render();
     }
 
@@ -138,6 +140,7 @@ class RestaurantController extends AdminController
         if($restaurant = Restaurant::create(request()->toArray())){
 
             $restaurant->specials()->sync(request()->get('specials'));
+            $restaurant->kitchens()->sync(request()->get('kitchens'));
 
             //Фото
             if($img = request()->file('bg')){

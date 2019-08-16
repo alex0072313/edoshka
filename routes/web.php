@@ -101,6 +101,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/markers/{marker}/destroy', 'Admin\MarkersController@destroy')->name('markers.destroy');
         Route::resource('markers', 'Admin\MarkersController')->except('destroy');
 
+        //Кухни
+        Route::get('/kitchens/{marker}/destroy', 'Admin\KitchensController@destroy')->name('kitchens.destroy');
+        Route::resource('kitchens', 'Admin\KitchensController')->except('destroy');
+
         //Слайды
         Route::get('/slides/{slide}/destroy', 'Admin\SlidesController@destroy')->name('slides.destroy');
         Route::resource('slides', 'Admin\SlidesController')->except('destroy');

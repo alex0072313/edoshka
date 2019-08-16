@@ -167,13 +167,27 @@ Breadcrumbs::for('admin.markers.index', function ($trail) {
     $trail->parent('admin.home');
     $trail->push('Список маркеров', route('admin.markers.index'));
 });
-Breadcrumbs::for('admin.markers.edit', function ($trail, $user) {
+Breadcrumbs::for('admin.markers.edit', function ($trail, $marker) {
     $trail->parent('admin.markers.index');
-    $trail->push('Редактирование маркера', route('admin.markers.edit', $user));
+    $trail->push('Редактирование маркера', route('admin.markers.edit', $marker));
 });
 Breadcrumbs::for('admin.markers.create', function ($trail) {
     $trail->parent('admin.markers.index');
     $trail->push('Добавление маркера', route('admin.markers.create'));
+});
+
+//Кухни
+Breadcrumbs::for('admin.kitchens.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список кухонь', route('admin.kitchens.index'));
+});
+Breadcrumbs::for('admin.kitchens.edit', function ($trail, $kitchen) {
+    $trail->parent('admin.kitchens.index');
+    $trail->push('Редактирование кухни', route('admin.kitchens.edit', $kitchen));
+});
+Breadcrumbs::for('admin.kitchens.create', function ($trail) {
+    $trail->parent('admin.kitchens.index');
+    $trail->push('Добавление кухни', route('admin.kitchens.create'));
 });
 
 //Слайды

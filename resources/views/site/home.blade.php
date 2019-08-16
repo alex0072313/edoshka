@@ -1,6 +1,43 @@
 @extends('layouts.site')
 
+@push('head')
+    <meta property="og:type" content="website"/>
+    <meta  property="og:title" content="Доставка еды из лучших ресторанов Геленджика за 20-60 минут"/>
+    <meta property="og:image" content="https://edoshka.ru/storage/category_imgs/5/src.jpg">
+    <meta property="og:url" content= "http://edoshka.ru" />
+    <meta property="og:description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика"/>
+    <div itemscope itemtype ="http://schema.org/Organization" class="d-none">
+        <meta itemprop="name" content="Edoshka" />
+        <meta itemprop="address" content="Город Геленджик" />
+        <div itemscope itemtype ="http://schema.org/Service">
+            <meta itemprop="name" content="Доставка еды из лучших ресторанов Геленджика за 20-60 минут" />
+            <meta itemprop="description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика" />
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Добрый Повар" />
+            <meta itemprop="description" content="Доставка еды из ресторана Добрый Повар в Геленджике на дом, в отель или в офис за 20-60 минут" />
+            <a href="https://edoshka.ru/restaurant/dobryi-povar" itemprop="url">edoshka.ru/restaurant/dobryi-povar</a>
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Farina Pizza" />
+            <meta itemprop="description" content="Доставка еды из ресторана Farina Pizza в Геленджике на дом, в отель или в офис за 20-60 минут." />
+            <a href="https://edoshka.ru/restaurant/farina-pizza" itemprop="url">edoshka.ru/restaurant/farina-pizza</a>
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Гиро-King" />
+            <meta itemprop="description" content="Доставка еды из ресторана Гиро-King в Геленджике на дом, в отель или в офис за 20-60 минут." />
+            <a href="https://edoshka.ru/restaurant/giro-king" itemprop="url">edoshka.ru/restaurant/giro-king</a>
+        </div>
+        <div itemscope itemtype ="http://schema.org/Thing">
+            <meta itemprop="name" content="Ресторан Автороллы Азия" />
+            <meta itemprop="description" content="Доставка еды из ресторана Автороллы Азия в Геленджике на дом, в отель или в офис за 20-60 минут." />
+            <a href="https://edoshka.ru/restaurant/aziya" itemprop="url">edoshka.ru/restaurant/aziya</a>
+        </div>
+    </div>
+@endpush
+
 @section('content')
+
     @if(count($slides))
         <section id="greetin">
             <div class="slider autoHeight">
@@ -37,190 +74,83 @@
 
     <section id="shops_catalog" class="mb-5">
         <div class="container">
+
             <div class="catalog">
-                <div class="row">
-                    @php
-                        $i = 0;
-                    @endphp
+                <div class="row mb-n4">
+
                     @foreach($restaurants as $restaurant)
-                        @php
-                            if(count($restaurants) > 3){
-                                if($i % 2 == 0){
-                                    $class = 'col-lg-8 col-md-6 mb-4';
-                                }else{
-                                    $class = 'col-lg-4 col-md-6 mb-4';
-                                    $i--;
-                                }
-                            }else{
-                                $class = 'col-lg-6 mb-4';
-                            }
-                        @endphp
-
-                        <div class="{{ $class }}">
-                            <div class="card text-white">
-
-                                <div class="inner" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')">
-                                    <div class="card-img-overlay">
-                                        <div class="h2 mb-0 products_title text-truncate mr-3">
-                                            {{ $restaurant->name }}
-                                        </div>
-                                        @if($restaurant->min_sum_order)
-                                            <div class="text-white-50 font-weight-light mb-2">
-                                                Заказ от {{ $restaurant->min_sum_order }} &#8381;
-                                            </div>
-                                        @endif
-                                        <ul class="row list-unstyled mb-2">
-                                            @foreach($restaurant->cats as $category)
-                                                <li class="col-md-6"><i class="fas fa-check fa-xs"></i> {{ $category->name }}</li>
-                                            @endforeach
-                                        </ul>
-                                        <div class="hover">
-                                            <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="btn btn-primary">Меню</a>
-                                        </div>
+                        <div class="col-sm-6 col-md-4 mb-4 text-sm-left text-center">
+                            <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="item">
+                                <div class="th mb-2" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')"></div>
+                                <div class="h4 text-body mb-1">{{ $restaurant->name }}</div>
+                                <div class="data">
+                                    <div class="min_sum_order text-body">
+                                        <i class="fas fa-shopping-cart fa-xs"></i> заказ от {{ $restaurant->min_sum_order }} ₽
                                     </div>
+                                    @if($restaurant->kitchens)
+                                        <div class="cats">
+                                            <span class="text-secondary font-weight-light">{{ implode(' • ', $restaurant->kitchens) }}</span>
+                                        </div>
+                                    @endif
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                        @php
-                            $i++;
-                        @endphp
                     @endforeach
-
-                    {{--<div class="col-lg-8 col-md-6 mb-4">--}}
-                        {{--<div class="card text-white">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="badges">--}}
-                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 104</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="inner" style="background-image: url('/images/theme/slider3.jpg')">--}}
-
-                                    {{--<div class="card-img-overlay">--}}
-                                        {{--<div class="h2 mb-0 products_title text-truncate mr-3">--}}
-                                            {{--Суши Шторм--}}
-                                        {{--</div>--}}
-                                        {{--<div class="text-white-50 font-weight-light mb-2">--}}
-                                            {{--Заказ от 700 &#8381;--}}
-                                        {{--</div>--}}
-
-                                        {{--<ul class="row list-unstyled mb-2">--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Роллы</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Суши</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Пицца</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> WOK</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Салаты</li>--}}
-                                        {{--</ul>--}}
-
-                                        {{--<div class="hover">--}}
-                                            {{--<button class="btn btn-primary">Меню</button>--}}
-                                        {{--</div>--}}
-
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{----}}
-                    {{--<div class="col-lg-4 col-md-6 mb-4">--}}
-                        {{--<div class="card text-white">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="badges">--}}
-                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 62</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="inner" style="background-image: url('/images/theme/slider3.jpg')">--}}
-
-                                    {{--<div class="card-img-overlay">--}}
-                                        {{--<div class="h2 mb-0 products_title text-truncate mr-3">--}}
-                                            {{--Банзай--}}
-                                        {{--</div>--}}
-                                        {{--<div class="text-white-50 font-weight-light mb-2">--}}
-                                            {{--Заказ от 700 &#8381;--}}
-                                        {{--</div>--}}
-
-                                        {{--<ul class="row list-unstyled mb-2">--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Роллы</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Суши</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Пицца</li>--}}
-                                        {{--</ul>--}}
-
-                                        {{--<div class="hover">--}}
-                                            {{--<button class="btn btn-primary">Меню</button>--}}
-                                        {{--</div>--}}
-
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{----}}
-                    {{--<div class="col-lg-4 col-md-6 mb-4 mb-lg-0">--}}
-                        {{--<div class="card text-white">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="badges">--}}
-                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 18</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="inner" style="background-image: url('/images/theme/slider3.jpg')">--}}
-
-                                    {{--<div class="card-img-overlay">--}}
-                                        {{--<div class="h2 mb-0 products_title text-truncate mr-3">--}}
-                                            {{--Обжорка--}}
-                                        {{--</div>--}}
-                                        {{--<div class="text-white-50 font-weight-light mb-2">--}}
-                                            {{--Заказ от 700 &#8381;--}}
-                                        {{--</div>--}}
-
-                                        {{--<ul class="row list-unstyled mb-2">--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Пицца</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> WOK</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Салаты</li>--}}
-                                        {{--</ul>--}}
-
-                                        {{--<div class="hover">--}}
-                                            {{--<button class="btn btn-primary">Меню</button>--}}
-                                        {{--</div>--}}
-
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{----}}
-                    {{--<div class="col-lg-8 col-md-6 mb-4 mb-lg-0">--}}
-                        {{--<div class="card text-white">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="badges">--}}
-                                    {{--<div class="top"><i class="fas fa-thumbs-up fa-xs"></i> 10</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="inner" style="background-image: url('/images/theme/slider3.jpg')">--}}
-
-                                    {{--<div class="card-img-overlay">--}}
-                                        {{--<div class="h2 mb-0 products_title text-truncate mr-3">--}}
-                                            {{--Суши Весла--}}
-                                        {{--</div>--}}
-                                        {{--<div class="text-white-50 font-weight-light mb-2">--}}
-                                            {{--Заказ от 700 &#8381;--}}
-                                        {{--</div>--}}
-
-                                        {{--<ul class="row list-unstyled mb-2">--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Роллы</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Суши</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Пицца</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> WOK</li>--}}
-                                            {{--<li class="col-md-6"><i class="fas fa-check fa-xs"></i> Салаты</li>--}}
-                                        {{--</ul>--}}
-
-                                        {{--<div class="hover">--}}
-                                            {{--<button class="btn btn-primary">Меню</button>--}}
-                                        {{--</div>--}}
-
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-
                 </div>
             </div>
+
+{{--            <div class="catalog">--}}
+{{--                <div class="row">--}}
+{{--                    @php--}}
+{{--                        $i = 0;--}}
+{{--                    @endphp--}}
+{{--                    @foreach($restaurants as $restaurant)--}}
+{{--                        @php--}}
+{{--                            if(count($restaurants) > 3){--}}
+{{--                                if($i % 2 == 0){--}}
+{{--                                    $class = 'col-lg-8 col-md-6 mb-4';--}}
+{{--                                }else{--}}
+{{--                                    $class = 'col-lg-4 col-md-6 mb-4';--}}
+{{--                                    $i--;--}}
+{{--                                }--}}
+{{--                            }else{--}}
+{{--                                $class = 'col-lg-6 mb-4';--}}
+{{--                            }--}}
+{{--                        @endphp--}}
+
+{{--                        <div class="{{ $class }}">--}}
+{{--                            <div class="card text-white">--}}
+
+{{--                                <div class="inner" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')">--}}
+{{--                                    <div class="card-img-overlay">--}}
+{{--                                        <div class="h2 mb-0 products_title text-truncate mr-3">--}}
+{{--                                            {{ $restaurant->name }}--}}
+{{--                                        </div>--}}
+{{--                                        @if($restaurant->min_sum_order)--}}
+{{--                                            <div class="text-white-50 font-weight-light mb-2">--}}
+{{--                                                Заказ от {{ $restaurant->min_sum_order }} &#8381;--}}
+{{--                                            </div>--}}
+{{--                                        @endif--}}
+{{--                                        <ul class="row list-unstyled mb-2">--}}
+{{--                                            @foreach($restaurant->cats as $category)--}}
+{{--                                                <li class="col-md-6"><i class="fas fa-check fa-xs"></i> {{ $category->name }}</li>--}}
+{{--                                            @endforeach--}}
+{{--                                        </ul>--}}
+{{--                                        <div class="hover">--}}
+{{--                                            <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="btn btn-primary">Меню</a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        @php--}}
+{{--                            $i++;--}}
+{{--                        @endphp--}}
+{{--                    @endforeach--}}
+
+
+{{--                </div>--}}
+{{--            </div>--}}
 
             @php
                 $var = 'town_'.$_town->id.'home_text';
@@ -235,42 +165,6 @@
         </div>
     </section>
 @endsection
-
-@push('head')
-    <meta property="og:type" content="website"/>
-    <meta  property="og:title" content="Доставка еды из лучших ресторанов Геленджика за 20-60 минут"/>
-    <meta property="og:image" content="https://edoshka.ru/storage/category_imgs/5/src.jpg">
-    <meta property="og:url" content= "http://edoshka.ru" />
-    <meta property="og:description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика"/>
-    <div itemscope itemtype ="http://schema.org/Organization" class="d-none">
-        <meta itemprop="name" content="Edoshka" />
-        <meta itemprop="address" content="Город Геленджик" />
-        <div itemscope itemtype ="http://schema.org/Service">
-            <meta itemprop="name" content="Доставка еды из лучших ресторанов Геленджика за 20-60 минут" />
-            <meta itemprop="description" content="Пицца, роллы, суши, гирос и другие блюда с доставкой в отель, на дом, в отель или в офис из лучших ресторанов Геленджика" />
-        </div>
-        <div itemscope itemtype ="http://schema.org/Thing">
-            <meta itemprop="name" content="Ресторан Добрый Повар" />
-            <meta itemprop="description" content="Доставка еды из ресторана Добрый Повар в Геленджике на дом, в отель или в офис за 20-60 минут" />
-            <a href="https://edoshka.ru/restaurant/dobryi-povar" itemprop="url">edoshka.ru/restaurant/dobryi-povar</a>
-        </div>
-        <div itemscope itemtype ="http://schema.org/Thing">
-            <meta itemprop="name" content="Ресторан Farina Pizza" />
-            <meta itemprop="description" content="Доставка еды из ресторана Farina Pizza в Геленджике на дом, в отель или в офис за 20-60 минут." />
-            <a href="https://edoshka.ru/restaurant/farina-pizza" itemprop="url">edoshka.ru/restaurant/farina-pizza</a>
-        </div>
-        <div itemscope itemtype ="http://schema.org/Thing">
-            <meta itemprop="name" content="Ресторан Гиро-King" />
-            <meta itemprop="description" content="Доставка еды из ресторана Гиро-King в Геленджике на дом, в отель или в офис за 20-60 минут." />
-            <a href="https://edoshka.ru/restaurant/giro-king" itemprop="url">edoshka.ru/restaurant/giro-king</a>
-        </div>
-        <div itemscope itemtype ="http://schema.org/Thing">
-            <meta itemprop="name" content="Ресторан Автороллы Азия" />
-            <meta itemprop="description" content="Доставка еды из ресторана Автороллы Азия в Геленджике на дом, в отель или в офис за 20-60 минут." />
-            <a href="https://edoshka.ru/restaurant/aziya" itemprop="url">edoshka.ru/restaurant/aziya</a>
-        </div>
-    </div>
-@endpush
 
 @push('js')
     <script>

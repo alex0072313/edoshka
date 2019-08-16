@@ -673,6 +673,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Kitchen' => __DIR__ . '/../..' . '/app/Kitchen.php',
         'App\\Like' => __DIR__ . '/../..' . '/app/Like.php',
         'App\\Marker' => __DIR__ . '/../..' . '/app/Marker.php',
         'App\\Notifications\\MailResetPasswordNotification' => __DIR__ . '/../..' . '/app/Notifications/MailResetPasswordNotification.php',

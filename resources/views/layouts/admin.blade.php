@@ -232,6 +232,15 @@
                 @endif
 
                 @if($is_megaroot)
+                    <li{!! stristr(Route::currentRouteName(), 'admin.kitchens') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.kitchens.index') }}">
+                            <i class="fas fa-cookie-bite"></i>
+                            <span>Кухни</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.specials') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.specials.index') }}">
                             <i class="fas fa-fire"></i>

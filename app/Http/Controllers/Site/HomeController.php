@@ -14,33 +14,19 @@ class HomeController extends SiteController
 
         $this->data['slides'] = Slide::all();
 
-        $restaurants = $this->town->restaurants
+        $restaurants = $this->town
+            ->restaurants()
+            ->with('kitchens')
+            ->get()
             ->filter(function ($restaurant){
                 if($restaurant->active || (auth()->check() && (auth()->user()->hasRole('megaroot') || auth()->user()->hasRole('boss')))) return true;
                 return false;
             })
             ->map(function ($restaurant){
-//            $cats = $this->admin_categories
-//                ->merge(
-//                    $restaurant->categories
-//                );
+                $restaurant->kitchens = $restaurant->kitchens->pluck('name')->toArray();
 
-            $cats = Category::all();
-
-            $dishes = $restaurant->dishes;
-            $restaurant->cats = $cats->filter(function ($cat) use ($dishes){
-                $dishes_cats = [];
-                foreach ($dishes as $dish){
-                    $dishes_cats[$dish->category_id] = $dish->category_id;
-                }
-
-                if(!isset($dishes_cats[$cat->id])) return false;
-                return true;
-
+                return $restaurant;
             });
-
-            return $restaurant;
-        });
 
         $this->data['restaurants'] = $restaurants;
 
