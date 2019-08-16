@@ -1,7 +1,7 @@
-<table>
+ <table>
     <thead>
         <tr>
-            <td colspan="11">
+            <td colspan="13">
                 {{ $title }}
             </td>
         </tr>
@@ -16,6 +16,8 @@
             <th>Пожелания</th>
             <th>Кол-во блюд</th>
             <th>Сумма заказа</th>
+            <th>Изменение суммы</th>
+            <th>% комиссии</th>
             <th>Комиссия с заказа</th>
         </tr>
     </thead>
@@ -31,8 +33,10 @@
                 <td>{{ $order->persons }}</td>
                 <td>{{ $order->dop }}</td>
                 <td>{{ $order->total_quantity }}</td>
-                <td>{{ $order->total_price }}</td>
-                <td>{{ $order->commission }}</td>
+                <td>{{ $order->OldTotalPrice }}</td>
+                <td>{{ $order->newsum ? $order->newsum : '' }}</td>
+                <td>{{ $order->commission['commission_percent'] }}</td>
+                <td>{{ $order->commission['commission_sum'] }}</td>
             </tr>
         @endforeach
         <tr>

@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Order;
 use Carbon\Carbon;
 use App\Restaurant;
 use Illuminate\Contracts\View\View;
@@ -23,21 +24,41 @@ class OrdersExports implements FromView
 
     public function view(): View
     {
-        $orders = $this->restaurant->orders();
-
         $title = 'Заказы ресторана '.$this->restaurant->name;
         $dates = '';
 
+        if(\Auth::user()->hasRole('megaroot')){
+            if($restaurant_id = request('restaurant_id')){
+                $this->restaurant = Restaurant::find($restaurant_id);
+            }
+            $this->data['restaurants'] = Restaurant::all();
+        }else{
+            $this->restaurant = \Auth::user()->restaurant;
+        }
+
+        if($this->restaurant){
+            $orders_query = $this->restaurant->orders();
+        }else{
+            $orders_query = Order::query();
+        }
+
+        $orders_query = $orders_query->with('restaurant')->with('user')->with('dishes');
+
         if($this->start){
-            $orders = $orders->whereDate('created_at', '>', Carbon::createFromDate($this->start)->subDay(1));
+            $orders_query = $orders_query->whereDate('created_at', '>', Carbon::createFromDate($this->start)->subDay(1));
             $title .= ' c '.$this->start;
         }
         if($this->end){
-            $orders = $orders->whereDate('created_at', '<', Carbon::createFromDate($this->end)->addDay(1));
+            $orders_query = $orders_query->whereDate('created_at', '<', Carbon::createFromDate($this->end)->addDay(1));
             $title .= ' по '.$this->end;
         }
 
-        $orders = $orders->get()->sortByDesc('created_at');
+        $orders = $orders_query
+            ->where('cancle', '=', 0)
+            ->select(['orders.*'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
 
         if(!$commission = $this->restaurant->commission){
             $commission = 0;
@@ -55,7 +76,6 @@ class OrdersExports implements FromView
 
             foreach ($order->dishes as $dish){
                 $order->total_quantity += $dish->pivot->quantity;
-                $order->total_price = $order->TotalPrice;
             }
 
             if($this->restaurant->id == 4){
@@ -78,13 +98,13 @@ class OrdersExports implements FromView
             'dates' => $dates,
             'orders' => $orders,
             'total' => $orders->count(),
-            'commission' => $commission,
+            'commission' => $this->restaurant->CommissionText,
 
             'total_price' => $orders->sum(function ($order){
-                return $order->total_price;
+                return $order->TotalPrice;
             }),
             'total_commission' => $orders->sum(function ($order){
-                return $order->commission;
+                return $order->commission['commission_sum'];
             }),
         ]);
     }

@@ -44,6 +44,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::match(['get', 'post'], '/orders/{order}/change_sum', 'Admin\OrdersController@change_sum')->name('orders.change_sum');
     Route::match(['get', 'post'], '/orders/{order}/cancle', 'Admin\OrdersController@cancle')->name('orders.cancle');
 
+    Route::post('/orders/append', 'Admin\HomeController@append')->name('orders.append');
+    Route::post('/orders/get_totals', 'Admin\HomeController@getTotals')->name('orders.get_totals');
+
     Route::resource('orders', 'Admin\OrdersController')->except(['destroy']);
 
     //Профиль

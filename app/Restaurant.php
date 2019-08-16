@@ -54,6 +54,44 @@ class Restaurant extends Model
         );
     }
 
+    public function getCommissionTextAttribute()
+    {
+        $text = null;
+
+        if($commission = $this->commission){
+
+            if(is_numeric($commission)){
+                //обычное число
+                $text = (int)$commission.'%';
+            }else{
+                //вилка
+                $fork = explode('|', $commission);
+                $r = [];
+
+                foreach ($fork as $fork_part){
+                    $fork_item = explode(':', $fork_part);
+                    $diaposon = explode(',', $fork_item[0]);
+                    $percent = (int)$fork_item[1];
+
+                    if(count($diaposon) > 1){
+                        //от-до
+                        if($diaposon[0]){
+                            $r[] = $diaposon[0].' ₽ < '.$diaposon[1].' - <b>'. $percent.'%</b>';
+                        }else{
+                            $r[] = '< '.$diaposon[1].' ₽ - <b>'. $percent.'%</b>';
+                        }
+                    }else{
+                        //от
+                        $r[] = $diaposon[0].' ₽ < - <b>'. $percent.'%</b>';
+                    }
+                }
+                $text = implode(', ', $r);
+            }
+        }
+
+        return $text;
+    }
+
     public function boss(){
         $filtered = $this->users->filter(function ($user) {
             return $user->hasRole(config('role.names.boss.name'));

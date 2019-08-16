@@ -11,3 +11,7 @@
 @else
     {{ $order->OldTotalPrice }} ₽
 @endif
+
+@if($order->commission['commission_sum'])
+    &nbsp;<small class="text-green">({{ $order->commission['commission_percent'] .'%, '. $order->commission['commission_sum'] }} ₽)</small>
+@endif

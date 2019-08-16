@@ -122,7 +122,7 @@
                 <li class="nav-profile">
                     <a href="javascript:;" data-toggle="nav-profile">
 
-                        @if(!$_user->hasRole('megaroot'))
+                        @if(!$is_megaroot)
                             <div class="cover with-shadow"{!! Storage::disk('public')->exists('restaurant_imgs/'.$_restaurant->id.'/thumb_m.jpg') ? ' style="background-image:url('.Storage::disk('public')->url('restaurant_imgs/'.$_restaurant->id.'/thumb_m.jpg').');"' : ''!!}></div>
                         @endif
 
@@ -138,7 +138,7 @@
 
                         <div class="info">
                             <b class="caret pull-right"></b>
-                            @if(!$_user->hasRole('megaroot'))
+                            @if(!$is_megaroot)
                                 {{ $_restaurant->name }}
                                 <small>{!! ($_user->lastname ? $_user->lastname.'&nbsp' : '') . $_user->name !!} ({{ config('role.names.'.$_user->roles()->get()->first()->name.'.dolg') }})</small>
                             @else
@@ -172,7 +172,7 @@
                     </a>
                 </li>
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.towns') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.towns.index') }}">
                             <i class="fas fa-map-signs"></i>
@@ -181,7 +181,7 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.restaurants') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.restaurants.index') }}">
                             <i class="fas fa-university"></i>
@@ -194,12 +194,12 @@
                     <li{!! stristr(Route::currentRouteName(), 'admin.users') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.users.index') }}">
                             <i class="fas fa-users"></i>
-                            <span>{{ $_user->hasRole('megaroot') ? 'Пользователи' : 'Менеджеры' }}</span>
+                            <span>{{ $is_megaroot ? 'Пользователи' : 'Менеджеры' }}</span>
                         </a>
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.customers') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.customers.index') }}">
                             <i class="fas fa-shopping-cart"></i>
@@ -222,7 +222,7 @@
                     </a>
                 </li>
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.markers') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.markers.index') }}">
                             <i class="fas fa-bookmark"></i>
@@ -231,7 +231,7 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.specials') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.specials.index') }}">
                             <i class="fas fa-fire"></i>
@@ -240,7 +240,7 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.slides') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.slides.index') }}">
                             <i class="fas fa-images"></i>
@@ -249,7 +249,7 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.articles') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.articles.index') }}">
                             <i class="fas fa-newspaper"></i>
@@ -258,14 +258,14 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.helpmsgs') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.helpmsgs.index') }}">
                             <i class="far fa-edit"></i>
                             <span>Области</span>
                         </a>
                     </li>
-            @endif
+                @endif
 
 
                 {{--<li class="has-sub">--}}
@@ -380,13 +380,16 @@
             }
         });
 
-        $('[data-click="swal-warning"]').click(function (e) {
+        $(document).on('click', '[data-click="swal-warning"]', function (e) {
             var title = $(this).data('title') ? $(this).data('title') : 'Подтвердите действие',
                 type = $(this).data('type') ? $(this).data('type') : 'warning',
                 confirm_btn = $(this).data('actionbtn') ? $(this).data('actionbtn') : 'Ok',
                 class_btn = $(this).data('classbtn') ? $(this).data('classbtn') : 'green',
                 url = $(this).attr('href'),
+                aftersuccess = $(this).data('aftersuccess'),
                 options = {};
+
+
             e.preventDefault();
             options = {
                 title: title,
@@ -420,7 +423,6 @@
                         if(!$(this).data('rm-order')){
                             window.location = url;
                         }else{
-
                             var link = $(this);
                             $.ajax({
                                 type: "GET",
@@ -431,6 +433,9 @@
                                 },
                                 success: function(json) {
                                     if(json.success){
+                                        if(typeof window[aftersuccess] === "function"){
+                                            window[aftersuccess]();
+                                        }
                                         $('#order_pos_'+link.data('rm-order')).remove();
                                     }
                                 }

@@ -12,86 +12,45 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends AdminController
 {
-    public function index()
-    {
+    protected
+        $start = 0,
+        $step = 100,
+        $orders = null,
         $restaurant = null;
 
-        if($restaurant_id = request('restaurant_id')){
-            $restaurant = Restaurant::find($restaurant_id);
-        }
-
+    public function index()
+    {
         $this->title = 'Заказы';
         $this->view = 'admin.orders.index';
 
-        if(\Auth::user()->hasRole('megaroot')){
-            if($restaurant){
-                $orders = $restaurant->orders();
-                $this->data['restaurant'] = $restaurant;
-            }else{
-                $orders = Order::query();
-            }
-        }else{
-            $this->data['restaurant'] = \Auth::user()->restaurant;
-            $orders = $this->data['restaurant']->orders();
+        $orders = $this->getOrders(null, null);
+
+        if($this->restaurant){
+            $this->data['restaurant'] = $this->restaurant;
+            $this->data['commission'] = $this->restaurant->CommissionText;
         }
 
-        if($start = request('start')){
-            $orders = $orders->whereDate('created_at', '>', Carbon::createFromDate($start)->subDay(1));
-        }
-
-        if($end = request('end')){
-            $orders = $orders->whereDate('created_at', '<', Carbon::createFromDate($end)->addDay(1));
-        }
-
-        $orders = $orders->orderBy('created_at', 'desc')->get();
-
-        $orders = $orders->map(function ($order){
-            $order->total_price = $order->TotalPrice;
-            foreach ($order->dishes as $dish){
-                $order->total_quantity += $dish->pivot->quantity;
-            }
-
-            return $order;
+        $this->data['total_price'] = $orders->sum(function ($order){
+            return $order->TotalPrice;
         });
 
-        $this->data['orders'] = $orders;
-
-        $this->data['total_price'] = $total_price = $orders->sum(function ($order){
-            return $order->total_price;
+        $this->data['total_cancle'] = $orders->sum(function ($order){
+            return $order->cancle ? 1 : 0;
         });
 
-        $this->data['commission_calc'] = 0;
+        $this->data['total_newsum'] = $orders->sum(function ($order){
+            return $order->newsum ? 1 : 0;
+        });
 
-        if($restaurant){
-            $this->data['commission_calc'] = round($total_price / 100 * $restaurant->commission);
-        }else{
-            $restaurants =
-                $orders
-                ->pluck('restaurant_id')
-                ->unique();
+        $this->data['total_orders'] = $orders->sum(function ($order){
+            return $order->cancle ? 0 : 1;
+        });
 
-            $restaurant_commission = [];
-            foreach ($restaurants as $restaurant){
-                if($commission = Restaurant::find($restaurant)->commission){
-                    $restaurant_commission[$restaurant] = $commission;
-                }
-            }
+        $this->data['commission_sum'] = $orders->sum(function ($order){
+            return $order->commission['commission_sum'];
+        });
 
-            $commission_calc = 0;
-            foreach ($orders as $order){
-                if(isset($restaurant_commission[$order->restaurant_id])){
-                    $total_price = 0;
-                    foreach ($order->dishes as $dish){
-                        $total_price += $dish->pivot->total_price;
-                    }
-
-                    if((int)$total_price && (int)$restaurant_commission[$order->restaurant_id]) $commission_calc += round($total_price / 100 * $restaurant_commission[$order->restaurant_id]);
-                }
-
-            }
-
-            $this->data['commission_calc'] = $commission_calc;
-        }
+        $this->data['orders'] = $orders->take($this->step);
 
         return $this->render();
     }
@@ -117,6 +76,100 @@ class HomeController extends AdminController
         $name .= '.xlsx';
 
         return Excel::download(new OrdersExports($data), $name);
+    }
+
+    public function getOrders($start = 0, $step = 100)
+    {
+        if(\Auth::user()->hasRole('megaroot')){
+            if($restaurant_id = request('restaurant_id')){
+                $this->restaurant = Restaurant::find($restaurant_id);
+            }
+            $this->data['restaurants'] = Restaurant::all();
+        }else{
+            $this->restaurant = \Auth::user()->restaurant;
+        }
+
+        if($this->restaurant){
+            $orders_query = $this->restaurant->orders();
+        }else{
+            $orders_query = Order::query();
+        }
+
+        $orders_query = $orders_query->with('restaurant')->with('user')->with('dishes');
+
+        if($start_d = request('start')){
+            $orders_query = $orders_query->whereDate('created_at', '>', Carbon::createFromDate($start_d)->subDay(1));
+        }
+
+        if($end_d = request('end')){
+            $orders_query = $orders_query->whereDate('created_at', '<', Carbon::createFromDate($end_d)->addDay(1));
+        }
+
+        $orders_query = $orders_query
+            ->select(['orders.*'])
+            ->orderBy('created_at', 'desc');
+
+        if($start && $step){
+            $orders_query = $orders_query
+                ->offset($start)
+                ->limit($step);
+        }
+
+        return $orders_query->get();
+    }
+
+    public function append()
+    {
+        $orders = $this->getOrders(request('ot'), $this->step);
+
+        $html = '';
+        $is_megaroot = auth()->user()->hasRole('megaroot');
+        foreach ($orders as $order){
+            $html .= view('admin.includes.order_tr_item', ['order' => $order, 'is_megaroot'=>$is_megaroot])->render();
+        }
+
+        return response()->json(['html' => $html, 'request'=>request()->all()]);
+    }
+
+    public function getTotals()
+    {
+        $orders = $this->getOrders(null, null);
+
+        if($this->restaurant){
+            $commission = $this->restaurant->CommissionText;
+        }
+
+        $total_price = $orders->sum(function ($order){
+            return $order->TotalPrice;
+        });
+
+        $total_cancle = $orders->sum(function ($order){
+            return $order->cancle ? 1 : 0;
+        });
+
+        $total_newsum = $orders->sum(function ($order){
+            return $order->newsum ? 1 : 0;
+        });
+
+        $total_orders = $orders->sum(function ($order){
+            return $order->cancle ? 0 : 1;
+        });
+
+        $commission_sum = $orders->sum(function ($order){
+            return $order->commission['commission_sum'];
+        });
+
+        return response()->json([
+            'html' => view('admin.includes.orders_totals', [
+                'total_price' => $total_price,
+                'total_cancle' => $total_cancle,
+                'total_newsum' => $total_newsum,
+                'total_orders' => $total_orders,
+                'commission_sum' => $commission_sum,
+                'commission'=>isset($commission) ? $commission : null
+            ])->render(),
+            'request'=>request()->all()
+        ]);
     }
 
 }
