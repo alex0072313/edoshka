@@ -171,6 +171,10 @@
                 input_alias = $('input[name=\"alias\"]');
 
             input_alias.val(rus_to_latin(input_name.val()));
-        }).trigger('change');
+        });
+
+        if(!$('input[name=\"name\"]').val()){
+            $('input[name=\"name\"]').trigger('change');
+        }
     </script>
 @endpush
