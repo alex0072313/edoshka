@@ -57,13 +57,15 @@ class HomeController extends AdminController
 
     public function ordersReport()
     {
+        $this->restaurant = Restaurant::find(request('restaurant_id'));
+
         $data = [
             'restaurant_id'=>request('restaurant_id'),
             'start'=>request('start'),
             'end'=>request('end'),
         ];
 
-        $name = 'orders';
+        $name = 'orders-'.$this->restaurant->alias;
 
         if($data['start']){
             $name .= '-ot-'.$data['start'];
