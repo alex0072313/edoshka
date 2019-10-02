@@ -118,7 +118,7 @@ Route::middleware('guest')->group(function () {
     Route::get('login/{provider}/callback','Site\SocialController@Callback')->name('login_soc_callback');
 });
 
-Route::domain('{town}.edoshka.loc')->group(function () {
+Route::domain('{town}.edoshka.ru')->group(function () {
     Route::get('/', function ($town) {
         dd($town);
     });
