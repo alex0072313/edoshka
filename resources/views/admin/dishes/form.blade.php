@@ -17,22 +17,22 @@
         {{--if ($('#dish_cat_select').length) {--}}
             {{--var select = $('#dish_cat_select'),--}}
                 {{--url;--}}
-        
+
             {{--@if(isset($dish))--}}
                 {{--url = '{{ route('fields.get_for_dish', 'dish_'.$dish->id) }}';--}}
             {{--@else--}}
                 {{--url = '{{ route('fields.get_for_dish') }}';--}}
             {{--@endif--}}
-        
+
             {{--select.on('change', function () {--}}
                 {{--var category_id = $(this).val();--}}
-        
+
                 {{--if (!$('.dish_field').length) {--}}
                     {{--$('.primary_info').after(bild_dish_field_form('<div class="fa-3x text-center my-1 text-green"><i class="fas fa-spinner fa-spin"></i></div>'));--}}
                 {{--} else {--}}
                     {{--$('.dish_field .panel-body').html('<div class="fa-3x text-center my-3 text-green"><i class="fas fa-spinner fa-spin"></i></div>');--}}
                 {{--}--}}
-        
+
                 {{--$.ajax({--}}
                     {{--url: url,--}}
                     {{--type: 'POST',--}}
@@ -43,28 +43,28 @@
                     {{--dataType: 'JSON',--}}
                     {{--success: function (response) {--}}
                         {{--var fields_html = '';--}}
-        
+
                         {{--if (response['fields'] !== undefined) {--}}
                             {{--for (var i = 0; i < response['fields'].length; i++) {--}}
                                 {{--fields_html += response['fields'][i];--}}
                             {{--}--}}
                         {{--}--}}
-        
+
                         {{--if (fields_html) {--}}
                             {{--$('.dish_field .panel-body').html(fields_html);--}}
                         {{--} else {--}}
                             {{--$('.dish_field').remove();--}}
                         {{--}--}}
-        
+
                         {{--bild_htmltext();--}}
                         {{--fields_init();--}}
                     {{--}--}}
                 {{--});--}}
             {{--});--}}
-        
+
         {{--}--}}
         {{--bild_htmltext();--}}
-        
+
         {{--//--}}
         {{--function bild_dish_field_form(fields) {--}}
             {{--var html = '<div class="panel panel-inverse dish_field">' +--}}
@@ -77,7 +77,7 @@
                 {{--'</div>';--}}
             {{--return html;--}}
         {{--}--}}
-        
+
         {{--function bild_htmltext() {--}}
             {{--$(".wysihtml5").wysihtml5({--}}
                 {{--toolbar: {--}}
@@ -494,12 +494,13 @@
         $('.recomendeds_random').on('click', function () {
             var reatuarant_id = $('[name="restaurant_id"]').val(),
                 dish_id = $(this).data('dish-id');
+                category_id = $('[name="category_id"]').val();
                 select = $('#recomendeds_select');
 
             $.ajax({
                 type: "POST",
                 url: '{{ route('admin.dishes.recomendeds_random') }}',
-                data: {reatuarant_id:reatuarant_id, dish_id:dish_id},
+                data: {reatuarant_id:reatuarant_id, dish_id:dish_id, category_id:category_id},
                 dataType: 'json',
                 success: function (ids) {
                     if(ids){

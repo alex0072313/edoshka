@@ -383,9 +383,17 @@ class DishesController extends AdminController
 
         if($reatuarant_id = request('reatuarant_id')){
 
-            $json = Restaurant::find($reatuarant_id)->dishes()->inRandomOrder()->where('id','!=',request('dish_id'))->select(['id', 'name'])->take(3)->get()->map(function ($dish){
-                return $dish->id;
-            });
+            $json = Restaurant::find($reatuarant_id)
+                ->dishes()
+                ->inRandomOrder()
+                ->where('id','!=',request('dish_id'))
+                ->where('category_id', '=', request('category_id'))
+                ->select(['id', 'name'])
+                ->take(3)
+                ->get()
+                ->map(function ($dish){
+                    return $dish->id;
+                });
         }
 
         return response()->json($json);
