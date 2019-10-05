@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Town extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'name2', 'name3', 'alias'];
 
     public function restaurants()
     {

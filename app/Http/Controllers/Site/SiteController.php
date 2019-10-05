@@ -14,10 +14,22 @@ class SiteController extends Controller
     protected $town;
     protected $cart;
 
-    public function __construct()
-    {
-        //Текущий город Геленджик
-        $this->town = $this->data['_town'] = Town::find(1);
+    public function __construct(){
+//        //Текущий город
+        if(count($domain = explode('.', request()->getHost())) > 2){
+
+            if($town = Town::where('alias', '=', $domain[0])->first()){
+                $this->town = $this->data['_town'] = $town;
+            }else{
+
+                dd(\Config::get('app.url'));
+
+                return redirect('https://vk.com');
+
+            }
+        }else{
+            $this->town = $this->data['_town'] = Town::find(1);;
+        }
 
         //Seo теги
         $this->data['seopage'] = [];

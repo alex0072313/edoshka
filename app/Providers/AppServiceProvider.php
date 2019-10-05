@@ -6,6 +6,7 @@ use App\Helpmsg;
 use App\Seopage;
 use App\Town;
 use App\User;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\ServiceProvider;
 use View;
 use Auth;
@@ -21,6 +22,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+//        //Текущий город
+//        if(count($domain = explode('.', request()->getHost())) > 2){
+//
+//            if($town = Town::where('alias', '=', $domain[0])->first()){
+//                $this->town = $this->data['_town'] = $town;
+//            }else{
+//
+//                //dd(\Config::get('app.url'));
+//                return \redirect()->away('https://vk.com');
+//            }
+//        }else{
+//            $this->town = $this->data['_town'] = Town::find(1);;
+//        }
+//        dd($this->town);
 
         Validator::extend('phone_number', function($attribute, $value, $parameters)
         {

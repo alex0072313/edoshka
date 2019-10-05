@@ -118,13 +118,6 @@ Route::middleware('guest')->group(function () {
     Route::get('login/{provider}/callback','Site\SocialController@Callback')->name('login_soc_callback');
 });
 
-Route::domain('{town}.edoshka.ru')->group(function () {
-    Route::get('/', function ($town) {
-        dd($town);
-    });
-});
-
-
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/', 'Site\CustomerController@index')->name('home');
 
@@ -134,6 +127,16 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });
 
+
+Route::group(['domain' => '{town}'.'.edoshka.test'], function() {
+    Route::get('/', function ($town) {
+        if($town == 'bla'){
+            return redirect()->away('https://vk.com');
+        }
+        dd($town);
+    });
+
+});
 
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
@@ -158,3 +161,6 @@ Route::post('/search', 'Site\SearchController@query')->name('site.search');
 Route::get('/sitemap.xml', 'Site\SitemapController@index')->name('site.sitemap');
 
 Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
+
+
+
