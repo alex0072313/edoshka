@@ -15,17 +15,13 @@ class SiteController extends Controller
     protected $cart;
 
     public function __construct(){
-//        //Текущий город
-        if(count($domain = explode('.', request()->getHost())) > 2){
 
+        //Текущий город
+        if(count($domain = explode('.', request()->getHost())) > 2){
             if($town = Town::where('alias', '=', $domain[0])->first()){
                 $this->town = $this->data['_town'] = $town;
             }else{
-
-                dd(\Config::get('app.url'));
-
-                return redirect('https://vk.com');
-
+                return redirect(\Config::get('app.url'));
             }
         }else{
             $this->town = $this->data['_town'] = Town::find(1);;
