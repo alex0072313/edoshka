@@ -128,7 +128,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 
-Route::group(['domain' => '{town}'.'.edoshka.test'], function() {
+Route::group(['domain' => '{town}'.'.edoshka.ru'], function() {
     Route::get('/', function ($town) {
         if($town == 'bla'){
             return redirect()->away('https://vk.com');
