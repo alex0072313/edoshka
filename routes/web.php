@@ -127,17 +127,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });
 
-
-Route::group(['domain' => '{town}'.'.edoshka.ru'], function() {
-    Route::get('/', function ($town) {
-        if($town == 'bla'){
-            return redirect()->away('https://vk.com');
-        }
-        dd($town);
-    });
-
-});
-
 Route::get('/', 'Site\HomeController@index')->name('site.home');
 Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
 Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
@@ -161,6 +150,3 @@ Route::post('/search', 'Site\SearchController@query')->name('site.search');
 Route::get('/sitemap.xml', 'Site\SitemapController@index')->name('site.sitemap');
 
 Route::get('/{article_alias}', 'Site\ArticleController@index')->name('site.article');
-
-
-

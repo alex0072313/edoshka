@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'domain' => env('APP_DOMAIN', 'edoshka.ru'),
+
     'asset_url' => env('ASSET_URL', null),
 
     /*

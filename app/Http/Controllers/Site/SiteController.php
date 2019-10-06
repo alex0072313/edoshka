@@ -21,10 +21,14 @@ class SiteController extends Controller
             if($town = Town::where('alias', '=', $domain[0])->first()){
                 $this->town = $this->data['_town'] = $town;
             }else{
-                return redirect(\Config::get('app.url'));
+                if(\Config::get('app.debug')){
+                    return abort(404);
+                }else{
+                    return redirect(\Config::get('app.url'));
+                }
             }
         }else{
-            $this->town = $this->data['_town'] = Town::find(1);;
+            $this->town = $this->data['_town'] = Town::find(1);
         }
 
         //Seo теги
