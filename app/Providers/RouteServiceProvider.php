@@ -30,6 +30,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
         //Текущий город
         if(count($domain = explode('.', request()->getHost())) > 2){
             if($town = Town::where('alias', '=', $domain[0])->first()){
@@ -44,9 +46,6 @@ class RouteServiceProvider extends ServiceProvider
         }else{
             $this->town = $this->data['_town'] = Town::find(1);
         }
-
-        parent::boot();
-
 
         Route::bind('category_alias', function ($value) {
             return Category::where('alias', $value)->firstorFail();
