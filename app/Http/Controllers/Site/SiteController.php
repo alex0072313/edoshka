@@ -21,11 +21,9 @@ class SiteController extends Controller
             if($town = Town::where('alias', '=', $domain[0])->first()){
                 $this->town = $this->data['_town'] = $town;
             }else{
-                if(\Config::get('app.debug')){
-                    return abort(404);
-                }else{
-                    return redirect()->away(\Config::get('app.url'));
-                }
+                return redirect()->away('https://vk.com');
+                //return redirect()->away(\Config::get('app.url'));
+
             }
         }else{
             $this->town = $this->data['_town'] = Town::find(1);
