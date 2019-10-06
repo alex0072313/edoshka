@@ -24,7 +24,7 @@ class SiteController extends Controller
                 if(\Config::get('app.debug')){
                     return abort(404);
                 }else{
-                    dd('123');
+                    dd(\Config::get('app.url'));
                     return redirect(\Config::get('app.url'));
                 }
             }
