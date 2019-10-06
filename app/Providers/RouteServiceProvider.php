@@ -7,6 +7,7 @@ use App\Category;
 use App\Dish;
 use App\Helpmsg;
 use App\Restaurant;
+use App\Town;
 use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -29,15 +30,23 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        //Route::pattern('alias', '[0-9A-Za-z\-]');
-        //Route::model('category', Category::class);
-//        Route::model('category', function ($alias) {
-//            return Category::where('alias', $alias)->firstorFail();
-//        });
-        //
+        //Текущий город
+        if(count($domain = explode('.', request()->getHost())) > 2){
+            if($town = Town::where('alias', '=', $domain[0])->first()){
+                //$this->town = $this->data['_town'] = $town;
+
+            }else{
+                //dd('123');
+                redirect()->away('https://vk.com');
+                //return redirect()->away(\Config::get('app.url'));
+
+            }
+        }else{
+            $this->town = $this->data['_town'] = Town::find(1);
+        }
 
         parent::boot();
+
 
         Route::bind('category_alias', function ($value) {
             return Category::where('alias', $value)->firstorFail();
