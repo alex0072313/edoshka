@@ -9,7 +9,7 @@ class HomeController extends SiteController
     {
         $this->view = 'site.home';
 
-        $this->data['slides'] = Slide::all();
+        $this->data['slides'] = $this->town->slides;
 
         $restaurants = $this->town
             ->restaurants()

@@ -12,4 +12,9 @@ class Town extends Model
     {
         return $this->hasMany(Restaurant::class);
     }
+
+    public function slides()
+    {
+        return $this->hasMany(Slide::class);
+    }
 }

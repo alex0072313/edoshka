@@ -8,6 +8,24 @@
         @endif
 
         <div class="form-group row">
+            <label class="col-form-label col-md-3">Город</label>
+
+            <div class="col-md-9">
+                <select name="town_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('town_id') ? ' is-invalid' : '' }}" {{ isset($slide) ? ' data-dish="'.$slide->id.'"' : '' }} data-search="false" data-placeholder="Выберете город">
+                    <option></option>
+                    @foreach(\App\Town::all() as $town)
+                        <option value="{{ $town->id }}"{{ isset($slide) ? $town->id == $slide->town_id ? ' selected':'' : '' }} >{{ $town->name }}</option>
+                    @endforeach
+                </select>
+                @if ($errors->has('town_id'))
+                    <span class="invalid-feedback" role="alert">
+                        Выберете город!
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label class="col-form-label col-md-3">Заголовок</label>
             <div class="col-md-9">
                 <input type="text" name="title" value="{{ old('title') ? old('name') : (isset($slide) ? $slide->title : '') }}" class="form-control">
