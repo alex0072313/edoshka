@@ -129,8 +129,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 Route::middleware('subdomain')->group(function () {
     Route::get('/', 'Site\HomeController@index')->name('site.home');
-
-
     Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
     Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
 });

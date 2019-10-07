@@ -1,7 +1,16 @@
 <?php
 // Site
+use App\Town;
+
 Breadcrumbs::for('site.home', function ($trail) {
-    $trail->push('Рестораны Геленджика', route('site.home'));
+
+    if(count($domain = explode('.', request()->getHost())) > 2){
+        $town = Town::where('alias', '=', $domain[0])->first();
+    }else{
+        $town = Town::find(1);
+    }
+
+    $trail->push('Рестораны '.($town->name2 ? $town->name2 : $town->name), route('site.home'));
 });
 Breadcrumbs::for('site.article', function ($trail, \App\Article $article) {
     $trail->parent('site.home');
