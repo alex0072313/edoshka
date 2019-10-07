@@ -32,21 +32,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //Текущий город
-        if(count($domain = explode('.', request()->getHost())) > 2){
-            if($town = Town::where('alias', '=', $domain[0])->first()){
-                //$this->town = $this->data['_town'] = $town;
-
-            }else{
-                //dd('123');
-                redirect()->away('https://vk.com');
-                //return redirect()->away(\Config::get('app.url'));
-
-            }
-        }else{
-            $this->town = $this->data['_town'] = Town::find(1);
-        }
-
         Route::bind('category_alias', function ($value) {
             return Category::where('alias', $value)->firstorFail();
         });

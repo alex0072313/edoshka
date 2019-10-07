@@ -127,9 +127,14 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 });
 
-Route::get('/', 'Site\HomeController@index')->name('site.home');
-Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
-Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
+Route::middleware('subdomain')->group(function () {
+    Route::get('/', 'Site\HomeController@index')->name('site.home');
+
+
+    Route::get('/category/{category_alias}/', 'Site\CategoryController@index')->name('site.category');
+    Route::get('/restaurant/{restaurant_alias}', 'Site\RestaurantController@index')->name('site.restaurant');
+});
+
 
 //Сохранение подукта в cookie
 Route::post('/dishes_viewed_save/{id}', 'Site\SiteController@dishes_viewed_save')->name('site.dishes_viewed_save');

@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Category;
 use App\Slide;
-use App\User;
-
 class HomeController extends SiteController
 {
     public function index()
