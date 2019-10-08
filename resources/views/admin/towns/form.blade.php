@@ -48,6 +48,27 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">META теги</label>
+            <div class="col-md-9">
+                <textarea name="meta" class="form-control">{{ old('meta') ? old('meta') : (isset($town) ? $town->meta : '') }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">ID яндекс метрика</label>
+            <div class="col-md-9">
+                <input type="text" name="ya_metric_id" value="{{ old('ya_metric_id') ? old('ya_metric_id') : (isset($town) ? $town->ya_metric_id : '') }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">ID гугл аналитика</label>
+            <div class="col-md-9">
+                <input type="text" name="g_analitic_id" value="{{ old('g_analitic_id') ? old('g_analitic_id') : (isset($town) ? $town->g_analitic_id : '') }}" class="form-control">
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="clearfix">
                 <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
