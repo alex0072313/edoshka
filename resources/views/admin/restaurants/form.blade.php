@@ -30,7 +30,7 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Название</label>
             <div class="col-md-9">
-                <input type="text" name="name" value="{{  old('name') ? old('name') : isset($restaurant->id) ? $restaurant->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
+                <input type="text" name="name"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{  old('name') ? old('name') : isset($restaurant->id) ? $restaurant->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
                 @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('name') }}
@@ -54,7 +54,7 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Адрес</label>
             <div class="col-md-9">
-                <input type="text" name="address" value="{{  old('address') ? old('address') : isset($restaurant->id) ? $restaurant->address : '' }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
+                <input type="text" name="address"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{  old('address') ? old('address') : isset($restaurant->id) ? $restaurant->address : '' }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
                 @if ($errors->has('address'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('address') }}
