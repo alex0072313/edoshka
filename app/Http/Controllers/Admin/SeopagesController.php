@@ -44,7 +44,7 @@ class SeopagesController extends Controller
     }
 
     public function save(Request $inputs){
-        $seopage = Seopage::where(['url'=>request()->get('url')])->first();
+        $seopage = Seopage::where(['url'=>request()->get('url'), 'town_id'=>request()->get('town')])->first();
 
         if($seopage){
             $update = true;
