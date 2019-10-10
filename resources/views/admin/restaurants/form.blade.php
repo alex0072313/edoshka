@@ -9,59 +9,62 @@
             @method('PUT')
         @endif
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Город</label>
+        @if($_user->hasRole('megaroot'))
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Город</label>
 
-            <div class="col-md-9">
-                <select name="town_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('town_id') ? ' is-invalid' : '' }}" {{ isset($restaurant) ? ' data-dish="'.$restaurant->id.'"' : '' }} data-search="false" data-placeholder="Выберете город">
-                    <option></option>
-                    @foreach(\App\Town::all() as $town)
-                        <option value="{{ $town->id }}"{{ isset($restaurant) ? $town->id == $restaurant->town_id ? ' selected':'' : '' }} >{{ $town->name }}</option>
-                    @endforeach
-                </select>
-                @if ($errors->has('town_id'))
-                    <span class="invalid-feedback" role="alert">
-                        Выберете город!
-                    </span>
-                @endif
+                <div class="col-md-9">
+                    <select name="town_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('town_id') ? ' is-invalid' : '' }}" {{ isset($restaurant) ? ' data-dish="'.$restaurant->id.'"' : '' }} data-search="false" data-placeholder="Выберете город">
+                        <option></option>
+                        @foreach(\App\Town::all() as $town)
+                            <option value="{{ $town->id }}"{{ isset($restaurant) ? $town->id == $restaurant->town_id ? ' selected':'' : '' }} >{{ $town->name }}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('town_id'))
+                        <span class="invalid-feedback" role="alert">
+                            Выберете город!
+                        </span>
+                    @endif
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Название</label>
-            <div class="col-md-9">
-                <input type="text" name="name"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{  old('name') ? old('name') : isset($restaurant->id) ? $restaurant->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
-                @if ($errors->has('name'))
-                    <span class="invalid-feedback" role="alert">
-                        {{ $errors->first('name') }}
-                    </span>
-                @endif
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Название</label>
+                <div class="col-md-9">
+                    <input type="text" name="name" value="{{  old('name') ? old('name') : isset($restaurant->id) ? $restaurant->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
+                    @if ($errors->has('name'))
+                        <span class="invalid-feedback" role="alert">
+                            {{ $errors->first('name') }}
+                        </span>
+                    @endif
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Алиас</label>
-            <div class="col-md-9">
-                <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
-                @if ($errors->has('alias'))
-                    <span class="invalid-feedback" role="alert">
-                        {{ $errors->first('alias') }}
-                    </span>
-                @endif
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Алиас</label>
+                <div class="col-md-9">
+                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                    @if ($errors->has('alias'))
+                        <span class="invalid-feedback" role="alert">
+                            {{ $errors->first('alias') }}
+                        </span>
+                    @endif
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Адрес</label>
-            <div class="col-md-9">
-                <input type="text" name="address"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{  old('address') ? old('address') : isset($restaurant->id) ? $restaurant->address : '' }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
-                @if ($errors->has('address'))
-                    <span class="invalid-feedback" role="alert">
-                        {{ $errors->first('address') }}
-                    </span>
-                @endif
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Адрес</label>
+                <div class="col-md-9">
+                    <input type="text" name="address" value="{{  old('address') ? old('address') : isset($restaurant->id) ? $restaurant->address : '' }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
+                    @if ($errors->has('address'))
+                        <span class="invalid-feedback" role="alert">
+                            {{ $errors->first('address') }}
+                        </span>
+                    @endif
+                </div>
             </div>
-        </div>
+        @endif
+
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Мин. сумма заказа</label>

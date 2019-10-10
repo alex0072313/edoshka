@@ -50,9 +50,6 @@ class RestaurantController extends AdminController
         $this->authorize('access', $restaurant);
 
         $validator =  [
-            'name' => 'required|max:255',
-            'address' => 'required',
-            'alias' => 'required|unique:restaurants,alias,'.$restaurant->id,
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ];
 
@@ -71,6 +68,14 @@ class RestaurantController extends AdminController
 
         if(\Auth::user()->hasRole('megaroot')){
             $validator['town_id'] = 'required';
+            $validator['name'] = 'required|max:255';
+            $validator['address'] = 'required';
+            $validator['alias'] = 'required|unique:restaurants,alias,'.$restaurant->id;
+        }else{
+            request()->request->remove('town_id');
+            request()->request->remove('name');
+            request()->request->remove('address');
+            request()->request->remove('alias');
         }
 
         $validator = \Validator::make(request()->all(), $validator);
