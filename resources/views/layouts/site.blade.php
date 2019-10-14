@@ -10,8 +10,8 @@
         {!! $_town->meta !!}
     @endif
 
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ env('APP_URL') }}/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="{{ env('APP_URL') }}/favicon.ico" type="image/x-icon" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
