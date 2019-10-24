@@ -30,6 +30,8 @@ class CategoryController extends SiteController
             return false;
         });
 
+        if(!$restaurants->count()) return redirect()->route('site.home');
+
         //$categories = cache()->rememberForever('town_'.$this->town->id.'_categories_has_dishes', function () use ($restaurants){
             $categories = collect();
             foreach ($restaurants as $restaurant){
