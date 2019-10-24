@@ -14,10 +14,10 @@
                 <label class="col-form-label col-md-3">Город</label>
 
                 <div class="col-md-9">
-                    <select name="town_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('town_id') ? ' is-invalid' : '' }}" {{ isset($restaurant) ? ' data-dish="'.$restaurant->id.'"' : '' }} data-search="false" data-placeholder="Выберете город">
+                    <select name="town_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('town_id') ? ' is-invalid' : '' }}" {{ isset($restaurant->id) ? ' data-dish="'.$restaurant->id.'"' : '' }} data-search="false" data-placeholder="Выберете город">
                         <option></option>
                         @foreach(\App\Town::all() as $town)
-                            <option value="{{ $town->id }}"{{ isset($restaurant) ? $town->id == $restaurant->town_id ? ' selected':'' : '' }} >{{ $town->name }}</option>
+                            <option value="{{ $town->id }}"{{ isset($restaurant->id) ? $town->id == $restaurant->town_id ? ' selected':'' : '' }} >{{ $town->name }}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('town_id'))
@@ -31,7 +31,7 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Название</label>
                 <div class="col-md-9">
-                    <input type="text" name="name" value="{{  old('name') ? old('name') : isset($restaurant->id) ? $restaurant->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
+                    <input type="text" name="name" value="{{ old('name') ? old('name') : (isset($restaurant->id) ? $restaurant->name : '') }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
                     @if ($errors->has('name'))
                         <span class="invalid-feedback" role="alert">
                             {{ $errors->first('name') }}
@@ -43,7 +43,7 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Алиас</label>
                 <div class="col-md-9">
-                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant->id) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
                     @if ($errors->has('alias'))
                         <span class="invalid-feedback" role="alert">
                             {{ $errors->first('alias') }}
