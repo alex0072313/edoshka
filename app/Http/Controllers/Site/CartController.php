@@ -40,6 +40,11 @@ class CartController extends SiteController
             }
         }
 
+        if($this->dish->variants->count() && !request('variants')){
+            //нужно выбрать вариант
+            return response()->json(['variants_invalid' => true]);
+        }
+
         if(\Cart::getTotal()){
             foreach (\Cart::getContent() as $dish){
                 if($dish->restaurant->id != $this->restaurant->id){
@@ -49,11 +54,6 @@ class CartController extends SiteController
                     ]]);
                 }
             }
-        }
-
-        if($this->dish->variants->count() && !request('variants')){
-            //нужно выбрать вариант
-            return response()->json(['variants_invalid' => true]);
         }
 
         $image = \Storage::disk('public')->exists('dish_imgs/'.$this->dish->id.'/img_xs.jpg') ? \Storage::disk('public')->url('dish_imgs/'.$this->dish->id.'/img_xs.jpg') : null;
@@ -76,7 +76,6 @@ class CartController extends SiteController
         );
 
         \Cart::add($product);
-
 
         $restaurants_small_order = $this->check_small_order();
 
@@ -165,6 +164,22 @@ class CartController extends SiteController
         }
 
         return $restaurants_small_order;
+    }
+
+    protected function clear()
+    {
+        \Cart::clear();
+        $restaurants_small_order = $this->check_small_order();
+        return response()->json([
+            'total' => \Cart::getTotalQuantity(),
+            'sum'=>\Cart::getTotal(),
+            'small_order'=>count($restaurants_small_order),
+            'content'=>view('site.includes.card_content',
+                [
+                    '_cart_content' => \Cart::getContent(),
+                    '_cart_restaurants_small_order' => $restaurants_small_order
+                ]
+            )->render()]);
     }
 
 

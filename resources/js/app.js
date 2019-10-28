@@ -322,34 +322,37 @@ global.load_dish_modal = function(id, try_by = false) {
             }
 
             if(status){
-                ajax_request({
-                        'action': 'add',
-                        'dish_id': btn.data('dish-id'),
-                        'variants': btn.data('variants'),
-                        'weight': btn.data('weight'),
-                        'price': btn.data('price'),
-                    }, '/dishes_cart', 'json', 'post',
-                    function () {
-                        btn.addClass('adding').addClass('disabled');
-                        $('#card__module_modal .card_products').addClass('added');
-                    },
-                    function ($json) {
-                        btn.removeClass('adding').removeClass('disabled');
-                        $('#card__module_modal .card_products').removeClass('load');
 
-                        if(typeof $json.worktime_invalid !== "undefined"){
-                            return swal({
-                                title: 'В данное время Ресторан не работает!',
-                                icon: "warning",
-                                button: {
-                                    text: "Ок",
-                                    className: "btn btn-primary",
-                                },
-                                content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
-                            });
-                        }
-                        return cart_update($json);
-                    });
+                return add_to_cart(btn.data('dish-id'), btn.data('variants'), btn.data('weight'), btn.data('price'));
+
+                // ajax_request({
+                //         'action': 'add',
+                //         'dish_id': btn.data('dish-id'),
+                //         'variants': btn.data('variants'),
+                //         'weight': btn.data('weight'),
+                //         'price': btn.data('price'),
+                //     }, '/dishes_cart', 'json', 'post',
+                //     function () {
+                //         btn.addClass('adding').addClass('disabled');
+                //         $('#card__module_modal .card_products').addClass('added');
+                //     },
+                //     function ($json) {
+                //         btn.removeClass('adding').removeClass('disabled');
+                //         $('#card__module_modal .card_products').removeClass('load');
+                //
+                //         if(typeof $json.worktime_invalid !== "undefined"){
+                //             return swal({
+                //                 title: 'В данное время Ресторан не работает!',
+                //                 icon: "warning",
+                //                 button: {
+                //                     text: "Ок",
+                //                     className: "btn btn-primary",
+                //                 },
+                //                 content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
+                //             });
+                //         }
+                //         return cart_update($json);
+                //     });
             }
         });
         if(try_by){
@@ -358,15 +361,17 @@ global.load_dish_modal = function(id, try_by = false) {
     }
 }
 
-//Корзина
-$(document).on("click", '.add_to_cart', function(){
-    var dish_id = $(this).data('dish-id'),
-        btn = $(this);
 
-    ajax_request({
-            'action': 'add',
-            'dish_id': dish_id,
-        }, '/dishes_cart', 'json', 'post',
+global.add_to_cart = function(dish_id, variants = null, weight = null, price = null){
+    var btn = $('button[data-dish-id=\"'+dish_id+'\"]');
+
+    var params = {'action': 'add', 'dish_id': dish_id};
+
+    if(variants) params.variants = variants;
+    if(weight) params.weight = weight;
+    if(price) params.price = price;
+
+    ajax_request(params, '/dishes_cart', 'json', 'post',
         function () {
             btn.addClass('adding').addClass('disabled');
             $('#card__module_modal .card_products').addClass('added');
@@ -375,25 +380,50 @@ $(document).on("click", '.add_to_cart', function(){
             btn.removeClass('adding').removeClass('disabled');
             $('#card__module_modal .card_products').removeClass('load');
 
-            //заказ только в 1 ресторане за раз
-            if(typeof $json.rest_exist !== "undefined"){
-
-                return swal({
-                    title: 'Обновить корзину?',
-                    icon: "warning",
-                    button: {
-                        text: "Да",
-                        className: "btn btn-primary",
-                    },
-                    content: 'В корзине уже есть блюда из ресторана '+ $json.rest_exist.name+'. Они будут удалены для добавления новых'
-                });
-
-            }
-            //
-
             //нужно выбрать вариант
             if(typeof $json.variants_invalid !== "undefined"){
                 return load_dish_modal(dish_id, true);
+            }
+            //
+
+            //заказ только в 1 ресторане за раз
+            if(typeof $json.rest_exist !== "undefined"){
+
+                return swal('В корзине уже есть блюда из ресторана '+ $json.rest_exist.name+'. \nОни будут удалены для добавления новых', {
+                    title: 'Обновить корзину?',
+                    icon: "warning",
+                    buttons: {
+                        cancel: {
+                            text: "Отмена",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: "Очистить и добавить новое",
+                            value: dish_id,
+                            visible: true,
+                            className: "",
+                            closeModal: true
+                        }
+                    },
+                })
+                .then((add_dish_id) => {
+                    if(add_dish_id){
+                        //Очищаем
+                        ajax_request({
+                                'action': 'clear',
+                            }, '/dishes_cart', 'json', 'post',
+                            null,
+                            function ($json) {
+                                //Добавляем новое блюдо
+                                cart_update($json);
+                                $('body').removeClass('cleared');
+                                return add_to_cart(add_dish_id, variants, weight, price);
+                            });
+                    }
+                });
             }
             //
 
@@ -408,9 +438,13 @@ $(document).on("click", '.add_to_cart', function(){
                     content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
                 });
             }
-
             return cart_update($json);
         });
+};
+
+//Корзина
+$(document).on("click", '.add_to_cart', function(){
+    return add_to_cart($(this).data('dish-id'));
 });
 
 //Переход и открытие
@@ -418,7 +452,6 @@ $(document).on("click", 'button.open_in_rest', function(){
     var box     = $(this).parents('.shop_pos_item'),
         dish_id = box.data('product-id'),
         go_url  = box.data('url');
-
 
     box.addClass('load');
     window.location.href = go_url;

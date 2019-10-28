@@ -40886,33 +40886,34 @@ global.load_dish_modal = function (id) {
       }
 
       if (status) {
-        ajax_request({
-          'action': 'add',
-          'dish_id': btn.data('dish-id'),
-          'variants': btn.data('variants'),
-          'weight': btn.data('weight'),
-          'price': btn.data('price')
-        }, '/dishes_cart', 'json', 'post', function () {
-          btn.addClass('adding').addClass('disabled');
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('added');
-        }, function ($json) {
-          btn.removeClass('adding').removeClass('disabled');
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('load');
-
-          if (typeof $json.worktime_invalid !== "undefined") {
-            return sweetalert__WEBPACK_IMPORTED_MODULE_3___default()({
-              title: 'В данное время Ресторан не работает!',
-              icon: "warning",
-              button: {
-                text: "Ок",
-                className: "btn btn-primary"
-              },
-              content: 'Время работы ' + $json.worktime_invalid.name + ' с ' + $json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
-            });
-          }
-
-          return cart_update($json);
-        });
+        return add_to_cart(btn.data('dish-id'), btn.data('variants'), btn.data('weight'), btn.data('price')); // ajax_request({
+        //         'action': 'add',
+        //         'dish_id': btn.data('dish-id'),
+        //         'variants': btn.data('variants'),
+        //         'weight': btn.data('weight'),
+        //         'price': btn.data('price'),
+        //     }, '/dishes_cart', 'json', 'post',
+        //     function () {
+        //         btn.addClass('adding').addClass('disabled');
+        //         $('#card__module_modal .card_products').addClass('added');
+        //     },
+        //     function ($json) {
+        //         btn.removeClass('adding').removeClass('disabled');
+        //         $('#card__module_modal .card_products').removeClass('load');
+        //
+        //         if(typeof $json.worktime_invalid !== "undefined"){
+        //             return swal({
+        //                 title: 'В данное время Ресторан не работает!',
+        //                 icon: "warning",
+        //                 button: {
+        //                     text: "Ок",
+        //                     className: "btn btn-primary",
+        //                 },
+        //                 content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
+        //             });
+        //         }
+        //         return cart_update($json);
+        //     });
       }
     });
 
@@ -40920,38 +40921,66 @@ global.load_dish_modal = function (id) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal_add_to_cart').trigger('click');
     }
   }
-}; //Корзина
+};
 
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_cart', function () {
-  var dish_id = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('dish-id'),
-      btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
-  ajax_request({
+global.add_to_cart = function (dish_id) {
+  var variants = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var weight = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var price = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+  var btn = jquery__WEBPACK_IMPORTED_MODULE_0___default()('button[data-dish-id=\"' + dish_id + '\"]');
+  var params = {
     'action': 'add',
     'dish_id': dish_id
-  }, '/dishes_cart', 'json', 'post', function () {
+  };
+  if (variants) params.variants = variants;
+  if (weight) params.weight = weight;
+  if (price) params.price = price;
+  ajax_request(params, '/dishes_cart', 'json', 'post', function () {
     btn.addClass('adding').addClass('disabled');
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').addClass('added');
   }, function ($json) {
     btn.removeClass('adding').removeClass('disabled');
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('load'); //заказ только в 1 ресторане за раз
-
-    if (typeof $json.rest_exist !== "undefined") {
-      return sweetalert__WEBPACK_IMPORTED_MODULE_3___default()({
-        title: 'Обновить корзину?',
-        icon: "warning",
-        button: {
-          text: "Да",
-          className: "btn btn-primary"
-        },
-        content: 'В корзине уже есть блюда из ресторана ' + $json.rest_exist.name + '. Они будут удалены для добавления новых'
-      });
-    } //
-    //нужно выбрать вариант
-
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card__module_modal .card_products').removeClass('load'); //нужно выбрать вариант
 
     if (typeof $json.variants_invalid !== "undefined") {
       return load_dish_modal(dish_id, true);
+    } //
+    //заказ только в 1 ресторане за раз
+
+
+    if (typeof $json.rest_exist !== "undefined") {
+      return sweetalert__WEBPACK_IMPORTED_MODULE_3___default()('В корзине уже есть блюда из ресторана ' + $json.rest_exist.name + '. \nОни будут удалены для добавления новых', {
+        title: 'Обновить корзину?',
+        icon: "warning",
+        buttons: {
+          cancel: {
+            text: "Отмена",
+            value: null,
+            visible: true,
+            className: "",
+            closeModal: true
+          },
+          confirm: {
+            text: "Очистить и добавить новое",
+            value: dish_id,
+            visible: true,
+            className: "",
+            closeModal: true
+          }
+        }
+      }).then(function (add_dish_id) {
+        if (add_dish_id) {
+          //Очищаем
+          ajax_request({
+            'action': 'clear'
+          }, '/dishes_cart', 'json', 'post', null, function ($json) {
+            //Добавляем новое блюдо
+            cart_update($json);
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('cleared');
+            return add_to_cart(add_dish_id, variants, weight, price);
+          });
+        }
+      });
     } //
 
 
@@ -40969,6 +40998,11 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_car
 
     return cart_update($json);
   });
+}; //Корзина
+
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", '.add_to_cart', function () {
+  return add_to_cart(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data('dish-id'));
 }); //Переход и открытие
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("click", 'button.open_in_rest', function () {
@@ -41868,9 +41902,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\Code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! C:\OSPanel\domains\edoshka\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\OSPanel\domains\edoshka\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\OSPanel\domains\edoshka\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })

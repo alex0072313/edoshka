@@ -51,6 +51,22 @@ $border-radius-sm: 0;
     border-radius: $radius;
 }
 
+.swal-modal{
+    .swal-text, .swal-footer{
+        text-align: center;
+    }
+    .swal-button{
+        &.swal-button--cancel{
+            @extend .btn;
+            @extend .btn-secondary;
+        }
+        &.swal-button--confirm{
+            @extend .btn;
+            @extend .btn-success;
+        }
+    }
+}
+
 label {
     @extend .text-secondary;
 }

@@ -229,7 +229,7 @@
 @push('js')
     <script>
         var url_params = queryString.parse(location.hash);
-        load_dish_modal(url_params.d);
+        if(url_params.d) load_dish_modal(url_params.d);
         $(document).ready(function () {
             if(url_params.d) scrollToElement($('#dish'+url_params.d), 700, 15);
         });

@@ -69,7 +69,10 @@ class Category extends Model
 
     public function scopeHasDishes($query, $restaurant)
     {
-        return $query->rightJoin('dishes', 'categories.id', '=', 'dishes.category_id')->select('categories.*')->where('dishes.restaurant_id', '=', isset($restaurant->id) ? $restaurant->id : $restaurant)->groupBy('id');
+        return $query
+            ->rightJoin('dishes', 'categories.id', '=', 'dishes.category_id')
+            ->select('categories.*')
+            ->where('dishes.restaurant_id', '=', isset($restaurant->id) ? $restaurant->id : $restaurant);
     }
 
 }

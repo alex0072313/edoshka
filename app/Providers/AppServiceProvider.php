@@ -44,9 +44,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer(['site.*', 'layouts.site'], function () {
-
             //Корзина
-            //\Cart::clear();
             $content = \Cart::getContent();
 
             $restaurants_out_worktime = [];
