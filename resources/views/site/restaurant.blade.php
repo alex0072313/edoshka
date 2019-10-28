@@ -186,7 +186,7 @@
                                     <div class="row mr-0">
                                         @foreach($dishes_pop as $dish)
                                             <div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
-                                                @include('site.includes.dish')
+                                                @include('site.includes.dish', ['cart'=>true])
                                             </div>
                                         @endforeach
                                     </div>
@@ -201,7 +201,7 @@
 									<div class="row mr-0">
 										@foreach($category->dishes as $dish)
 											<div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
-												@include('site.includes.dish')
+												@include('site.includes.dish', ['cart'=>true])
 											</div>
 										@endforeach
 									</div>
@@ -225,3 +225,13 @@
 		</div>
 	</section>
 @endsection
+
+@push('js')
+    <script>
+        var url_params = queryString.parse(location.hash);
+        load_dish_modal(url_params.d);
+        $(document).ready(function () {
+            if(url_params.d) scrollToElement($('#dish'+url_params.d), 700, 15);
+        });
+    </script>
+@endpush

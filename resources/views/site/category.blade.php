@@ -94,7 +94,7 @@
                                     <div class="row mr-0">
                                         @foreach($restaurant->all_dishes as $dish)
                                             <div class="col-6 col-sm-4 col-md-4 col-lg-3 px-0 pl-3 mb-3">
-                                                @include('site.includes.dish')
+                                                @include('site.includes.dish', ['open_in_rest' =>true])
                                             </div>
                                         @endforeach
                                     </div>

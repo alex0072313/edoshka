@@ -10,13 +10,14 @@ use Storage;
 
 class CartController extends SiteController
 {
-    protected $dish = null;
+    protected $dish = null, $restaurant;
 
     public function init()
     {
         if($action = request('action')){
             if($dish_id = request('dish_id')){
                 $this->dish = Dish::find($dish_id);
+                $this->restaurant = $this->dish->restaurant;
             }
             if(method_exists($this, $action)){
                 return $this->$action();
@@ -28,14 +29,25 @@ class CartController extends SiteController
 
     protected function add()
     {
-        if($worktime = $this->dish->restaurant->worktime){
+        if($worktime = $this->restaurant->worktime){
             if((strtotime(date('H:i')) < strtotime($worktime[0])) || (strtotime(date('H:i')) > strtotime($worktime[1]))){
                 //не попадает во время работы
                 return response()->json(['worktime_invalid' => [
-                    'name' => $this->dish->restaurant->name,
+                    'name' => $this->restaurant->name,
                     'worktime_ot' => $worktime[0],
                     'worktime_do' => $worktime[1],
                 ]]);
+            }
+        }
+
+        if(\Cart::getTotal()){
+            foreach (\Cart::getContent() as $dish){
+                if($dish->restaurant->id != $this->restaurant->id){
+                    //заказ только в 1 ресторане за раз
+                    return response()->json(['rest_exist' => [
+                        'name' => $dish->restaurant->name
+                    ]]);
+                }
             }
         }
 
@@ -59,7 +71,7 @@ class CartController extends SiteController
                 'weight' => request('weight') ? request('weight') : $this->dish->weight,
                 'variants' => request('variants'),
                 'image' => $image,
-                'restaurant'=>$this->dish->restaurant
+                'restaurant'=>$this->restaurant
             ]),
         );
 

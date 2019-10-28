@@ -1,10 +1,3 @@
-
-/**
- * First, we will load all of this project's Javascript utilities and other
- * dependencies. Then, we will be ready to develop a robust and powerful
- * application frontend using useful Laravel and JavaScript libraries.
- */
-
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
@@ -14,10 +7,13 @@ $.ajaxSetup({
     }
 });
 
+global.queryString = require('query-string');
+
 require('jquery-mousewheel/jquery.mousewheel');
 
 require('popper.js');
 require('./bootstrap');
+require('./helpers');
 
 require('bootstrap/dist/js/bootstrap.min');
 
@@ -229,17 +225,22 @@ if($('.shop_pos_item').length) {
         }, false);
 
         box.on('click', function (ev) {
-            if(!$(ev.target).hasClass('add_to_cart') /*&& (drag === 0)*/){
-                load_dish_modal(id);
+            if(!box.hasClass('open_in_rest')){
+                if(!$(ev.target).hasClass('add_to_cart')){
+                    load_dish_modal(id);
+                }
+            }else {
+                if(!$(ev.target).hasClass('open_in_rest')){
+                    box.addClass('load');
+                    window.location.href = box.data('url');
+                }
             }
         });
-
     });
-
 
 }
 
-function load_dish_modal(id, try_by = false) {
+global.load_dish_modal = function(id, try_by = false) {
 
     modal_box
         .find('.modal-body')
@@ -374,6 +375,22 @@ $(document).on("click", '.add_to_cart', function(){
             btn.removeClass('adding').removeClass('disabled');
             $('#card__module_modal .card_products').removeClass('load');
 
+            //заказ только в 1 ресторане за раз
+            if(typeof $json.rest_exist !== "undefined"){
+
+                return swal({
+                    title: 'Обновить корзину?',
+                    icon: "warning",
+                    button: {
+                        text: "Да",
+                        className: "btn btn-primary",
+                    },
+                    content: 'В корзине уже есть блюда из ресторана '+ $json.rest_exist.name+'. Они будут удалены для добавления новых'
+                });
+
+            }
+            //
+
             //нужно выбрать вариант
             if(typeof $json.variants_invalid !== "undefined"){
                 return load_dish_modal(dish_id, true);
@@ -394,6 +411,18 @@ $(document).on("click", '.add_to_cart', function(){
 
             return cart_update($json);
         });
+});
+
+//Переход и открытие
+$(document).on("click", 'button.open_in_rest', function(){
+    var box     = $(this).parents('.shop_pos_item'),
+        dish_id = box.data('product-id'),
+        go_url  = box.data('url');
+
+
+    box.addClass('load');
+    window.location.href = go_url;
+    return false;
 });
 
 $(document).on("click", '.remove_from_cart', function(){
@@ -707,41 +736,41 @@ function TrimStr(s) {
     return s.replace(/\s+$/g, '');
 }
 
-global.ajax_request = function (data, action, datatype, type, on_submit, success, error) {
-
-    //до ответа сервера
-    if(typeof on_submit === 'function') on_submit(data);
-    //...
-
-    var datatype = datatype ? datatype : 'JSON',
-        type = type ? type : 'post',
-        fields = (fields !== undefined) ? fields : {};
-
-    $.ajax({
-        url: action,
-        dataType: datatype,
-        data: data,
-        type: type,
-        success:function(response){
-            //сервер ответил
-            if(typeof success === 'function') success(response, fields);
-            //...
-        },
-        error:function(jqXHR, textStatus, errorThrown){
-            //какая то ошибка
-            if(typeof error === 'function'){
-                error();
-            }else{
-                console.log('// Ошибка при отправке:');
-                console.log(jqXHR.status);
-                console.log(textStatus);
-                console.log(errorThrown);
-                console.log('//');
-            }
-            //...
-        }
-    });
-}
+// global.ajax_request = function (data, action, datatype, type, on_submit, success, error) {
+//
+//     //до ответа сервера
+//     if(typeof on_submit === 'function') on_submit(data);
+//     //...
+//
+//     var datatype = datatype ? datatype : 'JSON',
+//         type = type ? type : 'post',
+//         fields = (fields !== undefined) ? fields : {};
+//
+//     $.ajax({
+//         url: action,
+//         dataType: datatype,
+//         data: data,
+//         type: type,
+//         success:function(response){
+//             //сервер ответил
+//             if(typeof success === 'function') success(response, fields);
+//             //...
+//         },
+//         error:function(jqXHR, textStatus, errorThrown){
+//             //какая то ошибка
+//             if(typeof error === 'function'){
+//                 error();
+//             }else{
+//                 console.log('// Ошибка при отправке:');
+//                 console.log(jqXHR.status);
+//                 console.log(textStatus);
+//                 console.log(errorThrown);
+//                 console.log('//');
+//             }
+//             //...
+//         }
+//     });
+// }
 
 global.cart_update = function (data) {
     var html = '';

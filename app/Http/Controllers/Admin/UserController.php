@@ -127,7 +127,7 @@ class UserController extends AdminController
             $role = request()->get('role') ? request()->get('role') : 'manager';
             $newuser->assignRole(config('role.names.'.$role.'.name'));
 
-            $newuser->notify(new toNewManagerNotification($newuser->email, $new_password));
+            //$newuser->notify(new toNewManagerNotification($newuser->email, $new_password));
         }
 
         return redirect()
