@@ -60,53 +60,11 @@
 
         <!-- begin header-nav -->
         <ul class="navbar-nav navbar-right">
-
-            {{--<li>--}}
-                {{--<form class="navbar-form">--}}
-                    {{--<div class="form-group">--}}
-                        {{--<input type="text" class="form-control" placeholder="Enter keyword" />--}}
-                        {{--<button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>--}}
-                    {{--</div>--}}
-                {{--</form>--}}
-            {{--</li>--}}
-
-            {{--<li class="dropdown">--}}
-                {{--<a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">--}}
-                    {{--<i class="fa fa-bell"></i>--}}
-                    {{--<span class="label">0</span>--}}
-                {{--</a>--}}
-                {{--<ul class="dropdown-menu media-list dropdown-menu-right">--}}
-                    {{--<li class="dropdown-header">NOTIFICATIONS (0)</li>--}}
-                    {{--<li class="text-center width-300 p-b-10">--}}
-                        {{--No notification found--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
-            {{--</li>--}}
-
-            {{--<li class="dropdown navbar-user">--}}
-                {{--<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">--}}
-                    {{--<div class="image image-icon bg-black text-grey-darker">--}}
-                        {{--<i class="fa fa-user"></i>--}}
-                    {{--</div>--}}
-                    {{--<span class="d-none d-md-inline">Adam Schwartz</span> <b class="caret"></b>--}}
-                {{--</a>--}}
-                {{--<div class="dropdown-menu dropdown-menu-right">--}}
-                    {{--<a href="javascript:;" class="dropdown-item">Edit Profile</a>--}}
-                    {{--<a href="javascript:;" class="dropdown-item"><span class="badge badge-danger pull-right">2</span> Inbox</a>--}}
-                    {{--<a href="javascript:;" class="dropdown-item">Calendar</a>--}}
-                    {{--<a href="javascript:;" class="dropdown-item">Setting</a>--}}
-                    {{--<div class="dropdown-divider"></div>--}}
-                    {{--<a href="javascript:;" class="dropdown-item">Log Out</a>--}}
-                {{--</div>--}}
-            {{--</li>--}}
-
-
             <li>
                 <a href="{{ route('admin.logout') }}" title="Выйти с кабинета">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </li>
-
         </ul>
         <!-- end header navigation right -->
     </div>
@@ -122,7 +80,7 @@
                 <li class="nav-profile">
                     <a href="javascript:;" data-toggle="nav-profile">
 
-                        @if(!$is_megaroot)
+                        @if(!$is_megaroot && $_user->hasRole('boss|manager'))
                             <div class="cover with-shadow"{!! Storage::disk('public')->exists('restaurant_imgs/'.$_restaurant->id.'/thumb_m.jpg') ? ' style="background-image:url('.Storage::disk('public')->url('restaurant_imgs/'.$_restaurant->id.'/thumb_m.jpg').');"' : ''!!}></div>
                         @endif
 
@@ -138,7 +96,7 @@
 
                         <div class="info">
                             <b class="caret pull-right"></b>
-                            @if(!$is_megaroot)
+                            @if(!$is_megaroot && $_user->hasRole('boss|manager'))
                                 {{ $_restaurant->name }}
                                 <small>{!! ($_user->lastname ? $_user->lastname.'&nbsp' : '') . $_user->name !!} ({{ config('role.names.'.$_user->roles()->get()->first()->name.'.dolg') }})</small>
                             @else
@@ -150,7 +108,6 @@
                 </li>
                 <li>
                     <ul class="nav nav-profile">
-
                         <li><a href="{{ route('admin.users.edit', $_user->id) }}"><i class="fa fa-cog"></i> Профиль пользователя</a></li>
 
                         @if($_user->hasRole('megaroot|boss') && isset($_restaurant->name))
@@ -181,7 +138,7 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot'))
+                @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.present') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.presents.index') }}">
                             <i class="fas fa-user-tie"></i>
@@ -190,7 +147,7 @@
                     </li>
                 @endif
 
-                @if($is_megaroot)
+                @if($_user->hasRole('megaroot|root'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.restaurants') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.restaurants.index') }}">
                             <i class="fas fa-university"></i>
@@ -199,16 +156,16 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot|boss'))
+                @if($_user->hasRole('megaroot|root|boss'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.users') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.users.index') }}">
                             <i class="fas fa-users"></i>
-                            <span>{{ $is_megaroot ? 'Управляющие' : 'Менеджеры' }}</span>
+                            <span>{{ $_user->hasRole('megaroot|root') ? 'Управляющие' : 'Менеджеры' }}</span>
                         </a>
                     </li>
                 @endif
 
-                @if($is_megaroot)
+                @if($_user->hasRole('megaroot|root|boss'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.customers') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.customers.index') }}">
                             <i class="fas fa-shopping-cart"></i>
@@ -249,7 +206,7 @@
                     </li>
                 @endif
 
-                @if($is_megaroot)
+                @if($_user->hasRole('megaroot|root|boss'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.specials') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.specials.index') }}">
                             <i class="fas fa-fire"></i>
@@ -284,39 +241,6 @@
                         </a>
                     </li>
                 @endif
-
-
-                {{--<li class="has-sub">--}}
-                    {{--<a href="javascript:;">--}}
-                        {{--<b class="caret"></b>--}}
-                        {{--<i class="fa fa-align-left"></i>--}}
-                        {{--<span>Menu Level</span>--}}
-                    {{--</a>--}}
-                    {{--<ul class="sub-menu">--}}
-                        {{--<li class="has-sub">--}}
-                            {{--<a href="javascript:;">--}}
-                                {{--<b class="caret"></b>--}}
-                                {{--Menu 1.1--}}
-                            {{--</a>--}}
-                            {{--<ul class="sub-menu">--}}
-                                {{--<li class="has-sub">--}}
-                                    {{--<a href="javascript:;">--}}
-                                        {{--<b class="caret"></b>--}}
-                                        {{--Menu 2.1--}}
-                                    {{--</a>--}}
-                                    {{--<ul class="sub-menu">--}}
-                                        {{--<li><a href="javascript:;">Menu 3.1</a></li>--}}
-                                        {{--<li><a href="javascript:;">Menu 3.2</a></li>--}}
-                                    {{--</ul>--}}
-                                {{--</li>--}}
-                                {{--<li><a href="javascript:;">Menu 2.2</a></li>--}}
-                                {{--<li><a href="javascript:;">Menu 2.3</a></li>--}}
-                            {{--</ul>--}}
-                        {{--</li>--}}
-                        {{--<li><a href="javascript:;">Menu 1.2</a></li>--}}
-                        {{--<li><a href="javascript:;">Menu 1.3</a></li>--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
 
                 <!-- begin sidebar minify button -->
                 <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>

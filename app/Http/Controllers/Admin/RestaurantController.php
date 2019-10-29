@@ -13,7 +13,7 @@ class RestaurantController extends AdminController
 {
     public function __construct()
     {
-        $this->middleware(['role:megaroot'])->only(['create', 'index', 'store', 'destroy']);
+        $this->middleware(['role:megaroot|root'])->only(['create', 'index', 'store', 'destroy']);
         parent::__construct();
     }
 
@@ -22,7 +22,7 @@ class RestaurantController extends AdminController
         $this->view = 'admin.restaurants.index';
         $this->title = 'Рестораны';
 
-        $this->data['restaurants'] = Restaurant::all();
+        $this->data['restaurants'] = auth()->user()->hasRole('megaroot') ? Restaurant::all() : auth()->user()->restaurants;
 
         return $this->render();
     }
@@ -51,6 +51,7 @@ class RestaurantController extends AdminController
 
         $validator =  [
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'min_sum_order' => 'required',
         ];
 
         $worktime = ['worktime'=>null];
@@ -88,8 +89,13 @@ class RestaurantController extends AdminController
                 ->with('error', 'Проверьте форму на ошибки!');
         }
 
-        if(!request('active') && auth()->user()->hasRole('megaroot')){
-            request()->request->add(['active' => false]);
+        if(auth()->user()->hasAnyRole(['megaroot', 'root'])){
+            if(!request('active')){
+                request()->request->add(['active' => false]);
+            }
+            if(!request('present_id')){
+                request()->request->set('present_id', auth()->id());
+            }
         }
 
         if($restaurant->update(request()->toArray())){
@@ -123,10 +129,15 @@ class RestaurantController extends AdminController
             'address' => 'required',
             'alias' => 'required|unique:restaurants,alias',
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'min_sum_order' => 'required',
         ];
 
         if(\Auth::user()->hasRole('megaroot')){
             $validator['town_id'] = 'required';
+        }
+
+        if(\Auth::user()->hasRole('root')){
+            request()->request->add(['present_id' => \Auth::id()]);
         }
 
         $validator = \Validator::make(request()->all(), $validator);

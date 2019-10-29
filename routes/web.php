@@ -57,7 +57,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
     //Директор
-    Route::group(['middleware' => ['role:boss|megaroot']], function () {
+    Route::group(['middleware' => ['role:boss|megaroot|root']], function () {
         //Рестораны
         Route::get('/restaurants/{restaurant}/destroy', 'Admin\RestaurantController@destroy')->name('restaurants.destroy');
         Route::resource('restaurants', 'Admin\RestaurantController')->except('destroy');

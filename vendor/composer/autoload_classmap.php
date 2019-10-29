@@ -23,6 +23,7 @@ return array(
     'App\\Http\\Controllers\\Admin\\KitchensController' => $baseDir . '/app/Http/Controllers/Admin/KitchensController.php',
     'App\\Http\\Controllers\\Admin\\MarkersController' => $baseDir . '/app/Http/Controllers/Admin/MarkersController.php',
     'App\\Http\\Controllers\\Admin\\OrdersController' => $baseDir . '/app/Http/Controllers/Admin/OrdersController.php',
+    'App\\Http\\Controllers\\Admin\\PresentController' => $baseDir . '/app/Http/Controllers/Admin/PresentController.php',
     'App\\Http\\Controllers\\Admin\\ProfileController' => $baseDir . '/app/Http/Controllers/Admin/ProfileController.php',
     'App\\Http\\Controllers\\Admin\\RestaurantController' => $baseDir . '/app/Http/Controllers/Admin/RestaurantController.php',
     'App\\Http\\Controllers\\Admin\\SeopagesController' => $baseDir . '/app/Http/Controllers/Admin/SeopagesController.php',

@@ -8,15 +8,14 @@
             @method('PUT')
         @endif
 
-
-        @if(Auth::user()->hasRole('megaroot'))
+        @if(Auth::user()->hasRole('megaroot|root'))
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Ресторан</label>
 
                 <div class="col-md-9">
                     <select name="restaurant_id" class="default-select2 form-control" data-placeholder="Выберете ресторан">
                         <option></option>
-                        @foreach(\App\Restaurant::all() as $restaurant)
+                        @foreach($restaurants as $restaurant)
                             <option {{ isset($user) && isset($user->restaurant->id) && ($user->restaurant->id == $restaurant->id) ? 'selected' : '' }} value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
                         @endforeach
                     </select>
@@ -27,7 +26,9 @@
                     @endif
                 </div>
             </div>
+        @endif
 
+        @if(Auth::user()->hasRole('megaroot'))
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Роль</label>
 
@@ -80,31 +81,55 @@
             </div>
         </div>
 
+        @php
+            $show_f = true;
+            if(isset($user) && (($user->id == auth()->id()) && auth()->user()->hasRole('root'))){
+                $show_f = false;
+            }
+        @endphp
+
         <div class="form-group row">
             <label class="col-form-label col-md-3">Телефон</label>
             <div class="col-md-9">
-                <input type="text" name="phone" value="{{  old('phone') ? old('phone') : isset($user) ? $user->phone : '' }}" class="form-control">
-                <small class="text-secondary">Используется для SMS уведомлений</small>
+                <input type="text" name="phone" value="{{ old('phone') ? old('phone') : isset($user->id) ? $user->phone : '' }}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
+                @if ($show_f)
+                    <small class="text-secondary">Используется для SMS уведомлений</small>
+                @endif
+
+                @if($errors->has('phone'))
+                    <div class="invalid-feedback d-block">
+                        {{ $errors->first('phone') }}
+                    </div>
+                @endif
+
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Телефон 2</label>
-            <div class="col-md-9">
-                <input type="text" name="phone2" value="{{  old('phone2') ? old('phone2') : isset($user) ? $user->phone2 : '' }}" class="form-control">
-                <small class="text-secondary">Используется для SMS уведомлений</small>
-            </div>
-        </div>
+        @if ($show_f)
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Телефон 2</label>
+                <div class="col-md-9">
+                    <input type="text" name="phone2" value="{{ old('phone2') ? old('phone2') : isset($user) ? $user->phone2 : '' }}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
+                    <small class="text-secondary">Используется для SMS уведомлений</small>
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Подробный заказ в SMS</label>
-            <div class="col-md-9">
-                <div class="checkbox checkbox-css on_g">
-                    <input type="checkbox" name="order_in_sms" id="order_in_sms" value="1"{{ isset($user->order_in_sms) ? $user->order_in_sms || old('order_in_sms') ? ' checked':'':'' }} />
-                    <label for="order_in_sms">&nbsp;</label>
+                    @if($errors->has('phone2'))
+                        <div class="invalid-feedback d-block">
+                            {{ $errors->first('phone2') }}
+                        </div>
+                    @endif
                 </div>
             </div>
-        </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Подробный заказ в SMS</label>
+                <div class="col-md-9">
+                    <div class="checkbox checkbox-css on_g">
+                        <input type="checkbox" name="order_in_sms" id="order_in_sms" value="1"{{ isset($user->order_in_sms) ? $user->order_in_sms || old('order_in_sms') ? ' checked':'':'' }} />
+                        <label for="order_in_sms">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Аватар</label>

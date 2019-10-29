@@ -44,6 +44,23 @@ class User extends Authenticatable
         return $this->hasOne('App\Restaurant', 'id', 'restaurant_id');
     }
 
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class, 'present_id');
+    }
+
+    public function usersOnPresent()
+    {
+        return $this->hasManyThrough(
+            'App\User',
+            'App\Restaurant',
+            'present_id',
+            'id',
+            'id',
+            'present_id'
+        );
+    }
+
     public function categories()
     {
         return $this->hasMany(Category::class);

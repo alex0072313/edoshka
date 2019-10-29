@@ -13,7 +13,13 @@ class RestaurantPolicy
     public function access(User $user, Restaurant $restaurant){
         if(\Auth::user()->hasRole('megaroot')){
             return true;
-        }elseif(\Auth::user()->hasRole('boss')){
+        }
+        elseif(\Auth::user()->hasRole('root')){
+            if(\Auth::id() == $restaurant->present_id){
+                return true;
+            }
+        }
+        elseif(\Auth::user()->hasRole('boss')){
             if(\Auth::user()->restaurant->id == $restaurant->id){
                 return true;
             }

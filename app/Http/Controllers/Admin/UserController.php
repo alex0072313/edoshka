@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Company;
 use App\Http\Controllers\Admin\AdminController;
 
+use App\Restaurant;
 use Spatie\Permission\Models\Role;
 
 use App\Notifications\toNewManagerNotification;
@@ -21,7 +22,7 @@ class UserController extends AdminController
 {
     public function __construct()
     {
-        $this->middleware(['role:boss|megaroot'])->only(['create', 'index', 'store', 'destroy']);
+        $this->middleware(['role:boss|megaroot|root'])->only(['create', 'index', 'store', 'destroy']);
         parent::__construct();
     }
 
@@ -34,23 +35,13 @@ class UserController extends AdminController
         $this->view = 'admin.users.index';
         $this->title = 'Все пользователи';
 
-        if(Auth::user()->hasRole('megaroot')){
-            $users = User::leftJoin('restaurants', 'users.restaurant_id', '=', 'restaurants.id')
-                ->orderBy('restaurants.name', 'asc')
-                ->select('users.*')
-                ->get();
-
-            $users = $users->filter(function ($user){
-                if(!$user->hasRole(['megaroot', 'customer'])){
-                    return $user;
-                }
-                return false;
-            });
-        }else{
-            $users = Auth::user()->restaurant->managers();
+        if(auth()->user()->hasRole('megaroot')){
+            $this->data['users'] = User::role(['boss', 'manager'])->get();
+        }elseif (auth()->user()->hasRole('root')){
+            $this->data['users'] = auth()->user()->usersOnPresent;
+        }elseif (auth()->user()->hasRole('boss')){
+            $this->data['users'] = auth()->user()->restaurant->users()->get();
         }
-
-        $this->data['users'] = $users;
 
         return $this->render();
     }
@@ -63,7 +54,13 @@ class UserController extends AdminController
     public function create()
     {
         $this->view = 'admin.users.form';
-        $this->title = 'Добавление нового '. (Auth::user()->hasRole('megaroot') ? 'пользователя' : 'менеджера');
+        $this->title = 'Добавление нового '. (Auth::user()->hasRole('megaroot|root') ? 'управляющего' : 'менеджера');
+
+        if(auth()->user()->hasRole('megaroot')){
+            $this->data['restaurants'] = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root')){
+            $this->data['restaurants'] = auth()->user()->restaurants;
+        }
 
         return $this->render();
     }
@@ -123,8 +120,13 @@ class UserController extends AdminController
                 UserRepository::createThumb($img, $newuser);
             }
 
-            //Назначаем роль (менеджер по умолчанию)
-            $role = request()->get('role') ? request()->get('role') : 'manager';
+            //Назначаем роль
+            if(auth()->user()->hasRole('root')){
+                $role = 'boss';
+            }else {
+                $role = 'manager';
+            }
+
             $newuser->assignRole(config('role.names.'.$role.'.name'));
 
             //$newuser->notify(new toNewManagerNotification($newuser->email, $new_password));
@@ -162,6 +164,12 @@ class UserController extends AdminController
         $this->view = 'admin.users.form';
         $this->title = 'Редактировать профиль';
         $this->data['user'] = $user;
+
+        if(auth()->user()->hasRole('megaroot')){
+            $this->data['restaurants'] = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root')){
+            $this->data['restaurants'] = auth()->user()->restaurants;
+        }
 
         return $this->render();
     }
@@ -228,7 +236,6 @@ class UserController extends AdminController
         if(request()->get('password')){
             request()->request->add(['password' => \Hash::make(request()->get('password'))]);
         }
-
         if($user->update(request()->toArray())){
 
             //Фото

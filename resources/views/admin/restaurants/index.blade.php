@@ -13,6 +13,7 @@
                     <th width="1%"></th>
                     <th>Название</th>
                     <th>Город</th>
+                    <th>Представитель</th>
                     {{--@role('admin')--}}
                     {{--<th>Владелец</th>--}}
                     {{--@endrole--}}
@@ -35,6 +36,14 @@
                         </td>
                         <td>
                             <a href="{{ route('admin.towns.edit', $restaurant->town->id) }}">{{ $restaurant->town->name }}</a>
+                        </td>
+                        <td>
+                            @php
+                                $present = $restaurant->present_id ? $restaurant->present : null;
+                            @endphp
+                            @if($present)
+                                <a href="{{ route('admin.presents.edit', $present->id) }}">{{ $present->FullName }}</a>
+                            @endif
                         </td>
                         {{--@role('admin')--}}
                         {{--<td><a class="text-green" href="{{ route('user.edit', $category->user->id) }}">{{ $category->user->name }}</a></td>--}}

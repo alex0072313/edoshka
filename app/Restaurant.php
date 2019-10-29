@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     protected $fillable = [
-        'name', 'address', 'description', 'min_sum_order', 'town_id', 'alias', 'worktime', 'active', 'commission', 'categories_sort', 'telegram_chat_id'
+        'name', 'address', 'description', 'min_sum_order', 'town_id', 'alias', 'worktime', 'active', 'commission', 'categories_sort', 'telegram_chat_id', 'present_id'
     ];
 
     protected $casts = [
@@ -18,6 +18,10 @@ class Restaurant extends Model
     public function town()
     {
         return $this->belongsTo(Town::class);
+    }
+
+    public function present(){
+        return $this->hasOne('App\User', 'id', 'present_id');
     }
 
     public function users(){

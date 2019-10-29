@@ -9,7 +9,7 @@
             @method('PUT')
         @endif
 
-        @if($_user->hasRole('megaroot'))
+        @if($_user->hasRole('root|megaroot'))
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Город</label>
 
@@ -28,6 +28,20 @@
                 </div>
             </div>
 
+            @if($_user->hasRole('megaroot'))
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Представитель</label>
+                    <div class="col-md-9">
+                        <select name="present_id" class="default-select2 form-control" data-placeholder="Выберете представителя">
+                            <option></option>
+                            @foreach(\App\User::role(['root', 'megaroot'])->get() as $user)
+                                <option {{ old('present_id') ? old('present_id') : isset($restaurant->id) ? $restaurant->present_id == $user->id ? 'selected' : '' : '' }} value="{{ $user->id }}">{{ $user->name.($user->lastname ? ' '.$user->lastname : '') }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Название</label>
                 <div class="col-md-9">
@@ -43,7 +57,7 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Алиас</label>
                 <div class="col-md-9">
-                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant->id) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot|root') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant->id) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
                     @if ($errors->has('alias'))
                         <span class="invalid-feedback" role="alert">
                             {{ $errors->first('alias') }}
@@ -69,7 +83,12 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Мин. сумма заказа</label>
             <div class="col-md-9">
-                <input type="number" name="min_sum_order" min="0" value="{{  old('min_sum_order') ? old('min_sum_order') : isset($restaurant->id) ? $restaurant->min_sum_order : '' }}" class="form-control">
+                <input type="number" name="min_sum_order" min="0" value="{{  old('min_sum_order') ? old('min_sum_order') : isset($restaurant->id) ? $restaurant->min_sum_order : '' }}" class="form-control{{ $errors->has('min_sum_order') ? ' is-invalid' : '' }}">
+                @if ($errors->has('min_sum_order'))
+                <span class="invalid-feedback" role="alert">
+                        {{ $errors->first('min_sum_order') }}
+                    </span>
+                @endif
             </div>
         </div>
 
@@ -173,7 +192,7 @@
             var input_name = $(this),
                 input_alias = $('input[name=\"alias\"]');
 
-            input_alias.val(rus_to_latin(input_name.val()));
+            if(!input_alias.val()) input_alias.val(rus_to_latin(input_name.val()));
         });
 
         if(!$('input[name=\"name\"]').val()){

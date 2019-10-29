@@ -2,13 +2,15 @@
 
 @section('content')
 
-    <form action="{{ route('admin.profile') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <form action="{{ isset($user) ? route('admin.presents.update', ['user' => $user->id]) : route('admin.presents.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
         @csrf
-
+        @if(isset($user))
+            @method('PUT')
+        @endif
         <div class="form-group row">
             <label class="col-form-label col-md-3">Имя</label>
             <div class="col-md-9">
-                <input type="text" name="name" value="{{  old('name') ? old('name') : $_user->name }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Ваше Имя">
+                <input type="text" name="name" value="{{  old('name') ? old('name') : isset($user) ? $user->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
                 @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('name') }}
@@ -20,14 +22,14 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Фамилия</label>
             <div class="col-md-9">
-                <input type="text" name="lastname" value="{{  old('lastname') ? old('lastname') : $_user->lastname }}" class="form-control" placeholder="Ваша Фамилия">
+                <input type="text" name="lastname" value="{{  old('lastname') ? old('lastname') : isset($user) ? $user->lastname : '' }}" class="form-control">
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Email</label>
             <div class="col-md-9">
-                <input type="email" name="email" value="{{  old('email') ? old('email') : $_user->email }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Ваш Email">
+                <input type="email" name="email" value="{{  old('email') ? old('email') : isset($user) ? $user->email : '' }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}">
                 @if ($errors->has('email'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('email') }}
@@ -40,6 +42,7 @@
             <label class="col-form-label col-md-3">Телефон</label>
             <div class="col-md-9">
                 <input type="text" name="phone" value="{{  old('phone') ? old('phone') : isset($user) ? $user->phone : '' }}" class="form-control">
+                <small class="text-secondary">Используется для SMS уведомлений</small>
             </div>
         </div>
 
@@ -47,9 +50,9 @@
             <label class="col-form-label col-md-3">Аватар</label>
             <div class="col-md-9">
 
-                @if(isset($_user->id) && Storage::disk('public')->exists('user_imgs/'.$_user->id.'/thumb_m.jpg'))
+                @if(isset($user->id) && Storage::disk('public')->exists('user_imgs/'.$user->id.'/thumb_m.jpg'))
                     <div class="mb-3">
-                        <img src="{{ Storage::disk('public')->url('user_imgs/'.$_user->id.'/thumb_m.jpg') }}" alt="">
+                        <img src="{{ Storage::disk('public')->url('user_imgs/'.$user->id.'/thumb_m.jpg') }}" alt="">
                     </div>
                 @endif
 
@@ -57,10 +60,10 @@
             </div>
         </div>
 
-        <h4>Сменить пароль</h4>
+        <h4>{{ isset($user->id) ? 'Сменить' : 'Задать' }} пароль</h4>
 
         <div class="form-group row">
-            <label class="col-form-label col-md-3">Новый пароль</label>
+            <label class="col-form-label col-md-3">Пароль</label>
             <div class="col-md-9">
                 <input name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" placeholder="Введите новый пароль"/>
                 @if($errors->has('password'))
@@ -84,8 +87,11 @@
         </div>
 
         <div class="form-group">
-            <div>
-                <input type="submit" class="btn btn-sm btn-primary" value="Сохранить">
+            <div class="clearfix">
+                <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
+                @if(isset($user))
+                    <a href="{{ route('admin.presents.destroy', $user->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить представителя {{ $user->name }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-sm btn-danger float-right">Удалить</a>
+                @endif
             </div>
         </div>
 

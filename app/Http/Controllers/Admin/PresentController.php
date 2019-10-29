@@ -31,26 +31,11 @@ class PresentController extends AdminController
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $this->view = 'admin.present.index';
+        $this->view = 'admin.presents.index';
         $this->title = 'Все представители';
 
-//        if(Auth::user()->hasRole('megaroot')){
-//            $users = User::leftJoin('restaurants', 'users.restaurant_id', '=', 'restaurants.id')
-//                ->orderBy('restaurants.name', 'asc')
-//                ->select('users.*')
-//                ->get();
-//
-//            $users = $users->filter(function ($user){
-//                if(!$user->hasRole(['megaroot', 'customer'])){
-//                    return $user;
-//                }
-//                return false;
-//            });
-//        }else{
-//            $users = Auth::user()->restaurant->managers();
-//        }
-
-        //$this->data['users'] = $users;
+        $users = User::role('root')->get();
+        $this->data['users'] = $users;
 
         return $this->render();
     }
@@ -62,7 +47,7 @@ class PresentController extends AdminController
      */
     public function create()
     {
-        $this->view = 'admin.present.form';
+        $this->view = 'admin.presents.form';
         $this->title = 'Добавление нового представителя';
 
         return $this->render();
@@ -83,11 +68,6 @@ class PresentController extends AdminController
             'password' => 'required|min:6|confirmed',
         ];
 
-        if(Auth::user()->hasRole('megaroot')){
-            $validator['restaurant_id'] = 'required';
-            $validator['role'] = 'required';
-        }
-
         $validator = Validator::make(request()->all(), $validator);
 
         if($validator->fails()) {
@@ -96,10 +76,6 @@ class PresentController extends AdminController
                 ->withErrors($validator)
                 ->withInput()
                 ->with('error', 'Ошибка при сохранении данных!');
-        }
-
-        if(!request('order_in_sms')){
-            request()->request->add(['order_in_sms' => false]);
         }
 
         // Валидация прошла ..
@@ -112,27 +88,19 @@ class PresentController extends AdminController
         $to_save = request()->toArray();
         $to_save['password'] = Hash::make($new_password);
 
-        if(!request()->get('restaurant_id')){
-            $to_save['restaurant_id'] = Auth::user()->restaurant->id;
-        }
-
         if($newuser = User::create($to_save)){
-
             //Фото
             if($img = request()->file('avatar')){
                 UserRepository::createThumb($img, $newuser);
             }
 
-            //Назначаем роль (менеджер по умолчанию)
-            $role = request()->get('role') ? request()->get('role') : 'manager';
-            $newuser->assignRole(config('role.names.'.$role.'.name'));
-
-            //$newuser->notify(new toNewManagerNotification($newuser->email, $new_password));
+            //Назначаем роль
+            $newuser->assignRole(config('role.names.root.name'));
         }
 
         return redirect()
-            ->route('admin.users.index')
-            ->with(['success' => 'Менеджер был успешно добавлен! Email для входа: '.request()->get('email').' | Пароль: '.$new_password]);
+            ->route('admin.presents.index')
+            ->with(['success' => 'Представитель был успешно добавлен! Email для входа: '.request()->get('email').' | Пароль: '.$new_password]);
 
     }
 
@@ -145,8 +113,8 @@ class PresentController extends AdminController
 
     public function show(User $user)
     {
-        $this->view = 'pages.user.profile';
-        $this->title = 'Профиль пользователя';
+        $this->view = 'pages.presents.profile';
+        $this->title = 'Профиль представителя';
 
         return $this->render();
     }
@@ -159,7 +127,7 @@ class PresentController extends AdminController
      */
     public function edit(User $user)
     {
-        $this->view = 'admin.users.form';
+        $this->view = 'admin.presents.form';
         $this->title = 'Редактировать профиль';
         $this->data['user'] = $user;
 
@@ -178,8 +146,8 @@ class PresentController extends AdminController
             return redirect()
                 ->back()
                 ->with('gritter', [
-                    'title' => 'Менеджер был удален!',
-                    'msg'=> 'Вы только что удалили менеджера '.$user->name
+                    'title' => 'Представитель был удален!',
+                    'msg'=> 'Вы только что представителя '.$user->name
                 ]);
         }
     }
@@ -191,11 +159,6 @@ class PresentController extends AdminController
             'email' => 'required|email|unique:users,email,'.$user->id,
             'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ];
-
-        if(Auth::user()->hasRole('megaroot')){
-            $validate['restaurant_id'] = 'required';
-            $validate['role'] = 'required';
-        }
 
         if(request()->get('password')){
             $validate['password'] = 'required|min:6|confirmed';
@@ -214,45 +177,19 @@ class PresentController extends AdminController
                 ->with('error', 'Проверьте форму на ошибки!');
         }
 
-        if(!request('order_in_sms')){
-            request()->request->add(['order_in_sms' => false]);
-        }
-
-        if(request()->get('role') && config('role.names.'.request()->get('role').'.name')){
-            foreach ($user->roles as $role){
-                $user->removeRole($role->name);
-            }
-            $user->assignRole(request()->get('role'));
-        }
-
         if(request()->get('password')){
             request()->request->add(['password' => \Hash::make(request()->get('password'))]);
         }
 
         if($user->update(request()->toArray())){
-
             //Фото
             if($img = request()->file('avatar')){
                 UserRepository::createThumb($img, $user);
             }
-
             return redirect()
                 ->back()
                 ->with('success', 'Данные успешно обновлены!');
         }
     }
-
-    public function _destroy(User $user)
-    {
-        if($user->delete()){
-            return redirect()
-                ->route('_user_list')
-                ->with('gritter', [
-                    'title' => 'Менеджер был удален!',
-                    'msg'=> 'Вы только что удалили менеджера '.$user->name
-                ]);
-        }
-    }
-
 
 }

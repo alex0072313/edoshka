@@ -21,7 +21,7 @@ class AdminController extends Controller
                 return redirect()->route('site.home');
             }
 
-            if(!\Auth::user() || (!\Auth::user()->hasRole('megaroot') && !\Auth::user()->hasRole('boss') && !\Auth::user()->hasRole('manager'))){
+            if(!\Auth::user() || (!\Auth::user()->hasAnyRole(['megaroot', 'root', 'boss', 'manager']))){
                 return redirect()->route('login');
             }
             return $next($request);

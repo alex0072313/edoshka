@@ -639,6 +639,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'App\\Http\\Controllers\\Admin\\KitchensController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/KitchensController.php',
         'App\\Http\\Controllers\\Admin\\MarkersController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/MarkersController.php',
         'App\\Http\\Controllers\\Admin\\OrdersController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/OrdersController.php',
+        'App\\Http\\Controllers\\Admin\\PresentController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PresentController.php',
         'App\\Http\\Controllers\\Admin\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ProfileController.php',
         'App\\Http\\Controllers\\Admin\\RestaurantController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RestaurantController.php',
         'App\\Http\\Controllers\\Admin\\SeopagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SeopagesController.php',
