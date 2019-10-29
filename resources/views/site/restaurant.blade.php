@@ -62,7 +62,7 @@
 
 				@if($restaurant->min_sum_order)
 					<div class="mb-3 mt-3 mb-md-5 w-100 text-white-50 font-weight-light shop_min_price text-md-left text-center">
-						Бесплатная доставка от {{ $restaurant->min_sum_order }} &#8381;
+                        <i class="fas fa-shipping-fast"></i> Бесплатная доставка от {{ $restaurant->min_sum_order }} &#8381;
 					</div>
 				@endif
 				{{--<div class="w-100 shop_last_review py-4">--}}

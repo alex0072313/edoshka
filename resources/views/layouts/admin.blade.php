@@ -181,6 +181,15 @@
                     </li>
                 @endif
 
+                @if($_user->hasRole('megaroot'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.present') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.presents.index') }}">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Представители</span>
+                        </a>
+                    </li>
+                @endif
+
                 @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.restaurants') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.restaurants.index') }}">
@@ -194,7 +203,7 @@
                     <li{!! stristr(Route::currentRouteName(), 'admin.users') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.users.index') }}">
                             <i class="fas fa-users"></i>
-                            <span>{{ $is_megaroot ? 'Пользователи' : 'Менеджеры' }}</span>
+                            <span>{{ $is_megaroot ? 'Управляющие' : 'Менеджеры' }}</span>
                         </a>
                     </li>
                 @endif

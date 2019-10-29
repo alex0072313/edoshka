@@ -53,7 +53,7 @@ class OrderController extends Controller
             request()->request->add(['user_id' => auth()->id()]);
 
             //Добавляем баллы
-            auth()->user()->addBalls($cart_total);
+            //auth()->user()->addBalls($cart_total);
         }
 
         foreach ($restaurants as $restaurant_id => $dishes) {
@@ -121,7 +121,7 @@ class OrderController extends Controller
                             \Auth::login($user, true);
 
                             //Добавляем баллы
-                            $user->addBalls($cart_total);
+                            //$user->addBalls($cart_total);
 
                             foreach ($user_orders as $order_id) {
                                 Order::find($order_id)->update(['user_id' => $user->id]);
@@ -151,7 +151,7 @@ class OrderController extends Controller
 
                                 $new_password = str_random(6);
                                 $user->password = \Hash::make($new_password);
-                                
+
                                 $user->provider = 'email';
 
                                 $user->save();
@@ -162,14 +162,14 @@ class OrderController extends Controller
                             \Auth::login($user, true);
 
                             //Добавляем баллы
-                            $user->addBalls($cart_total);
+                            //$user->addBalls($cart_total);
 
                             foreach ($user_orders as $order_id) {
                                 Order::find($order_id)->update(['user_id' => $user->id]);
                             }
-                           
+
                             $redirect = url()->previous();
-                            
+
                         }
                         break;
                     case 'vkontakte':

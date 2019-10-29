@@ -5,9 +5,13 @@ return [
             'name' => 'megaroot',
             'dolg' => 'Админ'
         ],
+        'root' => [
+            'name' => 'root',
+            'dolg' => 'Представитель'
+        ],
         'boss' => [
             'name' => 'boss',
-            'dolg' => 'Директор'
+            'dolg' => 'Управляющий'
         ],
         'manager'  => [
             'name' => 'manager',

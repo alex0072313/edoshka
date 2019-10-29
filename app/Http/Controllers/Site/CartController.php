@@ -47,10 +47,10 @@ class CartController extends SiteController
 
         if(\Cart::getTotal()){
             foreach (\Cart::getContent() as $dish){
-                if($dish->restaurant->id != $this->restaurant->id){
+                if($dish->attributes['restaurant']->id != $this->restaurant->id){
                     //заказ только в 1 ресторане за раз
                     return response()->json(['rest_exist' => [
-                        'name' => $dish->restaurant->name
+                        'name' => $dish->attributes['restaurant']->name
                     ]]);
                 }
             }
@@ -82,7 +82,7 @@ class CartController extends SiteController
         return response()->json([
             'total' => \Cart::getTotalQuantity(),
             'sum'=>\Cart::getTotal(),
-            'small_order'=>count($restaurants_small_order),
+            'small_order'=>$restaurants_small_order,
             'content'=>view('site.includes.card_content',
                     [
                         '_cart_content' => \Cart::getContent(),
@@ -105,7 +105,7 @@ class CartController extends SiteController
         return response()->json([
             'total' => \Cart::getTotalQuantity(),
             'sum'=>\Cart::getTotal(),
-            'small_order'=>count($restaurants_small_order),
+            'small_order'=>$restaurants_small_order,
             'content'=>view('site.includes.card_content',
                     [
                         '_cart_content' => \Cart::getContent(),
@@ -131,7 +131,7 @@ class CartController extends SiteController
             'remove'=>request('remove'),
             'total' => \Cart::getTotalQuantity(),
             'sum'=>\Cart::getTotal(),
-            'small_order'=>count($restaurants_small_order),
+            'small_order'=>$restaurants_small_order,
             'content'=>view('site.includes.card_content',
                 [
                     '_cart_content' => \Cart::getContent(),
@@ -144,7 +144,7 @@ class CartController extends SiteController
     protected function check_small_order()
     {
         $restaurants_sums = [];
-        $restaurants_small_order = [];
+        $restaurants_small_order = null;
         $restaurants_min_sum_order = [];
 
         $content = \Cart::getContent();
@@ -159,7 +159,8 @@ class CartController extends SiteController
         foreach ($restaurants_sums as $id => $restaurants_sum){
             $sum = array_sum($restaurants_sum);
             if($sum < $restaurants_min_sum_order[$id]){
-                $restaurants_small_order[$id] = $restaurants_min_sum_order[$id];
+                $restaurants_small_order = $restaurants_min_sum_order[$id];
+                break;
             }
         }
 
@@ -173,7 +174,7 @@ class CartController extends SiteController
         return response()->json([
             'total' => \Cart::getTotalQuantity(),
             'sum'=>\Cart::getTotal(),
-            'small_order'=>count($restaurants_small_order),
+            'small_order'=>$restaurants_small_order,
             'content'=>view('site.includes.card_content',
                 [
                     '_cart_content' => \Cart::getContent(),

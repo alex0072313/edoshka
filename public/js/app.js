@@ -41902,9 +41902,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\OSPanel\domains\edoshka\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\OSPanel\domains\edoshka\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\OSPanel\domains\edoshka\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! C:\Code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\Code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })

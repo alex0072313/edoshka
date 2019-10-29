@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
 
             $restaurants_out_worktime = [];
             $restaurants_sums = [];
-            $restaurants_small_order = [];
+            $restaurants_small_order = null;
             $restaurants_min_sum_order = [];
 
             foreach ($content as $dish){
@@ -67,7 +67,8 @@ class AppServiceProvider extends ServiceProvider
             foreach ($restaurants_sums as $id => $restaurants_sum){
                 $sum = array_sum($restaurants_sum);
                 if($sum < $restaurants_min_sum_order[$id]){
-                    $restaurants_small_order[$id] = $restaurants_min_sum_order[$id];
+                    $restaurants_small_order = $restaurants_min_sum_order[$id];
+                    break;
                 }
             }
 

@@ -49,6 +49,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/users/{user}/destroy', 'Admin\UserController@destroy')->name('users.destroy');
     Route::resource('users', 'Admin\UserController')->except('destroy');
 
+    //Представители
+    Route::get('/present/{user}/destroy', 'Admin\PresentController@destroy')->name('presents.destroy');
+    Route::resource('presents', 'Admin\PresentController')->except('destroy');
+
     //Выход с кабинета
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -97,6 +101,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/seopages', 'Admin\SeopagesController@save')->name('seopages.save');
 
         //Покупатели
+        Route::post('/customers/append', 'Admin\CustomerController@append')->name('customers.append');
         Route::get('/customers/{user}/destroy', 'Admin\CustomerController@destroy')->name('customers.destroy');
         Route::resource('customers', 'Admin\CustomerController')->except('destroy');
 

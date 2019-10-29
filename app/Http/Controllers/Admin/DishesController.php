@@ -28,69 +28,42 @@ class DishesController extends AdminController
         if($category_id = request('category')) $category = Category::find($category_id);
 
         $restaurant = null;
-        if($restaurant_id = request('restaurant')) $restaurant = Restaurant::find($restaurant_id);
 
-        if(Auth::user()->hasRole('megaroot')){
-            $dishes = Dish::all();
-        }else{
-            $dishes = Auth::user()->restaurant->dishes;
+        if(Auth::user()->hasRole('megaroot|root') && ($restaurant_id = request('restaurant'))){
+            $restaurant = Restaurant::find($restaurant_id);
+        }elseif (Auth::user()->hasRole('boss')){
+            $restaurant = Auth::user()->restaurant;
         }
 
-        foreach (Category::allToAccess($restaurant) as $cat) {
-            $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
+        if($restaurant){
+            $dishes = $restaurant->dishes;
+
+            foreach (Category::allToAccess($restaurant) as $cat) {
+                $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
+            }
+
+            if ($category) {
+                $dishes = $dishes->where('category_id', $category->id);
+
+                $this->title = 'Блюда в категории';
+                $this->longtitle = $category->name;
+                $this->data['category'] = $category;
+            }
+
+            if ($restaurant) {
+                $dishes = $dishes->where('restaurant_id', $restaurant->id);
+                $this->data['restaurant'] = $restaurant;
+                $this->longtitle .= ' ('.$restaurant->name.')';
+            }
+
+            if (!$category && !Category::all()->count()) {
+                request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
+            }
+
+            $this->data['dishes'] = $dishes;
+        } else{
+            $this->data['dishes'] = collect();
         }
-
-        if ($category) {
-            $dishes = $dishes->where('category_id', $category->id);
-
-            $this->title = 'Блюда в категории';
-            $this->longtitle = $category->name;
-            $this->data['category'] = $category;
-        }
-
-        if ($restaurant) {
-            $dishes = $dishes->where('restaurant_id', $restaurant->id);
-            $this->data['restaurant'] = $restaurant;
-            $this->longtitle .= ' ('.$restaurant->name.')';
-        }
-
-
-        if (!$category && !Category::all()->count()) {
-            request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
-        }
-
-        $this->data['dishes'] = $dishes;
-
-
-//        $dishes = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
-//
-//        foreach (Category::allToAccess(true) as $cat) {
-//            $this->data['category_by_dishes'][$cat->id] = $dishes->where('category_id', $cat->id)->count();
-//        }
-//
-//        if ($category->name) {
-//            $this->title = 'Блюда в категории';
-//            $this->longtitle = $category->name;
-//
-//            $this->data['category'] = $category;
-//
-//            if(Auth::user()->hasRole('megaroot')){
-//                $dishes = Dish::where('category_id', $category->id)->get();
-//            }else{
-//                $dishes = Auth::user()
-//                    ->restaurant
-//                    ->dishes()
-//                    ->where('category_id', $category->id)
-//                    ->get();
-//            }
-//
-//        }
-//
-//        if (!$category->name && !Category::all()->count()) {
-//            request()->session()->flash('error', 'Для добавления блюда необходимо добавить хотябы 1 категорию! <a href="' . route('admin.categories.create') . '">Добавить категорию</a>');
-//        }
-//
-//        $this->data['dishes'] = $dishes;
 
         return $this->render();
     }

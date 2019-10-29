@@ -39,7 +39,7 @@
 
                 <div class="order_form" data-action="{{ route('site.send_order') }}">
                     <div class="card_products mb-4">
-                        <div class="h4 text-uppercase font-weight-light mb-3 text-black">Ваш заказ</div>
+{{--                        <div class="h4 font-weight-light mb-3 text-black">Ваш заказ в ресторане {{ $_cart_restaurant_name }}</div>--}}
 
                         @if($_cart_restaurants_out_worktime)
                             <div class="alert alert-warning fade show mb-0">

@@ -91,7 +91,7 @@
         $list_restaurants = App\Restaurant::all();
     @endphp
 
-    @if($list_categories->count())
+    @if($list_categories->count() && isset($category_by_dishes))
         <div class="btn-group mb-4 ml-2">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-fw fa-folder-open"></i>
@@ -107,15 +107,10 @@
 					if(isset($restaurant)) $params['restaurant'] = $restaurant->id;
                 @endphp
 
-                @if(isset($category))
-                    <a class="dropdown-item" href="{{ qs_url('admin.dishes.index', $params) }}">Все</a>
-                @endif
                 @foreach($list_categories as $cat)
-
                     @php
 						$params['category'] = $cat->id;
                     @endphp
-
                     <a class="dropdown-item d-block clearfix{{ (isset($category) && $category->id == $cat->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.dishes.index', $params) }}">
                         <div class="pull-left mr-3">{{ $cat->name }}</div>
                         @if($category_by_dishes[$cat->id])
@@ -127,28 +122,21 @@
         </div>
     @endif
 
-    @hasrole('megaroot')
-
-
+    @hasrole('megaroot|root')
         <div class="btn-group mb-4 ml-2">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-university"></i>
                 @if(isset($restaurant))
                     Ресторан: {{ $restaurant->name }}
                 @else
-                    Ресторан: Все
+                    Выберете ресторан
                 @endif
             </button>
             <div class="dropdown-menu">
-
                 @php
                     $params = [];
 					if(isset($category)) $params['category'] = $category->id;
                 @endphp
-
-                @if(isset($restaurant))
-                    <a class="dropdown-item" href="{{ qs_url('admin.dishes.index', $params) }}">Все</a>
-                @endif
                 @foreach($list_restaurants as $rest)
                     @php
                         $params['restaurant'] = $rest->id;
@@ -161,68 +149,69 @@
         </div>
     @endrole
 
-
-
-
     {{--<a href="{{ isset($category) ? route('fields.index', 'category_'.$category->id) : route('fields.index') }}" class="btn btn-default mb-4 ml-2"><i class="fas fa-fw fa-server"></i> Управение доп. полями</a>--}}
-
-    @if(count($dishes))
-        <table id="data-table-default" class="table row-border table-striped">
-            <thead>
-            <tr>
-                <th width="1%" class="pr-0">ID</th>
-                <th width="1%" data-orderable="false"></th>
-                <th class="text-nowrap">Название</th>
-                <th class="text-nowrap">Категория</th>
-                <th width="1%" class="text-nowrap">Цена</th>
-                <th width="1%" class="text-nowrap">Новая цена</th>
-                {{--@foreach($fields_names as $field_id => $field_name)--}}
-                    {{--<th class="text-nowrap">{{ $field_name }}</th>--}}
-                {{--@endforeach--}}
-                <th width="1%" data-orderable="false"></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($dishes as $dish)
-                <tr class="odd gradeX">
-                    <td width="1%" class="f-s-600 text-inverse pr-0">{{ $dish->id}}</td>
-                    <td width="1%" class="with-img">
-                        @if(isset($dish->id) && Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_xxs.jpg'))
-                            <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_xxs.jpg') }}" class="img-rounded rounded-circle" />
-                        @endif
-                    </td>
-                    <td class="text-nowrap"><a href="{{ route('admin.dishes.edit', 'owner_'.$dish->id) }}">{{ $dish->name }}</a></td>
-                    <td class="text-nowrap"><a href="{{ route('admin.dishes.index', 'category_'.$dish->category->id) }}">{{ $dish->category->name }}</a></td>
-
-                    <td class="text-nowrap">{{ $dish->price }}</td>
-                    <td class="text-nowrap">{{ $dish->new_price }}</td>
-
+    @if(isset($restaurant))
+        @if(count($dishes))
+            <table id="data-table-default" class="table row-border table-striped">
+                <thead>
+                <tr>
+                    <th width="1%" class="pr-0">ID</th>
+                    <th width="1%" data-orderable="false"></th>
+                    <th class="text-nowrap">Название</th>
+                    <th class="text-nowrap">Категория</th>
+                    <th width="1%" class="text-nowrap">Цена</th>
+                    <th width="1%" class="text-nowrap">Новая цена</th>
                     {{--@foreach($fields_names as $field_id => $field_name)--}}
-                        {{--<td width="1%">--}}
-                            {{--@if(isset($dish->fields_cont[$field_id]))--}}
-                                {{--{{ $dish->fields_cont[$field_id] }}--}}
-                            {{--@else--}}
-                                {{-----}}
-                            {{--@endif--}}
-                        {{--</td>--}}
+                        {{--<th class="text-nowrap">{{ $field_name }}</th>--}}
                     {{--@endforeach--}}
-
-                    <td width="1%">
-                        <div class="width-80">
-                            <a href="{{ route('admin.dishes.copy', $dish->id) }}" title="Копировать" class="btn btn-xs m-r-2 btn-success"><i class="far fa-xs fa-fw fa-copy"></i></a>
-                            <a href="{{ route('admin.dishes.edit', $dish->id) }}" title="Изменить" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
-                            <a href="{{ route('admin.dishes.destroy', $dish->id) }}" title="Удалить" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить обьект {{ $dish->name }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
-                        </div>
-                    </td>
+                    <th width="1%" data-orderable="false"></th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach($dishes as $dish)
+                    <tr class="odd gradeX">
+                        <td width="1%" class="f-s-600 text-inverse pr-0">{{ $dish->id}}</td>
+                        <td width="1%" class="with-img">
+                            @if(isset($dish->id) && Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_xxs.jpg'))
+                                <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_xxs.jpg') }}" class="img-rounded rounded-circle" />
+                            @endif
+                        </td>
+                        <td class="text-nowrap"><a href="{{ route('admin.dishes.edit', 'owner_'.$dish->id) }}">{{ $dish->name }}</a></td>
+                        <td class="text-nowrap"><a href="{{ route('admin.dishes.index', 'category_'.$dish->category->id) }}">{{ $dish->category->name }}</a></td>
+
+                        <td class="text-nowrap">{{ $dish->price }}</td>
+                        <td class="text-nowrap">{{ $dish->new_price }}</td>
+
+                        {{--@foreach($fields_names as $field_id => $field_name)--}}
+                            {{--<td width="1%">--}}
+                                {{--@if(isset($dish->fields_cont[$field_id]))--}}
+                                    {{--{{ $dish->fields_cont[$field_id] }}--}}
+                                {{--@else--}}
+                                    {{-----}}
+                                {{--@endif--}}
+                            {{--</td>--}}
+                        {{--@endforeach--}}
+
+                        <td width="1%">
+                            <div class="width-80">
+                                <a href="{{ route('admin.dishes.copy', $dish->id) }}" title="Копировать" class="btn btn-xs m-r-2 btn-success"><i class="far fa-xs fa-fw fa-copy"></i></a>
+                                <a href="{{ route('admin.dishes.edit', $dish->id) }}" title="Изменить" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
+                                <a href="{{ route('admin.dishes.destroy', $dish->id) }}" title="Удалить" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить обьект {{ $dish->name }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @else
+            <p class="lead">
+                Нет добавленных блюд
+            </p>
+        @endif
     @else
         <p class="lead">
-            Нет добавленных блюд
+            Выберете ресторан
         </p>
     @endif
-
 
 @endsection
