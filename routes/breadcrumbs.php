@@ -254,12 +254,14 @@ Breadcrumbs::for('admin.seopages.create', function ($trail) {
 
 Breadcrumbs::for('admin.users.index', function ($trail) {
     $trail->parent('admin.home');
-    $trail->push('Список пользователей', route('admin.users.index'));
+    $trail->push('Управляющие', route('admin.users.index'));
 });
-Breadcrumbs::for('admin.users.edit', function ($trail, $user) {
-    $trail->parent('admin.users.index');
+
+Breadcrumbs::for( 'admin.users.edit', function ($trail, $user) {
+    $trail->parent(auth()->user()->hasRole('boss') ? 'admin.home' : 'admin.users.index');
     $trail->push('Редактирование пользователя', route('admin.users.edit', $user));
 });
+
 Breadcrumbs::for('admin.users.create', function ($trail) {
     $trail->parent('admin.users.index');
     $trail->push('Добавление пользователя', route('admin.users.create'));
@@ -271,10 +273,12 @@ Breadcrumbs::for('admin.presents.index', function ($trail) {
     $trail->parent('admin.home');
     $trail->push('Список представителей', route('admin.presents.index'));
 });
+
 Breadcrumbs::for('admin.presents.edit', function ($trail, $user) {
-    $trail->parent('admin.presents.index');
+    $trail->parent(!auth()->user()->hasRole('megaroot') ? 'admin.home' : 'admin.presents.index');
     $trail->push('Редактирование представителя', route('admin.presents.edit', $user));
 });
+
 Breadcrumbs::for('admin.presents.create', function ($trail) {
     $trail->parent('admin.presents.index');
     $trail->push('Добавление представителя', route('admin.presents.create'));

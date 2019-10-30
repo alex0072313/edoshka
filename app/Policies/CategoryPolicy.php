@@ -13,15 +13,13 @@ class CategoryPolicy
     public function access(User $user, category $category){
         if($user->hasRole('megaroot')){
             return true;
+        }elseif($category->user->hasRole('root') && ($category->user_id == auth()->id())){
+            return true;
         }elseif($category->user->hasRole('boss')){
             if($user->restaurant()->find($category->user->restaurant->id)->count()){
                 return true;
             }
-        }/*elseif($category->user->hasRole('manager')){
-            if($category->user->id == $user->id){
-                return true;
-            }
-        }*/
+        }
 
         return false;
     }

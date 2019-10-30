@@ -59,6 +59,10 @@ class HomeController extends AdminController
     {
         $this->restaurant = Restaurant::find(request('restaurant_id'));
 
+        if(!auth()->user()->hasRole('megaroot|boss') && $this->restaurant && ($this->restaurant->present_id != auth()->id())){
+            abort(403);
+        }
+
         $data = [
             'restaurant_id'=>request('restaurant_id'),
             'start'=>request('start'),
@@ -82,13 +86,17 @@ class HomeController extends AdminController
 
     public function getOrders($start = 0, $step = 100)
     {
-        if(\Auth::user()->hasRole('megaroot')){
+        if(\Auth::user()->hasRole('megaroot|root')){
             if($restaurant_id = request('restaurant_id')){
                 $this->restaurant = Restaurant::find($restaurant_id);
             }
-            $this->data['restaurants'] = Restaurant::all();
+            $this->data['restaurants'] = auth()->user()->hasRole('root') ? auth()->user()->restaurants : Restaurant::all();
         }else{
             $this->restaurant = \Auth::user()->restaurant;
+        }
+
+        if(!auth()->user()->hasRole('megaroot|boss') && $this->restaurant && ($this->restaurant->present_id != auth()->id())){
+            abort(403);
         }
 
         if($this->restaurant){
@@ -99,17 +107,23 @@ class HomeController extends AdminController
 
         $orders_query = $orders_query->with('restaurant')->with('user')->with('dishes');
 
+        if(auth()->user()->hasRole('root')){
+            $orders_query = $orders_query
+                ->leftJoin('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
+                ->where('restaurants.present_id', '=', auth()->id());
+        }
+
         if($start_d = request('start')){
-            $orders_query = $orders_query->whereDate('created_at', '>', Carbon::createFromDate($start_d)->subDay(1));
+            $orders_query = $orders_query->whereDate('orders.created_at', '>', Carbon::createFromDate($start_d)->subDay(1));
         }
 
         if($end_d = request('end')){
-            $orders_query = $orders_query->whereDate('created_at', '<', Carbon::createFromDate($end_d)->addDay(1));
+            $orders_query = $orders_query->whereDate('orders.created_at', '<', Carbon::createFromDate($end_d)->addDay(1));
         }
 
         $orders_query = $orders_query
             ->select(['orders.*'])
-            ->orderBy('created_at', 'desc');
+            ->orderBy('orders.created_at', 'desc');
 
         if($start && $step){
             $orders_query = $orders_query
@@ -127,7 +141,7 @@ class HomeController extends AdminController
         $html = '';
         $is_megaroot = auth()->user()->hasRole('megaroot');
         foreach ($orders as $order){
-            $html .= view('admin.includes.order_tr_item', ['order' => $order, 'is_megaroot'=>$is_megaroot])->render();
+            $html .= view('admin.includes.order_tr_item', ['order' => $order, 'restaurants'=> $this->data['restaurants']])->render();
         }
 
         return response()->json(['html' => $html, 'request'=>request()->all()]);

@@ -24,7 +24,7 @@ class CategoryController extends AdminController
 
         $restaurant = null;
 
-        if(\Auth::user()->hasRole('megaroot')) {
+        if(\Auth::user()->hasRole('megaroot|root')) {
             if ($restaurant_id = request('restaurant_id')) {
                 $restaurant = Restaurant::find($restaurant_id);
             }
@@ -33,6 +33,14 @@ class CategoryController extends AdminController
         }
 
         $this->data['restaurant'] = $restaurant;
+
+        if(auth()->user()->hasRole('megaroot')){
+            $this->data['restaurants'] = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root')){
+            $this->data['restaurants'] = auth()->user()->restaurants;
+        }else{
+            $this->data['restaurants'] = null;
+        }
 
         if($restaurant){
             $dishes = $restaurant->dishes;

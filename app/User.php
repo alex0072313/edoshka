@@ -52,11 +52,7 @@ class User extends Authenticatable
     public function usersOnPresent()
     {
         return $this->hasManyThrough(
-            'App\User',
-            'App\Restaurant',
-            'present_id',
-            'id',
-            'id',
+            'App\User', 'App\Restaurant',
             'present_id'
         );
     }

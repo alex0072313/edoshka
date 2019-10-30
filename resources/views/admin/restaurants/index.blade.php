@@ -35,7 +35,11 @@
                             <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}">{{ $restaurant->name }}</a>
                         </td>
                         <td>
-                            <a href="{{ route('admin.towns.edit', $restaurant->town->id) }}">{{ $restaurant->town->name }}</a>
+                            @if(auth()->user()->hasRole('megaroot'))
+                                <a href="{{ route('admin.towns.edit', $restaurant->town->id) }}">{{ $restaurant->town->name }}</a>
+                            @else
+                                {{ $restaurant->town->name }}
+                            @endif
                         </td>
                         <td>
                             @php
@@ -50,7 +54,9 @@
                         {{--@endrole--}}
                         <td class="with-btn text-center" nowrap>
                             <a href="{{ route('admin.restaurants.edit', $restaurant->id) }}" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
-                            <a href="{{ route('admin.restaurants.destroy', $restaurant->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить ресторан?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                            @if(auth()->user()->hasRole('megaroot'))
+                                <a href="{{ route('admin.restaurants.destroy', $restaurant->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить ресторан?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

@@ -29,10 +29,21 @@ class DishesController extends AdminController
 
         $restaurant = null;
 
-        if(Auth::user()->hasRole('megaroot|root') && ($restaurant_id = request('restaurant'))){
+        if(($restaurant_id = request('restaurant')) && auth()->user()->hasRole('megaroot|root')){
             $restaurant = Restaurant::find($restaurant_id);
+            if(auth()->user()->hasRole('root')){
+                if($restaurant->present_id != auth()->id()) abort(403);
+            }
         }elseif (Auth::user()->hasRole('boss')){
             $restaurant = Auth::user()->restaurant;
+        }
+
+        if(auth()->user()->hasRole('megaroot')){
+            $this->data['list_restaurants'] = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root')){
+            $this->data['list_restaurants'] = auth()->user()->restaurants;
+        }else{
+            $this->data['list_restaurants'] = null;
         }
 
         if($restaurant){

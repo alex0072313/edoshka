@@ -178,6 +178,7 @@ class RestaurantController extends AdminController
      */
     public function destroy(Restaurant $restaurant)
     {
+        if(!auth()->user()->hasRole('megaroot')) abort(403);
         if($restaurant->delete()){
             return redirect()
                 ->back()

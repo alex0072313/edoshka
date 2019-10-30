@@ -6,7 +6,7 @@
 
         @if($categories->count())
             <div class="btn-group mb-4 ml-2">
-                @hasrole('megaroot')
+                @hasrole('megaroot|root')
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder-open"></i>
                     @if(isset($restaurant->id))
@@ -22,7 +22,7 @@
                     <a class="dropdown-item d-block" href="{{ route('admin.categories.index') }}" >
                         Все
                     </a>
-                    @foreach(\App\Restaurant::all() as $rest)
+                    @foreach($restaurants as $rest)
                         @php
                             $params['restaurant_id'] = $rest->id;
                         @endphp

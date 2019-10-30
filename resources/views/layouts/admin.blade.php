@@ -156,16 +156,16 @@
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot|root|boss'))
+                @if($_user->hasRole('megaroot|root'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.users') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.users.index') }}">
                             <i class="fas fa-users"></i>
-                            <span>{{ $_user->hasRole('megaroot|root') ? 'Управляющие' : 'Менеджеры' }}</span>
+                            <span>Управляющие</span>
                         </a>
                     </li>
                 @endif
 
-                @if($_user->hasRole('megaroot|root|boss'))
+                @if($_user->hasRole('megaroot'))
                     <li{!! stristr(Route::currentRouteName(), 'admin.customers') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.customers.index') }}">
                             <i class="fas fa-shopping-cart"></i>

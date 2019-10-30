@@ -89,7 +89,7 @@
         <div class="form-group">
             <div class="clearfix">
                 <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
-                @if(isset($user))
+                @if(isset($user) && auth()->user()->hasRole('megaroot'))
                     <a href="{{ route('admin.presents.destroy', $user->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить представителя {{ $user->name }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-sm btn-danger float-right">Удалить</a>
                 @endif
             </div>

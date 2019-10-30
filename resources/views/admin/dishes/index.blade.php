@@ -88,7 +88,6 @@
 
     @php
         $list_categories = App\Category::allToAccess(isset($restaurant) ? $restaurant : null);
-        $list_restaurants = App\Restaurant::all();
     @endphp
 
     @if($list_categories->count() && isset($category_by_dishes))
@@ -176,21 +175,11 @@
                                 <img src="{{ Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_xxs.jpg') }}" class="img-rounded rounded-circle" />
                             @endif
                         </td>
-                        <td class="text-nowrap"><a href="{{ route('admin.dishes.edit', 'owner_'.$dish->id) }}">{{ $dish->name }}</a></td>
-                        <td class="text-nowrap"><a href="{{ route('admin.dishes.index', 'category_'.$dish->category->id) }}">{{ $dish->category->name }}</a></td>
+                        <td class="text-nowrap"><a href="{{ route('admin.dishes.edit', $dish->id) }}">{{ $dish->name }}</a></td>
+                        <td class="text-nowrap"><a href="{{ route('admin.categories.edit', $dish->category_id) }}">{{ $dish->category->name }}</a></td>
 
                         <td class="text-nowrap">{{ $dish->price }}</td>
                         <td class="text-nowrap">{{ $dish->new_price }}</td>
-
-                        {{--@foreach($fields_names as $field_id => $field_name)--}}
-                            {{--<td width="1%">--}}
-                                {{--@if(isset($dish->fields_cont[$field_id]))--}}
-                                    {{--{{ $dish->fields_cont[$field_id] }}--}}
-                                {{--@else--}}
-                                    {{-----}}
-                                {{--@endif--}}
-                            {{--</td>--}}
-                        {{--@endforeach--}}
 
                         <td width="1%">
                             <div class="width-80">

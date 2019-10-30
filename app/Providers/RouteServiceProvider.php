@@ -60,6 +60,10 @@ class RouteServiceProvider extends ServiceProvider
             return Restaurant::findOrFail($value);
         });
 
+        Route::bind('present', function ($value) {
+            return User::findOrFail($value);
+        });
+
         $this->userAccess();
 
     }
@@ -117,6 +121,10 @@ class RouteServiceProvider extends ServiceProvider
 
                     if($user->hasRole('megaroot')){
                         return abort(403);
+                    }
+
+                    if(auth()->user()->hasRole('root')){
+                        if(auth()->user()->usersOnPresent->where('id', '=', $user->id)->count()) return $user;
                     }
 
                     if (($user->id != \Auth::id()) && \Auth::user()->hasRole('boss')) {

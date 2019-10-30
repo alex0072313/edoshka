@@ -50,8 +50,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', 'Admin\UserController')->except('destroy');
 
     //Представители
-    Route::get('/present/{user}/destroy', 'Admin\PresentController@destroy')->name('presents.destroy');
+    Route::get('/presents/{present}/destroy', 'Admin\PresentController@destroy')->name('presents.destroy');
     Route::resource('presents', 'Admin\PresentController')->except('destroy');
+
+    //Акции
+    Route::get('/specials/{special}/destroy', 'Admin\SpecialsController@destroy')->name('specials.destroy');
+    Route::resource('specials', 'Admin\SpecialsController')->except('destroy');
 
     //Выход с кабинета
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -104,10 +108,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/customers/append', 'Admin\CustomerController@append')->name('customers.append');
         Route::get('/customers/{user}/destroy', 'Admin\CustomerController@destroy')->name('customers.destroy');
         Route::resource('customers', 'Admin\CustomerController')->except('destroy');
-
-        //Акции
-        Route::get('/specials/{special}/destroy', 'Admin\SpecialsController@destroy')->name('specials.destroy');
-        Route::resource('specials', 'Admin\SpecialsController')->except('destroy');
 
     });
 });

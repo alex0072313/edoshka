@@ -148,6 +148,8 @@ class SpecialsController extends AdminController
      */
     public function destroy(Special $special)
     {
+        if(!auth()->user()->hasRole('megaroot')) return abort(403);
+
         if($special->delete()){
             return redirect()
                 ->back()

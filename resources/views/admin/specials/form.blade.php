@@ -56,7 +56,7 @@
         <div class="form-group">
             <div class="clearfix">
                 <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
-                @if(isset($special))
+                @if(isset($special) && auth()->user()->hasRole('megaroot'))
                     <a href="{{ route('admin.specials.destroy', $special->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить акцию {{ $special->name }}{{ $special->restaurants()->count() ? '(привязана к '.$special->restaurants()->count().' ресторану(нам))':'' }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-sm btn-danger float-right">Удалить</a>
                 @endif
             </div>

@@ -4,25 +4,6 @@
 
     <a href="{{ route('admin.specials.create') }}" class="btn btn-primary btn-lg mb-4">Добавить акцию</a>
 
-    @if($specials->count())
-        <div class="btn-group mb-4 ml-2">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-folder-open"></i>
-                Сортировка: <span>Все</span>
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item d-block" >
-                    Все
-                </a>
-                @foreach(\App\Restaurant::all() as $rest)
-                    <a class="dropdown-item d-block" >
-                        {{ $rest->name }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
-    @endif
-
     @if(count($specials))
         <div class="table-responsive">
             <table class="table table-striped m-b-0">
@@ -56,7 +37,9 @@
                         <td>{{ $special->status ? 'Да' : 'Нет' }}</td>
                         <td class="with-btn text-center" nowrap>
                             <a href="{{ route('admin.specials.edit', $special->id) }}" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
-                            <a href="{{ route('admin.specials.destroy', $special->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить акцию {{ $special->name }}{{ $special->restaurants()->count() ? '(привязана к '.$special->restaurants()->count().' ресторану(нам))':'' }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                            @hasrole('megaroot')
+                                <a href="{{ route('admin.specials.destroy', $special->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить акцию {{ $special->name }}{{ $special->restaurants()->count() ? '(привязана к '.$special->restaurants()->count().' ресторану(нам))':'' }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                            @endrole
                         </td>
                     </tr>
                 @endforeach

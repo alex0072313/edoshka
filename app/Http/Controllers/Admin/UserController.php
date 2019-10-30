@@ -22,7 +22,7 @@ class UserController extends AdminController
 {
     public function __construct()
     {
-        $this->middleware(['role:boss|megaroot|root'])->only(['create', 'index', 'store', 'destroy']);
+        $this->middleware(['role:megaroot|root'])->only(['create', 'index', 'store', 'destroy']);
         parent::__construct();
     }
 
@@ -33,7 +33,7 @@ class UserController extends AdminController
      */
     public function index(){
         $this->view = 'admin.users.index';
-        $this->title = 'Все пользователи';
+        $this->title = 'Все управляющие';
 
         if(auth()->user()->hasRole('megaroot')){
             $this->data['users'] = User::role(['boss', 'manager'])->get();

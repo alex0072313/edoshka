@@ -22,29 +22,10 @@
             </div>
         </div>
 
-        {{--@if(Auth::user()->hasRole('megaroot'))--}}
-            {{--<div class="form-group row">--}}
-                {{--<label class="col-form-label col-md-3">Ресторан</label>--}}
-                {{--<div class="col-md-9">--}}
-                    {{--<select name="restaurant_id" class="default-select2 form-control{{ $errors->has('restaurant_id') ? ' is-invalid' : '' }}" {{ isset($dish) ? ' data-dish="'.$dish->id.'"' : '' }} data-search="true" data-placeholder="Выберете ресторан">--}}
-                        {{--<option></option>--}}
-                        {{--@foreach($restaurants as $restaurant)--}}
-                            {{--<option value="{{ $restaurant->id }}"{{ isset($category) ? $restaurant->id == $category->restaurant_id ? ' selected':'' : '' }} >{{ $restaurant->name . ' - ' . $restaurant->town->name }}</option>--}}
-                        {{--@endforeach--}}
-                    {{--</select>--}}
-                    {{--@if ($errors->has('restaurant_id'))--}}
-                        {{--<span class="invalid-feedback" role="alert">--}}
-                                    {{--Выберете ресторан!--}}
-                                {{--</span>--}}
-                    {{--@endif--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--@endif--}}
-
         <div class="form-group row">
             <label class="col-form-label col-md-3">Алиас</label>
             <div class="col-md-9">
-                <input type="text" name="alias"{{ !$_user->hasRole('megaroot') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($category) ? $category->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+                <input type="text" name="alias"{{ !$_user->hasRole('megaroot|root') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($category) ? $category->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
                 @if ($errors->has('alias'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('alias') }}
@@ -67,27 +48,29 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Путь до иконки</label>
-            <div class="col-md-9">
-                <input type="text" name="icon" value="{{ old('icon') ? old('icon') : (isset($category) ? $category->icon : '') }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-form-label col-md-3">Показывать в верхнем меню</label>
-            <div class="col-md-9">
-                <div class="checkbox checkbox-css on_g">
-                    <input type="checkbox" name="topmenu" id="topmenu" value="1"{{ isset($category->id) ? $category->topmenu || old('topmenu') ? ' checked':'':'' }} />
-                    <label for="topmenu">&nbsp;</label>
+        @if(auth()->user()->hasRole('megaroot'))
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Путь до иконки</label>
+                <div class="col-md-9">
+                    <input type="text" name="icon" value="{{ old('icon') ? old('icon') : (isset($category) ? $category->icon : '') }}" class="form-control">
                 </div>
             </div>
-        </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Показывать в верхнем меню</label>
+                <div class="col-md-9">
+                    <div class="checkbox checkbox-css on_g">
+                        <input type="checkbox" name="topmenu" id="topmenu" value="1"{{ isset($category->id) ? $category->topmenu || old('topmenu') ? ' checked':'':'' }} />
+                        <label for="topmenu">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="form-group">
             <div class="clearfix">
                 <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
-                @if(isset($category))
+                @if(isset($category) && auth()->user()->can('access', $category))
                     <a href="{{ route('admin.categories.destroy', $category->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить категорию {{ $category->name }}{{ $category->childs()->count() ? ' и ее потомков':'' }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-sm btn-danger float-right">Удалить</a>
                 @endif
             </div>
@@ -101,7 +84,7 @@
             var input_name = $(this),
                 input_alias = $('input[name=\"alias\"]');
 
-            input_alias.val(rus_to_latin(input_name.val()));
+            if(!input_alias.val()) input_alias.val(rus_to_latin(input_name.val()));
         }).trigger('change');
     </script>
 @endpush

@@ -98,7 +98,7 @@
                 <thead>
                 <tr>
                     <th width="1%" class="pr-0">ID</th>
-                    @if($is_megaroot)
+                    @if(isset($restaurants))
                         <th width="1%" class="text-nowrap">Ресторан</th>
                     @endif
                     <th width="1%" class="text-nowrap">Сумма</th>
