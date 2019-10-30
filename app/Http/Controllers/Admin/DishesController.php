@@ -105,11 +105,13 @@ class DishesController extends AdminController
             $this->data['restaurant'] = $restaurant;
         }
 
-        $recomendeds = Auth::user()->hasRole('megaroot') ? Dish::all() : Auth::user()->restaurant->dishes;
-
         $this->data['restaurants'] = $restaurants = Restaurant::all();
 
-        if(Auth::user()->hasRole('megaroot')){
+        if($restaurant){
+            $recomendeds = $restaurant->dishes;
+        }
+
+        if(Auth::user()->hasRole('megaroot') && $recomendeds){
             $recomendeds->map(function ($recomended) use ($restaurants){
                 $recomended->restaurant = $restaurants->where('id', '=', $recomended->restaurant_id)->first();
                 return $recomended;
