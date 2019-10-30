@@ -105,7 +105,15 @@ class DishesController extends AdminController
             $this->data['restaurant'] = $restaurant;
         }
 
-        $this->data['restaurants'] = $restaurants = Restaurant::all();
+        if(auth()->user()->hasRole('megaroot')){
+            $restaurants = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root')){
+            $restaurants = auth()->user()->restaurants;
+        }else{
+            $restaurants = null;
+        }
+
+        $this->data['restaurants'] = $restaurants;
 
         $recomendeds = null;
 
