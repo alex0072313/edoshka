@@ -126,7 +126,7 @@
                     </div>
                 </div>
 
-                @if(Auth::user()->hasRole('megaroot'))
+                @if(Auth::user()->hasRole('megaroot|root'))
                     <div class="form-group row">
                         <label class="col-form-label col-md-3">Ресторан</label>
                         <div class="col-md-9">
