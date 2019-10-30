@@ -107,6 +107,8 @@ class DishesController extends AdminController
 
         $this->data['restaurants'] = $restaurants = Restaurant::all();
 
+        $recomendeds = null;
+
         if($restaurant){
             $recomendeds = $restaurant->dishes;
         }
