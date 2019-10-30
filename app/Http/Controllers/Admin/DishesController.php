@@ -250,7 +250,7 @@ class DishesController extends AdminController
 
         $this->data['dish'] = $dish;
 
-        $recomendeds = Auth::user()->hasRole('megaroot') ? Dish::where('id', '!=', $dish->id)->get() : Auth::user()->restaurant->dishes()->where('id', '!=', $dish->id)->get();
+        $recomendeds = $dish->restaurant->dishes;
 
         $this->data['restaurants'] = $restaurants = Restaurant::all();
 
