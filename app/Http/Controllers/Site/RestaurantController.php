@@ -14,7 +14,7 @@ class RestaurantController extends SiteController
         $red = false;
         if(!$restaurant->active){
             $red = true;
-            if(auth()->check() && (auth()->user()->hasRole('megaroot') || auth()->user()->hasRole('boss'))){
+            if(auth()->check() && auth()->user()->hasRole('megaroot|boss|root')){
                 $red = false;
             }
         }
