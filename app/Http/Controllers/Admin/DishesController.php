@@ -250,7 +250,7 @@ class DishesController extends AdminController
 
         $this->data['dish'] = $dish;
 
-        $recomendeds = $dish->restaurant->dishes;
+        $recomendeds = $dish->restaurant->dishes()->where('id', '!=', $dish->id)->get();
 
         $this->data['restaurants'] = $restaurants = Restaurant::all();
 
