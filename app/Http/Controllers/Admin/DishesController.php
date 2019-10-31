@@ -172,15 +172,12 @@ class DishesController extends AdminController
         $validate = \Validator::make(request()->all(), $validate);
 
         if ($validate->fails()) {
-
-            dd($validate->errors());
             return redirect()
                 ->back()
                 ->withErrors($validate)
                 ->withInput()
                 ->with('error', 'Ошибка при добавлении блюда, проверьте форму!');
         }
-        dd(request()->all());
 
 
         if (!Auth::user()->hasRole('megaroot')) {
