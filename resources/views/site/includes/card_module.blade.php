@@ -62,7 +62,7 @@
                         @if($comment_delivery = $restaurant->comment_delivery)
                             <div class="card_comment_delivery mb-4">
                                 <div class="h4 text-uppercase font-weight-light mb-3 text-black">Информация о доставке</div>
-                                <div class="text-secondary">{{ $comment_delivery }}</div>
+                                <div class="text-secondary">{!! $comment_delivery !!}</div>
                             </div>
                         @endif
 
