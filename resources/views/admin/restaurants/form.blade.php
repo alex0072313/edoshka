@@ -92,6 +92,20 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Мин. сумма бесплатной доставки</label>
+            <div class="col-md-9">
+                <input type="number" name="min_free_delivery" min="0" value="{{  old('min_free_delivery') ? old('min_free_delivery') : isset($restaurant->id) ? $restaurant->min_free_delivery : '' }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Ком-рий к доставке</label>
+            <div class="col-md-9">
+                <textarea name="comment_delivery" class="form-control" rows="4">{{  old('comment_delivery') ? old('comment_delivery') : isset($restaurant->id) ? $restaurant->comment_delivery : '' }}</textarea>
+            </div>
+        </div>
+
         @hasrole('megaroot')
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Комиссия %</label>

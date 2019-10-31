@@ -58,8 +58,15 @@
                     </div>
 
                     <div class="card_order_actions{{ $_cart_restaurants_small_order ? ' disabled_box' : '' }}">
-                        <div class="card_order_info mb-4">
 
+                        @if($comment_delivery = $restaurant->comment_delivery)
+                            <div class="card_comment_delivery mb-4">
+                                <div class="h4 text-uppercase font-weight-light mb-3 text-black">Информация о доставке</div>
+                                <div class="text-secondary">{{ $comment_delivery }}</div>
+                            </div>
+                        @endif
+
+                        <div class="card_order_info mb-4">
                             <div class="h4 text-uppercase font-weight-light mb-3 text-black">Данные для оформления</div>
                             <div class="row">
                                 <div class="col-md-6">

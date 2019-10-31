@@ -8,7 +8,7 @@
 				</nav>
 				<div class="d-md-flex w-100 text-md-left text-center">
 					<div class="clearfix flex-grow-1">
-						<h1 class="h1 font-weight-bolder text-white float-left shop_title mb-2">
+						<h1 class="h1 font-weight-bolder text-white float-md-left shop_title mb-2">
 							@php
 								$var = 'restaurant_'.$restaurant->id.'_title';
 							@endphp
@@ -60,9 +60,9 @@
 					</div>
 				</div>
 
-				@if($restaurant->min_sum_order)
+				@if($restaurant->min_free_delivery)
 					<div class="mb-3 mt-3 mb-md-5 w-100 text-white-50 font-weight-light shop_min_price text-md-left text-center">
-                        <i class="fas fa-shipping-fast"></i> Бесплатная доставка от {{ $restaurant->min_sum_order }} &#8381;
+                        <i class="fas fa-shipping-fast"></i> Бесплатная доставка от {{ $restaurant->min_free_delivery }} &#8381;
 					</div>
 				@endif
 				{{--<div class="w-100 shop_last_review py-4">--}}
