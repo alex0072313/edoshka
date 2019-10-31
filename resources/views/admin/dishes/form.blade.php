@@ -12,96 +12,8 @@
 
     <script src="/assets/js/photoboard.js"></script>
     <script src="/assets/js/field_files.js"></script>
-
-    <script>
-        {{--if ($('#dish_cat_select').length) {--}}
-            {{--var select = $('#dish_cat_select'),--}}
-                {{--url;--}}
-
-            {{--@if(isset($dish))--}}
-                {{--url = '{{ route('fields.get_for_dish', 'dish_'.$dish->id) }}';--}}
-            {{--@else--}}
-                {{--url = '{{ route('fields.get_for_dish') }}';--}}
-            {{--@endif--}}
-
-            {{--select.on('change', function () {--}}
-                {{--var category_id = $(this).val();--}}
-
-                {{--if (!$('.dish_field').length) {--}}
-                    {{--$('.primary_info').after(bild_dish_field_form('<div class="fa-3x text-center my-1 text-green"><i class="fas fa-spinner fa-spin"></i></div>'));--}}
-                {{--} else {--}}
-                    {{--$('.dish_field .panel-body').html('<div class="fa-3x text-center my-3 text-green"><i class="fas fa-spinner fa-spin"></i></div>');--}}
-                {{--}--}}
-
-                {{--$.ajax({--}}
-                    {{--url: url,--}}
-                    {{--type: 'POST',--}}
-                    {{--data: {--}}
-                        {{--_token: '{{ csrf_token() }}',--}}
-                        {{--category_id: category_id--}}
-                    {{--},--}}
-                    {{--dataType: 'JSON',--}}
-                    {{--success: function (response) {--}}
-                        {{--var fields_html = '';--}}
-
-                        {{--if (response['fields'] !== undefined) {--}}
-                            {{--for (var i = 0; i < response['fields'].length; i++) {--}}
-                                {{--fields_html += response['fields'][i];--}}
-                            {{--}--}}
-                        {{--}--}}
-
-                        {{--if (fields_html) {--}}
-                            {{--$('.dish_field .panel-body').html(fields_html);--}}
-                        {{--} else {--}}
-                            {{--$('.dish_field').remove();--}}
-                        {{--}--}}
-
-                        {{--bild_htmltext();--}}
-                        {{--fields_init();--}}
-                    {{--}--}}
-                {{--});--}}
-            {{--});--}}
-
-        {{--}--}}
-        {{--bild_htmltext();--}}
-
-        {{--//--}}
-        {{--function bild_dish_field_form(fields) {--}}
-            {{--var html = '<div class="panel panel-inverse dish_field">' +--}}
-                {{--'<div class="panel-heading">' +--}}
-                {{--'<h4 class="panel-title">Дополнительные поля</h4>' +--}}
-                {{--'</div>' +--}}
-                {{--'<div class="panel-body panel-form">' +--}}
-                {{--fields +--}}
-                {{--'</div>' +--}}
-                {{--'</div>';--}}
-            {{--return html;--}}
-        {{--}--}}
-
-        {{--function bild_htmltext() {--}}
-            {{--$(".wysihtml5").wysihtml5({--}}
-                {{--toolbar: {--}}
-                    {{--"font-styles": false,--}}
-                    {{--"image": false,--}}
-                    {{--"size": 'sm'--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
-
-    </script>
 @endpush
-
 @extends('layouts.admin')
-
-{{--@if(isset($dish))--}}
-    {{----}}
-    {{--@section('page_header_buttons')--}}
-        {{--<a href="{{ route('categories.create') }}" class="btn btn-green btn-xs m-l-5"><i--}}
-                    {{--class="fas fa-sm fa-fw fa-folder-open"></i> Новая категория</a>--}}
-    {{--@endsection--}}
-
-{{--@endif--}}
-
 @section('content')
 
     <form action="{{ isset($dish) ? route('admin.dishes.update', 'dish_'.$dish->id) : route('admin.dishes.store') }}"
@@ -126,7 +38,7 @@
                     </div>
                 </div>
 
-                @if(Auth::user()->hasRole('megaroot'))
+                @if(Auth::user()->hasRole('megaroot|root'))
                     <div class="form-group row">
                         <label class="col-form-label col-md-3">Ресторан</label>
                         <div class="col-md-9">
@@ -373,19 +285,20 @@
                         @endforeach
                     </div>
                 </div>
-
-                <div class="form-group row">
-                    <label class="col-form-label col-md-3">Рекомендуемые</label>
-                    <div class="col-md-9">
-                        <select class="default-select2 form-control" name="recomendeds[]" id="recomendeds_select" multiple data-search="true" data-placeholder="Выберете блюда">
-                            <option></option>
-                            @foreach($recomendeds as $recomended)
-                                <option value="{{ $recomended->id }}" {{ isset($dish_recomendeds) ? $dish_recomendeds->find($recomended->id) ? ' selected' : '' : '' }}> {{ Auth::user()->hasRole('megaroot') ? $recomended->restaurant->name . ' / ' : '' }}{{ $recomended->name }}</option>
-                            @endforeach
-                        </select>
-                        <a href="javasript:;" class="btn btn-sm btn-default mt-2 recomendeds_random" data-dish-id="{{ isset($dish->id) ? $dish->id : '0' }}">Сгенерировать</a>
-                    </div>
+        @if($recomendeds)
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Рекомендуемые</label>
+                <div class="col-md-9">
+                    <select class="default-select2 form-control" name="recomendeds[]" id="recomendeds_select" multiple data-search="true" data-placeholder="Выберете блюда">
+                        <option></option>
+                        @foreach($recomendeds as $recomended)
+                            <option value="{{ $recomended->id }}" {{ isset($dish_recomendeds) ? $dish_recomendeds->find($recomended->id) ? ' selected' : '' : '' }}> {{ Auth::user()->hasRole('megaroot') ? $recomended->restaurant->name . ' / ' : '' }}{{ $recomended->name }}</option>
+                        @endforeach
+                    </select>
+                    <a href="javasript:;" class="btn btn-sm btn-default mt-2 recomendeds_random" data-dish-id="{{ isset($dish->id) ? $dish->id : '0' }}">Сгенерировать</a>
                 </div>
+            </div>
+        @endif
 
         <input type="submit" class="btn btn-sm btn-primary float-left" value="Сохранить">
 

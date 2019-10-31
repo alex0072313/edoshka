@@ -16,7 +16,7 @@ class HomeController extends SiteController
             ->with('kitchens')
             ->get()
             ->filter(function ($restaurant){
-                if($restaurant->active || (auth()->check() && (auth()->user()->hasRole('megaroot') || auth()->user()->hasRole('boss'))) ) return true;
+                if($restaurant->active || (auth()->check() && auth()->user()->hasRole('megaroot|boss|root')) ) return true;
                 return false;
             })
             ->map(function ($restaurant){
