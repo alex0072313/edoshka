@@ -159,7 +159,7 @@ class DishesController extends AdminController
     public function store(Request $request)
     {
         $validate = [
-            'name' => 'required|max:255|min:3',
+            'name' => 'required|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'price' => 'required',
             'category_id' => 'required',
@@ -284,7 +284,7 @@ class DishesController extends AdminController
         $this->authorize('access', $dish);
 
         $validate = [
-            'name' => 'required|max:255|min:3',
+            'name' => 'required|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'price' => 'required',
             'category_id' => 'required',
