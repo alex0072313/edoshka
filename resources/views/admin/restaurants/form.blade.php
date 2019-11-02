@@ -179,7 +179,7 @@
             </div>
         </div>
 
-        @role('megaroot')
+        @role('megaroot|root')
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Активен</label>
                 <div class="col-md-9">
