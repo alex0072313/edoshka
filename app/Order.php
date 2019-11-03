@@ -83,7 +83,6 @@ class Order extends Model
                             break;
                         }
                     }
-
                 }
             }
             if($percent){
