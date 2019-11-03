@@ -52,7 +52,7 @@ class RestaurantController extends AdminController
         $validator =  [
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'min_sum_order' => 'required',
-            'commission' => 'required|integer|between:1,100',
+            'commission' => 'required|integer|between:5,100',
         ];
 
         $worktime = ['worktime'=>null];
@@ -131,7 +131,7 @@ class RestaurantController extends AdminController
             'alias' => 'required|unique:restaurants,alias',
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'min_sum_order' => 'required',
-            'commission' => 'required|integer|between:1,100',
+            'commission' => 'required|integer|between:5,100',
         ];
 
         if(\Auth::user()->hasRole('megaroot')){
