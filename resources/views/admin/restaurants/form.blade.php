@@ -69,7 +69,17 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Адрес</label>
                 <div class="col-md-9">
-                    <input type="text" name="address" value="{{ old('address') ? old('address') : isset($restaurant->id) ? $restaurant->address : '' }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
+
+                    @php
+                        $address = ld('address') ? old('address') : '';
+                        if(isset($restaurant)){
+                            if($restaurant->address){
+                                $address = $restaurant->address;
+                            }
+                        }
+                    @endphp
+
+                    <input type="text" name="address" value="{{ $address }}" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
                     @if ($errors->has('address'))
                         <span class="invalid-feedback" role="alert">
                             {{ $errors->first('address') }}
