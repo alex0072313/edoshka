@@ -52,6 +52,7 @@ class RestaurantController extends AdminController
         $validator =  [
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'min_sum_order' => 'required',
+            'address' => 'required',
             'commission' => 'required|integer|between:5,100',
         ];
 
