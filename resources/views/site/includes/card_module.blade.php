@@ -40,7 +40,6 @@
                 <div class="order_form" data-action="{{ route('site.send_order') }}">
                     <div class="card_products mb-4">
 {{--                        <div class="h4 font-weight-light mb-3 text-black">Ваш заказ в ресторане {{ $_cart_restaurant_name }}</div>--}}
-
                         @if($_cart_restaurants_out_worktime)
                             <div class="alert alert-warning fade show mb-0">
                                 У Вас есть заказы из ресторанов, время работы которых не соответствует текущему! Заказ будет возможен в их рабочее время.
@@ -59,11 +58,13 @@
 
                     <div class="card_order_actions{{ $_cart_restaurants_small_order ? ' disabled_box' : '' }}">
 
-                        @if($comment_delivery = $restaurant->comment_delivery)
-                            <div class="card_comment_delivery mb-4">
-                                <div class="h4 text-uppercase font-weight-light mb-3 text-black">Информация о доставке</div>
-                                <div class="text-secondary">{!! $comment_delivery !!}</div>
-                            </div>
+                        @if(isset($restaurant))
+                            @if($comment_delivery = $restaurant->comment_delivery)
+                                <div class="card_comment_delivery mb-4">
+                                    <div class="h4 text-uppercase font-weight-light mb-3 text-black">Информация о доставке</div>
+                                    <div class="text-secondary">{!! $comment_delivery !!}</div>
+                                </div>
+                            @endif
                         @endif
 
                         <div class="card_order_info mb-4">
