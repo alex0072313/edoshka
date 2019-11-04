@@ -69,7 +69,7 @@ class RestaurantController extends AdminController
 
         request()->request->add($worktime);
 
-        if(\Auth::user()->hasRole('megaroot')){
+        if(\Auth::user()->hasRole('megaroot|root')){
             $validator['town_id'] = 'required';
             $validator['name'] = 'required|max:255';
             $validator['address'] = 'required';
