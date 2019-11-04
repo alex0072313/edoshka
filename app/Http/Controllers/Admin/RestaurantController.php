@@ -119,6 +119,7 @@ class RestaurantController extends AdminController
         $this->title = 'Добавление ресторана';
         $this->view = 'admin.restaurants.form';
 
+        $this->data['restaurant'] = null;
 
         $this->data['specials'] = Special::all();
         $this->data['kitchens'] = Kitchen::all();
