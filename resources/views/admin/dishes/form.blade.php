@@ -25,8 +25,15 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Название</label>
                     <div class="col-md-9">
+                        @php
+                            $name = old('name') ? old('name') : '';
+                            if(isset($dish)){
+                                $name = $dish->name;
+                            }
+                        @endphp
+
                         <input type="text" name="name" id="name_input"
-                               value="{{ old('name') ? old('name') : (isset($dish) ? $dish->name : '') }}"
+                               value="{{ $name }}"
                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                placeholder="Название блюда"
                         >

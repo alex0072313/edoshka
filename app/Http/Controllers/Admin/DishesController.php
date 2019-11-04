@@ -89,6 +89,8 @@ class DishesController extends AdminController
         $this->view = 'admin.dishes.form';
         $this->title = 'Добавление блюда';
 
+        $this->data['dish'] = null;
+
         $category = null;
         if($category_id = request('category')) $category = Category::find($category_id);
 
