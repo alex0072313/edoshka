@@ -32,10 +32,20 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Представитель</label>
                     <div class="col-md-9">
+
+                        @php
+                            $present_id = old('present_id') ? old('present_id') : '';
+                            if(isset($restaurant)){
+                                if($restaurant->present_id){
+                                    $present_id = $restaurant->present_id;
+                                }
+                            }
+                        @endphp
+
                         <select name="present_id" class="default-select2 form-control" data-placeholder="Выберете представителя">
                             <option></option>
                             @foreach(\App\User::role(['root', 'megaroot'])->get() as $user)
-                                <option {{ old('present_id') ? old('present_id') : isset($restaurant->id) ? $restaurant->present_id == $user->id ? 'selected' : '' : '' }} value="{{ $user->id }}">{{ $user->name.($user->lastname ? ' '.$user->lastname : '') }}</option>
+                                <option {{ $present_id == $user->id ? 'selected' : '' }} value="{{ $user->id }}">{{ $user->name.($user->lastname ? ' '.$user->lastname : '') }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -45,7 +55,17 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Название</label>
                 <div class="col-md-9">
-                    <input type="text" name="name" value="{{ old('name') ? old('name') : (isset($restaurant->id) ? $restaurant->name : '') }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
+
+                    @php
+                        $name = old('name') ? old('name') : '';
+                        if(isset($restaurant)){
+                            if($restaurant->name){
+                                $name = $restaurant->name;
+                            }
+                        }
+                    @endphp
+
+                    <input type="text" name="name" value="{{ $name }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
                     @if ($errors->has('name'))
                         <span class="invalid-feedback" role="alert">
                             {{ $errors->first('name') }}
@@ -57,7 +77,17 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Алиас</label>
                 <div class="col-md-9">
-                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot|root') ? ' readonly' : '' }} value="{{ old('alias') ? old('alias') : (isset($restaurant->id) ? $restaurant->alias : '') }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
+
+                    @php
+                        $alias = old('alias') ? old('alias') : '';
+                        if(isset($restaurant)){
+                            if($restaurant->alias){
+                                $alias = $restaurant->alias;
+                            }
+                        }
+                    @endphp
+
+                    <input type="text" name="alias"{{ !$_user->hasRole('megaroot|root') ? ' readonly' : '' }} value="{{ $alias }}" class="form-control{{ $errors->has('alias') ? ' is-invalid' : '' }}">
                     @if ($errors->has('alias'))
                         <span class="invalid-feedback" role="alert">
                             {{ $errors->first('alias') }}
