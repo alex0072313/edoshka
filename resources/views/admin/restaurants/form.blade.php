@@ -93,7 +93,17 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Мин. сумма заказа</label>
             <div class="col-md-9">
-                <input type="number" name="min_sum_order" min="0" value="{{  old('min_sum_order') ? old('min_sum_order') : isset($restaurant->id) ? $restaurant->min_sum_order : '' }}" class="form-control{{ $errors->has('min_sum_order') ? ' is-invalid' : '' }}">
+
+                @php
+                    $min_sum_order = old('min_sum_order') ? old('min_sum_order') : '';
+                    if(isset($restaurant)){
+                        if($restaurant->min_sum_order){
+                            $min_sum_order = $restaurant->min_sum_order;
+                        }
+                    }
+                @endphp
+
+                <input type="number" name="min_sum_order" min="0" value="{{ $min_sum_order }}" class="form-control{{ $errors->has('min_sum_order') ? ' is-invalid' : '' }}">
                 @if ($errors->has('min_sum_order'))
                 <span class="invalid-feedback" role="alert">
                         {{ $errors->first('min_sum_order') }}
@@ -105,14 +115,32 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Мин. сумма бесплатной доставки</label>
             <div class="col-md-9">
-                <input type="number" name="min_free_delivery" min="0" value="{{  old('min_free_delivery') ? old('min_free_delivery') : isset($restaurant->id) ? $restaurant->min_free_delivery : '' }}" class="form-control">
+
+                @php
+                    $min_free_delivery = old('min_free_delivery') ? old('min_free_delivery') : '';
+                    if(isset($restaurant)){
+                        if($restaurant->min_free_delivery){
+                            $min_free_delivery = $restaurant->min_free_delivery;
+                        }
+                    }
+                @endphp
+
+                <input type="number" name="min_free_delivery" min="0" value="{{ $min_free_delivery }}" class="form-control">
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Ком-рий к доставке</label>
             <div class="col-md-9">
-                <textarea name="comment_delivery" class="form-control" rows="4">{{  old('comment_delivery') ? old('comment_delivery') : isset($restaurant->id) ? $restaurant->comment_delivery : '' }}</textarea>
+                @php
+                    $comment_delivery = old('comment_delivery') ? old('comment_delivery') : '';
+                    if(isset($restaurant)){
+                        if($restaurant->comment_delivery){
+                            $comment_delivery = $restaurant->comment_delivery;
+                        }
+                    }
+                @endphp
+                <textarea name="comment_delivery" class="form-control" rows="4">{{ $comment_delivery }}</textarea>
             </div>
         </div>
 
@@ -132,7 +160,17 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">ID Telegram Chanell</label>
                 <div class="col-md-9">
-                    <input type="text" name="telegram_chat_id" value="{{  old('telegram_chat_id') ? old('telegram_chat_id') : isset($restaurant->id) ? $restaurant->telegram_chat_id : '' }}" class="form-control">
+
+                    @php
+                        $telegram_chat_id = old('telegram_chat_id') ? old('telegram_chat_id') : '';
+                        if(isset($restaurant)){
+                            if($restaurant->telegram_chat_id){
+                                $telegram_chat_id = $restaurant->telegram_chat_id;
+                            }
+                        }
+                    @endphp
+
+                    <input type="text" name="telegram_chat_id" value="{{ $telegram_chat_id }}" class="form-control">
                 </div>
             </div>
         @endrole
