@@ -71,7 +71,7 @@
                 <div class="col-md-9">
 
                     @php
-                        $address = ld('address') ? old('address') : '';
+                        $address = old('address') ? old('address') : '';
                         if(isset($restaurant)){
                             if($restaurant->address){
                                 $address = $restaurant->address;
