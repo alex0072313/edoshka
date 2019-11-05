@@ -13,10 +13,18 @@
                 <label class="col-form-label col-md-3">Ресторан</label>
 
                 <div class="col-md-9">
+
+                    @php
+                    $restaurant_id = old('restaurant_id') ? old('restaurant_id') : '';
+                    if(isset($user)){
+                        $restaurant_id = $user->restaurant_id;
+                    }
+                    @endphp
+
                     <select name="restaurant_id" class="default-select2 form-control" data-placeholder="Выберете ресторан">
                         <option></option>
                         @foreach($restaurants as $restaurant)
-                            <option {{ isset($user) && isset($user->restaurant->id) && ($user->restaurant->id == $restaurant->id) ? 'selected' : '' }} value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
+                            <option {{ $restaurant_id && ($restaurant_id == $restaurant->id) ? 'selected' : '' }} value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('name'))
@@ -53,7 +61,14 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Имя</label>
             <div class="col-md-9">
-                <input type="text" name="name" value="{{  old('name') ? old('name') : isset($user) ? $user->name : '' }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
+                @php
+                    $name = old('name') ? old('name') : '';
+                    if(isset($user)){
+                        $name = $user->name;
+                    }
+                @endphp
+
+                <input type="text" name="name" value="{{ $name }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}">
                 @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('name') }}
@@ -65,14 +80,26 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Фамилия</label>
             <div class="col-md-9">
-                <input type="text" name="lastname" value="{{  old('lastname') ? old('lastname') : isset($user) ? $user->lastname : '' }}" class="form-control">
+                @php
+                    $lastname = old('lastname') ? old('lastname') : '';
+                    if(isset($user)){
+                        $lastname = $user->lastname;
+                    }
+                @endphp
+                <input type="text" name="lastname" value="{{ $lastname }}" class="form-control">
             </div>
         </div>
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Email</label>
             <div class="col-md-9">
-                <input type="email" name="email" value="{{  old('email') ? old('email') : isset($user) ? $user->email : '' }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}">
+                @php
+                    $email = old('email') ? old('email') : '';
+                    if(isset($user)){
+                        $email = $user->email;
+                    }
+                @endphp
+                <input type="email" name="email" value="{{ $email }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}">
                 @if ($errors->has('email'))
                     <span class="invalid-feedback" role="alert">
                         {{ $errors->first('email') }}
@@ -91,7 +118,13 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Телефон</label>
             <div class="col-md-9">
-                <input type="text" name="phone" value="{{ old('phone') ? old('phone') : isset($user->id) ? $user->phone : '' }}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
+                @php
+                    $phone = old('phone') ? old('phone') : '';
+                    if(isset($user)){
+                        $phone = $user->phone;
+                    }
+                @endphp
+                <input type="text" name="phone" value="{{ $phone }}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
                 @if ($show_f)
                     <small class="text-secondary">Используется для SMS уведомлений</small>
                 @endif
@@ -109,7 +142,13 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Телефон 2</label>
                 <div class="col-md-9">
-                    <input type="text" name="phone2" value="{{ old('phone2') ? old('phone2') : isset($user) ? $user->phone2 : '' }}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
+                    @php
+                        $phone2 = old('phone2') ? old('phone2') : '';
+                        if(isset($user)){
+                            $phone2 = $user->phone2;
+                        }
+                    @endphp
+                    <input type="text" name="phone2" value="{{ $phone2 }}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
                     <small class="text-secondary">Используется для SMS уведомлений</small>
 
                     @if($errors->has('phone2'))
@@ -124,7 +163,13 @@
                 <label class="col-form-label col-md-3">Подробный заказ в SMS</label>
                 <div class="col-md-9">
                     <div class="checkbox checkbox-css on_g">
-                        <input type="checkbox" name="order_in_sms" id="order_in_sms" value="1"{{ isset($user->order_in_sms) ? $user->order_in_sms || old('order_in_sms') ? ' checked':'':'' }} />
+                        @php
+                            $order_in_sms = old('order_in_sms') ? old('order_in_sms') : '';
+                            if(isset($user)){
+                                $order_in_sms = $user->order_in_sms;
+                            }
+                        @endphp
+                        <input type="checkbox" name="order_in_sms" id="order_in_sms" value="1"{{ $order_in_sms ? ' checked':'' }} />
                         <label for="order_in_sms">&nbsp;</label>
                     </div>
                 </div>

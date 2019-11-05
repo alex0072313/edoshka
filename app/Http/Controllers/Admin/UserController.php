@@ -55,6 +55,7 @@ class UserController extends AdminController
     {
         $this->view = 'admin.users.form';
         $this->title = 'Добавление нового '. (Auth::user()->hasRole('megaroot|root') ? 'управляющего' : 'менеджера');
+        $this->data['user'] = null;
 
         if(auth()->user()->hasRole('megaroot')){
             $this->data['restaurants'] = Restaurant::all();
