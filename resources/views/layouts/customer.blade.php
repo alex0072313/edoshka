@@ -19,8 +19,8 @@
         <div class="filter_mobile d-md-none d-block">
             <div class="container">
                 <div class="inner d-flex">
-                    <a href="jajascript:;" class="open"><i class="fas fa-angle-down"></i></a>
-                    <a href="jajascript:;" class="close"><i class="fas fa-times"></i></a>
+                    <a href="javascript:;" class="open"><i class="fas fa-angle-down"></i></a>
+                    <a href="javascript:;" class="close"><i class="fas fa-times"></i></a>
                     <div class="flex-grow-1">
                         <div class="flex-column">
                             <div class="nav_outer custom_scrollbar">
