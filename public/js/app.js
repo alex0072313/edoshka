@@ -41713,7 +41713,7 @@ if ($('.order_form').length) {
       } else if ($json.success) {
         cart_update();
         ga('send', 'event', 'zakaz', 'click', 'confirm');
-        ym(53176072, 'reachGoal', 'order');
+        ym($('meta[name="ya_metric_id"]').attr('content'), 'reachGoal', 'order');
 
         if ($json.redirect) {
           $('#mod_massage__module').on('hidden.bs.modal', function (e) {
@@ -41902,9 +41902,9 @@ $(function ($) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Code\edoshka.ru\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Code\edoshka.ru\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\Code\edoshka.ru\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
+__webpack_require__(/*! C:\OSPanel\domains\edoshka\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\OSPanel\domains\edoshka\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\OSPanel\domains\edoshka\public\assets\css\_style.scss */"./public/assets/css/_style.scss");
 
 
 /***/ })

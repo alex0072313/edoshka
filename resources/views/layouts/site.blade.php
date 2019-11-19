@@ -14,6 +14,12 @@
     <link rel="icon" href="{{ env('APP_URL') }}/favicon.ico" type="image/x-icon" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if($_town->ya_metric_id)
+        <meta name="ya_metric_id" content="{{ $_town->ya_metric_id }}">
+    @endif
+    @if($_town->g_analitic_id)
+        <meta name="g_analitic_id" content="{{ $_town->g_analitic_id }}">
+    @endif
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     @if(isset($seopage['description']))

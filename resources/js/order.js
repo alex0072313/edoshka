@@ -53,7 +53,7 @@ if($('.order_form').length){
                     cart_update();
 
                     ga('send', 'event', 'zakaz', 'click', 'confirm');
-                    ym(53176072, 'reachGoal', 'order');
+                    ym($('meta[name="ya_metric_id"]').attr('content'), 'reachGoal', 'order');
 
                     if($json.redirect){
                         $('#mod_massage__module').on('hidden.bs.modal', function (e) {
