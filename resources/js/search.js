@@ -58,6 +58,8 @@ $(function ($) {
 
         function open(json)
         {
+            analytics_action('poisk');
+
             $(document).on('click', function (el) {
                 var el = el.target;
                 if(!$(el).parents('.search__module').length){

@@ -163,3 +163,13 @@ global.pluralform = function (number, after, onlyword = false) {
     var cases = [2, 0, 1, 1, 1, 2];
     return (!onlyword ? number+' ' :'') + after[(number%100>4 && number%100<20)? 2: cases[Math.min(number%10, 5)]];
 };
+
+global.analytics_action = window.analytics_action = function (name = null) {
+
+    var g_analitic_id = document.getElementById('meta_g_analitic_id').getAttribute('content'),
+        ya_metric_id = document.getElementById('meta_ya_metric_id').getAttribute('content');
+
+    ga('send', 'event', name, 'click', 'confirm');
+    ym(ya_metric_id, 'reachGoal', name);
+};
+

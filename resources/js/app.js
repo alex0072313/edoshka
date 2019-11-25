@@ -7,6 +7,8 @@ $.ajaxSetup({
     }
 });
 
+require('./helpers');
+
 global.queryString = require('query-string');
 
 require('jquery-mousewheel/jquery.mousewheel');
@@ -232,6 +234,7 @@ if($('.shop_pos_item').length) {
             }else {
                 if(!$(ev.target).hasClass('open_in_rest')){
                     box.addClass('load');
+                    analytics_action('bludo');
                     window.location.href = box.data('url');
                 }
             }
@@ -323,7 +326,6 @@ global.load_dish_modal = function(id, try_by = false) {
             }
 
             if(status){
-
                 return add_to_cart(btn.data('dish-id'), btn.data('variants'), btn.data('weight'), btn.data('price'));
 
                 // ajax_request({
@@ -439,6 +441,9 @@ global.add_to_cart = function(dish_id, variants = null, weight = null, price = n
                     content: 'Время работы '+$json.worktime_invalid.name + ' с '+$json.worktime_invalid.worktime_to + ' до ' + $json.worktime_invalid.worktime_do
                 });
             }
+
+            analytics_action('korzina');
+
             return cart_update($json);
         });
 };
@@ -515,6 +520,7 @@ $(document).on("click", '.order_modal_show', function(){
 
     //setTimeout(function () {
     $('#card__module_modal').modal('show');
+    analytics_action('oformit');
     //}, 500);
 });
 

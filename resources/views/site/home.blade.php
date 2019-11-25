@@ -52,7 +52,7 @@
                                         @endif
                                         @if($slide->href)
                                             <div class="w-100 mb-3">
-                                                <a href="{{ $slide->href }}" class="btn btn-lg btn-success">Меню</a>
+                                                <a href="{{ $slide->href }}" onclick="analytics_action('slide');" class="btn btn-lg btn-success">Меню</a>
                                             </div>
                                         @endif
                                     </div>

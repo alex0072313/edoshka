@@ -15,10 +15,10 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if($_town->ya_metric_id)
-        <meta name="ya_metric_id" content="{{ $_town->ya_metric_id }}">
+        <meta name="ya_metric_id" id="meta_ya_metric_id" content="{{ $_town->ya_metric_id }}">
     @endif
     @if($_town->g_analitic_id)
-        <meta name="g_analitic_id" content="{{ $_town->g_analitic_id }}">
+        <meta name="g_analitic_id"  id="meta_g_analitic_id" content="{{ $_town->g_analitic_id }}">
     @endif
     <link rel="stylesheet" href="{{ asset('css/app.css').'?'.filemtime(public_path() . '/css/app.css') }}">
 
