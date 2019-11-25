@@ -20,7 +20,7 @@
     @if($_town->g_analitic_id)
         <meta name="g_analitic_id" content="{{ $_town->g_analitic_id }}">
     @endif
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css').'?'.filemtime(public_path() . '/css/app.css') }}">
 
     @if(isset($seopage['description']))
         <meta name="description" content="{{ $seopage['description'] }}">
@@ -238,7 +238,8 @@
 @include('site.includes.card_module')
 @include('site.includes.massage_module')
 
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js').'?'.filemtime(public_path() . '/js/app.js') }}"></script>
+
 @stack('js')
 
 @if(getenv('APP_ENV') != 'local')
