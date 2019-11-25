@@ -258,10 +258,11 @@ global.load_dish_modal = function(id, try_by = false) {
     });
 
     function init_variants_onchange() {
-        var variants_box = $('#dish_'+id+'_variants'),
-            variants_price_holder = $('#dish_'+id+'_variants_price_holder'),
-            variants_shortname_holder = $('#dish_'+id+'_variants_shortname_holder'),
-            btn_add_to_cart = $('.modal_add_to_cart');
+        var box = $('#shop_pos_item_'+id),
+            variants_box = box.find('.variants'),
+            variants_price_holder = box.find('.variants_price_holder'),
+            variants_shortname_holder = box.find('.variants_shortname_holder'),
+            btn_add_to_cart = box.find('.modal_add_to_cart');
 
         if(variants_box.length){
             //Есть варианты для выбора

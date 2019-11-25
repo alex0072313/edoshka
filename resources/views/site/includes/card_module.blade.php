@@ -30,12 +30,13 @@
     <div class="modal-dialog modal-dialog-centered modal-lg modal_order" role="document">
         <div class="modal-content">
 
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true"><i class="fas fa-times"></i></span>
-            </button>
-
             <div class="modal-body">
-                <div class="h2 mb-4" id="card__module_modal_title">Оформление заказа</div>
+                <div class="modal-title d-flex">
+                    <div class="h2 mb-4 flex-grow-1" id="card__module_modal_title">Оформление заказа</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    </button>
+                </div>
 
                 <div class="order_form" data-action="{{ route('site.send_order') }}">
                     <div class="card_products mb-4">

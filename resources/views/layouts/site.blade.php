@@ -90,9 +90,11 @@
                                     <div class="modal-dialog modal-xl" role="document">
                                         <div class="modal-content">
 
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                                            </button>
+                                            <div class="close_box">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                                </button>
+                                            </div>
 
                                             <div class="modal-body">
                                                 <div class="h2 mb-4" id="card__module_modal_title">Профиль покупателя</div>
