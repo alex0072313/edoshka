@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Category;
+use App\Restaurant;
 use App\Slide;
 class HomeController extends SiteController
 {

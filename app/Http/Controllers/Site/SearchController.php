@@ -13,54 +13,67 @@ class SearchController extends SiteController
 {
     public function query()
     {
+        $json = [];
+
         if($q = request('q')){
-            $json = [];
 
-            $dishes_by_q = Dish::where('name', 'LIKE', '%'.$q.'%')->get();
-            $restaurants = collect($this->town->restaurants)
-                ->filter(function ($restaurant){
+            $restaurants =  $this->town
+                ->restaurants()
+                ->active()
+                ->get()
+                ->map(function ($r){
 
-                    if(auth()->check() && auth()->user()->hasRole('megaroot')){
-                        return true;
-                    }elseif (!$restaurant->active){
-                        return false;
-                    }
+                    $c = Category::HasDishes($r->id)->get()->map(function ($category){
+                        return $category->name;
+                    })->toArray();
 
-                    return true;
+                    $r->categories_str = count($c) ? implode(' • ', $c) : null;
+
+                    return $r;
                 });
 
-            $dishes = [];
-            foreach ($dishes_by_q as $dish){
-                $restaurant = $restaurants->firstWhere('id', '=', $dish->restaurant_id);
-                $dishes[$dish->restaurant_id][] = [
-                    'name' => $dish->name,
-                    'price' => $dish->price,
-                    'newprice' => $dish->newprice,
-                    'href' => route('site.restaurant', ['alias' => $restaurant->alias]).'#dish'.$dish->id
-                ];
-            }
+            $dishes = $this->town->dishes()
+                ->leftJoin('categories', 'dishes.category_id','=','categories.id')
+                ->whereRaw("(dishes.name LIKE '%".$q."%' OR dishes.description LIKE '%".$q."%' OR categories.name LIKE '%".$q."%')")
+                ->whereIn('dishes.restaurant_id', $restaurants->pluck('id')->toArray())
+                ->select(['dishes.*'])
+                ->limit(20)
+                ->get();
 
-            foreach ($dishes as $restaurant_id => $dishes){
-                $restaurant = $restaurants->firstWhere('id', '=', $restaurant_id);
 
-                $categories = Category::HasDishes($restaurant_id)->get()->map(function ($category){
+            foreach ($restaurants as $restaurant){
+                $restaurant_dishes = $dishes->where('restaurant_id', '=', $restaurant->id);
+
+                if(!$restaurant_dishes->count()) continue;
+
+                $c = Category::HasDishes($restaurant->id)->get()->map(function ($category){
                     return $category->name;
-                })->toArray();
+                })->unique()->toArray();
+
+                $d = [];
+                foreach ($restaurant_dishes as $dish){
+                    $d[] = [
+                        'name' => $dish->name,
+                        'image' => \Storage::disk('public')->exists('dish_imgs/'.$dish->id.'/img_xxs.jpg') ? \Storage::disk('public')->url('dish_imgs/'.$dish->id.'/img_xxs.jpg') : null,
+                        'price' => $dish->price,
+                        'newprice' => $dish->newprice,
+                        'href' => route('site.restaurant', ['alias' => $restaurant->alias]).'#d='.$dish->id
+                    ];
+                }
 
                 $json['restaurants'][$restaurant->id] = [
                     'name' => $restaurant->name,
                     'image' => \Storage::disk('public')->exists('restaurant_imgs/'.$restaurant->id.'/thumb_xs.jpg') ? \Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/thumb_xs.jpg') : null,
                     'href' => route('site.restaurant', ['alias' => $restaurant->alias]),
-                    'categories' => count($categories) ? implode(' • ', $categories) : null,
-                    //'categories' => $categories,
-                    'dishes' => $dishes
+                    'categories' => count($c) ? implode(' • ', $c) : null,
+                    'dishes' => $d
                 ];
+
             }
 
-            return response()->json($json);
-        }else{
-            return response()->json([]);
         }
+
+        return response()->json($json);
 
     }
 }

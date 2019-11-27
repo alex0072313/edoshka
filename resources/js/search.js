@@ -94,8 +94,15 @@ $(function ($) {
                         for (var d in json.restaurants[r].dishes){
                             html += '<div class="item">' +
                                         '<a href="'+json.restaurants[r].dishes[d].href+'" title="'+json.restaurants[r].dishes[d].name+'" class="d-block">' +
-                                            '<div class="text-black">'+json.restaurants[r].dishes[d].name+'</div>' +
-                                            '<span class="text-secondary font-weight-light'+(json.restaurants[r].dishes[d].newprice ? ' text-danger' : '')+'">'+(json.restaurants[r].dishes[d].newprice ? json.restaurants[r].dishes[d].newprice : json.restaurants[r].dishes[d].price)+' ₽</span>' +
+                                            '<div class="d-flex">' +
+                                                '<div>' +
+                                                    '<img src="'+json.restaurants[r].dishes[d].image+'" alt="'+json.restaurants[r].dishes[d].name+'">' +
+                                                '</div>' +
+                                                '<div class="ml-2">' +
+                                                    '<div class="text-black">'+json.restaurants[r].dishes[d].name+'</div>' +
+                                                    '<span class="text-secondary font-weight-light'+(json.restaurants[r].dishes[d].newprice ? ' text-danger' : '')+'">'+(json.restaurants[r].dishes[d].newprice ? json.restaurants[r].dishes[d].newprice : json.restaurants[r].dishes[d].price)+' ₽</span>' +
+                                                '</div>' +
+                                            '</div>' +
                                         '</a>' +
                                     '</div>';
                         }

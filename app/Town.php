@@ -17,4 +17,16 @@ class Town extends Model
     {
         return $this->hasMany(Slide::class);
     }
+
+    public function dishes()
+    {
+        return $this->hasManyThrough(
+            Dish::class,
+            Restaurant::class,
+            'town_id',
+            'restaurant_id',
+            'id'
+        );
+
+    }
 }

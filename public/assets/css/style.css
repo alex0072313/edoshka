@@ -1,1 +1,12 @@
-.checkbox.checkbox-css.on_g label:before{background:#fff}.orders_table tr.not_viewed td{background-color:rgba(50,169,50,.1)!important}#sort_items .sortghost td{background:rgba(33,150,243,.5)!important}
+.checkbox.checkbox-css.on_g label:before {
+  background: #fff;
+}
+
+.orders_table tr.not_viewed td {
+  background-color: rgba(50, 169, 50, 0.1) !important;
+}
+
+#sort_items .sortghost td {
+  background: rgba(33, 150, 243, 0.5) !important;
+}
+
