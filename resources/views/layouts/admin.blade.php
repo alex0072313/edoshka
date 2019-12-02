@@ -138,6 +138,15 @@
                     </li>
                 @endif
 
+                @if($_user->hasRole('megaroot|root'))
+                    <li{!! stristr(Route::currentRouteName(), 'admin.districts') ? ' class="active"': '' !!}>
+                        <a href="{{ route('admin.districts.index') }}">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Районы</span>
+                        </a>
+                    </li>
+                @endif
+
                 @if($is_megaroot)
                     <li{!! stristr(Route::currentRouteName(), 'admin.present') ? ' class="active"': '' !!}>
                         <a href="{{ route('admin.presents.index') }}">

@@ -27,6 +27,10 @@ class Town extends Model
             'restaurant_id',
             'id'
         );
+    }
 
+    public function districts()
+    {
+        return $this->hasMany(District::class);
     }
 }

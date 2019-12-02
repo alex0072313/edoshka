@@ -53,6 +53,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/presents/{present}/destroy', 'Admin\PresentController@destroy')->name('presents.destroy');
     Route::resource('presents', 'Admin\PresentController')->except('destroy');
 
+    //Районы
+    Route::get('/districts/{district}/destroy', 'Admin\DistrictsController@destroy')->name('districts.destroy');
+    Route::resource('districts', 'Admin\DistrictsController')->except('destroy');
+
     //Акции
     Route::get('/specials/{special}/destroy', 'Admin\SpecialsController@destroy')->name('specials.destroy');
     Route::resource('specials', 'Admin\SpecialsController')->except('destroy');

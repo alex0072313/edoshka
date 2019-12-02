@@ -28,6 +28,19 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <label class="col-form-label col-md-3">Район</label>
+
+                <div class="col-md-9">
+                    <select name="district_id" id="dish_cat_select" class="default-select2 form-control{{ $errors->has('district_id') ? ' is-invalid' : '' }}" {{ isset($restaurant->id) ? ' data-dish="'.$restaurant->id.'"' : '' }} data-search="false" data-placeholder="Выберете район">
+                        <option></option>
+                        @foreach(\App\District::all() as $district)
+                            <option value="{{ $district->id }}"{{ isset($restaurant->id) ? $district->id == $restaurant->district_id ? ' selected':'' : '' }} >{{ $district->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             @if($_user->hasRole('megaroot'))
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Представитель</label>
@@ -118,7 +131,6 @@
                 </div>
             </div>
         @endif
-
 
         <div class="form-group row">
             <label class="col-form-label col-md-3">Мин. сумма заказа</label>

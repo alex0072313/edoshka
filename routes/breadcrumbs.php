@@ -140,6 +140,20 @@ Breadcrumbs::for('admin.towns.create', function ($trail) {
     $trail->push('Добавление города', route('admin.towns.create'));
 });
 
+//Районы
+Breadcrumbs::for('admin.districts.index', function ($trail) {
+    $trail->parent('admin.home');
+    $trail->push('Список районов', route('admin.districts.index'));
+});
+Breadcrumbs::for('admin.districts.edit', function ($trail, $user) {
+    $trail->parent('admin.districts.index');
+    $trail->push('Редактирование района', route('admin.districts.edit', $user));
+});
+Breadcrumbs::for('admin.districts.create', function ($trail) {
+    $trail->parent('admin.districts.index');
+    $trail->push('Добавление района', route('admin.districts.create'));
+});
+
 //Покупатели
 Breadcrumbs::for('admin.customers.index', function ($trail) {
     $trail->parent('admin.home');
