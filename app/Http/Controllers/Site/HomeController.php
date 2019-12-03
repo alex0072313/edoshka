@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Category;
+use App\District;
 use App\Restaurant;
 use App\Slide;
 class HomeController extends SiteController
@@ -27,7 +28,20 @@ class HomeController extends SiteController
                 return $restaurant;
             });
 
-        $this->data['restaurants'] = $restaurants;
+        $this->data['districts'] = $this->town->districts;
+        $restaurants_with_districts = [];
+        $restaurants_without_districts = [];
+
+        foreach ($restaurants as $restaurant){
+            if($restaurant->district_id){
+                $restaurants_with_districts[$restaurant->district_id][] = $restaurant;
+            }else{
+                $restaurants_without_districts[] = $restaurant;
+            }
+        }
+
+        $this->data['restaurants_with_districts'] = $restaurants_with_districts;
+        $this->data['restaurants_without_districts'] = $restaurants_without_districts;
 
         return $this->render();
     }

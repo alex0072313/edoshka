@@ -11,7 +11,7 @@ class CategoryController extends SiteController
         $this->view = 'site.category';
         $this->data['category'] = $category;
 
-        $restaurants = cache()->rememberForever('category_'.$this->town->id.'_'.$category->id.'_dishes', function () use ($category){
+        $restaurants = cache()->remember('category_'.$this->town->id.'_'.$category->id.'_dishes', '60', function () use ($category){
             $dishes = $category->dishes;
             $restaurants = $this->town->restaurants
                 ->map(function ($restaurant) use ($dishes){

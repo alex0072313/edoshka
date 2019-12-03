@@ -73,17 +73,14 @@
                 </div>
                 <div class="col-md-9">
                     <div class="products pt-2">
-
                         @foreach($restaurants as $restaurant)
                             <div class="products_group{{ !$loop->first ? ' mt-4' : '' }}" id="products_group_{{ $category->id }}">
                                 <div class="d-md-flex justify-content-between mb-3 mb-md-0 text-md-left text-center">
-
-                                    <h2 class="h2 mb-3 products_title">
-                                        {{--@php--}}
-                                            {{--$var = 'town_'.$_town->id.'_category_'.$category->id.'_restaurant_'.$restaurant->id.'_title';--}}
-                                        {{--@endphp--}}
-                                        {{--@helpmsg($var)--}}
+                                    <h2 class="h4 mb-3 products_title">
                                         {{ $category->name }} от ресторана {{ $restaurant->name }}
+                                        @if($district = $restaurant->district)
+                                            {{ $district->name3 ? ' в '.$district->name3 : '' }}
+                                        @endif
                                     </h2>
                                     <div>
                                         <a href="{{ route('site.restaurant', $restaurant->alias) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-utensils mr-1"></i> Меню</a>

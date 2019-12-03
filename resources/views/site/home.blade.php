@@ -76,81 +76,60 @@
         <div class="container">
 
             <div class="catalog">
-                <div class="row mb-n4">
 
-                    @foreach($restaurants as $restaurant)
-                        <div class="col-sm-6 col-md-4 mb-4 text-sm-left text-center">
-                            <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="item">
-                                <div class="th mb-2" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')"></div>
-                                <div class="h4 text-body mb-1">{{ $restaurant->name }}</div>
-                                <div class="data">
-                                    <div class="min_sum_order text-body">
-                                        <i class="fas fa-shopping-cart fa-xs"></i> заказ от {{ $restaurant->min_sum_order }} ₽
-                                    </div>
-                                    @if($restaurant->kitchens)
-                                        <div class="cats">
-                                            <span class="text-secondary font-weight-light">{{ implode(' • ', $restaurant->kitchens) }}</span>
+                @if($restaurants_with_districts)
+                    @foreach($restaurants_with_districts as $district_id => $restaurants)
+                        <div class="h5 font-weight-light text-center my-3 text-secondary">{{ $districts->where('id', '=', $district_id)->first()->name }}</div>
+                        <div class="row">
+                            @foreach($restaurants as $restaurant)
+                                <div class="col-sm-6 col-md-4 mb-4 text-sm-left text-center">
+                                    <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="item">
+                                        <div class="th mb-2" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')"></div>
+                                        <div class="h4 text-body mb-1">{{ $restaurant->name }}</div>
+                                        <div class="data">
+                                            <div class="min_sum_order text-body">
+                                                <i class="fas fa-shopping-cart fa-xs"></i> заказ от {{ $restaurant->min_sum_order }} ₽
+                                            </div>
+                                            @if($restaurant->kitchens)
+                                                <div class="cats">
+                                                    <span class="text-secondary font-weight-light">{{ implode(' • ', $restaurant->kitchens) }}</span>
+                                                </div>
+                                            @endif
                                         </div>
-                                    @endif
+                                    </a>
                                 </div>
-                            </a>
+                            @endforeach
                         </div>
                     @endforeach
-                </div>
+                @endif
+
+                @if($restaurants_without_districts)
+                    @if(count($restaurants_with_districts))
+                        <div class="h5 font-weight-light text-center my-3 text-secondary">Остальные районы</div>
+                    @endif
+                    <div class="row">
+                        @foreach($restaurants_without_districts as $restaurant)
+                            <div class="col-sm-6 col-md-4 mb-4 text-sm-left text-center">
+                                <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="item">
+                                    <div class="th mb-2" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')"></div>
+                                    <div class="h4 text-body mb-1">{{ $restaurant->name }}</div>
+                                    <div class="data">
+                                        <div class="min_sum_order text-body">
+                                            <i class="fas fa-shopping-cart fa-xs"></i> заказ от {{ $restaurant->min_sum_order }} ₽
+                                        </div>
+                                        @if($restaurant->kitchens)
+                                            <div class="cats">
+                                                <span class="text-secondary font-weight-light">{{ implode(' • ', $restaurant->kitchens) }}</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
             </div>
-
-{{--            <div class="catalog">--}}
-{{--                <div class="row">--}}
-{{--                    @php--}}
-{{--                        $i = 0;--}}
-{{--                    @endphp--}}
-{{--                    @foreach($restaurants as $restaurant)--}}
-{{--                        @php--}}
-{{--                            if(count($restaurants) > 3){--}}
-{{--                                if($i % 2 == 0){--}}
-{{--                                    $class = 'col-lg-8 col-md-6 mb-4';--}}
-{{--                                }else{--}}
-{{--                                    $class = 'col-lg-4 col-md-6 mb-4';--}}
-{{--                                    $i--;--}}
-{{--                                }--}}
-{{--                            }else{--}}
-{{--                                $class = 'col-lg-6 mb-4';--}}
-{{--                            }--}}
-{{--                        @endphp--}}
-
-{{--                        <div class="{{ $class }}">--}}
-{{--                            <div class="card text-white">--}}
-
-{{--                                <div class="inner" style="background-image: url('{{ Storage::disk('public')->url('restaurant_imgs/'.$restaurant->id.'/src.jpg') }}')">--}}
-{{--                                    <div class="card-img-overlay">--}}
-{{--                                        <div class="h2 mb-0 products_title text-truncate mr-3">--}}
-{{--                                            {{ $restaurant->name }}--}}
-{{--                                        </div>--}}
-{{--                                        @if($restaurant->min_sum_order)--}}
-{{--                                            <div class="text-white-50 font-weight-light mb-2">--}}
-{{--                                                Заказ от {{ $restaurant->min_sum_order }} &#8381;--}}
-{{--                                            </div>--}}
-{{--                                        @endif--}}
-{{--                                        <ul class="row list-unstyled mb-2">--}}
-{{--                                            @foreach($restaurant->cats as $category)--}}
-{{--                                                <li class="col-md-6"><i class="fas fa-check fa-xs"></i> {{ $category->name }}</li>--}}
-{{--                                            @endforeach--}}
-{{--                                        </ul>--}}
-{{--                                        <div class="hover">--}}
-{{--                                            <a href="{{ route('site.restaurant', ['restaurant_alias' => $restaurant->alias]) }}" class="btn btn-primary">Меню</a>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        @php--}}
-{{--                            $i++;--}}
-{{--                        @endphp--}}
-{{--                    @endforeach--}}
-
-
-{{--                </div>--}}
-{{--            </div>--}}
 
             @php
                 $var = 'town_'.$_town->id.'home_text';
@@ -175,8 +154,6 @@
                 box.css('height', overlay.innerHeight());
             });
         }
-
         $(window).on('resize', shops_catalog_resize).resize();
-
     </script>
 @endpush
