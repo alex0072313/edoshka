@@ -79,7 +79,7 @@
 
                 @if($restaurants_with_districts)
                     @foreach($restaurants_with_districts as $district_id => $restaurants)
-                        <div class="h5 font-weight-light text-center my-3 text-secondary">{{ $districts->where('id', '=', $district_id)->first()->name }}</div>
+                        <div class="h5 font-weight-light text-center my-3 text-body">{{ $districts->where('id', '=', $district_id)->first()->name }}</div>
                         <div class="row">
                             @foreach($restaurants as $restaurant)
                                 <div class="col-sm-6 col-md-4 mb-4 text-sm-left text-center">
@@ -105,7 +105,7 @@
 
                 @if($restaurants_without_districts)
                     @if(count($restaurants_with_districts))
-                        <div class="h5 font-weight-light text-center my-3 text-secondary">Остальные районы</div>
+                        <div class="h5 font-weight-light text-center my-3 text-body">Остальные районы</div>
                     @endif
                     <div class="row">
                         @foreach($restaurants_without_districts as $restaurant)
