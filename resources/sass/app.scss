@@ -465,7 +465,7 @@ header {
                 }
 
                 .badges {
-                    left: -4px;
+                    left: -68px;
                     right: inherit;
 
                     & > div {
@@ -590,7 +590,7 @@ header {
         }
 
         .modal-body {
-            overflow-y: auto;
+            //overflow-y: auto;
             background: $white;
             .inner {
 
@@ -787,6 +787,15 @@ header {
             &:before {
                 border-right: 4px solid darken($red, 10%);
                 border-top: 4px solid darken($red, 10%);
+            }
+        }
+
+        &.count {
+            background: $gray-300;
+
+            &:before {
+                border-right: 4px solid darken($gray-300, 10%);
+                border-top: 4px solid darken($gray-300, 10%);
             }
         }
     }

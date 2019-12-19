@@ -12694,7 +12694,7 @@ header .globalmenu .links > a:hover {
 }
 
 .modal.product .modal-content .image .badges {
-  left: -4px;
+  left: -68px;
   right: inherit;
 }
 
@@ -12812,7 +12812,6 @@ header .globalmenu .links > a:hover {
 }
 
 .modal .modal-content .modal-body {
-  overflow-y: auto;
   background: #fff;
 }
 
@@ -12988,6 +12987,15 @@ header .globalmenu .links > a:hover {
 .badges > div.chele:before {
   border-right: 4px solid #bd2130;
   border-top: 4px solid #bd2130;
+}
+
+.badges > div.count {
+  background: #dee2e6;
+}
+
+.badges > div.count:before {
+  border-right: 4px solid #c1c9d0;
+  border-top: 4px solid #c1c9d0;
 }
 
 .custom_scrollbar .mCSB_dragger_bar {
