@@ -42,7 +42,7 @@
                                             <span aria-hidden="true"><i class="fas fa-times"></i></span>
                                         </button>
                                         <div class="modal-body">
-                                            <div class="h2 mb-4" id="card__module_modal_title">Информция о ресторане</div>
+                                            <div class="h2 mb-4" id="card__module_modal_title">Информация о ресторане</div>
 
                                             {!! $restaurant->description !!}
 
