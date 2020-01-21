@@ -47,12 +47,14 @@ class MarkersController extends Controller
     {
         $validate = \Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
-            'css_class' => 'required',
+            'bg' => 'required',
+            'border' => 'required',
             'content' => 'required',
         ],
         [
             'name.required' => 'Укажите навзание маркера!',
-            'name.css_class' => 'Укажите CSS класс!',
+            'name.bg' => 'Укажите цвет фона!',
+            'name.border' => 'Укажите цвет уголка!',
             'name.content' => 'Укажите содержимое!',
         ]);
 
@@ -110,12 +112,14 @@ class MarkersController extends Controller
     {
         $validate = \Validator::make(request()->all(), [
             'name' => 'required|max:255|min:3',
-            'css_class' => 'required',
+            'bg' => 'required',
+            'border' => 'required',
             'content' => 'required',
         ],
         [
             'name.required' => 'Укажите навзание маркера!',
-            'name.css_class' => 'Укажите CSS класс!',
+            'name.bg' => 'Укажите цвет фона!',
+            'name.border' => 'Укажите цвет уголка!',
             'name.content' => 'Укажите содержимое!',
         ]);
 

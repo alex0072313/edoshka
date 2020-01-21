@@ -3,7 +3,10 @@
 		@if($dish->all_markers)
 			<div class="badges d-flex align-items-start flex-column">
 				@foreach($dish->all_markers as $marker)
-					<div class="{!! $marker->css_class !!}">{!! $marker->content !!}</div>
+					<div class="{!! $marker->css_class !!}" style="background-color:#{{$marker->bg}};">
+                        <span style="border-right-color: #{{ $marker->border }}; border-top-color: #{{ $marker->border }};"></span>
+                        {!! $marker->content !!}
+                    </div>
 				@endforeach
 			</div>
 		@endif

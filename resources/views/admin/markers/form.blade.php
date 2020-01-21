@@ -20,12 +20,36 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-form-label col-md-3">CSS клас</label>
+            <label class="col-form-label col-md-3">Цвет фона</label>
             <div class="col-md-9">
-                <input type="text" name="css_class" value="{{ old('css_class') ? old('css_class') : (isset($marker) ? $marker->css_class : '') }}" class="form-control{{ $errors->has('css_class') ? ' is-invalid' : '' }}">
-                @if ($errors->has('css_class'))
+                <input type="text" name="bg" value="{{ old('bg') ? old('bg') : (isset($marker) ? $marker->bg : '') }}" class="form-control{{ $errors->has('bg') ? ' is-invalid' : '' }}">
+                @if ($errors->has('bg'))
                     <span class="invalid-feedback" role="alert">
-                        {{ $errors->first('css_class') }}
+                        {{ $errors->first('bg') }}
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Цвет уголка</label>
+            <div class="col-md-9">
+                <input type="text" name="border" value="{{ old('border') ? old('border') : (isset($marker) ? $marker->bg : '') }}" class="form-control{{ $errors->has('bg') ? ' is-invalid' : '' }}">
+                @if ($errors->has('bg'))
+                    <span class="invalid-feedback" role="alert">
+                        {{ $errors->first('bg') }}
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">Цвет текста</label>
+            <div class="col-md-9">
+                <input type="text" name="color" value="{{ old('color') ? old('color') : (isset($marker) ? $marker->color : '') }}" class="form-control{{ $errors->has('color') ? ' is-invalid' : '' }}">
+                @if ($errors->has('color'))
+                    <span class="invalid-feedback" role="alert">
+                        {{ $errors->first('color') }}
                     </span>
                 @endif
             </div>
