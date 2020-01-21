@@ -34,10 +34,10 @@
         <div class="form-group row">
             <label class="col-form-label col-md-3">Цвет уголка</label>
             <div class="col-md-9">
-                <input type="text" name="border" value="{{ old('border') ? old('border') : (isset($marker) ? $marker->bg : '') }}" class="form-control{{ $errors->has('bg') ? ' is-invalid' : '' }}">
-                @if ($errors->has('bg'))
+                <input type="text" name="border" value="{{ old('border') ? old('border') : (isset($marker) ? $marker->border : '') }}" class="form-control{{ $errors->has('border') ? ' is-invalid' : '' }}">
+                @if ($errors->has('border'))
                     <span class="invalid-feedback" role="alert">
-                        {{ $errors->first('bg') }}
+                        {{ $errors->first('border') }}
                     </span>
                 @endif
             </div>
