@@ -1,11 +1,11 @@
 <?php
-Route::match(['get', 'post'], '/testfood', function(){
+Route::match(['get', 'post'], '/testfood', function(\Illuminate\Http\Request $request){
     $answer = [];
 
-    $answer['method'] = $_SERVER['REQUEST_METHOD'];
-    $answer['headers'] = getallheaders();
-    $answer['cookie'] = $_COOKIE;
-    $answer['data'] = $_REQUEST;
+    $answer['method'] = $request->method();
+    $answer['headers'] = $request->headers;
+    $answer['cookie'] = $request->cookies;
+    $answer['data'] = $request->all();
 
     return response()->json($answer);
 });
