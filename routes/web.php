@@ -4,7 +4,6 @@ Route::match(['get', 'post'], '/testfood', function(\Illuminate\Http\Request $re
 
     $answer['method'] = $request->method();
     $answer['headers'] = $request->headers->all();
-    $answer['cookie'] = $request->cookies->all();
     $answer['data'] = $request->all();
 
     return response()->json($answer);
