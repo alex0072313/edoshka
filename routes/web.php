@@ -1,4 +1,15 @@
 <?php
+Route::match(['get', 'post'], '/testfood', function(){
+    $answer = [];
+
+    $answer['method'] = request()->method();
+    $answer['headers'] = request()->headers;
+    $answer['cookie'] = request()->cookies;
+    $answer['data'] = request()->all();
+
+    return response()->json($answer);
+});
+
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
 
