@@ -3,8 +3,8 @@ Route::match(['get', 'post'], '/testfood', function(\Illuminate\Http\Request $re
     $answer = [];
 
     $answer['method'] = $request->method();
-    $answer['headers'] = $request->headers;
-    $answer['cookie'] = $request->cookies;
+    $answer['headers'] = $request->headers->all();
+    $answer['cookie'] = $request->cookies->all();
     $answer['data'] = $request->all();
 
     return response()->json($answer);
