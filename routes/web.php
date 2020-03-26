@@ -2,10 +2,10 @@
 Route::match(['get', 'post'], '/testfood', function(){
     $answer = [];
 
-    $answer['method'] = request()->method();
-    $answer['headers'] = request()->headers;
-    $answer['cookie'] = request()->cookies;
-    $answer['data'] = request()->all();
+    $answer['method'] = $_SERVER['REQUEST_METHOD'];
+    $answer['headers'] = getallheaders();
+    $answer['cookie'] = $_COOKIE;
+    $answer['data'] = $_REQUEST;
 
     return response()->json($answer);
 });
