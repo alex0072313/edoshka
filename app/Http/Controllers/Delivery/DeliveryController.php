@@ -12,6 +12,7 @@ class DeliveryController extends Controller {
 
     public function index(Request $request)
     {
+
 //        if($type = $request->get('type')){
 //            switch ($type){
 //                case 'categories':
@@ -21,10 +22,10 @@ class DeliveryController extends Controller {
 //        }else{
 //            $this->response = 'Type not exist!';
 //        }
+//
+//        $this->getCategories();
 
-        $this->getCategories();
-
-        return response()->json($this->response);
+        return response()->json($request->get('type'));
     }
 
     protected function getCategories()
