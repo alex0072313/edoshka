@@ -1,13 +1,5 @@
 <?php
-Route::match(['get', 'post'], '/testfood', function(\Illuminate\Http\Request $request){
-    $answer = [];
-
-    $answer['method'] = $request->method();
-    $answer['headers'] = $request->headers->all();
-    $answer['data'] = $request->all();
-
-    return response()->json($answer);
-});
+Route::match(['get', 'post'], '/testfood', 'Delivery\DeliveryController@index');
 
 //Админка
 Route::prefix('admin')->name('admin.')->group(function () {
