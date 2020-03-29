@@ -12,17 +12,17 @@ class DeliveryController extends Controller {
 
     public function index(Request $request)
     {
-        if($type = $request->get('type')){
-            switch ($type){
-                case 'categories':
-                    $this->getCategories();
-                    break;
-            }
-        }else{
-            $this->response = 'Type not exist!';
-        }
+//        if($type = $request->get('type')){
+//            switch ($type){
+//                case 'categories':
+//                    $this->getCategories();
+//                    break;
+//            }
+//        }else{
+//            $this->response = 'Type not exist!';
+//        }
 
-        //$this->getCategories();
+        $this->getCategories();
 
         return response()->json($this->response);
     }
