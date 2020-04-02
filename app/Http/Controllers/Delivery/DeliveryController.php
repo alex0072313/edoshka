@@ -81,10 +81,7 @@ class DeliveryController extends Controller {
         if($products->count()){
             foreach ($products as $product){
                 if($dish = Dish::find($product->dish_id)){
-                    $products_res[$dish->id] = [
-                        'id' => $dish->id,
-                        'name' => $dish->name,
-                    ];
+                    $products_res[$dish->id]['name'] = $dish->name;
                     $total_price += $dish->price;
                     $total_cnt++;
                 }
