@@ -67,7 +67,7 @@ class DeliveryController extends Controller {
 
             (new Cart(['chat_id' => $chat_id, 'dish_id'=> $prod_id]))->save();
 
-            $this->response = Cart::where('chat_id', '=', $chat_id)->with('dish')->map(function ($cart_product){
+            $this->response = Cart::where('chat_id', '=', $chat_id)->with('dish')->get()->map(function ($cart_product){
                 return [
                     'id' => $cart_product->dish->id,
                     'name' => $cart_product->dish->name,
