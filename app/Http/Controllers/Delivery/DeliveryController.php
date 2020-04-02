@@ -57,6 +57,8 @@ class DeliveryController extends Controller {
             return [
                 'id' => $product->id,
                 'name' => $product->name,
+                'price' => $product->price,
+                'weight' => $product->weight,
             ];
         });
     }
@@ -70,6 +72,7 @@ class DeliveryController extends Controller {
         $products_res = [];
         $total_cnt = 0;
         $total_price = 0;
+        $total_weight = 0;
 
         if(!Cart::where('chat_id', '=', $chat_id)->where('dish_id', '=', $prod_id)->count()){
             (new Cart(['chat_id' => $chat_id, 'dish_id' => $prod_id]))->save();
@@ -81,8 +84,13 @@ class DeliveryController extends Controller {
         if($products->count()){
             foreach ($products as $product){
                 if($dish = Dish::find($product->dish_id)){
-                    $products_res[$dish->id] = $dish->name;
+                    $products_res[$dish->id] = [
+                        'name' => $dish->name,
+                        'price' => $dish->price,
+                        'weight' => $dish->weight,
+                    ];
                     $total_price += $dish->price;
+                    $total_weight += $dish->weight;
                     $total_cnt++;
                 }
             }
@@ -93,6 +101,7 @@ class DeliveryController extends Controller {
             'products' => $products_res,
             'total_cnt' => $total_cnt,
             'total_price' => $total_price,
+            'total_weight' => $total_weight,
         ];
 
         if($new_product_id) $this->response['new_product_id'] = $new_product_id;
