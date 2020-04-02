@@ -85,7 +85,6 @@ class DeliveryController extends Controller {
                     $total_price += $dish->price;
                     $total_cnt++;
                 }
-
             }
         }
 
