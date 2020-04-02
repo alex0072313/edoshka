@@ -29,6 +29,9 @@ class DeliveryController extends Controller {
                 case 'addtocart':
                     $this->addToCart($this->request->get('chat_id'), $this->request->get('prod_id'));
                 break;
+                case 'getcart':
+                    $this->getCart($this->request->get('chat_id'));
+                break;
             }
         }else{
             $this->response = 'Type not exist!';
@@ -65,9 +68,6 @@ class DeliveryController extends Controller {
 
     protected function addToCart($chat_id, $prod_id)
     {
-
-//        $this->response = Cart::where('chat_id', '=', $chat_id)->get()->first();
-
         $new_product_id = null;
         $products_res = [];
         $total_cnt = 0;
@@ -105,7 +105,39 @@ class DeliveryController extends Controller {
         ];
 
         if($new_product_id) $this->response['new_product_id'] = $new_product_id;
+    }
 
+    protected function getCart($chat_id)
+    {
+        $products_res = [];
+        $total_cnt = 0;
+        $total_price = 0;
+        $total_weight = 0;
+
+        $products = Cart::where('chat_id', '=', $chat_id)->get();
+
+        if($products->count()){
+            foreach ($products as $product){
+                if($dish = Dish::find($product->dish_id)){
+                    $products_res[$dish->id] = [
+                        'name' => $dish->name,
+                        'price' => $dish->price,
+                        'weight' => $dish->weight,
+                    ];
+                    $total_price += $dish->price;
+                    $total_weight += $dish->weight;
+                    $total_cnt++;
+                }
+            }
+        }
+
+        $this->response = [
+            'chat_id' => $chat_id,
+            'products' => $products_res,
+            'total_cnt' => $total_cnt,
+            'total_price' => $total_price,
+            'total_weight' => $total_weight,
+        ];
     }
 
 
