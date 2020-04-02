@@ -648,6 +648,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
 
     public static $classMap = array (
         'App\\Article' => __DIR__ . '/../..' . '/app/Article.php',
+        'App\\Cart' => __DIR__ . '/../..' . '/app/Cart.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Dish' => __DIR__ . '/../..' . '/app/Dish.php',
@@ -680,6 +681,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\Delivery\\DeliveryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Delivery/DeliveryController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\Site\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Site/ArticleController.php',
         'App\\Http\\Controllers\\Site\\CartController' => __DIR__ . '/../..' . '/app/Http/Controllers/Site/CartController.php',
@@ -703,6 +705,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Jobs\\copyrest' => __DIR__ . '/../..' . '/app/Jobs/copyrest.php',
         'App\\Kitchen' => __DIR__ . '/../..' . '/app/Kitchen.php',
         'App\\Like' => __DIR__ . '/../..' . '/app/Like.php',
         'App\\Marker' => __DIR__ . '/../..' . '/app/Marker.php',

@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Article' => $baseDir . '/app/Article.php',
+    'App\\Cart' => $baseDir . '/app/Cart.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Dish' => $baseDir . '/app/Dish.php',
@@ -39,6 +40,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\Delivery\\DeliveryController' => $baseDir . '/app/Http/Controllers/Delivery/DeliveryController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\Site\\ArticleController' => $baseDir . '/app/Http/Controllers/Site/ArticleController.php',
     'App\\Http\\Controllers\\Site\\CartController' => $baseDir . '/app/Http/Controllers/Site/CartController.php',
@@ -62,6 +64,7 @@ return array(
     'App\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Jobs\\copyrest' => $baseDir . '/app/Jobs/copyrest.php',
     'App\\Kitchen' => $baseDir . '/app/Kitchen.php',
     'App\\Like' => $baseDir . '/app/Like.php',
     'App\\Marker' => $baseDir . '/app/Marker.php',
