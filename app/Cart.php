@@ -11,7 +11,7 @@ class Cart extends Model
 
     public function dish()
     {
-        return $this->belongsTo(Dish::class);
+        return $this->hasOne(Dish::class);
     }
 
 }

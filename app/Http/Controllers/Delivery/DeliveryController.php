@@ -63,17 +63,43 @@ class DeliveryController extends Controller {
 
     protected function addToCart($chat_id, $prod_id)
     {
+
+//        $this->response = Cart::where('chat_id', '=', $chat_id)->get()->first();
+
+        $new_product_id = null;
+        $products_res = [];
+        $total_cnt = 0;
+        $total_price = 0;
+
         if(!Cart::where('chat_id', '=', $chat_id)->where('dish_id', '=', $prod_id)->count()){
-
-            (new Cart(['chat_id' => $chat_id, 'dish_id'=> $prod_id]))->save();
-
-            $this->response = Cart::where('chat_id', '=', $chat_id)->with('dish')->get()->map(function ($cart_product){
-                return [
-                    'id' => $cart_product->dish->id,
-                    'name' => $cart_product->dish->name,
-                ];
-            });
+            (new Cart(['chat_id' => $chat_id, 'dish_id' => $prod_id]))->save();
+            $new_product_id = $prod_id;
         }
+
+        $products = Cart::where('chat_id', '=', $chat_id)->get();
+
+        if($products->count()){
+            foreach ($products as $product){
+                if($dish = Dish::find($product->dish_id)){
+                    $products_res[$dish->id] = [
+                        'id' => $dish->id,
+                        'name' => $dish->name,
+                    ];
+                    $total_price += $dish->price;
+                    $total_cnt++;
+                }
+
+            }
+        }
+
+        $this->response = [
+            'chat_id' => $chat_id,
+            'products' => $products_res,
+            'total_cnt' => $total_cnt,
+            'total_price' => $total_price,
+        ];
+
+        if($new_product_id) $this->response['new_product_id'] = $new_product_id;
 
     }
 
