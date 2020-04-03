@@ -32,6 +32,9 @@ class DeliveryController extends Controller {
                 case 'getcart':
                     $this->getCart($this->request->get('chat_id'));
                 break;
+                case 'clearcart':
+                    $this->clearCart($this->request->get('chat_id'));
+                break;
             }
         }else{
             $this->response = 'Type not exist!';
@@ -138,6 +141,17 @@ class DeliveryController extends Controller {
             'total_price' => $total_price,
             'total_weight' => $total_weight,
         ];
+    }
+
+    protected function clearCart($chat_id)
+    {
+        $products_q = Cart::where('chat_id', '=', $chat_id);
+
+        if($products_q->count()){
+            $products_q->delete();
+            $this->response['cart_clear'] = true;
+        }
+
     }
 
 
