@@ -249,6 +249,8 @@ class DeliveryController extends Controller {
         }
 
         $this->response['success_order'] = true;
+
+        return $this->clearCart($chat_id);
     }
 
 
