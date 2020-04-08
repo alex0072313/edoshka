@@ -15,6 +15,12 @@ class DeliveryController extends Controller {
 
     protected $response = [];
     protected $request = null;
+    protected $restaurant = null;
+
+    public function __construct()
+    {
+        $this->restaurant = Restaurant::find(28);
+    }
 
     public function index(Request $request)
     {
@@ -53,12 +59,34 @@ class DeliveryController extends Controller {
 
     protected function getCategories()
     {
-        $categories = Category::all();
+        $dishes = $this->restaurant->dishes;
+
+        $categories =
+            Category::all()
+                ->map(function ($category) use ($dishes){
+                    $dishes_in_cat = $dishes->where('category_id', '=', $category->id);
+                    if($dishes_in_cat->count()){
+                        $category->dishes = $dishes->where('category_id', '=', $category->id);
+                        $category->dishes_cnt = $dishes_in_cat->count();
+                    }
+                    return $category;
+                })->filter(function ($category){
+                    return $category->dishes_cnt > 0 ? true : false;
+                })->sortBy('name');
+
+        if($this->restaurant->categories_sort){
+            $categories = $categories->sortBy(function($category) {
+                return array_search($category->id, $this->restaurant->categories_sort);
+            });
+        }else{
+            $categories = $categories->sortBy('name');
+        }
 
         $this->response = $categories->map(function ($category){
             return [
                 'id' => $category->id,
                 'name' => $category->name,
+                'cnt' => $category->dishes_cnt,
             ];
         });
     }
@@ -184,8 +212,7 @@ class DeliveryController extends Controller {
         $user_orders = [];
 
         if($products->count()){
-            $restaurant = Restaurant::find(28);
-            $order = $restaurant->orders()->create(['phone'=> $phone]);
+            $order = $this->restaurant->orders()->create(['phone'=> $phone]);
             $sync_data = [];
 
             $dishes_to_order = Dish::query()->whereIn('id', $products->pluck('dish_id'))->get();
@@ -196,13 +223,13 @@ class DeliveryController extends Controller {
 
             $order->dishes()->sync($sync_data);
 
-            foreach ($restaurant->users as $user) {
-                $user->notify(new \App\Notifications\Order($user, $order, $restaurant));
+            foreach ($this->restaurant->users as $user) {
+                $user->notify(new \App\Notifications\Order($user, $order, $this->restaurant));
             }
 
             //Дублируем мне
             $admin = User::getAdmin();
-            $admin->notify(new \App\Notifications\Order($admin, $order, $restaurant));
+            $admin->notify(new \App\Notifications\Order($admin, $order, $this->restaurant));
 
             $user_orders[] = $order->id;
 
