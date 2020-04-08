@@ -57,7 +57,7 @@ class DeliveryController extends Controller {
 
     protected function getProducts($cat_id, $offset = 0)
     {
-        $limit = 15;
+        $limit = 9;
 
         $q = Dish::query()
             ->where('category_id', '=', $cat_id);
