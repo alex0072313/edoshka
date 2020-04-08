@@ -95,7 +95,7 @@ class DeliveryController extends Controller {
     {
         $limit = 9;
 
-        $q = $this->restaurant->dishes;
+        $q = $this->restaurant->dishes()->where('category_id', '=', $cat_id);
 
         $total = $q->count();
 
