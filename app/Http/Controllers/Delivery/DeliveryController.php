@@ -15,29 +15,34 @@ class DeliveryController extends Controller {
 
     public function index(Request $request)
     {
-        if($type = $request->get('type')){
-
-            $this->request = $request;
-
-            switch ($type){
-                case 'categories':
-                    $this->getCategories();
-                break;
-                case 'products':
-                    $this->getProducts($this->request->get('cat_id'), $this->request->get('offset', 0));
-                break;
-                case 'addtocart':
-                    $this->addToCart($this->request->get('chat_id'), $this->request->get('prod_id'));
-                break;
-                case 'getcart':
-                    $this->getCart($this->request->get('chat_id'));
-                break;
-                case 'clearcart':
-                    $this->clearCart($this->request->get('chat_id'));
-                break;
+        if(($token = $request->get('token')) && ($token == getenv('TELEGRAMM_TOKEN'))) {
+            if ($type = $request->get('type')) {
+                $this->request = $request;
+                switch ($type) {
+                    case 'categories':
+                        $this->getCategories();
+                        break;
+                    case 'products':
+                        $this->getProducts($this->request->get('cat_id'), $this->request->get('offset', 0));
+                        break;
+                    case 'addtocart':
+                        $this->addToCart($this->request->get('chat_id'), $this->request->get('prod_id'));
+                        break;
+                    case 'getcart':
+                        $this->getCart($this->request->get('chat_id'));
+                        break;
+                    case 'clearcart':
+                        $this->clearCart($this->request->get('chat_id'));
+                        break;
+                    case 'sendorder':
+                        $this->sendOrder($this->request->get('chat_id'), $this->request->get('phone_number'));
+                        break;
+                }
+            } else {
+                $this->response = 'Type not exist!';
             }
         }else{
-            $this->response = 'Type not exist!';
+            $this->response = 'Token is reqired!';
         }
 
         return response()->json($this->response);
@@ -165,7 +170,17 @@ class DeliveryController extends Controller {
             $products_q->delete();
             $this->response['cart_clear'] = true;
         }
+    }
 
+    protected function sendOrder($chat_id, $phone_number)
+    {
+        $products = Cart::where('chat_id', '=', $chat_id)->get();
+
+        if($products->count()){
+
+        }
+
+        $this->response = '';
     }
 
 
