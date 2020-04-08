@@ -82,13 +82,13 @@ class DeliveryController extends Controller {
             $categories = $categories->sortBy('name');
         }
 
-        $this->response = $categories->map(function ($category){
-            return [
+        foreach ($categories as $category){
+            $this->response[] = [
                 'id' => $category->id,
                 'name' => $category->name,
                 'cnt' => $category->dishes_cnt,
             ];
-        });
+        }
     }
 
     protected function getProducts($cat_id, $offset = 0)
