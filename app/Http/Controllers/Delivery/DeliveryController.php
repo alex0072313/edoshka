@@ -44,7 +44,7 @@ class DeliveryController extends Controller {
                         $this->clearCart($this->request->get('chat_id'));
                         break;
                     case 'sendorder':
-                        $this->sendOrder($this->request->get('chat_id'), $this->request->get('phone_number'));
+                        $this->sendOrder($this->request->get('chat_id'), $this->request->get('phone'));
                         break;
                 }
             } else {
@@ -95,8 +95,7 @@ class DeliveryController extends Controller {
     {
         $limit = 9;
 
-        $q = Dish::query()
-            ->where('category_id', '=', $cat_id);
+        $q = $this->restaurant->dishes()->where('category_id', '=', $cat_id)->get();
 
         $total = $q->count();
 
