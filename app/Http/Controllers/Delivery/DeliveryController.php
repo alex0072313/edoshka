@@ -24,7 +24,7 @@ class DeliveryController extends Controller {
                     $this->getCategories();
                 break;
                 case 'products':
-                    $this->getProducts($this->request->get('cat_id'));
+                    $this->getProducts($this->request->get('cat_id'), $this->request->get('offset', 0));
                 break;
                 case 'addtocart':
                     $this->addToCart($this->request->get('chat_id'), $this->request->get('prod_id'));
@@ -55,11 +55,25 @@ class DeliveryController extends Controller {
         });
     }
 
-    protected function getProducts($cat_id)
+    protected function getProducts($cat_id, $offset = 0)
     {
-        $products = Category::find($cat_id)->dishes;
+        $limit = 15;
 
-        $this->response = $products->map(function ($product){
+        $q = Dish::query()
+            ->where('category_id', '=', $cat_id);
+
+        $total = $q->count();
+
+        $products = $q
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+
+        if(($next_offset = $offset + $limit) < $total){
+            $this->response['next_offset'] = $next_offset;
+        }
+
+        $this->response['products'] = $products->map(function ($product){
             return [
                 'id' => $product->id,
                 'name' => $product->name,
