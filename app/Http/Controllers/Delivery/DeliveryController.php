@@ -6,6 +6,9 @@ use App\Cart;
 use App\Category;
 use App\Dish;
 use App\Http\Controllers\Controller;
+use App\Order;
+use App\Restaurant;
+use App\User;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller {
@@ -172,15 +175,54 @@ class DeliveryController extends Controller {
         }
     }
 
-    protected function sendOrder($chat_id, $phone_number)
+    protected function sendOrder($chat_id, $phone)
     {
+        $phone = valid_phone($phone);
+
         $products = Cart::where('chat_id', '=', $chat_id)->get();
 
-        if($products->count()){
+        $user_orders = [];
 
+        if($products->count()){
+            $restaurant = Restaurant::find(28);
+            $order = $restaurant->orders()->create(['phone'=> $phone]);
+            $sync_data = [];
+
+            $dishes_to_order = Dish::query()->whereIn('id', $products->pluck('dish_id'))->get();
+
+            foreach ($dishes_to_order as $dish) {
+                $sync_data[$dish->id] = ['quantity' => 1, 'price' => $dish->price, 'total_price' => $dish->price];
+            }
+
+            $order->dishes()->sync($sync_data);
+
+            foreach ($restaurant->users as $user) {
+                $user->notify(new \App\Notifications\Order($user, $order, $restaurant));
+            }
+
+            //Дублируем мне
+            $admin = User::getAdmin();
+            $admin->notify(new \App\Notifications\Order($admin, $order, $restaurant));
+
+            $user_orders[] = $order->id;
+
+            $new_email = $phone . '@edoshka.ru';
+
+            if (!$user = User::where('email', '=', $new_email)->orWhere('phone', '=', $phone)->first()) {
+                $user = new User();
+
+                $user->email = $new_email;
+                $user->phone = $phone;
+
+                $new_password = str_random(6);
+                $user->password = \Hash::make($new_password);
+                $user->provider = 'phone';
+                $user->save();
+                $user->assignRole('customer');
+            }
         }
 
-        $this->response = '';
+        $this->response['success_order'] = true;
     }
 
 
