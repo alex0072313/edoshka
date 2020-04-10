@@ -4,39 +4,39 @@
 
     <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-lg mb-4">Добавить категорию</a>
 
-        @if(!is_null($categories) && $categories->count())
-            <div class="btn-group mb-4 ml-2">
-                @hasrole('megaroot|root')
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder-open"></i>
-                    @if(isset($restaurant->id))
-                        Сортировка: {{ $restaurant->name }}
-                    @else
-                        Сортировка: Все
-                    @endif
-                </button>
-                <div class="dropdown-menu">
-                    @php
-                        $params = request()->all();
-                    @endphp
-                    <a class="dropdown-item d-block" href="{{ route('admin.categories.index') }}" >
-                        Все
-                    </a>
-                    @foreach($restaurants as $rest)
-                        @php
-                            $params['restaurant_id'] = $rest->id;
-                        @endphp
-                        <a class="dropdown-item d-block{{ (isset($restaurant->id) && $restaurant->id == $rest->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.categories.index', $params) }}" >
-                            {{ $rest->name }}
-                        </a>
-                    @endforeach
-                </div>
-                @endrole
-                @if(isset($restaurant->id) && $restaurant->categories_sort)
-                    <a href="{{ route('admin.categories.clearsort', $restaurant->id) }}" class="btn btn-danger ml-2 rounded-left" data-click="swal-warning" data-title="Подтвердите действие" data-text="Восстановить сотировку по умолчанию?" data-classbtn="danger" data-actionbtn="Да" data-type="warning">Сбросить сортировку</a>
-                @endif
-            </div>
-        @endif
+{{--        @if(!is_null($categories) && $categories->count())--}}
+{{--            <div class="btn-group mb-4 ml-2">--}}
+{{--                @hasrole('megaroot|root')--}}
+{{--                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                    <i class="fas fa-fw fa-folder-open"></i>--}}
+{{--                    @if(isset($restaurant->id))--}}
+{{--                        Сортировка: {{ $restaurant->name }}--}}
+{{--                    @else--}}
+{{--                        Сортировка: Все--}}
+{{--                    @endif--}}
+{{--                </button>--}}
+{{--                <div class="dropdown-menu">--}}
+{{--                    @php--}}
+{{--                        $params = request()->all();--}}
+{{--                    @endphp--}}
+{{--                    <a class="dropdown-item d-block" href="{{ route('admin.categories.index') }}" >--}}
+{{--                        Все--}}
+{{--                    </a>--}}
+{{--                    @foreach($restaurants as $rest)--}}
+{{--                        @php--}}
+{{--                            $params['restaurant_id'] = $rest->id;--}}
+{{--                        @endphp--}}
+{{--                        <a class="dropdown-item d-block{{ (isset($restaurant->id) && $restaurant->id == $rest->id) ? ' bg-grey-lighter' :'' }}" href="{{ qs_url('admin.categories.index', $params) }}" >--}}
+{{--                            {{ $rest->name }}--}}
+{{--                        </a>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--                @endrole--}}
+{{--                @if(isset($restaurant->id) && $restaurant->categories_sort)--}}
+{{--                    <a href="{{ route('admin.categories.clearsort', $restaurant->id) }}" class="btn btn-danger ml-2 rounded-left" data-click="swal-warning" data-title="Подтвердите действие" data-text="Восстановить сотировку по умолчанию?" data-classbtn="danger" data-actionbtn="Да" data-type="warning">Сбросить сортировку</a>--}}
+{{--                @endif--}}
+{{--            </div>--}}
+{{--        @endif--}}
 
     @if(isset($restaurant->id))
         <div class="alert alert-info fade show">
