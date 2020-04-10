@@ -133,8 +133,8 @@ class DeliveryController extends Controller {
             (new Cart(['chat_id' => $chat_id, 'dish_id' => $prod_id]))->save();
             $new_product_id = $prod_id;
         }else{
-            $now_quantity = $q_cart_by_chat->select(['quantity']);
-            $q_cart_by_chat->update(['quantity'=>(++$now_quantity)]);
+            $now_quantity = $q_cart_by_dish->get();
+            $q_cart_by_dish->update(['quantity'=>$now_quantity->quantity+1]);
         }
 
         $products = $q_cart_by_chat->get();
