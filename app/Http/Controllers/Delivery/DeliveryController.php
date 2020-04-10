@@ -128,13 +128,14 @@ class DeliveryController extends Controller {
         $total_weight = 0;
 
         $q_cart_by_chat = Cart::query()->where('chat_id', '=', $chat_id);
+        $q_cart_by_dish = $q_cart_by_chat->where('dish_id', '=', $prod_id);
 
-        if(!($q_cart_by_dish = $q_cart_by_chat->where('dish_id', '=', $prod_id))->count()){
+        if(!$q_cart_by_dish->count()){
             (new Cart(['chat_id' => $chat_id, 'dish_id' => $prod_id]))->save();
             $new_product_id = $prod_id;
         }else{
-            $now_quantity = $q_cart_by_dish->get();
-            $q_cart_by_dish->update(['quantity'=>$now_quantity->quantity+1]);
+            $now_quantity = $q_cart_by_dish->get()->quantity;
+            $q_cart_by_dish->update(['quantity'=>$now_quantity+1]);
         }
 
         $products = $q_cart_by_chat->get();
