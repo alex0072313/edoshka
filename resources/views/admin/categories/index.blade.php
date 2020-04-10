@@ -4,7 +4,7 @@
 
     <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-lg mb-4">Добавить категорию</a>
 
-        @if($categories->count())
+        @if(!is_null($categories) && $categories->count())
             <div class="btn-group mb-4 ml-2">
                 @hasrole('megaroot|root')
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -107,7 +107,7 @@
                         <td class="with-btn text-center" nowrap>
                             @if(Auth::user()->can('access', $category))
                                 <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-xs m-r-2 btn-primary"><i class="far fa-xs fa-fw fa-edit"></i></a>
-                                <a href="{{ route('admin.categories.destroy', $category->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить категорию {{ $category->name }}{{ $category->dishes()->count() ? ' и ее блюда ('.$category->dishes()->count().')':'' }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
+                                <a href="{{ route('admin.categories.destroy', $category->id) }}" data-click="swal-warning" data-title="Подтвердите действие" data-text="Удалить категорию {{ $category->name }}{{ !is_null($category->dishes()) && $category->dishes()->count() ? ' и ее блюда ('.$category->dishes()->count().')':'' }}?" data-classbtn="danger" data-actionbtn="Удалить" data-type="error" class="btn btn-xs btn-danger"><i class="fas fa-xs fa-fw fa-trash-alt"></i></a>
                             @else
                                 <span class="label label-secondary">Нет доступа к изменению</span>
                             @endif
