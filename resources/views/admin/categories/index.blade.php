@@ -113,12 +113,12 @@
 {{--                            @endif--}}
 {{--                        </td>--}}
                     </tr>
-                    @if($category->childs->count())
-                        @php
-                            $i = 1;
-                        @endphp
-                        @include('admin.includes.category_tree_table_item',['childs' => $category->childs, 'i'=>$i])
-                    @endif
+{{--                    @if($category->childs->count())--}}
+{{--                        @php--}}
+{{--                            $i = 1;--}}
+{{--                        @endphp--}}
+{{--                        @include('admin.includes.category_tree_table_item',['childs' => $category->childs, 'i'=>$i])--}}
+{{--                    @endif--}}
                 @endforeach
                 </tbody>
             </table>
