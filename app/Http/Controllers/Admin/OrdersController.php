@@ -12,7 +12,7 @@ class OrdersController  extends AdminController
 {
     public function __construct()
     {
-        $this->middleware(['role:megaroot'])->only(['destroy']);
+        $this->middleware(['role:megaroot|root'])->only(['destroy']);
         parent::__construct();
     }
 
