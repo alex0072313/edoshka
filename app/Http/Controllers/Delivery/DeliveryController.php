@@ -137,7 +137,7 @@ class DeliveryController extends Controller {
             $q_cart_by_dish->update(['quantity'=>$now_quantity+1]);
         }
 
-        $products = $q_cart_by_chat->get();
+        $products = Cart::query()->where('chat_id', '=', $chat_id)->get();
 
         if($products->count()){
             foreach ($products as $product){
@@ -153,9 +153,9 @@ class DeliveryController extends Controller {
                         'weight' => $weight,
                     ];
 
-                    $total_price = $total_price + $price;
-                    $total_weight = $total_weight + $weight;
-                    $total_cnt = $total_cnt + $product->quantity;
+                    $total_price += $price;
+                    $total_weight += + $weight;
+                    $total_cnt += $product->quantity;
                 }
             }
         }
