@@ -132,7 +132,6 @@ class DeliveryController extends Controller {
 
         if(!$q_cart_by_dish->count()){
             (new Cart(['chat_id' => $chat_id, 'dish_id' => $prod_id]))->save();
-            //$new_product_id = $prod_id;
         }else{
             $now_quantity = $q_cart_by_dish->get()->first()->quantity;
             $q_cart_by_dish->update(['quantity'=>$now_quantity+1]);
@@ -169,7 +168,7 @@ class DeliveryController extends Controller {
             'total_weight' => $total_weight,
         ];
 
-        //if($new_product_id) $this->response['new_product_id'] = $new_product_id;
+        $this->response['new_product_id'] = $prod_id;
     }
 
     protected function getCart($chat_id)
