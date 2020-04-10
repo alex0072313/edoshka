@@ -72,15 +72,15 @@
                                 <img src="{{ Storage::disk('public')->url('category_imgs/'.$category->id.'/img_xs.jpg') }}" class="img-rounded rounded-circle" />
                             @endif
                         </td>
-                        <td>
-                            @if(Auth::user()->can('access', $category))
-                                <a href="{{ route('admin.categories.edit', $category->id) }}">
-                            @endif
-                                {{ $category->name }}
-                            @if(Auth::user()->can('access', $category))
-                                </a>
-                            @endif
-                        </td>
+{{--                        <td>--}}
+{{--                            @if(Auth::user()->can('access', $category))--}}
+{{--                                <a href="{{ route('admin.categories.edit', $category->id) }}">--}}
+{{--                            @endif--}}
+{{--                                {{ $category->name }}--}}
+{{--                            @if(Auth::user()->can('access', $category))--}}
+{{--                                </a>--}}
+{{--                            @endif--}}
+{{--                        </td>--}}
 {{--                        <td>--}}
 {{--                            @php--}}
 {{--                                $rest = $category->restaurant();--}}
