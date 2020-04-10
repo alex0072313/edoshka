@@ -63,24 +63,24 @@
                 </thead>
                 <tbody id="sort_items">
                 @foreach($categories as $category)
-{{--                    <tr data-id="{{$category->id}}">--}}
-{{--                        <td class="pr-0">--}}
-{{--                            {{ $category->id }}--}}
-{{--                        </td>--}}
-{{--                        <td width="1%" class="with-img">--}}
-{{--                            @if(isset($category->id) && Storage::disk('public')->exists('category_imgs/'.$category->id.'/img_xs.jpg'))--}}
-{{--                                <img src="{{ Storage::disk('public')->url('category_imgs/'.$category->id.'/img_xs.jpg') }}" class="img-rounded rounded-circle" />--}}
-{{--                            @endif--}}
-{{--                        </td>--}}
-{{--                        <td>--}}
-{{--                            @if(Auth::user()->can('access', $category))--}}
-{{--                                <a href="{{ route('admin.categories.edit', $category->id) }}">--}}
-{{--                            @endif--}}
-{{--                                {{ $category->name }}--}}
-{{--                            @if(Auth::user()->can('access', $category))--}}
-{{--                                </a>--}}
-{{--                            @endif--}}
-{{--                        </td>--}}
+                    <tr data-id="{{$category->id}}">
+                        <td class="pr-0">
+                            {{ $category->id }}
+                        </td>
+                        <td width="1%" class="with-img">
+                            @if(isset($category->id) && Storage::disk('public')->exists('category_imgs/'.$category->id.'/img_xs.jpg'))
+                                <img src="{{ Storage::disk('public')->url('category_imgs/'.$category->id.'/img_xs.jpg') }}" class="img-rounded rounded-circle" />
+                            @endif
+                        </td>
+                        <td>
+                            @if(Auth::user()->can('access', $category))
+                                <a href="{{ route('admin.categories.edit', $category->id) }}">
+                            @endif
+                                {{ $category->name }}
+                            @if(Auth::user()->can('access', $category))
+                                </a>
+                            @endif
+                        </td>
 {{--                        <td>--}}
 {{--                            @php--}}
 {{--                                $rest = $category->restaurant();--}}
@@ -112,13 +112,13 @@
 {{--                                <span class="label label-secondary">Нет доступа к изменению</span>--}}
 {{--                            @endif--}}
 {{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    @if($category->childs->count())--}}
-{{--                        @php--}}
-{{--                            $i = 1;--}}
-{{--                        @endphp--}}
-{{--                        @include('admin.includes.category_tree_table_item',['childs' => $category->childs, 'i'=>$i])--}}
-{{--                    @endif--}}
+                    </tr>
+                    @if($category->childs->count())
+                        @php
+                            $i = 1;
+                        @endphp
+                        @include('admin.includes.category_tree_table_item',['childs' => $category->childs, 'i'=>$i])
+                    @endif
                 @endforeach
                 </tbody>
             </table>
