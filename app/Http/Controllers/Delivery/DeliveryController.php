@@ -16,6 +16,7 @@ class DeliveryController extends Controller {
     protected $response = [];
     protected $request = null;
     protected $restaurant = null;
+    protected $cart = null;
 
     public function __construct()
     {
@@ -126,24 +127,35 @@ class DeliveryController extends Controller {
         $total_price = 0;
         $total_weight = 0;
 
-        if(!Cart::where('chat_id', '=', $chat_id)->where('dish_id', '=', $prod_id)->count()){
+        $q_cart_by_chat = Cart::query()->where('chat_id', '=', $chat_id);
+
+        if(!($q_cart_by_dish = $q_cart_by_chat->where('dish_id', '=', $prod_id))->count()){
             (new Cart(['chat_id' => $chat_id, 'dish_id' => $prod_id]))->save();
             $new_product_id = $prod_id;
+        }else{
+            $now_quantity = $q_cart_by_chat->select(['quantity']);
+            $q_cart_by_chat->update(['quantity'=>(++$now_quantity)]);
         }
 
-        $products = Cart::where('chat_id', '=', $chat_id)->get();
+        $products = $q_cart_by_chat->get();
 
         if($products->count()){
             foreach ($products as $product){
                 if($dish = Dish::find($product->dish_id)){
+
+                    $weight = $dish->weight * $product->quantity;
+                    $price = $dish->price * $product->quantity;
+
                     $products_res[$dish->id] = [
                         'name' => $dish->name,
-                        'price' => $dish->price,
-                        'weight' => $dish->weight,
+                        'price' => $price,
+                        'quantity' => $product->quantity,
+                        'weight' => $weight,
                     ];
-                    $total_price += $dish->price;
-                    $total_weight += $dish->weight;
-                    $total_cnt++;
+
+                    $total_price += $price;
+                    $total_weight += $weight;
+                    $total_cnt = $total_cnt + $product->quantity;
                 }
             }
         }
@@ -171,14 +183,19 @@ class DeliveryController extends Controller {
         if($products->count()){
             foreach ($products as $product){
                 if($dish = Dish::find($product->dish_id)){
+                    $weight = $dish->weight * $product->quantity;
+                    $price = $dish->price * $product->quantity;
+
                     $products_res[$dish->id] = [
                         'name' => $dish->name,
-                        'price' => $dish->price,
-                        'weight' => $dish->weight,
+                        'price' => $price,
+                        'quantity' => $product->quantity,
+                        'weight' => $weight,
                     ];
-                    $total_price += $dish->price;
-                    $total_weight += $dish->weight;
-                    $total_cnt++;
+
+                    $total_price += $price;
+                    $total_weight += $weight;
+                    $total_cnt = $total_cnt + $product->quantity;
                 }
             }
         }
