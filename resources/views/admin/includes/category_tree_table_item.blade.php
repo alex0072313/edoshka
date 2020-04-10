@@ -18,7 +18,7 @@
             @endif
         </td>
     </tr>
-    @if(count($category->childs))
+    @if($category->childs->count)
         @php
             $i = $i+1;
         @endphp
