@@ -231,10 +231,9 @@ class DeliveryController extends Controller {
             $order = $this->restaurant->orders()->create(['phone'=> $phone]);
             $sync_data = [];
 
-            $dishes_to_order = Dish::query()->whereIn('id', $products->pluck('dish_id'))->get();
-
-            foreach ($dishes_to_order as $dish) {
-                $sync_data[$dish->id] = ['quantity' => 1, 'price' => $dish->price, 'total_price' => $dish->price];
+            foreach ($products as $product){
+                $dish = Dish::find($product->dish_id);
+                $sync_data[$dish->id] = ['quantity' => $product->quantity, 'price' => $dish->price, 'total_price' => $dish->price * $product->quantity];
             }
 
             $order->dishes()->sync($sync_data);
