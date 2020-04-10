@@ -16,7 +16,7 @@ class CategoryPolicy
         }elseif($category->user->hasRole('root') && ($category->user_id == auth()->id())){
             return true;
         }elseif($category->user->hasRole('boss')){
-            if($user->restaurant()->find($category->user->restaurant->id)->count()){
+            if($user->restaurant()->where('id', '=', $category->user->restaurant->id)->count()){
                 return true;
             }
         }
