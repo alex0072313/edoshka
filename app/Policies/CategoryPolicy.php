@@ -11,7 +11,7 @@ class CategoryPolicy
     use HandlesAuthorization;
 
     public function access(User $user, category $category){
-        if($user->hasRole('megaroot')){
+        if($user->hasRole('megaroot|root')){
             return true;
         }elseif($category->user->hasRole('root') && ($category->user_id == auth()->id())){
             return true;
