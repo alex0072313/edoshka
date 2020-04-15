@@ -159,7 +159,7 @@
                     <th class="text-nowrap">Название</th>
                     <th class="text-nowrap">Категория</th>
                     <th width="1%" class="text-nowrap">Цена</th>
-                    <th width="1%" class="text-nowrap">Новая цена</th>
+                    <th width="1%" class="text-nowrap">Цена опт.</th>
                     {{--@foreach($fields_names as $field_id => $field_name)--}}
                         {{--<th class="text-nowrap">{{ $field_name }}</th>--}}
                     {{--@endforeach--}}
@@ -178,8 +178,14 @@
                         <td class="text-nowrap"><a href="{{ route('admin.dishes.edit', $dish->id) }}">{{ $dish->name }}</a></td>
                         <td class="text-nowrap"><a href="{{ route('admin.categories.edit', $dish->category_id) }}">{{ $dish->category->name }}</a></td>
 
-                        <td class="text-nowrap">{{ $dish->price }}</td>
-                        <td class="text-nowrap">{{ $dish->new_price }}</td>
+                        <td class="text-nowrap">
+                            @if($dish->new_price)
+                                <span class="text-danger"><s>{{ $dish->price }}</s></span> {{ $dish->new_price }}
+                            @else
+                                {{ $dish->price }}
+                            @endif
+                        </td>
+                        <td class="text-nowrap">{{ $dish->price_opt ? $dish->price_opt : '' }}</td>
 
                         <td width="1%">
                             <div class="width-80">
