@@ -103,6 +103,13 @@
                 </div>
 
                 <div class="form-group row">
+                    <label class="col-form-label col-md-3">Цена опт</label>
+                    <div class="col-md-9">
+                        <input type="number" name="price_opt" min="0" value="{{ old('price_opt') ? old('price_opt') : isset($dish) ? $dish->price_opt : '' }}" class="form-control{{ $errors->has('price_opt') ? ' is-invalid' : '' }}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label class="col-form-label col-md-3">Вес</label>
                     <div class="col-md-9">
                         <input type="number" name="weight" min="0" value="{{ old('weight') ? old('weight') : isset($dish) ? $dish->weight : '' }}" class="form-control">
