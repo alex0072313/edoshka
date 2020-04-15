@@ -14,7 +14,7 @@ class AddPriceOpt extends Migration
     public function up()
     {
         Schema::table('dishes', function (Blueprint $table) {
-            //
+            $table->integer('price_opt')->default(0)->after('price');
         });
     }
 
@@ -26,7 +26,7 @@ class AddPriceOpt extends Migration
     public function down()
     {
         Schema::table('dishes', function (Blueprint $table) {
-            //
+            $table->dropColumn('price_opt');
         });
     }
 }
