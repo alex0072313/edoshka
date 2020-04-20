@@ -223,7 +223,8 @@ class DeliveryController extends Controller {
     {
         $phone = valid_phone($phone);
 
-        $products = Cart::where('chat_id', '=', $chat_id)->get();
+        $products_q = Cart::where('chat_id', '=', $chat_id);
+        $products = $products_q->get();
 
         $user_orders = [];
 
@@ -235,6 +236,9 @@ class DeliveryController extends Controller {
                 $dish = Dish::find($product->dish_id);
                 $sync_data[$dish->id] = ['quantity' => $product->quantity, 'price' => $dish->price, 'total_price' => $dish->price * $product->quantity];
             }
+
+            $products_q->delete();
+            $this->response['cart_clear'] = true;
 
             $order->dishes()->sync($sync_data);
 
@@ -262,11 +266,9 @@ class DeliveryController extends Controller {
                 $user->save();
                 $user->assignRole('customer');
             }
+
+            $this->response['success_order'] = true;
         }
-
-        $this->response['success_order'] = true;
-
-        return $this->clearCart($chat_id);
     }
 
 
