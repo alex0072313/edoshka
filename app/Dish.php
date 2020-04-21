@@ -8,9 +8,18 @@ class Dish extends Model
 {
     protected $fillable = ['name', 'short_description', 'description', 'price', 'price_opt', 'weight', 'new_price', 'user_id', 'category_id', 'restaurant_id'];
 
-    protected $attributes = [
-        'price_opt' => 0
-    ];
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->price_opt = 0;
+        });
+
+        static::updating(function ($query) {
+            $query->price_opt = 0;
+        });
+    }
 
     public function category()
     {
