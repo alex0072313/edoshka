@@ -93,7 +93,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Цена</label>
                     <div class="col-md-9">
-                        <input type="number" name="price" min="0" value="{{ old('price') ? old('price') : isset($dish) ? $dish->price : '' }}" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}">
+                        <input type="number" name="price" min="0" value="{{ old('price') ? old('price') : isset($dish) && isset($dish->price) ? $dish->price : '' }}" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}">
                         @if ($errors->has('price'))
                             <span class="invalid-feedback" role="alert">
                                 Укажите цену!
@@ -105,7 +105,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Цена опт</label>
                     <div class="col-md-9">
-                        <input type="number" name="price_opt" min="0" value="{{ old('price_opt') ? old('price_opt') : isset($dish) ? $dish->price_opt : '' }}" class="form-control{{ $errors->has('price_opt') ? ' is-invalid' : '' }}">
+                        <input type="number" name="price_opt" min="0" value="{{ old('price_opt') ? old('price_opt') : isset($dish) && isset($dish->price_opt) ? $dish->price_opt : '' }}" class="form-control{{ $errors->has('price_opt') ? ' is-invalid' : '' }}">
                     </div>
                 </div>
 
