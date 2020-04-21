@@ -8,6 +8,10 @@ class Dish extends Model
 {
     protected $fillable = ['name', 'short_description', 'description', 'price', 'price_opt', 'weight', 'new_price', 'user_id', 'category_id', 'restaurant_id'];
 
+    protected $attributes = [
+        'price_opt' => 0
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
