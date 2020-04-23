@@ -286,13 +286,19 @@ class DeliveryController extends Controller {
 
     protected function savelog()
     {
-        if(!UserTelegrammLog::where('chat_id', '=', $this->request->get('chat_id'))->count()) {
+        $user_telegramm_log_q = UserTelegrammLog::where('chat_id', '=', $this->request->get('chat_id'));
+
+        if(!$user_telegramm_log_q->count()) {
             $log = new UserTelegrammLog();
             $log->chat_id = $this->request->get('chat_id');
             $log->nic = $this->request->get('nic');
             $log->firstname = $this->request->get('firstname');
             $log->save();
+            $this->response['added'] = true;
+        }else{
+            $log = $user_telegramm_log_q->first();
         }
+        $this->response['success_log'] = $log->toArray();
     }
 
 
