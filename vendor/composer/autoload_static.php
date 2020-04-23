@@ -745,6 +745,7 @@ class ComposerStaticInitf3f5e03c7a84aec826c4c203286eafb6
         'App\\Special' => __DIR__ . '/../..' . '/app/Special.php',
         'App\\Town' => __DIR__ . '/../..' . '/app/Town.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\UserTelegrammLog' => __DIR__ . '/../..' . '/app/UserTelegrammLog.php',
         'App\\Variant' => __DIR__ . '/../..' . '/app/Variant.php',
         'Barryvdh\\Debugbar\\Console\\ClearCommand' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Console/ClearCommand.php',
         'Barryvdh\\Debugbar\\Controllers\\AssetController' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Controllers/AssetController.php',

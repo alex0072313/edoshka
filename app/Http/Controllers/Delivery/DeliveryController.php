@@ -6,9 +6,11 @@ use App\Cart;
 use App\Category;
 use App\Dish;
 use App\Http\Controllers\Controller;
+use App\Notifications\TelegramOrder;
 use App\Order;
 use App\Restaurant;
 use App\User;
+use App\UserTelegrammLog;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller {
@@ -46,6 +48,9 @@ class DeliveryController extends Controller {
                         break;
                     case 'sendorder':
                         $this->sendOrder($this->request->get('chat_id'), $this->request->get('phone'));
+                        break;
+                    case 'savelog':
+                        $this->saveLog();
                         break;
                 }
             } else {
@@ -229,7 +234,15 @@ class DeliveryController extends Controller {
         $user_orders = [];
 
         if($products->count()){
-            $order = $this->restaurant->orders()->create(['phone'=> $phone]);
+
+            $user_telegramm_log_q = UserTelegrammLog::where('chat_id', '=', $chat_id);
+
+            $user_telegramm_log_id = null;
+            if($user_telegramm_log_q->count()) {
+                $user_telegramm_log_id = $user_telegramm_log_q->first()->id;
+            }
+
+            $order = $this->restaurant->orders()->create(['phone'=> $phone, 'user_telegramm_log_id'=> $user_telegramm_log_id]);
             $sync_data = [];
 
             foreach ($products as $product){
@@ -268,6 +281,17 @@ class DeliveryController extends Controller {
             }
 
             $this->response['success_order'] = true;
+        }
+    }
+
+    protected function savelog()
+    {
+        if(!UserTelegrammLog::where('chat_id', '=', $this->request->get('chat_id'))->count()) {
+            $log = new UserTelegrammLog();
+            $log->chat_id = $this->request->get('chat_id');
+            $log->nic = $this->request->get('nic');
+            $log->firstname = $this->request->get('firstname');
+            $log->save();
         }
     }
 

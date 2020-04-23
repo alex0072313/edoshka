@@ -104,6 +104,7 @@ return array(
     'App\\Special' => $baseDir . '/app/Special.php',
     'App\\Town' => $baseDir . '/app/Town.php',
     'App\\User' => $baseDir . '/app/User.php',
+    'App\\UserTelegrammLog' => $baseDir . '/app/UserTelegrammLog.php',
     'App\\Variant' => $baseDir . '/app/Variant.php',
     'Barryvdh\\Debugbar\\Console\\ClearCommand' => $vendorDir . '/barryvdh/laravel-debugbar/src/Console/ClearCommand.php',
     'Barryvdh\\Debugbar\\Controllers\\AssetController' => $vendorDir . '/barryvdh/laravel-debugbar/src/Controllers/AssetController.php',
