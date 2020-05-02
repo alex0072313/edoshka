@@ -231,14 +231,14 @@
                 <div class="form-inline">
                     @php
                         $worktime_ot = old('worktime_ot') ? old('worktime_ot') : '';
-                        if(isset($restaurant)){
+                        if(isset($restaurant) && isset($restaurant->worktime[0])){
                             if($restaurant->worktime[0]){
                                 $worktime_ot = $restaurant->worktime[0];
                             }
                         }
 
                         $worktime_do = old('worktime_do') ? old('worktime_do') : '';
-                        if(isset($restaurant)){
+                        if(isset($restaurant) && isset($restaurant->worktime[1])){
                             if($restaurant->worktime[1]){
                                 $worktime_do = $restaurant->worktime[1];
                             }
