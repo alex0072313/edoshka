@@ -93,7 +93,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Цена</label>
                     <div class="col-md-9">
-                        <input type="number" name="price" min="0" value="{{ old('price') ? old('price') : isset($dish) && isset($dish->price) ? $dish->price : '' }}" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}">
+                        <input type="number" name="price" min="0" value="{{ (old('price') ? old('price') : isset($dish)) && isset($dish->price) ? $dish->price : '' }}" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}">
                         @if ($errors->has('price'))
                             <span class="invalid-feedback" role="alert">
                                 Укажите цену!
@@ -105,14 +105,14 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Цена опт</label>
                     <div class="col-md-9">
-                        <input type="number" name="price_opt" min="0" value="{{ old('price_opt') ? old('price_opt') : isset($dish) && isset($dish->price_opt) ? $dish->price_opt : '' }}" class="form-control{{ $errors->has('price_opt') ? ' is-invalid' : '' }}">
+                        <input type="number" name="price_opt" min="0" value="{{ (old('price_opt') ? old('price_opt') : isset($dish)) && isset($dish->price_opt) ? $dish->price_opt : '' }}" class="form-control{{ $errors->has('price_opt') ? ' is-invalid' : '' }}">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Вес</label>
                     <div class="col-md-9">
-                        <input type="number" name="weight" min="0" value="{{ old('weight') ? old('weight') : isset($dish) ? $dish->weight : '' }}" class="form-control">
+                        <input type="number" name="weight" min="0" value="{{ (old('weight') ? old('weight') : isset($dish)) ? $dish->weight : '' }}" class="form-control">
                     </div>
                 </div>
                 {{--Выбор варианта с ценой--}}
@@ -244,7 +244,7 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Новая цена</label>
                     <div class="col-md-9">
-                        <input type="number" name="new_price" min="0" value="{{ old('new_price') ? old('new_price') : isset($dish) ? $dish->new_price : '' }}" class="form-control">
+                        <input type="number" name="new_price" min="0" value="{{ (old('new_price') ? old('new_price') : isset($dish)) ? $dish->new_price : '' }}" class="form-control">
                         <small class="text-secondary">Используется как цена по акции</small>
                     </div>
                 </div>
@@ -252,14 +252,14 @@
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Краткое описание (кол-во, вес и т.д)</label>
                     <div class="col-md-9">
-                        <textarea name="short_description" class="form-control" rows="4">{{ old('short_description') ? old('short_description') : isset($dish) ? $dish->short_description : '' }}</textarea>
+                        <textarea name="short_description" class="form-control" rows="4">{{ (old('short_description') ? old('short_description') : isset($dish)) ? $dish->short_description : '' }}</textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label col-md-3">Подробное описание (состав, и т.д)</label>
                     <div class="col-md-9">
-                        <textarea name="description" class="form-control" rows="4">{{ old('description') ? old('description') : isset($dish) ? $dish->description : '' }}</textarea>
+                        <textarea name="description" class="form-control" rows="4">{{ (old('description') ? old('description') : isset($dish)) ? $dish->description : '' }}</textarea>
                     </div>
                 </div>
 
