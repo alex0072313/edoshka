@@ -89,11 +89,11 @@
             </div>
         </div>
         <div class="col-lg-6 border-left dops mt-3 mt-lg-0">
-            @if($dish->recomendeds->count())
+            @if($recomendeds->count())
                 <div class="recomend">
                     <div class="h4 text-uppercase font-weight-light">Рекомендуем</div>
                     <div class="items">
-                        @foreach($dish->recomendeds as $recomended)
+                        @foreach($recomendeds as $recomended)
                             <div class="item d-flex align-items-center{{ $loop->index ? ' border-top mt-2 pt-2' : ' mt-2' }}">
 
                                 @if(Storage::disk('public')->exists('dish_imgs/'.$recomended->id.'/img_s.jpg'))

@@ -97,6 +97,12 @@ class SiteController extends Controller
 
         $tofind = [];
 
+        //$recomendeds = $dish->restaurant->dishes()->where('category_id', '=', $dish->category_id)->where('id', '!=', $dish->id)->get();
+
+        //if(!$recomendeds->count()){
+            $recomendeds = $dish->restaurant->dishes()->where('id', '!=', $dish->id)->inRandomOrder()->take(3)->get();
+        //}
+
         if($dishes_cookie){
             foreach ($dishes_cookie as $_id) {
                 if ($_id == $dish_id) continue;
@@ -104,10 +110,10 @@ class SiteController extends Controller
             }
 
             $dishes_viewed = Dish::whereIn('id', $tofind)->get()->reverse();
-            $json['html'] = view('site.includes.modal_dish', ['dish'=>$dish, 'dishes_viewed'=>$dishes_viewed])->render();
+            $json['html'] = view('site.includes.modal_dish', ['dish'=>$dish, 'dishes_viewed'=>$dishes_viewed, 'recomendeds' => $recomendeds])->render();
             return response()->json($json)->withCookie(cookie('dishes_viewed', implode(',', $dishes_cookie), 3600));
         }else{
-            $json['html'] = view('site.includes.modal_dish', ['dish'=>$dish, 'dishes_viewed'=>[]])->render();
+            $json['html'] = view('site.includes.modal_dish', ['dish'=>$dish, 'dishes_viewed'=>[], 'recomendeds' => $recomendeds])->render();
             return response()->json($json);
         }
 
