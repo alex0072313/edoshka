@@ -61,7 +61,7 @@
 				</div>
 
 				@if($restaurant->min_free_delivery || $restaurant->worktime)
-					<div class="mb-3 mt-3 mb-md-5 w-100 text-white-50 font-weight-light shop_min_price text-md-left text-center ml-n3">
+					<div class="mb-3 mt-3 mb-md-5 w-100 text-white font-weight-light shop_min_price text-md-left text-center ml-n3">
                         @if($restaurant->min_free_delivery)
                             <span  class="ml-3 d-sm-inline-block d-block">
                                 <i class="fas fa-shipping-fast"></i> Бесплатная доставка от {{ $restaurant->min_free_delivery }} &#8381;
