@@ -60,9 +60,18 @@
 					</div>
 				</div>
 
-				@if($restaurant->min_free_delivery)
-					<div class="mb-3 mt-3 mb-md-5 w-100 text-white-50 font-weight-light shop_min_price text-md-left text-center">
-                        <i class="fas fa-shipping-fast"></i> Бесплатная доставка от {{ $restaurant->min_free_delivery }} &#8381;
+				@if($restaurant->min_free_delivery || $restaurant->worktime)
+					<div class="mb-3 mt-3 mb-md-5 w-100 text-white-50 font-weight-light shop_min_price text-md-left text-center ml-n3">
+                        @if($restaurant->min_free_delivery)
+                            <span  class="ml-3 d-sm-inline-block d-block">
+                                <i class="fas fa-shipping-fast"></i> Бесплатная доставка от {{ $restaurant->min_free_delivery }} &#8381;
+                            </span>
+                        @endif
+                        @if($restaurant->worktime && isset($restaurant->worktime[0]) && isset($restaurant->worktime[1]))
+                            <span class="ml-3 d-sm-inline-block d-block">
+                                <i class="fas fa-clock"></i> Работаем с  {{ $restaurant->worktime[0] }} до {{ $restaurant->worktime[1] }}
+                            </span>
+                        @endif
 					</div>
 				@endif
 				{{--<div class="w-100 shop_last_review py-4">--}}
