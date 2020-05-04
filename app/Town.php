@@ -14,7 +14,7 @@ class Town extends Model
 
     public function restaurants()
     {
-        return $this->hasMany(Restaurant::class);
+        return $this->hasMany(Restaurant::class)->where('id', '!=', 28);
     }
 
     public function slides()

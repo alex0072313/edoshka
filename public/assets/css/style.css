@@ -10,3 +10,8 @@
   background: rgba(33, 150, 243, 0.5) !important;
 }
 
+.dropdown-menu.show{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
