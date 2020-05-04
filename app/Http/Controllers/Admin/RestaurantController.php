@@ -7,6 +7,7 @@ use App\Repositories\RestaurantRepository;
 
 use App\Restaurant;
 use App\Special;
+use App\Town;
 use Illuminate\Http\Request;
 
 class RestaurantController extends AdminController
@@ -22,7 +23,29 @@ class RestaurantController extends AdminController
         $this->view = 'admin.restaurants.index';
         $this->title = 'Рестораны';
 
-        $this->data['restaurants'] = auth()->user()->hasRole('megaroot') ? Restaurant::all() : auth()->user()->restaurants;
+        if(auth()->user()->hasRole('megaroot')){
+            $this->data['towns'] = Town::all();
+        }
+
+        if(\Auth::user()->hasRole('megaroot') && ($town_id = request('town_id'))) {
+            $this->data['town'] = $town = Town::find($town_id);
+            $restaurants = $town->restaurants;
+        }else if(\Auth::user()->hasRole('root|megaroot')){
+            $restaurants = Restaurant::all();
+        }
+        else if(\Auth::user()->hasRole('boss')){
+            $restaurants = auth()->user()->restaurants;
+        }
+
+        if(isset($town) && $town->restaurants_sort){
+            $restaurants = $restaurants->sortBy(function($res) use ($town){
+                return array_search($res->id, $town->restaurants_sort);
+            });
+        }else{
+            $restaurants = $restaurants->sortBy('id');
+        }
+
+        $this->data['restaurants'] = $restaurants;
 
         return $this->render();
     }
@@ -189,6 +212,24 @@ class RestaurantController extends AdminController
                 ->back()
                 ->with('success', 'Ресторан "'.$restaurant->name.'" был удален!');
         }
+    }
+
+    public function sort()
+    {
+        if($ids = request('ids')){
+
+            if($town_id = request('town_id')){
+                Town::find($town_id)->update(['restaurants_sort' => $ids]);
+            }
+        }
+
+        return response()->json($ids);
+    }
+
+    public function clearsort(Town $town)
+    {
+        $town->update(['restaurants_sort' => []]);
+        return redirect()->back();
     }
 
 

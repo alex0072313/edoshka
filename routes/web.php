@@ -71,6 +71,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         //Рестораны
         Route::get('/restaurants/{restaurant}/destroy', 'Admin\RestaurantController@destroy')->name('restaurants.destroy');
         Route::resource('restaurants', 'Admin\RestaurantController')->except('destroy');
+
+        Route::post('/restaurants/sort', 'Admin\RestaurantController@sort')->name('restaurants.sort');
     });
 
     //Мегарут

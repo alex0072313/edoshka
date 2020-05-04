@@ -28,6 +28,15 @@ class HomeController extends SiteController
                 return $restaurant;
             });
 
+
+        if($this->town->restaurants_sort){
+            $restaurants = $restaurants->sortBy(function($restaurant){
+                return array_search($restaurant->id, $this->town->restaurants_sort);
+            });
+        }else{
+            $restaurants = $restaurants->sortBy('id');
+        }
+
         $this->data['districts'] = $this->town->districts;
         $restaurants_with_districts = [];
         $restaurants_without_districts = [];

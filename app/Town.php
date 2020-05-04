@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Town extends Model
 {
-    protected $fillable = ['name', 'name2', 'name3', 'alias', 'meta', 'ya_metric_id', 'g_analitic_id'];
+    protected $fillable = ['name', 'name2', 'name3', 'alias', 'meta', 'ya_metric_id', 'g_analitic_id', 'restaurants_sort'];
+
+    protected $casts = [
+        'restaurants_sort' => 'array'
+    ];
 
     public function restaurants()
     {
