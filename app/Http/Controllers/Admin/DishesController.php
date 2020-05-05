@@ -28,22 +28,27 @@ class DishesController extends AdminController
         if($category_id = request('category')) $category = Category::find($category_id);
 
         $restaurant = null;
-
-        if(($restaurant_id = request('restaurant')) && auth()->user()->hasRole('megaroot|root')){
-            $restaurant = Restaurant::find($restaurant_id);
-            if(auth()->user()->hasRole('root')){
-                if($restaurant->present_id != auth()->id()) abort(403);
-            }
-        }elseif (Auth::user()->hasRole('boss')){
-            $restaurant = Auth::user()->restaurant;
-        }
+        $restaurants = null;
 
         if(auth()->user()->hasRole('megaroot')){
-            $this->data['list_restaurants'] = Restaurant::all();
-        }elseif (auth()->user()->hasRole('root')){
-            $this->data['list_restaurants'] = auth()->user()->restaurants;
+            $restaurants = Restaurant::all();
         }else{
-            $this->data['list_restaurants'] = null;
+            $restaurants = auth()->user()->restaurants;
+        }
+
+        if(!is_null($restaurants)){
+            if($restaurants->count() > 1) $this->data['list_restaurants'] = $restaurants;
+        }
+
+        if(($restaurant_id = request('restaurant')) && auth()->user()->hasRole('megaroot|root|boss') && ($restaurants->count() > 1)){
+            $restaurant = Restaurant::find($restaurant_id);
+            if(
+                (auth()->user()->hasRole('root') && ($restaurant->present_id != auth()->id()))
+                ||
+                (auth()->user()->hasRole('boss') && ($restaurant->boss_id != auth()->id()))
+            ) abort(403);
+        }else if ($restaurants->count() == 1){
+            $restaurant = $restaurants->first();
         }
 
         if($restaurant){
@@ -109,13 +114,15 @@ class DishesController extends AdminController
 
         if(auth()->user()->hasRole('megaroot')){
             $restaurants = Restaurant::all();
-        }elseif (auth()->user()->hasRole('root')){
+        }elseif (auth()->user()->hasRole('root|boss')){
             $restaurants = auth()->user()->restaurants;
         }else{
             $restaurants = null;
         }
 
-        $this->data['restaurants'] = $restaurants;
+        if(!is_null($restaurants)){
+            if($restaurants->count() > 1) $this->data['restaurants'] = $restaurants;
+        }
 
         $recomendeds = null;
 
@@ -167,7 +174,7 @@ class DishesController extends AdminController
             'category_id' => 'required',
         ];
 
-        if (Auth::user()->hasRole('megaroot')) {
+        if (Auth::user()->hasRole('megaroot') || (auth()->user()->hasRole('root|boss') && (auth()->user()->restaurants->count() > 1))) {
             $validate['restaurant_id'] = 'required';
         }
 
@@ -182,7 +189,7 @@ class DishesController extends AdminController
         }
 
 
-        if (!Auth::user()->hasRole('megaroot')) {
+        if (Auth::user()->hasRole('boss') && (auth()->user()->restaurants->count() == 1)) {
             if ($restaurant = Auth::user()->restaurant) {
                 request()->request->set('restaurant_id', $restaurant->id);
             }
@@ -255,7 +262,15 @@ class DishesController extends AdminController
 
         $recomendeds = $dish->restaurant->dishes()->where('id', '!=', $dish->id)->get();
 
-        $this->data['restaurants'] = $restaurants = Restaurant::all();
+        if(auth()->user()->hasRole('megaroot')){
+            $restaurants = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root|boss')){
+            $restaurants = auth()->user()->restaurants;
+        }
+
+        if(!is_null($restaurants)){
+            if($restaurants->count() > 1) $this->data['restaurants'] = $restaurants;
+        }
 
         if(Auth::user()->hasRole('megaroot')){
             $recomendeds->map(function ($recomended) use ($restaurants){
@@ -289,7 +304,7 @@ class DishesController extends AdminController
             'category_id' => 'required',
         ];
 
-        if (Auth::user()->hasRole('megaroot')) {
+        if (Auth::user()->hasRole('megaroot') || (auth()->user()->hasRole('root|boss') && (auth()->user()->restaurants->count() > 1))) {
             $validate['restaurant_id'] = 'required';
         }
 
@@ -303,7 +318,7 @@ class DishesController extends AdminController
                 ->with('error', 'Ошибка при обновлении блюда, проверьте форму!');
         }
 
-        if (!Auth::user()->hasRole('megaroot')) {
+        if (Auth::user()->hasRole('boss') && (auth()->user()->restaurants->count() == 1)) {
             if ($restaurant = Auth::user()->restaurant) {
                 request()->request->set('restaurant_id', $restaurant->id);
             }

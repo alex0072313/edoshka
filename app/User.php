@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function restaurants()
     {
-        return $this->hasMany(Restaurant::class, 'present_id');
+        return $this->hasMany(Restaurant::class, 'present_id')->orWhere('boss_id', '=', $this->id);
     }
 
     public function usersOnPresent()

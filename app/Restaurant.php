@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     protected $fillable = [
-        'name', 'address', 'description', 'min_sum_order', 'town_id', 'district_id', 'alias', 'worktime', 'active', 'commission', 'categories_sort', 'telegram_chat_id', 'present_id', 'min_free_delivery', 'comment_delivery'
+        'name', 'address', 'description', 'min_sum_order', 'town_id', 'district_id', 'alias', 'worktime', 'active', 'commission', 'categories_sort', 'telegram_chat_id', 'present_id', 'boss_id', 'min_free_delivery', 'comment_delivery'
     ];
 
     protected $casts = [
@@ -25,12 +25,21 @@ class Restaurant extends Model
         return $this->belongsTo(District::class);
     }
 
-    public function present(){
-        return $this->hasOne('App\User', 'id', 'present_id');
+    public function boss()
+    {
+        return $this->belongsTo(User::class, 'id', 'boss_id');
     }
 
+    public function present(){
+        return $this->hasOne(User::class, 'id', 'present_id');
+    }
+
+//    public function users(){
+//        return $this->hasMany(User::class);
+//    }
+
     public function users(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'id', 'boss_id')->orWhere('id', '=', $this->present_id);
     }
 
     public function dishes()
@@ -46,14 +55,6 @@ class Restaurant extends Model
     public function specials()
     {
         return $this->belongsToMany(Special::class, 'restaurants_specials');
-    }
-
-    public function managers(){
-        $filtered = $this->users->filter(function ($user) {
-            return $user->hasRole(config('role.names.manager.name'));
-        });
-
-        return $filtered->all();
     }
 
     public function orders(){
@@ -106,14 +107,6 @@ class Restaurant extends Model
         return $text;
     }
 
-    public function boss(){
-        $filtered = $this->users->filter(function ($user) {
-            return $user->hasRole(config('role.names.boss.name'));
-        });
-
-        return $filtered[0];
-    }
-
     public function categoryGroup(){
         $dishes = [];
         foreach (Dish::all() as $dish){
@@ -135,7 +128,8 @@ class Restaurant extends Model
 
     public function delete()
     {
-        $this->users()->delete();
+        //$this->users()->delete();
+
         \Storage::disk('public')->deleteDirectory('restaurant_imgs/'.$this->id);
         return parent::delete();
     }

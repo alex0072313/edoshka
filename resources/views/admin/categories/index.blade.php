@@ -6,7 +6,7 @@
 
         @if($categories->count())
             <div class="btn-group mb-4 ml-2">
-                @hasrole('megaroot|root')
+                @if(isset($restaurants))
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder-open"></i>
                     @if(isset($restaurant->id))
@@ -31,7 +31,7 @@
                         </a>
                     @endforeach
                 </div>
-                @endrole
+                @endif
                 @if(isset($restaurant->id) && $restaurant->categories_sort)
                     <a href="{{ route('admin.categories.clearsort', $restaurant->id) }}" class="btn btn-danger ml-2 rounded-left" data-click="swal-warning" data-title="Подтвердите действие" data-text="Восстановить сотировку по умолчанию?" data-classbtn="danger" data-actionbtn="Да" data-type="warning">Сбросить сортировку</a>
                 @endif

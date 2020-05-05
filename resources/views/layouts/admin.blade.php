@@ -109,10 +109,9 @@
                 <li>
                     <ul class="nav nav-profile">
                         <li><a href="{{ route('admin.users.edit', $_user->id) }}"><i class="fa fa-cog"></i> Профиль пользователя</a></li>
-
-                        @if($_user->hasRole('megaroot|boss') && isset($_restaurant->name))
-                            <li><a href="{{ route('admin.restaurants.edit', $_restaurant->id) }}"><i class="fas fa-map-marked-alt"></i> Данные ресторана</a></li>
-                        @endif
+{{--                        @if($_user->hasRole('megaroot|boss') && isset($_restaurant->name))--}}
+{{--                            <li><a href="{{ route('admin.restaurants.edit', $_restaurant->id) }}"><i class="fas fa-map-marked-alt"></i> Данные ресторана</a></li>--}}
+{{--                        @endif--}}
                     </ul>
                 </li>
             </ul>

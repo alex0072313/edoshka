@@ -96,10 +96,12 @@ class RestaurantController extends AdminController
             $validator['town_id'] = 'required';
             $validator['name'] = 'required|max:255';
             $validator['address'] = 'required';
+            $validator['boss_id'] = 'required';
             $validator['alias'] = 'required|unique:restaurants,alias,'.$restaurant->id;
         }else{
             request()->request->remove('town_id');
             request()->request->remove('name');
+            request()->request->remove('boss_id');
             request()->request->remove('address');
             request()->request->remove('alias');
         }
@@ -121,6 +123,9 @@ class RestaurantController extends AdminController
             if(!request('present_id')){
                 request()->request->set('present_id', auth()->id());
             }
+//            if(!request('boss_id')){
+//                request()->request->set('boss_id', auth()->id());
+//            }
         }
 
         if($restaurant->update(request()->toArray())){
@@ -157,6 +162,7 @@ class RestaurantController extends AdminController
             'alias' => 'required|unique:restaurants,alias',
             'bg' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'min_sum_order' => 'required',
+            'boss_id' => 'required',
             'commission' => 'required|integer|between:5,100',
         ];
 

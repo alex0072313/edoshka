@@ -22,8 +22,8 @@ class DishPolicy
         // TODO: проверка прав доступа к блюду
         if($user->hasRole('megaroot')){
             return true;
-        }elseif ($user->hasRole('root')){
-            if($dish->restaurant->present_id == $user->id){
+        }elseif ($user->hasRole('root|boss')){
+            if(($dish->restaurant->present_id == $user->id) || ($dish->restaurant->boss_id == $user->id)){
                 return true;
             }
         }

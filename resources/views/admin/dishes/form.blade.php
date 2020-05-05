@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                @if(Auth::user()->hasRole('megaroot|root'))
+                @if(isset($restaurants))
                     <div class="form-group row">
                         <label class="col-form-label col-md-3">Ресторан</label>
                         <div class="col-md-9">
@@ -60,7 +60,7 @@
                                 @endforeach
                             </select>
                             @if ($errors->has('restaurant_id'))
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback d-block" role="alert">
                                     Выберете ресторан!
                                 </span>
                             @endif

@@ -86,14 +86,24 @@ class HomeController extends AdminController
 
     public function getOrders($start = 0, $step = 100)
     {
-        if(\Auth::user()->hasRole('megaroot|root')){
+        if(\Auth::user()->hasRole('megaroot')){
+            $restaurants = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root|boss')){
+            $restaurants = auth()->user()->restaurants;
+        }else{
+            $restaurants = null;
+        }
+        if(!is_null($restaurants)){
             if($restaurant_id = request('restaurant_id')){
                 $this->restaurant = Restaurant::find($restaurant_id);
             }
-            $this->data['restaurants'] = auth()->user()->hasRole('root') ? auth()->user()->restaurants : Restaurant::all();
-        }else{
-            $this->restaurant = \Auth::user()->restaurant;
+            if($restaurants->count() > 1){
+                $this->data['restaurants'] = $restaurants;
+            }
+        }else if($restaurants->count() == 1){
+            $this->restaurant = $restaurants->first();
         }
+
 
         if(!auth()->user()->hasRole('megaroot|boss') && $this->restaurant && ($this->restaurant->present_id != auth()->id())){
             abort(403);
@@ -111,6 +121,10 @@ class HomeController extends AdminController
             $orders_query = $orders_query
                 ->leftJoin('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
                 ->where('restaurants.present_id', '=', auth()->id());
+        }else if (auth()->user()->hasRole('boss')){
+            $orders_query = $orders_query
+                ->leftJoin('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
+                ->where('restaurants.boss_id', '=', auth()->id());
         }
 
         if($start_d = request('start')){
@@ -139,7 +153,6 @@ class HomeController extends AdminController
         $orders = $this->getOrders(request('ot'), $this->step);
 
         $html = '';
-        $is_megaroot = auth()->user()->hasRole('megaroot');
         foreach ($orders as $order){
             $html .= view('admin.includes.order_tr_item', ['order' => $order, 'restaurants'=> $this->data['restaurants']])->render();
         }

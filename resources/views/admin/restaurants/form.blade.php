@@ -65,6 +65,35 @@
                 </div>
             @endif
 
+            @if($_user->hasRole('megaroot'))
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3">Управляющий</label>
+                    <div class="col-md-9">
+
+                        @php
+                            $boss_id = old('boss_id') ? old('boss_id') : '';
+                            if(isset($restaurant)){
+                                if($restaurant->boss_id){
+                                    $boss_id = $restaurant->boss_id;
+                                }
+                            }
+                        @endphp
+
+                        <select name="boss_id" class="default-select2 form-control" data-placeholder="Выберете управляющего">
+                            <option></option>
+                            @foreach(\App\User::role(['boss'])->get() as $user)
+                                <option {{ $boss_id == $user->id ? 'selected' : '' }} value="{{ $user->id }}">{{ $user->name.($user->lastname ? ' '.$user->lastname : '') }} ({{ $user->email }})</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('boss_id'))
+                            <span class="invalid-feedback d-block" role="alert">
+                            Выберете управляющего!
+                        </span>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Название</label>
                 <div class="col-md-9">

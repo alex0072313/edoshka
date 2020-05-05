@@ -23,23 +23,30 @@ class CategoryController extends AdminController
         $this->title = 'Категории блюд';
 
         $restaurant = null;
+        $restaurants = null;
 
-        if(\Auth::user()->hasRole('megaroot|root')) {
+        $restaurants = auth()->user()->restaurants;
+
+        if(\Auth::user()->hasRole('megaroot|root|boss') && ($restaurants->count() > 1)) {
             if ($restaurant_id = request('restaurant_id')) {
                 $restaurant = Restaurant::find($restaurant_id);
             }
         }else{
-            $restaurant = \Auth::user()->restaurant;
+            $restaurant = $restaurants->first();
         }
 
         $this->data['restaurant'] = $restaurant;
 
         if(auth()->user()->hasRole('megaroot')){
-            $this->data['restaurants'] = Restaurant::all();
-        }elseif (auth()->user()->hasRole('root')){
-            $this->data['restaurants'] = auth()->user()->restaurants;
+            $restaurants = Restaurant::all();
+        }elseif (auth()->user()->hasRole('root|boss')){
+            $restaurants = $restaurants;
         }else{
-            $this->data['restaurants'] = null;
+            $restaurants = null;
+        }
+
+        if(!is_null($restaurants)){
+            if($restaurants->count() > 1) $this->data['restaurants'] = $restaurants;
         }
 
         if($restaurant){

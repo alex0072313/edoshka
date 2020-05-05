@@ -121,7 +121,7 @@
         </div>
     @endif
 
-    @hasrole('megaroot|root')
+    @if(isset($list_restaurants))
         <div class="btn-group mb-4 ml-2">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-university"></i>
@@ -146,7 +146,7 @@
                 @endforeach
             </div>
         </div>
-    @endrole
+    @endif
 
     {{--<a href="{{ isset($category) ? route('fields.index', 'category_'.$category->id) : route('fields.index') }}" class="btn btn-default mb-4 ml-2"><i class="fas fa-fw fa-server"></i> Управение доп. полями</a>--}}
     @if(isset($restaurant))
