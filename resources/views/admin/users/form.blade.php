@@ -8,34 +8,6 @@
             @method('PUT')
         @endif
 
-        @if(Auth::user()->hasRole('megaroot|root'))
-            <div class="form-group row">
-                <label class="col-form-label col-md-3">Ресторан</label>
-
-                <div class="col-md-9">
-
-                    @php
-                    $restaurant_id = old('restaurant_id') ? old('restaurant_id') : '';
-                    if(isset($user)){
-                        $restaurant_id = $user->restaurant_id;
-                    }
-                    @endphp
-
-                    <select name="restaurant_id" class="default-select2 form-control" data-placeholder="Выберете ресторан">
-                        <option></option>
-                        @foreach($restaurants as $restaurant)
-                            <option {{ $restaurant_id && ($restaurant_id == $restaurant->id) ? 'selected' : '' }} value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
-                        @endforeach
-                    </select>
-                    @if ($errors->has('name'))
-                        <span class="invalid-feedback d-block" role="alert">
-                            Выберете ресторан!
-                        </span>
-                    @endif
-                </div>
-            </div>
-        @endif
-
         @if(Auth::user()->hasRole('megaroot'))
             <div class="form-group row">
                 <label class="col-form-label col-md-3">Роль</label>

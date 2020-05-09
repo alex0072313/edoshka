@@ -82,7 +82,6 @@ class UserController extends AdminController
         ];
 
         if(Auth::user()->hasRole('megaroot')){
-            $validator['restaurant_id'] = 'required';
             $validator['role'] = 'required';
         }
 
@@ -109,10 +108,6 @@ class UserController extends AdminController
 
         $to_save = request()->toArray();
         $to_save['password'] = Hash::make($new_password);
-
-        if(!request()->get('restaurant_id')){
-            $to_save['restaurant_id'] = Auth::user()->restaurant->id;
-        }
 
         if($newuser = User::create($to_save)){
 
@@ -202,7 +197,6 @@ class UserController extends AdminController
         ];
 
         if(Auth::user()->hasRole('megaroot')){
-            $validate['restaurant_id'] = 'required';
             $validate['role'] = 'required';
         }
 
