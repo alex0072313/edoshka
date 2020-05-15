@@ -13,11 +13,11 @@ class TelegramOrder extends Notification
         $this->restaurant = $restaurant;
         $this->chat_id = $this->restaurant->telegram_chat_id;
 
-        $boss_rest_cnt = $this->restaurant->boss->restaurants()->count();
+        //$boss_rest_cnt = $this->restaurant->boss->restaurants()->count();
 
-        if($boss_rest_cnt > 1){
+        //if($boss_rest_cnt > 1){
             $text = 'Ресторан: '.$this->restaurant->name."\r\n".$text;
-        }
+        //}
 
         $this->text = str_replace(['`','*','_'], '-', $text);
     }
