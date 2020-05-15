@@ -101,9 +101,9 @@ class Order extends Notification
         }
 
         if(!$this->user->hasRole('megaroot')){
-            
+
             if($this->restaurant->telegram_chat_id){
-                $this->user->notify(new \App\Notifications\TelegramOrder($this->restaurant->telegram_chat_id, $sms));
+                $this->user->notify(new \App\Notifications\TelegramOrder($this->restaurant, $sms));
             }
 
             if($this->user->phone){
@@ -111,7 +111,7 @@ class Order extends Notification
                     $this->sms($sms);
                 }else{
                     $this->sms($subject);
-                } 
+                }
             }
         }
         return $mail->markdown('mail.order', $data);
