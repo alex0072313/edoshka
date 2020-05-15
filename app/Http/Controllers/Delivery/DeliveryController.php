@@ -260,8 +260,8 @@ class DeliveryController extends Controller {
             }
 
             //Дублируем мне
-            $admin = User::getAdmin();
-            $admin->notify(new \App\Notifications\Order($admin, $order, $this->restaurant));
+            //$admin = User::getAdmin();
+            //$admin->notify(new \App\Notifications\Order($admin, $order, $this->restaurant));
 
             $user_orders[] = $order->id;
 

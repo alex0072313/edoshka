@@ -76,8 +76,8 @@ class OrderController extends Controller
             }
 
             //Дублируем мне
-            $admin = User::getAdmin();
-            $admin->notify(new \App\Notifications\Order($admin, $order, $restaurant));
+            //$admin = User::getAdmin();
+            //$admin->notify(new \App\Notifications\Order($admin, $order, $restaurant));
 
             $user_orders[] = $order->id;
         }
