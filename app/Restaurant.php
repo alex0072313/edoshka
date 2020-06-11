@@ -27,7 +27,7 @@ class Restaurant extends Model
 
     public function boss()
     {
-        return $this->belongsTo(User::class, 'id', 'boss_id');
+        return $this->belongsTo(User::class, 'boss_id', 'id');
     }
 
     public function present(){
