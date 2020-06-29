@@ -99,6 +99,8 @@ class OrderController extends Controller
                                 $new_email = $phone . '@edoshka.ru';
                             }
 
+                            $new_password = null;
+
                             if (!$user = User::where('email', '=', $new_email)->orWhere('phone', '=', $phone)->first()) {
                                 $user = new User();
 
@@ -126,7 +128,7 @@ class OrderController extends Controller
 
                             $login_msg = '<div class="text-center mt-3"><b>Для входа на сайт</b>:';
                             $login_msg .= '<br>Логин: ' . $user->phone;
-                            $login_msg .= '<br>Пароль: ' . $new_password.'</div>';
+                            if($new_password) $login_msg .= '<br>Пароль: ' . $new_password.'</div>';
 
                             //send_sms($text, $phone);
 
